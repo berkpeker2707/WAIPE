@@ -1,10 +1,14 @@
 const express = require("express");
 const dbConnect = require("./config/db/dbConnect");
+const cors = require("cors");
 
 //import routes
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 //database connection
 dbConnect();
