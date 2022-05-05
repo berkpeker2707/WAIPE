@@ -1,8 +1,3 @@
 {
-  "gitflow4code.features": [
-    {
-      "name": "feature/Add_get_and_post_requests",
-      "base": "develop"
-    }
-  ]
+  "gitflow4code.features": []
 }
