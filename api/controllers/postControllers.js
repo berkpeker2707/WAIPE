@@ -4,53 +4,49 @@ const Comment = require("../models/comment");
 const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
 
-const postPetController = expressHandler(async (req, res) => {
-  const { _id } = req.user;
-
+const postPostController = expressHandler(async (req, res) => {
   try {
-    const pet = await Pet.create({
-      name: req?.body?.name,
-      age: req?.body?.age,
-      biography: req?.body?.biography,
-      species: req?.body?.species,
-      breed: req?.body?.breed,
-      interestedIn: req?.body?.interestedIn,
-      owner: _id,
-      petPost: req?.body?.petPost,
+    const post = await Post.create({
+      postImage: req?.body?.postImage,
+      postDescription: req?.body?.postDescription,
+      owner: req?.body?.owner,
     });
-
-    const user = await User.findById(_id);
-    user.pets.push(pet._id);
-    await user.save();
-
-    res.json(pet);
+    res.json(post);
   } catch (error) {
     res.json(error);
   }
 });
 
-const postCommentController = expressHandler(async (req, res) => {
-  const { id } = req.params;
-  const user = req.user;
-
+const getPostController = expressHandler(async (req, res) => {
   try {
-    const comment = await Comment.create({
-      commentText: req?.body?.commentText,
-      post: id,
-      sender: user._id,
-    });
+    const posts = await Post.find({ _id: req.params.postID });
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-    const post = await Post.findById(id);
-    post.comments.push(comment._id);
-    await post.save();
+const getPetPostsController = expressHandler(async (req, res) => {
+  try {
+    const posts = await Post.find({ owner: req.params.petID });
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-    res.json(comment);
-  } catch (error) {
-    res.json(error);
+const getAllPostsController = expressHandler(async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
 module.exports = {
-  postPetController,
-  postCommentController,
+  postPostController,
+  getPostController,
+  getPetPostsController,
+  getAllPostsController,
 };

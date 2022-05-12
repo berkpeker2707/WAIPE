@@ -2,15 +2,17 @@ const express = require("express");
 const { verifyToken } = require("../middleware/auth");
 
 const {
-  postUserController,
   postPostController,
-  postCommentController,
+  getAllPostsController,
+  getPetPostsController,
+  getPostController,
 } = require("../controllers/postControllers");
 
 const postRoutes = express.Router();
 
-// postRoutes.post();
-// postRoutes.get("/posts", verifyToken, postPostController);
-postRoutes.post("/:id/new/comment", verifyToken, postCommentController);
+postRoutes.post("/new/post", verifyToken, postPostController);
+postRoutes.get("/post/:postID", verifyToken, getPostController);
+postRoutes.get("/posts/:petID", verifyToken, getPetPostsController);
+postRoutes.get("/posts", verifyToken, getAllPostsController);
 
 module.exports = postRoutes;

@@ -4,26 +4,22 @@ let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
 
 const signupController = expressHandler(async (req, res) => {
-  const {
-    email,
-    password,
-    firstname,
-    lastname,
-    phone,
-    termsOfUse,
-    privacyPolicy,
-    age,
-  } = req.body;
+  const userExists = await User.findOne({ email: req?.body?.email });
+
+  if (userExists) {
+    throw new Error("User already exists.");
+  }
+  const { password } = req.body;
 
   try {
     const user = await User.create({
-      firstname: firstname,
-      lastname: lastname,
-      phone: phone,
-      email: email,
-      termsOfUse: termsOfUse,
-      privacyPolicy: privacyPolicy,
-      age: age,
+      email: req?.body?.email,
+      firstname: req?.body?.firstname,
+      lastname: req?.body?.lastname,
+      phone: req?.body?.phone,
+      termsOfUse: req?.body?.termsOfUse,
+      privacyPolicy: req?.body?.privacyPolicy,
+      age: req?.body?.age,
       password: bcrypt.hashSync(password, 8),
     });
 
