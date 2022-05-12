@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Pet = require("../models/pet");
 const Comment = require("../models/comment");
+const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
 
 const getProfile = expressHandler(async (req, res) => {
@@ -34,7 +35,6 @@ const getProfile = expressHandler(async (req, res) => {
 
 const getPetProfile = expressHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(req.params);
 
   try {
     const pet = await Pet.findById(id);
@@ -45,7 +45,7 @@ const getPetProfile = expressHandler(async (req, res) => {
 });
 
 const postPetProfile = expressHandler(async (req, res) => {
-  const { _id } = req.body;
+  const { _id } = req.user;
 
   try {
     const pet = await Pet.create({
@@ -58,6 +58,11 @@ const postPetProfile = expressHandler(async (req, res) => {
       owner: _id,
       petPost: req?.body?.petPost,
     });
+
+    const user = await User.findById(_id);
+    user.pets.push(pet._id);
+    await user.save();
+
     res.json(pet);
   } catch (error) {
     res.json(error);
@@ -65,10 +70,20 @@ const postPetProfile = expressHandler(async (req, res) => {
 });
 
 const postComment = expressHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+
   try {
     const comment = await Comment.create({
-      comment: req?.body?.comment,
+      commentText: req?.body?.commentText,
+      post: id,
+      sender: user._id,
     });
+
+    const post = await Post.findById(id);
+    post.comments.push(comment._id);
+    await post.save();
+
     res.json(comment);
   } catch (error) {
     res.json(error);

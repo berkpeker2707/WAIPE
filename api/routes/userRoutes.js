@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifyToken } = require("../middleware/auth");
 
 const {
   getProfile,
@@ -9,9 +10,9 @@ const {
 
 const userRoutes = express.Router();
 
-module.exports = userRoutes;
-
 userRoutes.get("/profile", getProfile);
 userRoutes.get("/pet/:id", getPetProfile);
-userRoutes.post("/new/pet", postPetProfile);
-userRoutes.post("/new/comment", postComment);
+userRoutes.post("/new/pet", verifyToken, postPetProfile);
+userRoutes.post("/:id/new/comment", verifyToken, postComment);
+
+module.exports = userRoutes;

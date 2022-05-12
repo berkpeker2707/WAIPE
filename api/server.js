@@ -4,6 +4,7 @@ const cors = require("cors");
 
 //import routes
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -15,6 +16,7 @@ dbConnect();
 
 //user routes
 app.use("/api/user", userRoutes);
+app.use("/api", authRoutes);
 
 const PORT = process.env.PORT || 1000;
 
