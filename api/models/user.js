@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
   termsOfUse: { type: Boolean, required: true },
   privacyPolicy: { type: Boolean, required: true },
   age: { type: Boolean, required: true },
-  visibility: { type: String, default: "public" },
+  visibility: { type: Boolean, default: true },
   handOrientation: { type: String, default: "right" },
 });
 
