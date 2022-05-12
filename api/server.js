@@ -3,8 +3,12 @@ const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
 
 //import routes
-const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const authRoutes = require("./routes/authRoutes");
+const commentRoutes = require("./routes/commentRoutes");
+const petRoutes = require("./routes/petRoutes");
+const postRoutes = require("./routes/postRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -14,9 +18,13 @@ app.use(express.json());
 //database connection
 dbConnect();
 
-//user routes
+//routes
+// app.use("/api/overlord", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/comment", commentRoutes);
+app.use("/api/pet", petRoutes);
+app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api", authRoutes);
 
 const PORT = process.env.PORT || 1000;
 

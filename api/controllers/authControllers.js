@@ -3,7 +3,7 @@ const expressHandler = require("express-async-handler");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
 
-const signup = expressHandler(async (req, res) => {
+const signupController = expressHandler(async (req, res) => {
   const {
     email,
     password,
@@ -33,7 +33,7 @@ const signup = expressHandler(async (req, res) => {
   }
 });
 
-const login = expressHandler(async (req, res) => {
+const signinController = expressHandler(async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -63,6 +63,6 @@ const login = expressHandler(async (req, res) => {
 });
 
 module.exports = {
-  login,
-  signup,
+  signupController,
+  signinController,
 };
