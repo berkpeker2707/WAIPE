@@ -8,7 +8,7 @@ const {
 
 const petRoutes = express.Router();
 
-petRoutes.get("/pet/:id", getPetController);
+petRoutes.get("/pet/:id", verifyToken, getPetController);
 petRoutes.post("/new/pet", verifyToken, postPetController);
 
 module.exports = petRoutes;

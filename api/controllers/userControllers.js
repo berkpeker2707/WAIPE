@@ -31,6 +31,42 @@ const getUserController = expressHandler(async (req, res) => {
   }
 });
 
+//follow & unfollow pet
+const followPetController = expressHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const user = await User.findById(_id);
+    if (!user.followedPets.includes(req.body.followedPets)) {
+      await user.updateOne({ $push: { followedPets: req.body.followedPets } });
+      res.status(200).json("The user has been followed");
+    } else {
+      await user.updateOne({ $pull: { followedPets: req.body.followedPets } });
+      res.status(200).json("The user has been unfollowed");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//block & unblock pet
+const blockPetController = expressHandler(async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const user = await User.findById(_id);
+    if (!user.blockedUsers.includes(req.body.blockedUsers)) {
+      await user.updateOne({ $push: { blockedUsers: req.body.blockedUsers } });
+      res.status(200).json("The user has been blocked");
+    } else {
+      await user.updateOne({ $pull: { blockedUsers: req.body.blockedUsers } });
+      res.status(200).json("The user has been unblocked");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = {
   getUserController,
+  followPetController,
+  blockPetController,
 };
