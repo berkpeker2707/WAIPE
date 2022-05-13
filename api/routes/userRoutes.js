@@ -3,6 +3,7 @@ const { verifyToken } = require("../middleware/auth");
 
 const {
   getUserController,
+  blockUserController,
   followPetController,
   blockPetController,
 } = require("../controllers/userControllers");
@@ -10,7 +11,8 @@ const {
 const userRoutes = express.Router();
 
 userRoutes.get("/user", verifyToken, getUserController);
-userRoutes.put("/follow", verifyToken, followPetController);
-userRoutes.put("/block", verifyToken, blockPetController);
+userRoutes.put("/block/user", verifyToken, blockUserController);
+userRoutes.put("/follow/pet", verifyToken, followPetController);
+userRoutes.put("/block/pet", verifyToken, blockPetController);
 
 module.exports = userRoutes;

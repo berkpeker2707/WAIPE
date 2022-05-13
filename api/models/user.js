@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   phone: { type: Number, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   blockedUsers: { type: Array, default: [] },
+  blockedPets: { type: Array, default: [] },
   followedPets: { type: Array, default: [] },
   pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
   termsOfUse: { type: Boolean, required: true },
