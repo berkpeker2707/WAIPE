@@ -31,6 +31,33 @@ const getUserController = expressHandler(async (req, res) => {
   }
 });
 
+const updateUserController = expressHandler(async (req, res) => {
+  const { _id } = req.user;
+
+  try {
+    const user = await User.findByIdAndUpdate(_id, {
+      firstname: req?.body?.firstname,
+      lastname: req?.body?.lastname,
+      password: req?.body?.password,
+      picture: req?.body?.picture, //
+      biography: req?.body?.biography,
+      locations: {
+        country: req?.body?.locations?.country,
+        city: req?.body?.locations?.city,
+      },
+      phone: req?.body?.phone,
+      email: req?.body?.email,
+      visibility: req?.body?.visibility,
+      handOrientation: req?.body?.handOrientation,
+    });
+
+    res.status(200).send("Updated");
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 module.exports = {
   getUserController,
+  updateUserController,
 };

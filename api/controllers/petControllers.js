@@ -24,8 +24,8 @@ const postPetController = expressHandler(async (req, res) => {
       species: req?.body?.species,
       breed: req?.body?.breed,
       interestedIn: req?.body?.interestedIn,
-      owner: _id,
-      petPost: req?.body?.petPost,
+      owner: _id, //
+      petPost: req?.body?.petPost, //
     });
 
     const user = await User.findById(_id);
@@ -38,7 +38,28 @@ const postPetController = expressHandler(async (req, res) => {
   }
 });
 
+const updatePetController = expressHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const pet = await Pet.findByIdAndUpdate(id, {
+      name: req?.body?.name,
+      picture: req?.body?.picture,
+      age: req?.body?.age,
+      biography: req?.body?.biography,
+      species: req?.body?.species,
+      breed: req?.body?.breed,
+      interestedIn: req?.body?.interestedIn,
+    });
+
+    res.json(pet);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 module.exports = {
   getPetController,
   postPetController,
+  updatePetController,
 };
