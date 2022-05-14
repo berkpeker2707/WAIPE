@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   password: { type: String, required: true },
+  passwordChangeAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+  accountVerificationToken: String,
+  accountVerificationTokenExpires: Date,
   picture: { type: String, default: "" },
   biography: { type: String, default: "" },
   locations: { country: { type: String }, city: { type: String } },
@@ -19,5 +25,17 @@ const UserSchema = new mongoose.Schema({
   visibility: { type: Boolean, default: true },
   handOrientation: { type: String, default: "right" },
 });
+
+//Password reset/forget
+
+UserSchema.methods.createPasswordResetToken = async function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 30 * 60 * 1000; //10 minutes
+  return resetToken;
+};
 
 module.exports = User = mongoose.model("User", UserSchema);

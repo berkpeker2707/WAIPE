@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const dbConnect = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://berkolatto:09SzCYX0kD5lVpQq@cluster0.jactx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-      {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      }
-    );
+    await mongoose.connect(process.env.MONGO_URI, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
     console.log("Database connected");
   } catch (error) {
     console.log(`Database error: ${error.message}`);

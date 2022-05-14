@@ -1,6 +1,7 @@
-const User = require("../models/user");
 const expressHandler = require("express-async-handler");
+const User = require("../models/user");
 let jwt = require("jsonwebtoken");
+require("dotenv").config();
 let bcrypt = require("bcryptjs");
 
 const signupController = expressHandler(async (req, res) => {
@@ -48,8 +49,8 @@ const signinController = expressHandler(async (req, res) => {
       });
     }
 
-    var token = jwt.sign({ id: user.id }, "dbapp-secret-key", {
-      expiresIn: 86400, // 24 hours
+    var token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "365d", // 24 hours
     });
 
     res.json(token);

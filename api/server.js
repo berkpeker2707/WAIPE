@@ -1,6 +1,7 @@
 const express = require("express");
 const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
+require("dotenv").config();
 
 //import routes
 const adminRoutes = require("./routes/adminRoutes");

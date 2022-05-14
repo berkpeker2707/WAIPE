@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const expressHandler = require("express-async-handler");
 const User = require("../models/user");
 
@@ -7,7 +8,7 @@ const verifyToken = expressHandler(async (req, res, next) => {
 
   try {
     const token = bearerHeader.split(" ")[1];
-    const decoded = jwt.verify(token, "dbapp-secret-key");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded) {
       return res.json({ message: "Unauthorized!" });
