@@ -8,11 +8,13 @@ const {
   blockUserController,
   followPetController,
   blockPetController,
+  updateUserController,
 } = require("../controllers/userControllers");
 
 const userRoutes = express.Router();
 
-userRoutes.get("/user", verifyToken, getUserController);
+userRoutes.get("/", verifyToken, getUserController);
+userRoutes.put("/update", verifyToken, updateUserController);
 userRoutes.post("/forgot-password", verifyToken, forgetPasswordController);
 userRoutes.post("/reset-password", verifyToken, resetPasswordController);
 userRoutes.put("/block/user", verifyToken, blockUserController);
