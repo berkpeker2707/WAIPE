@@ -19,7 +19,7 @@ const postCommentController = expressHandler(async (req, res) => {
 
     res.json(comment);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 

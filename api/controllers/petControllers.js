@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const Pet = require("../models/pet");
+const Post = require("../models/post");
+const Comment = require("../models/comment");
 const expressHandler = require("express-async-handler");
 
 const getPetController = expressHandler(async (req, res) => {
@@ -9,7 +11,7 @@ const getPetController = expressHandler(async (req, res) => {
     const pet = await Pet.findById(id);
     res.json(pet);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
@@ -34,7 +36,7 @@ const postPetController = expressHandler(async (req, res) => {
 
     res.json(pet);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
@@ -54,7 +56,36 @@ const updatePetController = expressHandler(async (req, res) => {
 
     res.json(pet);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
+  }
+});
+
+const deletePetController = expressHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const pet = await Pet.findByIdAndDelete(id);
+
+    const postIds = pet.petPost;
+    for (let i = 0; i < postIds.length; i++) {
+      const post = await Post.findById(postIds[i]);
+      await Comment.deleteMany({ _id: { $in: post.comments } });
+    }
+    await Post.deleteMany({ _id: { $in: postIds } });
+
+    const userId = pet.owner;
+    await User.updateOne(
+      { _id: userId },
+      {
+        $pullAll: {
+          pets: [{ _id: id }],
+        },
+      }
+    );
+
+    res.status(200).send("Deleted");
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -62,4 +93,5 @@ module.exports = {
   getPetController,
   postPetController,
   updatePetController,
+  deletePetController,
 };

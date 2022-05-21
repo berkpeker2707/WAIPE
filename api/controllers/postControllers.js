@@ -13,7 +13,7 @@ const postPostController = expressHandler(async (req, res) => {
     });
     res.json(post);
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
