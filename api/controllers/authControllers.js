@@ -1,4 +1,5 @@
 const expressHandler = require("express-async-handler");
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const User = require("../models/user");
 let jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -59,7 +60,16 @@ const signinController = expressHandler(async (req, res) => {
   }
 });
 
+const signinWithGoogleController = expressHandler(async (req, res) => {
+  try {
+    res.status(200).json("Login");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   signupController,
   signinController,
+  signinWithGoogleController,
 };
