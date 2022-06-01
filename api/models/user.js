@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   accountVerificationToken: String,
   accountVerificationTokenExpires: Date,
   picture: { type: String, default: "" },
+  pictures: { type: String, default: "" },
   biography: { type: String, default: "" },
   locations: { country: { type: String }, city: { type: String } },
   phone: { type: Number, required: true, unique: true },
