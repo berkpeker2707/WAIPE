@@ -1,7 +1,6 @@
-const User = require("../models/user");
-const Pet = require("../models/pet");
-const Comment = require("../models/comment");
 const Post = require("../models/post");
+const Like = require("../models/like");
+const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
 
 const postPostController = expressHandler(async (req, res) => {
@@ -11,7 +10,18 @@ const postPostController = expressHandler(async (req, res) => {
       postDescription: req?.body?.postDescription,
       owner: req?.body?.owner,
     });
-    res.json(post);
+
+    const like = await Like.create({
+      owner: post._id,
+    });
+
+    await Post.updateOne({ _id: post._id }, { $set: { like: like._id } });
+
+    const pet = await Pet.findById(post.owner);
+    pet.petPost.push(post._id);
+    await pet.save();
+
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);
   }

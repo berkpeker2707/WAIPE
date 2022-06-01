@@ -18,6 +18,8 @@ const UserSchema = new mongoose.Schema({
   blockedUsers: { type: Array, default: [] },
   blockedPets: { type: Array, default: [] },
   followedPets: { type: Array, default: [] },
+  likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
+  likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
   pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
   termsOfUse: { type: Boolean, required: true },
   privacyPolicy: { type: Boolean, required: true },
