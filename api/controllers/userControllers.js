@@ -37,7 +37,7 @@ const getUserController = expressHandler(async (req, res) => {
       visibility: user.visibility,
     });
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
@@ -101,7 +101,7 @@ const updateUserController = expressHandler(async (req, res) => {
 
     res.status(200).send("Updated");
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
