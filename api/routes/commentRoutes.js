@@ -1,10 +1,18 @@
 const express = require("express");
-const { verifyToken } = require("../middleware/auth");
+const { verifyToken } = require("../middlewares/auth");
 
-const { postCommentController } = require("../controllers/commentControllers");
+const {
+  postCommentController,
+  getCommentController,
+  getPostCommentsController,
+  deleteCommentController,
+} = require("../controllers/commentControllers");
 
 const commentRoutes = express.Router();
 
-commentRoutes.post("/:id/new/comment", verifyToken, postCommentController);
+commentRoutes.post("/new/:id", verifyToken, postCommentController);
+commentRoutes.get("/:id", verifyToken, getCommentController);
+commentRoutes.get("/post/:id", verifyToken, getPostCommentsController);
+commentRoutes.delete("/delete/:id", verifyToken, deleteCommentController);
 
 module.exports = commentRoutes;
