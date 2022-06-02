@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
   age: { type: Boolean, required: true },
   visibility: { type: Boolean, default: true },
   handOrientation: { type: String, default: "right" },
+  archivedPost: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
+  ],
 });
 
 //Password reset/forget

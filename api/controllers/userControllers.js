@@ -329,6 +329,25 @@ const photoDeleteController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
+const archivedPostController = expressHandler(async (req, res) => {
+  const { _id } = req?.user;
+  const { postId } = req?.body;
+
+  try {
+    await User.updateOne(
+      { _id: _id },
+      {
+        $push: {
+          archivedPost: [{ _id: postId }],
+        },
+      }
+    );
+    res.status(200).json("Archived");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   getUserController,
   forgetPasswordController,
@@ -341,4 +360,5 @@ module.exports = {
   pictureDeleteController,
   photoUploadController,
   photoDeleteController,
+  archivedPostController,
 };
