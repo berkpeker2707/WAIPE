@@ -54,9 +54,25 @@ const getAllPostsController = expressHandler(async (req, res) => {
   }
 });
 
+const updatePost = expressHandler(async (req, res) => {
+  const { postID } = req.params;
+  const { postDescription } = req.body;
+
+  try {
+    const post = await Post.findByIdAndUpdate(postID, {
+      postDescription: postDescription,
+    });
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   postPostController,
   getPostController,
   getPetPostsController,
   getAllPostsController,
+  updatePost,
 };

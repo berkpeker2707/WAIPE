@@ -1,7 +1,10 @@
 const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
 require("dotenv").config();
+require("./config/passport")(passport);
 
 //import routes
 const adminRoutes = require("./routes/adminRoutes");
@@ -18,6 +21,17 @@ app.use(express.json());
 
 //database connection
 dbConnect();
+
+app.use(
+  session({
+    secret: "dbApp",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //routes
 // app.use("/api/overlord", adminRoutes);
