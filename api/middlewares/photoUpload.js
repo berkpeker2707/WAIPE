@@ -27,17 +27,17 @@ const photoUpload = multer({
 });
 
 //Image Resizing
-const profilePhotoResize = async (req, res, next) => {
+const photoResize = async (req, res, next) => {
   //check if there is no file
   if (!req.file) return next();
-  req.file.filename = `user-${Date.now()}-${req.file.originalname}`;
+  req.file.filename = `pet-${Date.now()}-${req.file.originalname}`;
 
   await sharp(req.file.buffer)
     .resize(250, 250)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(path.join(`public/images/profile/${req.file.filename}`));
+    .toFile(path.join(`./photos/${req.file.filename}`));
   next();
 };
 
-module.exports = { photoUpload, profilePhotoResize };
+module.exports = { photoUpload, photoResize };

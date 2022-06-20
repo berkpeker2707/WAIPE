@@ -1,9 +1,6 @@
 const express = require("express");
 const { verifyToken } = require("../middlewares/auth");
-const {
-  photoUpload,
-  profilePhotoResize,
-} = require("../middlewares/photoUpload");
+const { photoUpload, photoResize } = require("../middlewares/photoUpload");
 
 const {
   getUserController,
@@ -33,7 +30,7 @@ userRoutes.post(
   "/image/profile/upload",
   verifyToken,
   photoUpload.single("image"),
-  profilePhotoResize,
+  photoResize,
   pictureUploadController
 );
 userRoutes.delete(
@@ -45,7 +42,7 @@ userRoutes.post(
   "/image/upload",
   verifyToken,
   photoUpload.single("image"),
-  profilePhotoResize,
+  photoResize,
   photoUploadController
 );
 userRoutes.delete("/image/delete", verifyToken, photoDeleteController);

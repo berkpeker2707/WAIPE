@@ -7,8 +7,9 @@ let bcrypt = require("bcryptjs");
 
 const signupController = expressHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req?.body?.email });
+  const userPhoneExists = await User.findOne({ email: req?.body?.phone });
 
-  if (userExists) {
+  if (userExists || userPhoneExists) {
     throw new Error("User already exists.");
   }
   const { password } = req.body;

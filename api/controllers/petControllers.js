@@ -4,6 +4,11 @@ const Post = require("../models/post");
 const Like = require("../models/like");
 const Comment = require("../models/comment");
 const expressHandler = require("express-async-handler");
+const fs = require("fs");
+const {
+  cloudinaryUploadImg,
+  cloudinaryDeleteImg,
+} = require("../middlewares/cloudinary");
 
 const getPetController = expressHandler(async (req, res) => {
   const { id } = req.params;
@@ -16,6 +21,7 @@ const getPetController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 const postPetController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -41,6 +47,7 @@ const postPetController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 const updatePetController = expressHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -61,33 +68,43 @@ const updatePetController = expressHandler(async (req, res) => {
   }
 });
 
-const deleteLike = async (owner, field) => {
-  const like = await Like.findByIdAndDelete(owner.like);
+// *
+const uploadPetPhotoController = expressHandler(async (req, res) => {
+  const { id } = req.params;
+  const localPath = `photos/${req.file.filename}`;
+  const imgUploaded = await cloudinaryUploadImg(localPath);
 
-  const likeBy = like.likeBy;
-  for (let i = 0; i < likeBy.length; i++) {
-    if (field === "post") {
-      await User.updateOne(
-        { _id: likeBy[i][0] },
-        {
-          $pullAll: {
-            likedPosts: [{ _id: like.owner._id }],
-          },
-        }
-      );
-    } else if (field === "comment") {
-      await User.updateOne(
-        { _id: likeBy[i][0] },
-        {
-          $pullAll: {
-            likedComments: [{ _id: like.owner._id }],
-          },
-        }
-      );
-    }
-  }
-};
+  const foundUser = await Pet.findByIdAndUpdate(
+    id,
+    {
+      picture: imgUploaded?.data?.secure_url,
+    },
+    { new: true }
+  );
+  fs.unlinkSync(localPath);
 
+  res.json(imgUploaded);
+});
+
+// *
+const deletePetPhotoController = expressHandler(async (req, res) => {
+  const { id } = req?.params;
+  const { selectedPhoto } = req?.body;
+
+  const imgUploaded = await cloudinaryDeleteImg(selectedPhoto);
+
+  await Pet.findByIdAndUpdate(
+    id,
+    {
+      picture: null,
+    },
+    { new: true }
+  );
+
+  res.json(imgUploaded);
+});
+
+//
 const deletePetController = expressHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -122,9 +139,38 @@ const deletePetController = expressHandler(async (req, res) => {
   }
 });
 
+const deleteLike = async (owner, field) => {
+  const like = await Like.findByIdAndDelete(owner.like);
+
+  const likeBy = like.likeBy;
+  for (let i = 0; i < likeBy.length; i++) {
+    if (field === "post") {
+      await User.updateOne(
+        { _id: likeBy[i][0] },
+        {
+          $pullAll: {
+            likedPosts: [{ _id: like.owner._id }],
+          },
+        }
+      );
+    } else if (field === "comment") {
+      await User.updateOne(
+        { _id: likeBy[i][0] },
+        {
+          $pullAll: {
+            likedComments: [{ _id: like.owner._id }],
+          },
+        }
+      );
+    }
+  }
+};
+
 module.exports = {
   getPetController,
   postPetController,
   updatePetController,
+  uploadPetPhotoController,
+  deletePetPhotoController,
   deletePetController,
 };
