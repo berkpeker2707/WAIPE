@@ -1,25 +1,38 @@
 const Post = require("../models/post");
 const Like = require("../models/like");
+const Comment = require("../models/comment");
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
+const { Mongoose } = require("mongoose");
 
+// *
 const postPostController = expressHandler(async (req, res) => {
+  const petID = req.params.id;
+  const { id } = req.user;
+
   try {
     const post = await Post.create({
+      petID: petID,
       postImage: req?.body?.postImage,
       postDescription: req?.body?.postDescription,
-      owner: req?.body?.owner,
     });
 
     const like = await Like.create({
-      owner: post._id,
+      postID: post._id,
+    });
+    const comment = await Comment.create({
+      postID: post._id,
     });
 
-    await Post.updateOne({ _id: post._id }, { $set: { like: like._id } });
+    post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-    const pet = await Pet.findById(post.owner);
-    pet.petPost.push(post._id);
-    await pet.save();
+    const pet = await Pet.findById(post.petID);
+    pet
+      .updateOne(
+        { $push: { petPost: [post._id] } },
+        { new: true, upsert: true }
+      )
+      .exec();
 
     res.status(200).json(post);
   } catch (error) {
@@ -27,6 +40,7 @@ const postPostController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 const getPostController = expressHandler(async (req, res) => {
   try {
     const posts = await Post.find({ _id: req.params.postID });
@@ -36,26 +50,30 @@ const getPostController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 const getPetPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({ owner: req.params.petID });
+    const posts = await Post.find({ petID: req.params.petID });
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
+// *
 const getAllPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({});
+    const posts = await Post.find();
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-const updatePost = expressHandler(async (req, res) => {
+// *
+const updatePostController = expressHandler(async (req, res) => {
   const { postID } = req.params;
+  console.log(postID);
   const { postDescription } = req.body;
 
   try {
@@ -69,10 +87,39 @@ const updatePost = expressHandler(async (req, res) => {
   }
 });
 
+// *
+const deletePostController = expressHandler(async (req, res) => {
+  const id = req.params.postID;
+  try {
+    const post = await Post.findOneAndDelete({ _id: id });
+
+    const pet = await Pet.findOne({
+      petPost: { $in: [post._id] },
+    });
+
+    if (pet.petPost.includes(post._id)) {
+      await pet.updateOne({
+        $pull: { petPost: post._id },
+      });
+    }
+
+    await Comment.findOneAndDelete({
+      postID: id,
+    });
+
+    await Like.findOneAndDelete({ postID: id });
+
+    res.status(200).json("Deleted");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   postPostController,
   getPostController,
   getPetPostsController,
   getAllPostsController,
-  updatePost,
+  updatePostController,
+  deletePostController,
 };

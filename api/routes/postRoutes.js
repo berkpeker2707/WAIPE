@@ -3,18 +3,20 @@ const { verifyToken } = require("../middlewares/auth");
 
 const {
   postPostController,
-  getAllPostsController,
-  getPetPostsController,
   getPostController,
-  updatePost,
+  getPetPostsController,
+  getAllPostsController,
+  updatePostController,
+  deletePostController,
 } = require("../controllers/postControllers");
 
 const postRoutes = express.Router();
 
-postRoutes.post("/new/post", verifyToken, postPostController);
-postRoutes.get("/post/:postID", verifyToken, getPostController);
-postRoutes.get("/posts/:petID", verifyToken, getPetPostsController);
-postRoutes.get("/posts", verifyToken, getAllPostsController);
-postRoutes.put("/update/:postID", verifyToken, updatePost);
+postRoutes.post("/new/:id", verifyToken, postPostController);
+postRoutes.get("/fetch/:postID", verifyToken, getPostController);
+postRoutes.get("/fetch/pet/:petID", verifyToken, getPetPostsController);
+postRoutes.get("/fetch", verifyToken, getAllPostsController);
+postRoutes.put("/update/:postID", verifyToken, updatePostController);
+postRoutes.delete("/delete/:postID", verifyToken, deletePostController);
 
 module.exports = postRoutes;

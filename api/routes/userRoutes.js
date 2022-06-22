@@ -14,7 +14,7 @@ const {
   pictureDeleteController,
   photoUploadController,
   photoDeleteController,
-  archivedPostController,
+  archivedPostsController,
 } = require("../controllers/userControllers");
 
 const userRoutes = express.Router();
@@ -46,6 +46,6 @@ userRoutes.post(
   photoUploadController
 );
 userRoutes.delete("/image/delete", verifyToken, photoDeleteController);
-userRoutes.put("/arcive/post", verifyToken, archivedPostController);
+userRoutes.put("/arcive/post", verifyToken, archivedPostsController);
 
 module.exports = userRoutes;

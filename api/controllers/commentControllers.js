@@ -11,10 +11,10 @@ const postCommentController = expressHandler(async (req, res) => {
     const comment = await Comment.create({
       commentText: req?.body?.commentText,
       post: id,
-      sender: user._id,
+      ownerID: user._id,
     });
     const like = await Like.create({
-      owner: comment._id,
+      ownerID: comment._id,
     });
 
     await Comment.updateOne({ _id: comment._id }, { $set: { like: like._id } });

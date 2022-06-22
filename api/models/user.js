@@ -15,24 +15,20 @@ const UserSchema = new mongoose.Schema({
   locations: { country: { type: String }, city: { type: String } },
   phone: { type: Number, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  blockedUsers: { type: Array, default: [] },
-  blockedPets: { type: Array, default: [] },
-  followedPets: { type: Array, default: [] },
-  likedPosts: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "post" },
-    { likeType: { type: String, default: "" } },
-  ],
-  likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
-  comments: [],
-  pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
   termsOfUse: { type: Boolean, required: true },
   privacyPolicy: { type: Boolean, required: true },
   age: { type: Boolean, required: true },
   visibility: { type: Boolean, default: true },
   handOrientation: { type: String, default: "right" },
-  archivedPost: [
+  pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
+  likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
+  likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
+  archivedPosts: [
     { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
   ],
+  followedPets: { type: Array, default: [] },
+  blockedUsers: { type: Array, default: [] },
+  blockedPets: { type: Array, default: [] },
 });
 
 //Password reset/forget
@@ -48,3 +44,6 @@ UserSchema.methods.createPasswordResetToken = async function () {
 };
 
 module.exports = User = mongoose.model("User", UserSchema);
+
+// diyelim ki post silindi, bu posta bagli olan commentler ve likelar silinmesin; fakat gorunmesinde like ve commenti yapan sahis haricinde
+// diyelim ki pet silindi, alintindaki postlar silinsin, ama post altindaki likelar ve commentlar silinmesin, sadece yapan kisi gorebilsin

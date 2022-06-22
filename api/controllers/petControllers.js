@@ -33,8 +33,8 @@ const postPetController = expressHandler(async (req, res) => {
       species: req?.body?.species,
       breed: req?.body?.breed,
       interestedIn: req?.body?.interestedIn,
-      owner: _id, //
-      petPost: req?.body?.petPost, //
+      ownerID: _id,
+      petPost: req?.body?.petPost,
     });
 
     const user = await User.findById(_id);
@@ -123,7 +123,7 @@ const deletePetController = expressHandler(async (req, res) => {
       }
     }
 
-    const userId = pet.owner;
+    const userId = pet.ownerID;
     await User.updateOne(
       { _id: userId },
       {
@@ -139,26 +139,26 @@ const deletePetController = expressHandler(async (req, res) => {
   }
 });
 
-const deleteLike = async (owner, field) => {
-  const like = await Like.findByIdAndDelete(owner.like);
+const deleteLike = async (ownerID, field) => {
+  const like = await Like.findByIdAndDelete(ownerID.like);
 
-  const likeBy = like.likeBy;
-  for (let i = 0; i < likeBy.length; i++) {
+  const likes = like.likes;
+  for (let i = 0; i < likes.length; i++) {
     if (field === "post") {
       await User.updateOne(
-        { _id: likeBy[i][0] },
+        { _id: likes[i][0] },
         {
           $pullAll: {
-            likedPosts: [{ _id: like.owner._id }],
+            likedPosts: [{ _id: like.ownerID._id }],
           },
         }
       );
     } else if (field === "comment") {
       await User.updateOne(
-        { _id: likeBy[i][0] },
+        { _id: likes[i][0] },
         {
           $pullAll: {
-            likedComments: [{ _id: like.owner._id }],
+            likedComments: [{ _id: like.ownerID._id }],
           },
         }
       );

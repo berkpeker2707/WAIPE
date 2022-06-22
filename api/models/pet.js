@@ -8,7 +8,7 @@ const PetSchema = new mongoose.Schema({
   species: { type: String, required: true },
   breed: { type: String },
   interestedIn: { type: String },
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   petPost: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
 });
 

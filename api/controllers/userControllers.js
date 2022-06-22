@@ -329,7 +329,7 @@ const photoDeleteController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
-const archivedPostController = expressHandler(async (req, res) => {
+const archivedPostsController = expressHandler(async (req, res) => {
   const { _id } = req?.user;
   const { postId } = req?.body;
 
@@ -338,7 +338,7 @@ const archivedPostController = expressHandler(async (req, res) => {
       { _id: _id },
       {
         $push: {
-          archivedPost: [{ _id: postId }],
+          archivedPosts: [{ _id: postId }],
         },
       }
     );
@@ -360,5 +360,5 @@ module.exports = {
   pictureDeleteController,
   photoUploadController,
   photoDeleteController,
-  archivedPostController,
+  archivedPostsController,
 };
