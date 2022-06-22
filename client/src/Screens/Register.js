@@ -7,7 +7,6 @@ import {
   Stack,
   Heading,
   VStack,
-  HStack,
   Checkbox,
   Text,
   Button,
@@ -17,20 +16,6 @@ import {
 const RegisterScreen = () => {
   const theme = extendTheme({
     colors: {
-      // Add new color
-      primary: {
-        50: "#E3F2F9",
-        100: "#C5E4F3",
-        200: "#A2D4EC",
-        300: "#7AC1E4",
-        400: "#47A9DA",
-        500: "#0088CC",
-        600: "#007AB8",
-        700: "#006BA1",
-        800: "#005885",
-        900: "#003F5E",
-      },
-      // Redefinig only one shade, rest of the color will remain same.
       mustard: {
         400: "#e3b448",
       },
@@ -49,7 +34,7 @@ const RegisterScreen = () => {
   return (
     <NativeBaseProvider theme={theme}>
       <Center flex={1} px="3">
-        <VStack space={5} w="90%">
+        <VStack space={5} w="300">
           <VStack space={6} alignItems="center">
             <Heading size="md" color="extraOrage.400">
               Sign up to Waipe
@@ -98,6 +83,7 @@ const RegisterScreen = () => {
                 variant="rounded"
                 placeholder="Password"
                 w="100%"
+                type="password"
                 _focus={style.input}
               />
               <Input
@@ -106,6 +92,7 @@ const RegisterScreen = () => {
                 variant="rounded"
                 placeholder="Confirm Password"
                 w="100%"
+                type="password"
                 _focus={style.input}
               />
             </Stack>
