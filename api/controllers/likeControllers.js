@@ -1,6 +1,7 @@
 const Like = require("../models/like");
 const Post = require("../models/post");
 const Comment = require("../models/pet");
+const User = require("../models/user");
 const expressHandler = require("express-async-handler");
 const { findOne } = require("../models/pet");
 
@@ -42,8 +43,10 @@ const getUsersCommentLikesController = expressHandler(async (req, res) => {
 
 const updatePostLikeController = expressHandler(async (req, res) => {
   const likeID = req.params.id;
+  const selectedLike = await Like.findById(likeID);
   const userID = req.user.id;
   const likeType = req.body.likeType;
+  const user = await User.findById(userID);
 
   try {
     const like = await Like.findById(likeID);
@@ -56,8 +59,9 @@ const updatePostLikeController = expressHandler(async (req, res) => {
         {
           $pull: { like: { ownerID: userID, likeType: likeType } },
         },
-        { multi: true } // set this to true if you want to remove multiple elements.
+        { multi: true }
       );
+      await user.updateOne({ $pull: { likedPosts: selectedLike.postID } });
     } else {
       console.log("OwnerID and likeType are not equal // PUSH");
       await like.updateOne(
@@ -66,8 +70,8 @@ const updatePostLikeController = expressHandler(async (req, res) => {
         },
         { upsert: true }
       );
+      await user.updateOne({ $push: { likedPosts: selectedLike.postID } });
     }
-    // }
 
     res.status(200).json(like);
   } catch (error) {
