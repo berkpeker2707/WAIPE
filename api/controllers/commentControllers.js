@@ -1,27 +1,27 @@
 const Comment = require("../models/comment");
+const User = require("../models/user");
 const Post = require("../models/post");
 const Like = require("../models/like");
 const expressHandler = require("express-async-handler");
 
-const postCommentController = expressHandler(async (req, res) => {
-  const { id } = req.params;
-  const user = req.user;
+// *
+const updateCommentController = expressHandler(async (req, res) => {
+  const commentID = req.params.id;
+  const userID = req.user.id;
+  const commentText = req.body.commentText;
+  const user = await User.findById(userID);
 
   try {
-    const comment = await Comment.create({
-      commentText: req?.body?.commentText,
-      post: id,
-      ownerID: user._id,
-    });
-    const like = await Like.create({
-      ownerID: comment._id,
-    });
+    const comment = await Comment.findById(commentID);
+    // console.log(user);
 
-    await Comment.updateOne({ _id: comment._id }, { $set: { like: like._id } });
-
-    const post = await Post.findById(id);
-    post.comments.push(comment._id);
-    await post.save();
+    await comment.updateOne(
+      {
+        $push: { comment: [{ ownerID: userID, commentText: commentText }] },
+      },
+      { upsert: true }
+    );
+    await user.updateOne({ $push: { commentedOn: commentID } });
 
     res.status(200).json(comment);
   } catch (error) {
@@ -68,7 +68,7 @@ const deleteCommentController = expressHandler(async (req, res) => {
 });
 
 module.exports = {
-  postCommentController,
+  updateCommentController,
   getCommentController,
   getPostCommentsController,
   deleteCommentController,

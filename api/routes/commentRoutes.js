@@ -2,7 +2,7 @@ const express = require("express");
 const { verifyToken } = require("../middlewares/auth");
 
 const {
-  postCommentController,
+  updateCommentController,
   getCommentController,
   getPostCommentsController,
   deleteCommentController,
@@ -10,7 +10,8 @@ const {
 
 const commentRoutes = express.Router();
 
-commentRoutes.post("/new/:id", verifyToken, postCommentController);
+commentRoutes.put("/update/:id", verifyToken, updateCommentController);
+
 commentRoutes.get("/:id", verifyToken, getCommentController);
 commentRoutes.get("/post/:id", verifyToken, getPostCommentsController);
 commentRoutes.delete("/delete/:id", verifyToken, deleteCommentController);

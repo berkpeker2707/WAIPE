@@ -41,6 +41,7 @@ const getUsersCommentLikesController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 const updatePostLikeController = expressHandler(async (req, res) => {
   const likeID = req.params.id;
   const selectedLike = await Like.findById(likeID);
@@ -54,7 +55,6 @@ const updatePostLikeController = expressHandler(async (req, res) => {
       like.like.find((element) => element.likeType === likeType) &&
       like.like.find((element) => element.ownerID.toString() === userID)
     ) {
-      console.log("OwnerID and likeType are equal // PULL");
       await like.updateOne(
         {
           $pull: { like: { ownerID: userID, likeType: likeType } },
@@ -63,7 +63,6 @@ const updatePostLikeController = expressHandler(async (req, res) => {
       );
       await user.updateOne({ $pull: { likedPosts: selectedLike.postID } });
     } else {
-      console.log("OwnerID and likeType are not equal // PUSH");
       await like.updateOne(
         {
           $push: { like: [{ ownerID: userID, likeType: likeType }] },
