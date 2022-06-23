@@ -2,23 +2,7 @@ const Like = require("../models/like");
 const Post = require("../models/post");
 const Comment = require("../models/pet");
 const expressHandler = require("express-async-handler");
-var mongoose = require("mongoose");
-
-const updateLikeController = expressHandler(async (req, res) => {
-  const { postID } = req.body;
-  const { likeID } = req.params;
-  const { likeDescription } = req.body;
-
-  try {
-    const like = await Like.findByIdAndUpdate(likeID, {
-      likeDescription: likeDescription,
-    });
-
-    res.status(200).json(like);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+const { findOne } = require("../models/pet");
 
 const getPostLikesController = expressHandler(async (req, res) => {
   try {
@@ -56,6 +40,41 @@ const getUsersCommentLikesController = expressHandler(async (req, res) => {
   }
 });
 
+const updatePostLikeController = expressHandler(async (req, res) => {
+  const likeID = req.params.id;
+  const userID = req.user.id;
+  const likeType = req.body.likeType;
+
+  try {
+    const like = await Like.findById(likeID);
+    if (
+      like.like.find((element) => element.likeType === likeType) &&
+      like.like.find((element) => element.ownerID.toString() === userID)
+    ) {
+      console.log("OwnerID and likeType are equal // PULL");
+      await like.updateOne(
+        {
+          $pull: { like: { ownerID: userID, likeType: likeType } },
+        },
+        { multi: true } // set this to true if you want to remove multiple elements.
+      );
+    } else {
+      console.log("OwnerID and likeType are not equal // PUSH");
+      await like.updateOne(
+        {
+          $push: { like: [{ ownerID: userID, likeType: likeType }] },
+        },
+        { upsert: true }
+      );
+    }
+    // }
+
+    res.status(200).json(like);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 const deleteLikeController = expressHandler(async (req, res) => {
   try {
     const like = await Like.create({
@@ -77,11 +96,10 @@ const deleteLikeController = expressHandler(async (req, res) => {
 });
 
 module.exports = {
-  // createLikeController,
   getPostLikesController,
   getCommentLikesController,
   getUsersPostLikesController,
   getUsersCommentLikesController,
-  updateLikeController,
+  updatePostLikeController,
   deleteLikeController,
 };

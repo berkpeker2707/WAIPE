@@ -5,13 +5,11 @@ const LikeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "post",
   },
-  // likeModel: {
-  //   type: String,
-  //   enum: ["post", "comment"],
-  // },
   like: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    { likeType: { type: String } },
+    {
+      ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+      likeType: String,
+    },
   ],
 });
 
