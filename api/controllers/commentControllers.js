@@ -6,29 +6,48 @@ const expressHandler = require("express-async-handler");
 
 // *
 const updateCommentController = expressHandler(async (req, res) => {
-  const commentID = req.params.id;
+  const parentCommentID = req.params.id;
   const userID = req.user.id;
   const commentText = req.body.commentText;
   const user = await User.findById(userID);
 
   try {
-    const comment = await Comment.findById(commentID);
-    // console.log(user);
+    // const comment = await Comment.findById(parentCommentID);
 
-    await comment.updateOne(
+    // await comment.updateOne(
+    //   {
+    //     $push: { comment: [{ ownerID: userID, commentText: commentText }] },
+    //   },
+    //   { upsert: true }
+    // );
+
+    const comment = await Comment.findOneAndUpdate(
+      { _id: parentCommentID },
       {
         $push: { comment: [{ ownerID: userID, commentText: commentText }] },
       },
-      { upsert: true }
+      // { upsert: true },
+      { new: true }
     );
-    await user.updateOne({ $push: { commentedOn: commentID } });
 
-    res.status(200).json(comment);
+    const childCommentID = comment.comment[comment.comment.length - 1];
+
+    // console.log(comment.comment[comment.comment.length - 1]);
+
+    if (user.commentedOn.includes(childCommentID)) {
+      res.status(200).json(comment);
+    } else {
+      await user.updateOne({
+        $push: { commentedOn: childCommentID },
+      });
+      res.status(200).json(comment);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
+// *
 const getCommentController = expressHandler(async (req, res) => {
   try {
     const comment = await Comment.find({ _id: req.params.id });
@@ -38,30 +57,40 @@ const getCommentController = expressHandler(async (req, res) => {
   }
 });
 
-const getPostCommentsController = expressHandler(async (req, res) => {
-  try {
-    const posts = await Post.find({ _id: req.params.id }).select("comments");
-    const numOfComments = posts[0].comments;
-    for (var i = 0; i < numOfComments.length; i++) {
-      const comments = await Comment.find({ i });
-      res.status(200).json(comments);
-    }
-
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 //
 const deleteCommentController = expressHandler(async (req, res) => {
-  const { id } = req.params;
-  const user = req.user;
+  const parentCommentID = req.body.parentCommentID;
+  const childCommentID = req.body.childCommentID;
+  const userID = req.user.id;
 
   try {
-    const post = await findById(id);
-    post.comments.pop(id);
-    const comment = await Comment.findByIdAndDelete(id);
-    res.json(comment);
+    const allComment = await Comment.findById(parentCommentID);
+
+    const updatedComment = await Comment.updateOne(
+      { _id: parentCommentID },
+      {
+        $pull: {
+          comment: { _id: childCommentID },
+        },
+      },
+      { multi: true }
+    );
+
+    const comment = await Comment.find({
+      "comment._id": childCommentID,
+    });
+
+    if (allComment.comment.length > 1) {
+      res.json(allComment);
+    } else {
+      console.log("PULL FROM USER AS WELL");
+
+      const user = await User.findById(userID);
+
+      await user.updateOne({ $pull: { commentedOn: parentCommentID } });
+
+      res.json(allComment);
+    }
   } catch (error) {
     res.json(error);
   }
@@ -70,6 +99,5 @@ const deleteCommentController = expressHandler(async (req, res) => {
 module.exports = {
   updateCommentController,
   getCommentController,
-  getPostCommentsController,
   deleteCommentController,
 };
