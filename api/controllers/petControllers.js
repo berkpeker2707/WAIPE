@@ -111,16 +111,9 @@ const deletePetController = expressHandler(async (req, res) => {
   try {
     const pet = await Pet.findByIdAndDelete(id);
 
-    const posts = pet.petPost;
-    for (let i = 0; i < posts.length; i++) {
-      const post = await Post.findByIdAndDelete(posts[i]);
-      await deleteLike(post, "post");
-
-      const comments = post.comments;
-      for (let j = 0; j < comments.length; j++) {
-        const comment = await Comment.findByIdAndDelete(comments[j]);
-        await deleteLike(comment, "comment");
-      }
+    const postIDs = pet.petPost;
+    for (let i = 0; i < postIDs.length; i++) {
+      await Post.deleteOne({ _id: postIDs[i] });
     }
 
     const userId = pet.ownerID;
@@ -138,33 +131,6 @@ const deletePetController = expressHandler(async (req, res) => {
     res.status(500).json(error);
   }
 });
-
-const deleteLike = async (ownerID, field) => {
-  const like = await Like.findByIdAndDelete(ownerID.like);
-
-  const likes = like.likes;
-  for (let i = 0; i < likes.length; i++) {
-    if (field === "post") {
-      await User.updateOne(
-        { _id: likes[i][0] },
-        {
-          $pullAll: {
-            likedPosts: [{ _id: like.ownerID._id }],
-          },
-        }
-      );
-    } else if (field === "comment") {
-      await User.updateOne(
-        { _id: likes[i][0] },
-        {
-          $pullAll: {
-            likedComments: [{ _id: like.ownerID._id }],
-          },
-        }
-      );
-    }
-  }
-};
 
 module.exports = {
   getPetController,

@@ -3,12 +3,10 @@ const Like = require("../models/like");
 const Comment = require("../models/comment");
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
-const { Mongoose } = require("mongoose");
 
 // *
 const postPostController = expressHandler(async (req, res) => {
-  const petID = req.params.id;
-  const { id } = req.user;
+  const petID = req.body.petID;
 
   try {
     const post = await Post.create({
