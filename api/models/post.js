@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PostSchema = mongoose.Schema({
-  petID: { type: mongoose.Schema.Types.ObjectId, ref: "pet" },
+  petID: { type: mongoose.Schema.Types.ObjectId, ref: "pet", required: true },
   postImage: { type: String, required: true },
   postDescription: { type: String },
   like: { type: mongoose.Schema.Types.ObjectId, ref: "like" },
