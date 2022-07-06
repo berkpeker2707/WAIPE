@@ -13,6 +13,7 @@ const {
   updateUserController,
   pictureUploadController,
   pictureDeleteController,
+  userDeleteController,
 } = require("../controllers/userControllers");
 
 const userRoutes = express.Router();
@@ -37,5 +38,6 @@ userRoutes.delete(
   verifyToken,
   pictureDeleteController
 );
+userRoutes.delete("/delete", verifyToken, userDeleteController);
 
 module.exports = userRoutes;
