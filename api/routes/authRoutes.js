@@ -10,7 +10,7 @@ require("../config/passport")(passport);
 const authRoutes = express.Router();
 
 authRoutes.post("/signup", signupController);
-authRoutes.get("/signin", signinController);
+authRoutes.post("/signin", signinController);
 authRoutes.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })

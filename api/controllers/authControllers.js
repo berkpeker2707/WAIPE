@@ -7,10 +7,13 @@ let bcrypt = require("bcryptjs");
 
 const signupController = expressHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req?.body?.email });
-  const userPhoneExists = await User.findOne({ email: req?.body?.phone });
+  const userPhoneExists = await User.findOne({ phone: req?.body?.phone });
 
   if (userExists || userPhoneExists) {
-    throw new Error("User already exists.");
+    return res.json({
+      accessToken: null,
+      message: userExists ? "Email already exists." : "Phone already exists.",
+    });
   }
   const { password } = req.body;
 
@@ -26,7 +29,7 @@ const signupController = expressHandler(async (req, res) => {
       password: bcrypt.hashSync(password, 8),
     });
 
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -39,7 +42,10 @@ const signinController = expressHandler(async (req, res) => {
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      return res.json({ message: "User Not found." });
+      return res.json({
+        accessToken: null,
+        message: "User Not found.",
+      });
     }
 
     var passwordIsValid = bcrypt.compareSync(password, user.password);
@@ -55,7 +61,10 @@ const signinController = expressHandler(async (req, res) => {
       expiresIn: "365d", // 24 hours
     });
 
-    res.json(token);
+    res.status(200).json({
+      accessToken: token,
+      message: null,
+    });
   } catch (error) {
     res.status(500).json(error);
   }
