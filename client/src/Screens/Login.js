@@ -133,11 +133,11 @@ const LoginScreen = ({ navigation }) => {
                       Sign in
                     </Button>
                     <Flex direction="row" mb="5" mt="3" alignItems="center">
-                      <Divider bg="sage.300" w="44%" />
+                      <Divider bg="sage.300" w="55" />
                       <Text fontSize="md" color="sage.300" mr="2" ml="2">
                         OR
                       </Text>
-                      <Divider bg="sage.300" w="44%" />
+                      <Divider bg="sage.300" w="55" />
                     </Flex>
                     <Button
                       isLoading={false}
