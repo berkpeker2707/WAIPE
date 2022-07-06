@@ -1668,6 +1668,24 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
+"@react-aria/menu@^3.1.3":
+  "integrity" "sha512-6l9m3/zs3EwSQ5B62wYaLGYP0zif6Esyh+rnxvbwlknsqUsTTDYc8Ly25M5PcGK4oeeLjHajPdFq6hMfNNhMgg=="
+  "resolved" "https://registry.npmjs.org/@react-aria/menu/-/menu-3.5.1.tgz"
+  "version" "3.5.1"
+  dependencies:
+    "@babel/runtime" "^7.6.2"
+    "@react-aria/i18n" "^3.4.1"
+    "@react-aria/interactions" "^3.9.1"
+    "@react-aria/overlays" "^3.9.1"
+    "@react-aria/selection" "^3.9.1"
+    "@react-aria/utils" "^3.13.1"
+    "@react-stately/collections" "^3.4.1"
+    "@react-stately/menu" "^3.3.1"
+    "@react-stately/tree" "^3.3.1"
+    "@react-types/button" "^3.5.1"
+    "@react-types/menu" "^3.6.1"
+    "@react-types/shared" "^3.13.1"
+
 "@react-aria/menu@^3.5.1":
   "integrity" "sha512-6l9m3/zs3EwSQ5B62wYaLGYP0zif6Esyh+rnxvbwlknsqUsTTDYc8Ly25M5PcGK4oeeLjHajPdFq6hMfNNhMgg=="
   "resolved" "https://registry.npmjs.org/@react-aria/menu/-/menu-3.5.1.tgz"
@@ -1685,6 +1703,23 @@
     "@react-types/button" "^3.5.1"
     "@react-types/menu" "^3.6.1"
     "@react-types/shared" "^3.13.1"
+
+"@react-aria/overlays@^3.6.0":
+  "integrity" "sha512-gQlM9MQX+RZiX5kxuyX5C2hv7Wm0k1wM4VBfeBmcPbcOGJz3v//GN002PuSUjSTx6eaTNuQeks7Qx0Wovsnd5A=="
+  "resolved" "https://registry.npmjs.org/@react-aria/overlays/-/overlays-3.9.1.tgz"
+  "version" "3.9.1"
+  dependencies:
+    "@babel/runtime" "^7.6.2"
+    "@react-aria/i18n" "^3.4.1"
+    "@react-aria/interactions" "^3.9.1"
+    "@react-aria/utils" "^3.13.1"
+    "@react-aria/visually-hidden" "^3.3.1"
+    "@react-stately/overlays" "^3.3.1"
+    "@react-types/button" "^3.5.1"
+    "@react-types/overlays" "^3.6.1"
+    "@react-types/shared" "^3.13.1"
+    "dom-helpers" "^5.2.1"
+    "react-transition-group" "^4.4.2"
 
 "@react-aria/overlays@^3.6.1", "@react-aria/overlays@^3.9.1":
   "integrity" "sha512-gQlM9MQX+RZiX5kxuyX5C2hv7Wm0k1wM4VBfeBmcPbcOGJz3v//GN002PuSUjSTx6eaTNuQeks7Qx0Wovsnd5A=="
@@ -1771,6 +1806,16 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
+"@react-aria/switch@^3.1.1":
+  "integrity" "sha512-+EppXBl2LlkXYMQng9u+xmoOVvF/PCl6GijGtruoWV2QHTwMY0jvuQS+LROWLarTh2+WBAXrHhkFlkvqqU8p/A=="
+  "resolved" "https://registry.npmjs.org/@react-aria/switch/-/switch-3.2.1.tgz"
+  "version" "3.2.1"
+  dependencies:
+    "@babel/runtime" "^7.6.2"
+    "@react-aria/toggle" "^3.3.1"
+    "@react-stately/toggle" "^3.3.1"
+    "@react-types/switch" "^3.2.1"
+
 "@react-aria/tabs@3.0.0-alpha.2":
   "integrity" "sha512-yHpz1HujxBcMq8e4jrHkkowzrJwuVyssCB+DuA91kt6LC0eIMZsDZY9tEhhOq+TyOhI3nbyXaDKJG6y1qB0A5A=="
   "resolved" "https://registry.npmjs.org/@react-aria/tabs/-/tabs-3.0.0-alpha.2.tgz"
@@ -1812,7 +1857,7 @@
     "@react-types/shared" "^3.13.1"
     "@react-types/switch" "^3.2.1"
 
-"@react-aria/utils@^3.13.1", "@react-aria/utils@^3.3.0", "@react-aria/utils@^3.4.1", "@react-aria/utils@^3.6.0":
+"@react-aria/utils@^3.13.1", "@react-aria/utils@^3.3.0", "@react-aria/utils@^3.4.1", "@react-aria/utils@^3.5.0", "@react-aria/utils@^3.6.0":
   "integrity" "sha512-usW6RoLKil4ylgDbRcaQ5YblNGv5ZihI4I9NB8pdazhw53cSRyLaygLdmHO33xgpPnAhb6Nb/tv8d5p6cAde+A=="
   "resolved" "https://registry.npmjs.org/@react-aria/utils/-/utils-3.13.1.tgz"
   "version" "3.13.1"
@@ -1833,7 +1878,7 @@
     "@react-aria/utils" "^3.13.1"
     "clsx" "^1.1.1"
 
-"@react-native-aria/button@^0.2.4":
+"@react-native-aria/button@^0.2.2", "@react-native-aria/button@^0.2.4":
   "integrity" "sha512-wlu6SXI20U+N4fbPX8oh9pkL9hx8W41+cra3fa3s2xfQ6czT4KAkyvSsr1ALUBH4dRkoxxSPOcGJMGnq2K3djw=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/button/-/button-0.2.4.tgz"
   "version" "0.2.4"
@@ -1897,6 +1942,43 @@
     "@react-types/listbox" "^3.1.1"
     "@react-types/shared" "^3.4.0"
 
+"@react-native-aria/menu@^0.2.2":
+  "integrity" "sha512-9nxVNoSxyyJ1N8ePc71fIz9ZMAZKZaR0XR/PMtgBgJYOlC3VXi6vlU4u6g6ahwlzwBUGDFjAcX3Y2DFStGB5XQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-aria/menu/-/menu-0.2.6.tgz"
+  "version" "0.2.6"
+  dependencies:
+    "@react-aria/interactions" "^3.3.2"
+    "@react-aria/menu" "^3.1.3"
+    "@react-aria/selection" "^3.3.1"
+    "@react-aria/utils" "^3.6.0"
+    "@react-native-aria/interactions" "^0.2.3"
+    "@react-native-aria/overlays" "^0.2.1"
+    "@react-native-aria/utils" "^0.2.6"
+    "@react-stately/collections" "^3.3.0"
+    "@react-stately/menu" "^3.2.1"
+    "@react-stately/tree" "^3.1.2"
+    "@react-types/menu" "^3.1.1"
+
+"@react-native-aria/overlays@^0.2.1":
+  "integrity" "sha512-wLCTXeVRkMNKJZIadLVpEI2TGV/iVPM0sby9HCovovC/TVs7avEccpNvaU3qL9//GRkLKwTVWcfG9BQ4sf8QPA=="
+  "resolved" "https://registry.npmjs.org/@react-native-aria/overlays/-/overlays-0.2.11.tgz"
+  "version" "0.2.11"
+  dependencies:
+    "@react-aria/overlays" "^3.6.0"
+    "@react-native-aria/utils" "^0.2.6"
+    "@react-stately/overlays" "^3.1.1"
+    "@react-types/overlays" "^3.4.0"
+
+"@react-native-aria/overlays@^0.2.2":
+  "integrity" "sha512-wLCTXeVRkMNKJZIadLVpEI2TGV/iVPM0sby9HCovovC/TVs7avEccpNvaU3qL9//GRkLKwTVWcfG9BQ4sf8QPA=="
+  "resolved" "https://registry.npmjs.org/@react-native-aria/overlays/-/overlays-0.2.11.tgz"
+  "version" "0.2.11"
+  dependencies:
+    "@react-aria/overlays" "^3.6.0"
+    "@react-native-aria/utils" "^0.2.6"
+    "@react-stately/overlays" "^3.1.1"
+    "@react-types/overlays" "^3.4.0"
+
 "@react-native-aria/overlays@0.3.3-rc.0":
   "integrity" "sha512-RgaIYIHMltt0RdMrVwfXLAVxc22TIUY1Yx07HbQRMdt4LcSmU8pyp5CEtJ/MQCXceuqocnXfsUxyHOSnfhmfpA=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/overlays/-/overlays-0.3.3-rc.0.tgz"
@@ -1909,7 +1991,7 @@
     "@react-types/overlays" "^3.4.0"
     "dom-helpers" "^5.0.0"
 
-"@react-native-aria/radio@^0.2.4":
+"@react-native-aria/radio@^0.2.2", "@react-native-aria/radio@^0.2.4":
   "integrity" "sha512-kTfCjRMZH+Z2C70VxjomPO8eXBcHPa5zcuOUotyhR10WsrKZJlwwnA75t2xDq8zsxKnABJRfThv7rSlAjkFSeg=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/radio/-/radio-0.2.5.tgz"
   "version" "0.2.5"
@@ -1934,6 +2016,17 @@
     "@react-native-aria/utils" "^0.2.6"
     "@react-stately/slider" "^3.0.1"
 
+"@react-native-aria/switch@^0.2.2":
+  "integrity" "sha512-Rkan5ssjIIkLJ28XHxHonjUOlpC1D4mSstoeKYnQIZcEA7kGcK5wi9jfXDFONBHBQgRO/eXW7CtaY4hTUO3WSw=="
+  "resolved" "https://registry.npmjs.org/@react-native-aria/switch/-/switch-0.2.2.tgz"
+  "version" "0.2.2"
+  dependencies:
+    "@react-aria/switch" "^3.1.1"
+    "@react-aria/utils" "^3.5.0"
+    "@react-native-aria/toggle" "^0.2.2-alpha.0"
+    "@react-stately/toggle" "^3.2.1"
+    "@react-types/switch" "^3.1.1"
+
 "@react-native-aria/tabs@^0.2.7":
   "integrity" "sha512-coAiaj9NFFh8vYr/kiugqLwip8IhB6m2dL/GXPcmbK0WH531pIPXKSwgePjniETJtEP84L4PYCTZ705pRlVN8A=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/tabs/-/tabs-0.2.8.tgz"
@@ -1946,7 +2039,7 @@
     "@react-stately/tabs" "3.0.0-alpha.1"
     "@react-types/tabs" "3.0.0-alpha.2"
 
-"@react-native-aria/toggle@^0.2.3":
+"@react-native-aria/toggle@^0.2.2", "@react-native-aria/toggle@^0.2.2-alpha.0", "@react-native-aria/toggle@^0.2.3":
   "integrity" "sha512-3aOlchMxpR0b2h3Z7V0aYZaQMVJD6uKOWKWJm82VsLrni4iDnDX/mLv30ujuuK3+LclUhVlJd2kRuCl+xnf3XQ=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/toggle/-/toggle-0.2.3.tgz"
   "version" "0.2.3"
@@ -1958,7 +2051,7 @@
     "@react-stately/toggle" "^3.2.1"
     "@react-types/checkbox" "^3.2.1"
 
-"@react-native-aria/utils@^0.2.6", "@react-native-aria/utils@^0.2.7", "@react-native-aria/utils@^0.2.8":
+"@react-native-aria/utils@^0.2.2", "@react-native-aria/utils@^0.2.6", "@react-native-aria/utils@^0.2.7", "@react-native-aria/utils@^0.2.8":
   "integrity" "sha512-x375tG1itv3irLFRnURLsdK2djuvhFJHizSDUtLCo8skQwfjslED5t4sUkQ49di4G850gaVJz0fCcCx/pHX7CA=="
   "resolved" "https://registry.npmjs.org/@react-native-aria/utils/-/utils-0.2.8.tgz"
   "version" "0.2.8"
@@ -2274,7 +2367,7 @@
     "@react-stately/utils" "^3.5.0"
     "@react-types/shared" "^3.13.1"
 
-"@react-stately/menu@^3.3.1":
+"@react-stately/menu@^3.2.1", "@react-stately/menu@^3.3.1":
   "integrity" "sha512-/S4vTsLQK0plhVp25/MmTM38A40pG7fx4wEynSf/bQzS4Jiz+SzZzOBhF1ByysAZJvwREMuXuzakUjTSxLYdvA=="
   "resolved" "https://registry.npmjs.org/@react-stately/menu/-/menu-3.3.1.tgz"
   "version" "3.3.1"
@@ -2378,7 +2471,7 @@
     "@react-types/checkbox" "^3.3.1"
     "@react-types/shared" "^3.13.1"
 
-"@react-stately/tree@^3.3.1":
+"@react-stately/tree@^3.1.2", "@react-stately/tree@^3.3.1":
   "integrity" "sha512-s/pcafhvUnt2uOIUWRdTpWCBLnGOuG5e9CAzPkwlUCGFXiI7jIJBT8Y4dLP7Iwx6i9U2wZqs22onxH7GHlGgbw=="
   "resolved" "https://registry.npmjs.org/@react-stately/tree/-/tree-3.3.1.tgz"
   "version" "3.3.1"
@@ -2447,7 +2540,7 @@
   dependencies:
     "@react-types/shared" "^3.13.1"
 
-"@react-types/menu@^3.6.1":
+"@react-types/menu@^3.1.1", "@react-types/menu@^3.6.1":
   "integrity" "sha512-W8ClaYd0t/he5tjg2l/E4bPqUFov041MYKGuTIOTL9dfMsB4eHeV7zmXKA2Li8DJL+E7CkTuaYqTJcP9pcfTzg=="
   "resolved" "https://registry.npmjs.org/@react-types/menu/-/menu-3.6.1.tgz"
   "version" "3.6.1"
@@ -2488,7 +2581,7 @@
   dependencies:
     "@react-types/shared" "^3.13.1"
 
-"@react-types/switch@^3.2.1":
+"@react-types/switch@^3.1.1", "@react-types/switch@^3.2.1":
   "integrity" "sha512-Vert9rhsoZb9x8weluROR02EoNz21eg/l1djawORUbLxqK/wal0eYrjlA2S+FPlXtgAwdeFe9AVXDdpvYT0oNQ=="
   "resolved" "https://registry.npmjs.org/@react-types/switch/-/switch-3.2.1.tgz"
   "version" "3.2.1"
@@ -2709,11 +2802,6 @@
   dependencies:
     "mime-types" "~2.1.34"
     "negotiator" "0.6.3"
-
-"add@^2.0.6":
-  "integrity" "sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q=="
-  "resolved" "https://registry.npmjs.org/add/-/add-2.0.6.tgz"
-  "version" "2.0.6"
 
 "aggregate-error@^3.0.0":
   "integrity" "sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA=="
@@ -6267,11 +6355,6 @@
     "is-docker" "^2.1.1"
     "is-wsl" "^2.2.0"
 
-"or@^0.2.0":
-  "integrity" "sha512-BHB8VZq2isxkyRaCBZ6CZCbQBzCT+gy8LPiqdbMH1+Fd6biFj3v8ebjeYzzL51PbsApsPYnGegGTO6KLQMxxDw=="
-  "resolved" "https://registry.npmjs.org/or/-/or-0.2.0.tgz"
-  "version" "0.2.0"
-
 "ora@^3.4.0", "ora@3.4.0":
   "integrity" "sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg=="
   "resolved" "https://registry.npmjs.org/ora/-/ora-3.4.0.tgz"
@@ -6669,6 +6752,22 @@
   "integrity" "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
+
+"react-native-aria@^0.2.3":
+  "integrity" "sha512-hPSNAEjlZwnXbe5qsQEPEOnWFewHhWETxNbq47wlv9tiC2aV27WVJ4uJWzeZgqmkz7QIANFa62gzJw1srINu4g=="
+  "resolved" "https://registry.npmjs.org/react-native-aria/-/react-native-aria-0.2.3.tgz"
+  "version" "0.2.3"
+  dependencies:
+    "@react-native-aria/button" "^0.2.2"
+    "@react-native-aria/checkbox" "^0.2.2"
+    "@react-native-aria/focus" "^0.2.4"
+    "@react-native-aria/interactions" "^0.2.2"
+    "@react-native-aria/menu" "^0.2.2"
+    "@react-native-aria/overlays" "^0.2.2"
+    "@react-native-aria/radio" "^0.2.2"
+    "@react-native-aria/switch" "^0.2.2"
+    "@react-native-aria/toggle" "^0.2.2"
+    "@react-native-aria/utils" "^0.2.2"
 
 "react-native-codegen@^0.0.17":
   "integrity" "sha512-7GIEUmAemH9uWwB6iYXNNsPoPgH06pxzGRmdBzK98TgFBdYJZ7CBuZFPMe4jmHQTPOkQazKZ/w5O6/71JBixmw=="

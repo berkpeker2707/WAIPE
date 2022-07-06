@@ -28,11 +28,10 @@ const RegisterScreen = ({ navigation }) => {
   const authLoading = useSelector(selectAuthLoading);
   const authError = useSelector(selectAuthError);
   const [isOpen, setIsOpen] = useState(false);
-  const onClose = () => setIsOpen(false);
 
   const Alert = () => {
     return (
-      <AlertDialog isOpen={isOpen && !authLoading} onClose={onClose}>
+      <AlertDialog isOpen={isOpen && !authLoading}>
         <AlertDialog.Content flex={0.25} alignItems="center" bg="white">
           <Text
             textAlign="center"
@@ -47,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
           <Button
             colorScheme="danger"
-            onPress={onClose}
+            onPress={() => navigation.navigate("Login")}
             w="60"
             m="6"
             borderRadius="50"
@@ -69,8 +68,9 @@ const RegisterScreen = ({ navigation }) => {
         phone: "",
         password: "",
         confirmPassword: "",
-        termToggle: false,
-        ageToggle: false,
+        termsOfUse: false,
+        privacyPolicy: false,
+        age: false,
       }}
       onSubmit={(values) => {
         dispatch(signup(values));
@@ -145,7 +145,7 @@ const RegisterScreen = ({ navigation }) => {
                         w="100%"
                         keyboardType="numeric"
                         _focus={style.input}
-                        onChange={handleChange("phone")}
+                        onChangeText={handleChange("phone")}
                         onBlur={handleBlur("phone")}
                         value={values.phone}
                       />
@@ -192,42 +192,52 @@ const RegisterScreen = ({ navigation }) => {
                   </Stack>
                 </VStack>
                 <VStack space={2} ml="8">
-                  <FormControl isInvalid={!values.termToggle}>
-                    <Checkbox
-                      size="sm"
-                      colorScheme="green"
-                      borderColor="extraOrage.400"
-                      borderWidth="1"
-                      borderRadius="7"
-                      _checked={style.checkbox}
-                      onChange={(nextValue) =>
-                        setFieldValue("termToggle", nextValue)
-                      }
-                      value={values.termToggle}
-                    >
-                      <Text color="white" fontSize="xs">
-                        Term of Use, Privacy Policy
-                      </Text>
-                    </Checkbox>
-                  </FormControl>
-                  <FormControl isInvalid={!values.ageToggle}>
-                    <Checkbox
-                      size="sm"
-                      colorScheme="green"
-                      borderColor="extraOrage.400"
-                      borderWidth="1"
-                      borderRadius="7"
-                      _checked={style.checkbox}
-                      onChange={(nextValue) =>
-                        setFieldValue("ageToggle", nextValue)
-                      }
-                      value={values.ageToggle}
-                    >
-                      <Text color="white" fontSize="xs">
-                        +18
-                      </Text>
-                    </Checkbox>
-                  </FormControl>
+                  <Checkbox
+                    size="sm"
+                    colorScheme="green"
+                    borderColor="extraOrage.400"
+                    borderWidth="1"
+                    borderRadius="7"
+                    _checked={style.checkbox}
+                    onChange={(nextValue) =>
+                      setFieldValue("termsOfUse", nextValue)
+                    }
+                    value={values.termsOfUse}
+                  >
+                    <Text color="white" fontSize="xs">
+                      Term of Use
+                    </Text>
+                  </Checkbox>
+                  <Checkbox
+                    size="sm"
+                    colorScheme="green"
+                    borderColor="extraOrage.400"
+                    borderWidth="1"
+                    borderRadius="7"
+                    _checked={style.checkbox}
+                    onChange={(nextValue) =>
+                      setFieldValue("privacyPolicy", nextValue)
+                    }
+                    value={values.privacyPolicy}
+                  >
+                    <Text color="white" fontSize="xs">
+                      Privacy Policy
+                    </Text>
+                  </Checkbox>
+                  <Checkbox
+                    size="sm"
+                    colorScheme="green"
+                    borderColor="extraOrage.400"
+                    borderWidth="1"
+                    borderRadius="7"
+                    _checked={style.checkbox}
+                    onChange={(nextValue) => setFieldValue("age", nextValue)}
+                    value={values.age}
+                  >
+                    <Text color="white" fontSize="xs">
+                      +18
+                    </Text>
+                  </Checkbox>
                 </VStack>
                 <Box alignItems="center">
                   <Button
@@ -239,8 +249,9 @@ const RegisterScreen = ({ navigation }) => {
                         values.email &&
                         values.password &&
                         values.confirmPassword &&
-                        values.termToggle &&
-                        values.ageToggle
+                        values.termsOfUse &&
+                        values.privacyPolicy &&
+                        values.age
                       )
                     }
                     w="50%"
