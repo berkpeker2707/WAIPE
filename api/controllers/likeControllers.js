@@ -1,45 +1,45 @@
 const Like = require("../models/like");
 const Post = require("../models/post");
-const Comment = require("../models/pet");
+const Comment = require("../models/comment");
 const User = require("../models/user");
 const expressHandler = require("express-async-handler");
-const { findOne } = require("../models/pet");
+const { findOne, updateOne } = require("../models/pet");
 
-const getPostLikesController = expressHandler(async (req, res) => {
-  try {
-    const likes = await Like.find({ _id: req.params.likeID });
-    res.status(200).json(likes);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// const getPostLikesController = expressHandler(async (req, res) => {
+//   try {
+//     const likes = await Like.find({ _id: req.params.likeID });
+//     res.status(200).json(likes);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-const getCommentLikesController = expressHandler(async (req, res) => {
-  try {
-    const likes = await Like.find({ ownerID: req.params.petID });
-    res.status(200).json(likes);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// const getCommentLikesController = expressHandler(async (req, res) => {
+//   try {
+//     const likes = await Like.find({ ownerID: req.params.petID });
+//     res.status(200).json(likes);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-const getUsersPostLikesController = expressHandler(async (req, res) => {
-  try {
-    const likes = await Like.find({});
-    res.status(200).json(likes);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// const getUsersPostLikesController = expressHandler(async (req, res) => {
+//   try {
+//     const likes = await Like.find({});
+//     res.status(200).json(likes);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-const getUsersCommentLikesController = expressHandler(async (req, res) => {
-  try {
-    const likes = await Like.find({});
-    res.status(200).json(likes);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// const getUsersCommentLikesController = expressHandler(async (req, res) => {
+//   try {
+//     const likes = await Like.find({});
+//     res.status(200).json(likes);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // *
 const updatePostLikeController = expressHandler(async (req, res) => {
@@ -78,31 +78,127 @@ const updatePostLikeController = expressHandler(async (req, res) => {
   }
 });
 
-const deleteLikeController = expressHandler(async (req, res) => {
+// const deleteLikeController = expressHandler(async (req, res) => {
+//   try {
+//     const like = await Like.create({
+//       likeImage: req?.body?.likeImage,
+//       likeDescription: req?.body?.likeDescription,
+//       ownerID: req?.body?.ownerID,
+//     });
+
+//     await Like.updateOne({ _id: like._id }, { $set: { like: like._id } });
+
+//     const pet = await Pet.findById(like.ownerID);
+//     pet.petLike.push(like._id);
+//     await pet.save();
+
+//     res.status(200).json(like);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+//
+const likeCommentController = expressHandler(async (req, res) => {
   try {
-    const like = await Like.create({
-      likeImage: req?.body?.likeImage,
-      likeDescription: req?.body?.likeDescription,
-      ownerID: req?.body?.ownerID,
-    });
+    // const parentCommentID = req.body.parentCommentID;
+    // const childCommentID = req.body.childCommentID;
 
-    await Like.updateOne({ _id: like._id }, { $set: { like: like._id } });
+    // const comment = await Comment.findOneAndUpdate(
+    //   { _id: parentCommentID },
+    //   {
+    //     $push: { comment: [{ ownerID: userID, commentText: commentText }] },
+    //   },
+    //   { new: true }
+    // );
 
-    const pet = await Pet.findById(like.ownerID);
-    pet.petLike.push(like._id);
-    await pet.save();
+    // const childCommentID = comment.comment[comment.comment.length - 1];
 
-    res.status(200).json(like);
+    // if (user.postedComments.includes(childCommentID)) {
+    //   res.status(200).json(comment);
+    // } else {
+    //   await user.updateOne({
+    //     $push: { postedComments: childCommentID },
+    //   });
+    //   res.status(200).json(comment);
+    // }
+
+    // const comment = await Comment.findOneAndUpdate(
+    //   { _id: parentCommentID },
+    //   {
+    //     $push: { comment: [{ ownerID: userID, commentText: commentText }] },
+    //   },
+    //   { new: true }
+    // );
+
+    // const childCommentID = comment.comment[comment.comment.length - 1];
+
+    // if (user.postedComments.includes(childCommentID)) {
+    //   res.status(200).json(comment);
+    // } else {
+    //   await user.updateOne({
+    //     $push: { postedComments: childCommentID },
+    //   });
+    //   res.status(200).json(comment);
+    // }
+
+    // const s = Comment.find({ comment: { $in: [childCommentID] } });
+    // console.log(s);
+
+    // console.log(comment[0].comment[0].likes);
+
+    // if (comment.includes(childCommentID)) {
+    //   console.log("I HAVE");
+    // } else {
+    //   console.log("I DONT");
+    // }
+    // await User.findOneAndUpdate(
+    //   {
+    //     _id: userID,
+    //   },
+    //   {
+    //     $pull: {
+    //       postedComments: childCommentID,
+    //     },
+    //   },
+    //   { multi: true }
+    // );
+
+    // await User.findOneAndUpdate(
+    //   {
+    //     _id: userID,
+    //   },
+    //   {
+    //     $pull: {
+    //       postedComments: childCommentID,
+    //     },
+    //   },
+    //   { multi: true }
+    // );
+    // const like = await Like.create({
+    //   likeImage: req?.body?.likeImage,
+    //   likeDescription: req?.body?.likeDescription,
+    //   ownerID: req?.body?.ownerID,
+    // });
+
+    // await Like.updateOne({ _id: like._id }, { $set: { like: like._id } });
+
+    // const pet = await Pet.findById(like.ownerID);
+    // pet.petLike.push(like._id);
+    // await pet.save();
+
+    res.status(200).json("comment");
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
 module.exports = {
-  getPostLikesController,
-  getCommentLikesController,
-  getUsersPostLikesController,
-  getUsersCommentLikesController,
+  // getPostLikesController,
+  // getCommentLikesController,
+  // getUsersPostLikesController,
+  // getUsersCommentLikesController,
   updatePostLikeController,
-  deleteLikeController,
+  // deleteLikeController,
+  likeCommentController,
 };

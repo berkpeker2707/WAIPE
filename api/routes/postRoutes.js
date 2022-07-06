@@ -8,6 +8,7 @@ const {
   getAllPostsController,
   updatePostController,
   deletePostController,
+  archivePostController,
 } = require("../controllers/postControllers");
 
 const postRoutes = express.Router();
@@ -18,5 +19,6 @@ postRoutes.get("/fetch/pet/:petID", verifyToken, getPetPostsController);
 postRoutes.get("/fetch", verifyToken, getAllPostsController);
 postRoutes.put("/update/:postID", verifyToken, updatePostController);
 postRoutes.delete("/delete/:postID", verifyToken, deletePostController);
+postRoutes.put("/archive", verifyToken, archivePostController);
 
 module.exports = postRoutes;

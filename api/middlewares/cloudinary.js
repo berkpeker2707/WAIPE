@@ -6,11 +6,43 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const cloudinaryUploadImg = async (fileToUpload) => {
+const cloudinaryUploadUserImg = async (fileToUpload) => {
   try {
     const data = await cloudinary.v2.uploader.upload(fileToUpload, {
       resource_type: "auto",
-      folder: "dbApp/pet/photos",
+      folder: "waipe/user/photos",
+      tags: "userPhotos",
+    });
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+const cloudinaryUploadPostImg = async (fileToUpload) => {
+  try {
+    const data = await cloudinary.v2.uploader.upload(fileToUpload, {
+      resource_type: "auto",
+      folder: "waipe/post/photos",
+      tags: "postPhotos",
+    });
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+const cloudinaryUploadPetImg = async (fileToUpload) => {
+  try {
+    const data = await cloudinary.v2.uploader.upload(fileToUpload, {
+      resource_type: "auto",
+      folder: "waipe/pet/photos",
       tags: "petPhotos",
     });
 
@@ -22,11 +54,11 @@ const cloudinaryUploadImg = async (fileToUpload) => {
   }
 };
 
-const cloudinaryDeleteImg = async (public_id) => {
+const cloudinaryDeleteUserImg = async (public_id) => {
   try {
-    var imagePath = "dbApp/pet/photos/" + public_id;
+    const getPublicId = public_id.split("/").pop().split(".")[0];
+    var imagePath = "waipe/user/photos/" + getPublicId;
 
-    console.log(imagePath);
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
@@ -42,4 +74,51 @@ const cloudinaryDeleteImg = async (public_id) => {
   }
 };
 
-module.exports = { cloudinaryUploadImg, cloudinaryDeleteImg };
+const cloudinaryDeletePostImg = async (public_id) => {
+  try {
+    const getPublicId = public_id.split("/").pop().split(".")[0];
+    var imagePath = "waipe/post/photos/" + getPublicId;
+
+    const data = await cloudinary.v2.uploader.destroy(
+      imagePath,
+      (error, result) => {
+        console.log(result);
+      }
+    );
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+const cloudinaryDeletePetImg = async (public_id) => {
+  try {
+    const getPublicId = public_id.split("/").pop().split(".")[0];
+    var imagePath = "waipe/pet/photos/" + getPublicId;
+
+    const data = await cloudinary.v2.uploader.destroy(
+      imagePath,
+      (error, result) => {
+        console.log(result);
+      }
+    );
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = {
+  cloudinaryUploadUserImg,
+  cloudinaryUploadPostImg,
+  cloudinaryUploadPetImg,
+  cloudinaryDeleteUserImg,
+  cloudinaryDeletePostImg,
+  cloudinaryDeletePetImg,
+};

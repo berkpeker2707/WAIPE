@@ -14,6 +14,13 @@ require("dotenv").config();
 
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
+const {
+  cloudinaryUploadUserImg,
+  cloudinaryDeleteUserImg,
+} = require("../middlewares/cloudinary");
+
+const fs = require("fs");
+
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
   username: "api",
@@ -22,8 +29,22 @@ const mg = mailgun.client({
   url: process.env.MAILGUN_HOST,
 });
 
+// *
+const getCurrentUserController = expressHandler(async (req, res) => {
+  const id = req.user.id;
+
+  try {
+    const user = await User.findById(id);
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// *
 const getUserController = expressHandler(async (req, res) => {
-  const { _id } = req.body;
+  const _id = req.params.id;
 
   try {
     const user = await User.findById(_id);
@@ -34,18 +55,7 @@ const getUserController = expressHandler(async (req, res) => {
       pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
     }
 
-    res.json({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      picture: user.picture,
-      biography: user.biography,
-      locations: { country: user.locations.country, city: user.locations.city },
-      phone: user.phone,
-      email: user.email,
-      pets: pets,
-      handOrientation: user.handOrientation,
-      visibility: user.visibility,
-    });
+    res.json(user);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -89,6 +99,7 @@ const getUserController = expressHandler(async (req, res) => {
 //   }
 // });
 
+// *
 const updateUserController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -96,8 +107,6 @@ const updateUserController = expressHandler(async (req, res) => {
     const user = await User.findByIdAndUpdate(_id, {
       firstname: req?.body?.firstname,
       lastname: req?.body?.lastname,
-      password: req?.body?.password,
-      picture: req?.body?.picture, //
       biography: req?.body?.biography,
       locations: {
         country: req?.body?.locations?.country,
@@ -184,6 +193,7 @@ const resetPasswordController = expressHandler(async (req, res) => {
 });
 ///////////////////// ABOVE HERE //////////////////
 
+// *
 //block user & unblock user
 const blockUserController = expressHandler(async (req, res) => {
   try {
@@ -201,6 +211,7 @@ const blockUserController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 //follow & unfollow pet
 const followPetController = expressHandler(async (req, res) => {
   try {
@@ -218,6 +229,7 @@ const followPetController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 //block & unblock pet
 const blockPetController = expressHandler(async (req, res) => {
   try {
@@ -237,13 +249,21 @@ const blockPetController = expressHandler(async (req, res) => {
   }
 });
 
+// *
 //profile photo upload controller
 const pictureUploadController = expressHandler(async (req, res) => {
   const { _id } = req.user;
-  const localPath = `public/images/profile/${req.file.filename}`;
-  const imgUploaded = await cloudinaryUploadImg(localPath);
+  const localPath = `photos/${req.file.filename}`;
+  const imgUploaded = await cloudinaryUploadUserImg(localPath);
 
-  const foundUser = await User.findByIdAndUpdate(
+  const foundUser = await User.findById(_id);
+  if (foundUser.picture) {
+    await cloudinaryDeleteUserImg(foundUser.picture);
+  }
+
+  console.log(foundUser);
+
+  await User.findByIdAndUpdate(
     _id,
     {
       picture: imgUploaded?.data?.secure_url,
@@ -256,99 +276,26 @@ const pictureUploadController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
-//prpfile photo delete controller
+// *
+//profile photo delete controller
 const pictureDeleteController = expressHandler(async (req, res) => {
   const { _id } = req?.user;
   const { picture } = req?.body;
-
-  const imgUploaded = await cloudinaryDeleteImg(picture);
-
-  const foundUser = await User.findById(_id);
-
-  var foundPictureLink = foundUser?.pictures;
-
-  var indexOfSelectedImage = foundPictureLink.findIndex((element) =>
-    element.includes(picture)
-  );
+  const imgUploaded = await cloudinaryDeleteUserImg(picture);
 
   await User.findByIdAndUpdate(
     _id,
     {
-      picture: foundUser?.pictures[indexOfSelectedImage - 1]
-        ? foundUser?.pictures[indexOfSelectedImage - 1]
-        : null,
-      $pull: { pictures: foundPictureLink[indexOfSelectedImage] },
+      picture: "",
     },
     { new: true }
   );
 
   res.json(imgUploaded);
-});
-
-//photo upload controller
-const photoUploadController = expressHandler(async (req, res) => {
-  const { _id } = req.user;
-  const localPath = `public/images/profile/${req.file.filename}`;
-  const imgUploaded = await cloudinaryUploadImg(localPath);
-
-  const foundUser = await User.findByIdAndUpdate(
-    _id,
-    {
-      $push: { pictures: imgUploaded?.data?.secure_url },
-    },
-    { new: true }
-  );
-  fs.unlinkSync(localPath);
-
-  res.json(imgUploaded);
-});
-
-//photo delete controller
-const photoDeleteController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
-  const { selectedPhoto } = req?.body;
-
-  const imgUploaded = await cloudinaryDeleteImg(selectedPhoto);
-
-  const foundUser = await User.findById(_id);
-
-  var foundPictureLink = foundUser?.pictures;
-
-  var indexOfSelectedImage = foundPictureLink.findIndex((element) =>
-    element.includes(selectedPhoto)
-  );
-
-  await User.findByIdAndUpdate(
-    _id,
-    {
-      $pull: { pictures: foundPictureLink[indexOfSelectedImage] },
-    },
-    { new: true }
-  );
-
-  res.json(imgUploaded);
-});
-
-const archivedPostsController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
-  const { postId } = req?.body;
-
-  try {
-    await User.updateOne(
-      { _id: _id },
-      {
-        $push: {
-          archivedPosts: [{ _id: postId }],
-        },
-      }
-    );
-    res.status(200).json("Archived");
-  } catch (error) {
-    res.status(500).json(error);
-  }
 });
 
 module.exports = {
+  getCurrentUserController,
   getUserController,
   forgetPasswordController,
   resetPasswordController,
@@ -358,7 +305,4 @@ module.exports = {
   updateUserController,
   pictureUploadController,
   pictureDeleteController,
-  photoUploadController,
-  photoDeleteController,
-  archivedPostsController,
 };

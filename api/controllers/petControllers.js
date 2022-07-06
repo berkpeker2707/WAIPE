@@ -6,10 +6,11 @@ const Comment = require("../models/comment");
 const expressHandler = require("express-async-handler");
 const fs = require("fs");
 const {
-  cloudinaryUploadImg,
-  cloudinaryDeleteImg,
+  cloudinaryUploadPetImg,
+  cloudinaryDeletePetImg,
 } = require("../middlewares/cloudinary");
 
+// *
 const getPetController = expressHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -72,7 +73,7 @@ const updatePetController = expressHandler(async (req, res) => {
 const uploadPetPhotoController = expressHandler(async (req, res) => {
   const { id } = req.params;
   const localPath = `photos/${req.file.filename}`;
-  const imgUploaded = await cloudinaryUploadImg(localPath);
+  const imgUploaded = await cloudinaryUploadPetImg(localPath);
 
   const foundUser = await Pet.findByIdAndUpdate(
     id,
@@ -91,7 +92,7 @@ const deletePetPhotoController = expressHandler(async (req, res) => {
   const { id } = req?.params;
   const { selectedPhoto } = req?.body;
 
-  const imgUploaded = await cloudinaryDeleteImg(selectedPhoto);
+  const imgUploaded = await cloudinaryDeletePetImg(selectedPhoto);
 
   await Pet.findByIdAndUpdate(
     id,
@@ -104,7 +105,7 @@ const deletePetPhotoController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
-//
+// *
 const deletePetController = expressHandler(async (req, res) => {
   const { id } = req.params;
 

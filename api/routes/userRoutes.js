@@ -3,6 +3,7 @@ const { verifyToken } = require("../middlewares/auth");
 const { photoUpload, photoResize } = require("../middlewares/photoUpload");
 
 const {
+  getCurrentUserController,
   getUserController,
   forgetPasswordController,
   resetPasswordController,
@@ -12,14 +13,12 @@ const {
   updateUserController,
   pictureUploadController,
   pictureDeleteController,
-  photoUploadController,
-  photoDeleteController,
-  archivedPostsController,
 } = require("../controllers/userControllers");
 
 const userRoutes = express.Router();
 
-userRoutes.get("/", verifyToken, getUserController);
+userRoutes.get("/me", verifyToken, getCurrentUserController);
+userRoutes.get("/:id", verifyToken, getUserController);
 userRoutes.put("/update", verifyToken, updateUserController);
 userRoutes.post("/forgot-password", forgetPasswordController);
 userRoutes.post("/reset-password", resetPasswordController);
@@ -27,25 +26,16 @@ userRoutes.put("/block/user", verifyToken, blockUserController);
 userRoutes.put("/follow/pet", verifyToken, followPetController);
 userRoutes.put("/block/pet", verifyToken, blockPetController);
 userRoutes.post(
-  "/image/profile/upload",
+  "/upload/profile/image",
   verifyToken,
   photoUpload.single("image"),
   photoResize,
   pictureUploadController
 );
 userRoutes.delete(
-  "/image/profile/delete",
+  "/delete/profile/image",
   verifyToken,
   pictureDeleteController
 );
-userRoutes.post(
-  "/image/upload",
-  verifyToken,
-  photoUpload.single("image"),
-  photoResize,
-  photoUploadController
-);
-userRoutes.delete("/image/delete", verifyToken, photoDeleteController);
-userRoutes.put("/arcive/post", verifyToken, archivedPostsController);
 
 module.exports = userRoutes;

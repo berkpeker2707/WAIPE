@@ -10,7 +10,6 @@ const {
 const commentRoutes = express.Router();
 
 commentRoutes.put("/update/:id", verifyToken, updateCommentController);
-
 commentRoutes.get("/fetch/:id", verifyToken, getCommentController);
 commentRoutes.put("/delete/comment", verifyToken, deleteCommentController);
 

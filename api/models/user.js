@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
   pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
   likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
   likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
-  commentedOn: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
+  postedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
   archivedPosts: [
     { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
   ],

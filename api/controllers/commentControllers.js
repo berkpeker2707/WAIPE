@@ -12,33 +12,21 @@ const updateCommentController = expressHandler(async (req, res) => {
   const user = await User.findById(userID);
 
   try {
-    // const comment = await Comment.findById(parentCommentID);
-
-    // await comment.updateOne(
-    //   {
-    //     $push: { comment: [{ ownerID: userID, commentText: commentText }] },
-    //   },
-    //   { upsert: true }
-    // );
-
     const comment = await Comment.findOneAndUpdate(
       { _id: parentCommentID },
       {
         $push: { comment: [{ ownerID: userID, commentText: commentText }] },
       },
-      // { upsert: true },
       { new: true }
     );
 
     const childCommentID = comment.comment[comment.comment.length - 1];
 
-    // console.log(comment.comment[comment.comment.length - 1]);
-
-    if (user.commentedOn.includes(childCommentID)) {
+    if (user.postedComments.includes(childCommentID)) {
       res.status(200).json(comment);
     } else {
       await user.updateOne({
-        $push: { commentedOn: childCommentID },
+        $push: { postedComments: childCommentID },
       });
       res.status(200).json(comment);
     }
@@ -57,7 +45,7 @@ const getCommentController = expressHandler(async (req, res) => {
   }
 });
 
-//
+// *
 const deleteCommentController = expressHandler(async (req, res) => {
   const parentCommentID = req.body.parentCommentID;
   const childCommentID = req.body.childCommentID;
@@ -66,7 +54,8 @@ const deleteCommentController = expressHandler(async (req, res) => {
   try {
     const allComment = await Comment.findById(parentCommentID);
 
-    const updatedComment = await Comment.updateOne(
+    //remove child comment object from comment array
+    await Comment.updateOne(
       { _id: parentCommentID },
       {
         $pull: {
@@ -76,21 +65,20 @@ const deleteCommentController = expressHandler(async (req, res) => {
       { multi: true }
     );
 
-    const comment = await Comment.find({
-      "comment._id": childCommentID,
-    });
+    //remove postedComments from User collection
+    await User.findOneAndUpdate(
+      {
+        _id: userID,
+      },
+      {
+        $pull: {
+          postedComments: childCommentID,
+        },
+      },
+      { multi: true }
+    );
 
-    if (allComment.comment.length > 1) {
-      res.json(allComment);
-    } else {
-      console.log("PULL FROM USER AS WELL");
-
-      const user = await User.findById(userID);
-
-      await user.updateOne({ $pull: { commentedOn: parentCommentID } });
-
-      res.json(allComment);
-    }
+    res.json(allComment);
   } catch (error) {
     res.json(error);
   }

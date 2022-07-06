@@ -113,6 +113,41 @@ const deletePostController = expressHandler(async (req, res) => {
   }
 });
 
+//
+const archivePostController = expressHandler(async (req, res) => {
+  const { id } = req?.user;
+  const { postID } = req?.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user.archivedPosts.includes(postID)) {
+      await user.updateOne({
+        $push: {
+          archivedPosts: [{ _id: postID }],
+        },
+      });
+      res.status(200).json("Post has been archived");
+    } else {
+      await user.updateOne({ $pull: { archivedPosts: postID } });
+      // await user.updateOne({ $pull: { blockedUsers: req.body.blockedUsers } });
+
+      res.status(200).json("Post has been removed from archived");
+    }
+
+    // await User.updateOne(
+    //   { _id: _id },
+    //   {
+    //     $push: {
+    //       archivedPosts: [{ _id: postID }],
+    //     },
+    //   }
+    // );
+    // res.status(200).json("Archived");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   postPostController,
   getPostController,
@@ -120,4 +155,5 @@ module.exports = {
   getAllPostsController,
   updatePostController,
   deletePostController,
+  archivePostController,
 };
