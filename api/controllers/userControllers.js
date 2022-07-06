@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Pet = require("../models/pet");
+const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
 const nodemailer = require("nodemailer");
 
@@ -20,6 +21,7 @@ const {
 } = require("../middlewares/cloudinary");
 
 const fs = require("fs");
+const { findById } = require("../models/user");
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -294,6 +296,27 @@ const pictureDeleteController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
+const userDeleteController = expressHandler(async (req, res) => {
+  const { _id } = req?.user;
+  try {
+    const user = await User.findByIdAndDelete(_id);
+    console.log(user);
+
+    const pets = user.pets;
+    for (let i = 0; i < pets.length; i++) {
+      const pet = await Pet.findByIdAndDelete(pets[i]);
+      console.log(pet);
+      const posts = pet.petPost;
+      for (let j = 0; j < posts.length; j++) {
+        await Post.deleteOne({ _id: posts[j] });
+      }
+    }
+    res.status(200).json("USER DELETED");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = {
   getCurrentUserController,
   getUserController,
@@ -305,4 +328,5 @@ module.exports = {
   updateUserController,
   pictureUploadController,
   pictureDeleteController,
+  userDeleteController,
 };
