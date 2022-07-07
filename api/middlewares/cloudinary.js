@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary");
+const path = require("path");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -24,16 +25,34 @@ const cloudinaryUploadUserImg = async (fileToUpload) => {
 
 const cloudinaryUploadPostImg = async (fileToUpload) => {
   try {
+    const videoFormats = [".mp4", ".avi"];
+    const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
+    const extension = path.extname(fileToUpload);
+
+    const type = videoFormats.includes(extension)
+      ? "videos"
+      : imageFormats.includes(extension)
+      ? "photos"
+      : "Wrong type";
+
+    if (type === "Wrong type") return "Wrong type";
+
     const data = await cloudinary.v2.uploader.upload(fileToUpload, {
       resource_type: "auto",
-      folder: "waipe/post/photos",
-      tags: "postPhotos",
+      folder: `waipe/post/${type}`,
+      tags: `post${type}`,
+      height: 654,
+      width: 420,
+      crop: "fill",
+      async: true,
+      end_offset: "15",
     });
 
     return {
       data,
     };
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
