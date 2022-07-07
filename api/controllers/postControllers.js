@@ -3,12 +3,16 @@ const Like = require("../models/like");
 const Comment = require("../models/comment");
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
+const { cloudinaryUploadPostImg } = require("../middlewares/cloudinary");
 
 // *
 const postPostController = expressHandler(async (req, res) => {
   const petID = req.body.petID;
 
   try {
+    const imgUploaded = await cloudinaryUploadPostImg(req?.body?.postImage);
+    if (imgUploaded === "Wrong type") return res.json("Wrong type");
+
     const post = await Post.create({
       petID: petID,
       postImage: req?.body?.postImage,
