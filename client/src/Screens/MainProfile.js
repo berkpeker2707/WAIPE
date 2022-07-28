@@ -29,7 +29,7 @@ const MainProfileScreen = ({ token }) => {
       <NativeBaseProvider>
         <Center flex={1} px="3">
           {userLoading ? (
-            <Spinner color={"mustard.400"} />
+            <Spinner color={"mustard.400"} size="lg" />
           ) : (
             <Text>Main Profile</Text>
           )}
