@@ -6,6 +6,7 @@ import {
   Text,
   Spinner,
   extendTheme,
+  Heading,
 } from "native-base";
 import {
   getUser,
@@ -24,6 +25,8 @@ const MainProfileScreen = ({ token }) => {
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
 
+  console.log(currentUser);
+
   return (
     <View style={style.container}>
       <NativeBaseProvider>
@@ -31,7 +34,17 @@ const MainProfileScreen = ({ token }) => {
           {userLoading ? (
             <Spinner color={"mustard.400"} size="lg" />
           ) : (
-            <Text>Main Profile</Text>
+            <>
+              <Heading>
+                {currentUser.firstname} {currentUser.lastname}
+              </Heading>
+              <Text
+                _light={{ color: "muted.500" }}
+                _dark={{ color: "muted.500" }}
+              >
+                @Nickname
+              </Text>
+            </>
           )}
         </Center>
       </NativeBaseProvider>
