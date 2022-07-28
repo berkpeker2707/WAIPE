@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
-import { NativeBaseProvider, Center, Text } from "native-base";
+import {
+  NativeBaseProvider,
+  Center,
+  Text,
+  Spinner,
+  extendTheme,
+} from "native-base";
 import {
   getUser,
   selectCurrentUser,
@@ -22,12 +28,37 @@ const MainProfileScreen = ({ token }) => {
     <View style={style.container}>
       <NativeBaseProvider>
         <Center flex={1} px="3">
-          <Text>Main Profile</Text>
+          {userLoading ? (
+            <Spinner color={"mustard.400"} />
+          ) : (
+            <Text>Main Profile</Text>
+          )}
         </Center>
       </NativeBaseProvider>
     </View>
   );
 };
+
+const theme = extendTheme({
+  colors: {
+    mustard: {
+      400: "#e3b448",
+    },
+    extraOrage: {
+      400: "#E38E48",
+    },
+    sage: {
+      300: "#F8FFE3",
+      400: "#cbd18f",
+    },
+    forestGreen: {
+      400: "#3a6b35",
+    },
+    google: {
+      400: "#de5246",
+    },
+  },
+});
 
 const style = {
   container: {
