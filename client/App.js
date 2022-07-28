@@ -29,7 +29,9 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Discover" component={Discover} />
-          <Stack.Screen name="MainProfile" component={MainProfile} />
+          <Stack.Screen name="MainProfile">
+            {(props) => <MainProfile {...props} token={token} />}
+          </Stack.Screen>
         </Stack.Navigator>
       );
     } else {

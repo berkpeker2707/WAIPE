@@ -5,15 +5,16 @@ const SERVER_URL = "http://192.168.100.73:1000/api";
 
 export const getUser = createAsyncThunk(
   "user/me",
-  async ({ rejectWithValue }) => {
+  async (token, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${SERVER_URL}/user/me`);
-
-      console.log(data);
+      const { data } = await axios.get(`${SERVER_URL}/user/me`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -39,7 +40,9 @@ const userSlice = createSlice({
 });
 
 export const selectCurrentUser = (state) => {
-  state.user.currentUser;
+  return state.user.currentUser;
 };
+export const selectUserError = (state) => state.user.error;
+export const selectUserLoading = (state) => state.user.loading;
 
 export default userSlice.reducer;

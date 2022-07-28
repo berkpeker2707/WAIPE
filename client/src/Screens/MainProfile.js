@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { NativeBaseProvider, Center, Text } from "native-base";
-import { getUser, selectCurrentUser } from "../Redux/Slices/userSlice";
+import {
+  getUser,
+  selectCurrentUser,
+  selectUserLoading,
+} from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-const MainProfileScreen = () => {
+const MainProfileScreen = ({ token }) => {
   const dispatch = useDispatch();
 
-  dispatch(getUser());
+  useEffect(() => {
+    dispatch(getUser(token));
+  }, [dispatch]);
 
   const currentUser = useSelector(selectCurrentUser);
-
-  console.log(currentUser);
+  const userLoading = useSelector(selectUserLoading);
 
   return (
     <View style={style.container}>
