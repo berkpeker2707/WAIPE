@@ -7,6 +7,7 @@ import {
   Spinner,
   extendTheme,
   Heading,
+  Avatar,
 } from "native-base";
 import {
   getUser,
@@ -39,11 +40,24 @@ const MainProfileScreen = ({ token }) => {
                 {currentUser.firstname} {currentUser.lastname}
               </Heading>
               <Text
+                mb={4}
                 _light={{ color: "muted.500" }}
                 _dark={{ color: "muted.500" }}
               >
                 @Nickname
               </Text>
+              <Avatar
+                bg="purple.600"
+                alignSelf="center"
+                width={230}
+                height={230}
+                source={{
+                  uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
+                }}
+              >
+                {currentUser.firstname[0]}
+                {currentUser.lastname[0]}
+              </Avatar>
             </>
           )}
         </Center>
