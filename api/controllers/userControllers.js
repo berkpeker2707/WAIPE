@@ -126,75 +126,6 @@ const updateUserController = expressHandler(async (req, res) => {
   }
 });
 
-///////////////////// BELOW HERE //////////////////////
-
-const forgetPasswordController = expressHandler(async (req, res) => {
-  //find the user by email
-  const { email } = req.body;
-
-  const user = await User.findOne({ email });
-  if (!user) throw new Error("User Not Found");
-
-  try {
-    //Create token
-    const token = await user.createPasswordResetToken();
-    console.log(token);
-    await user.save();
-
-    mg.messages
-      .create(process.env.MAILGUN_USER, {
-        from: "Excited User <mailgun@sandbox-123.mailgun.org>",
-        to: email,
-        subject: "Hello",
-        text: "Testing some Mailgun awesomness!",
-        html: "<h1>Testing some Mailgun awesomness!</h1>",
-      })
-      .then((msg) => console.log(msg)) // logs response data
-      .catch((err) => console.log(err)); // logs any error
-
-    res.json(200);
-
-    // //build your message
-    // const resetURL = `If you have requested to reset your password, reset now within 10 minutes, otherwise ignore this message <a href="http://localhost:3000/reset-password/${token}">Click to Reset</a>`;
-    // const msg = {
-    //   from: '"Harold Flower 👻" <support@testmail.com>', // sender address
-    //   to: email,
-    //   // from: "twentekghana@gmail.com",
-    //   subject: "Support Test Mail ✔", // Subject line
-    //   html: resetURL,
-    // };
-
-    // await mg.send(msg);
-    // res.json({
-    //   msg: `A verification message is successfully sent to ${user?.email}. Reset now within 10 minutes, ${resetURL}`,
-    // });
-  } catch (error) {
-    console.log(error);
-
-    res.json(error);
-  }
-});
-
-const resetPasswordController = expressHandler(async (req, res) => {
-  const { token, password } = req.body;
-  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
-  //find this user by token
-  const user = await User.findOne({
-    passwordResetToken: hashedToken,
-    passwordResetExpires: { $gt: Date.now() },
-  });
-  if (!user) throw new Error("Token Expired, try again later");
-
-  //Update/change the password
-  user.password = password;
-  user.passwordResetToken = undefined;
-  user.passwordResetExpires = undefined;
-  await user.save();
-  res.json(user);
-});
-///////////////////// ABOVE HERE //////////////////
-
 // *
 //block user & unblock user
 const blockUserController = expressHandler(async (req, res) => {
@@ -320,8 +251,6 @@ const userDeleteController = expressHandler(async (req, res) => {
 module.exports = {
   getCurrentUserController,
   getUserController,
-  forgetPasswordController,
-  resetPasswordController,
   blockUserController,
   followPetController,
   blockPetController,

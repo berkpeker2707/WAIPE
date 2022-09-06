@@ -38,10 +38,27 @@ export const signin = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  "auth/reset-password",
+  async (resetPasswordInfo, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        `${SERVER_URL}/auth/reset-password`,
+        resetPasswordInfo
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: { token: null, loading: false, error: null },
   extraReducers: (builder) => {
+    //signin
     builder.addCase(signin.pending, (state) => {
       state.loading = true;
     });
@@ -55,8 +72,10 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(signup.pending, (state) => {
-      state.loading = true;
+    ///signup
+    builder.addCase(signup.pending, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
     });
     builder.addCase(signup.fulfilled, (state, action) => {
       state.loading = false;
@@ -66,11 +85,25 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    ///reset password
+    builder.addCase(resetPassword.pending, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = action?.payload?.message;
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
   },
 });
 
 export const selectToken = (state) => state.auth.token;
 export const selectAuthError = (state) => state.auth.error;
 export const selectAuthLoading = (state) => state.auth.loading;
+export const selectresetPassword = (state) => state.auth.resetPassword;
 
 export default authSlice.reducer;
