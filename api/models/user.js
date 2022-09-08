@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
+const randomatic = require("randomatic");
 
 const UserSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
@@ -32,16 +34,26 @@ const UserSchema = new mongoose.Schema({
   blockedPets: { type: Array, default: [] },
 });
 
-//Password reset/forget
+//password encryption
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
-UserSchema.methods.createPasswordResetToken = async function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
-  this.passwordResetToken = crypto
+//account verification
+UserSchema.methods.createAccountVerificationToken = async function () {
+  // create token
+  const verificationToken = randomatic("Aa0", 32).toString("hex");
+  this.accountVerificationToken = crypto
     .createHash("sha256")
-    .update(resetToken)
+    .update(verificationToken)
     .digest("hex");
-  this.passwordResetExpires = Date.now() + 30 * 60 * 1000; //10 minutes
-  return resetToken;
+  this.accountVerificationTokenExpires = Date.now() + 3600 * 1000 * 24; //24 hour
+  return verificationToken;
 };
 
 module.exports = User = mongoose.model("User", UserSchema);

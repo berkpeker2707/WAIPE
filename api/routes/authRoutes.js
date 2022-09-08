@@ -5,6 +5,8 @@ const {
   signupController,
   signinController,
   signinWithGoogleController,
+  forgotPasswordController,
+  verifyPasswordController,
 } = require("../controllers/authControllers");
 require("../config/passport")(passport);
 
@@ -22,5 +24,7 @@ authRoutes.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   signinWithGoogleController
 );
+authRoutes.post("/forgot-password", forgotPasswordController);
+authRoutes.post("/verify-password", verifyPasswordController);
 
 module.exports = authRoutes;
