@@ -1,6 +1,8 @@
 const express = require("express");
 const passport = require("passport");
 const {
+  preSignupController,
+  verifySignupController,
   signupController,
   signinController,
   signinWithGoogleController,
@@ -11,6 +13,8 @@ require("../config/passport")(passport);
 
 const authRoutes = express.Router();
 
+authRoutes.post("/presignup", preSignupController);
+authRoutes.post("/verify-signup", verifySignupController);
 authRoutes.post("/signup", signupController);
 authRoutes.post("/signin", signinController);
 authRoutes.get(

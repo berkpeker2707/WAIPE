@@ -3,36 +3,52 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const randomatic = require("randomatic");
 
-const UserSchema = new mongoose.Schema({
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  password: { type: String, required: true },
-  passwordChangeAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  accountVerificationToken: String,
-  accountVerificationTokenExpires: Date,
-  picture: { type: String, default: "" },
-  biography: { type: String, default: "" },
-  locations: { country: { type: String }, city: { type: String } },
-  phone: { type: Number, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  termsOfUse: { type: Boolean, required: true },
-  privacyPolicy: { type: Boolean, required: true },
-  age: { type: Boolean, required: true },
-  visibility: { type: Boolean, default: true },
-  handOrientation: { type: String, default: "right" },
-  pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
-  likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
-  likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
-  postedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
-  archivedPosts: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
-  ],
-  followedPets: { type: Array, default: [] },
-  blockedUsers: { type: Array, default: [] },
-  blockedPets: { type: Array, default: [] },
-});
+const UserSchema = new mongoose.Schema(
+  {
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    password: { type: String, required: true },
+    passwordChangeAt: { type: Date },
+    passwordResetToken: { type: String },
+    passwordResetExpires: { type: Date },
+    accountVerificationToken: { type: String },
+    accountVerificationTokenExpires: { type: Date },
+    picture: { type: String, default: "" },
+    biography: { type: String, default: "" },
+    locations: { country: { type: String }, city: { type: String } },
+    phone: { type: Number, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    termsOfUse: { type: Boolean, required: true },
+    privacyPolicy: { type: Boolean, required: true },
+    age: { type: Boolean, required: true },
+    visibility: { type: Boolean, default: true },
+    handOrientation: { type: String, default: "right" },
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
+    likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
+    likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
+    postedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
+    archivedPosts: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
+    ],
+    followedPets: { type: Array, default: [] },
+    blockedUsers: { type: Array, default: [] },
+    blockedPets: { type: Array, default: [] },
+    accountVerified: {
+      type: Boolean,
+      default: false,
+    },
+    expireAt: {
+      type: Date,
+      /* Defaults 1 days from now */
+      default: new Date(new Date().valueOf() + 86400000),
+      /* Remove doc 5 min after specified date */
+      expires: 300,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 //password encryption
 UserSchema.pre("save", async function (next) {
@@ -57,6 +73,3 @@ UserSchema.methods.createAccountVerificationToken = async function () {
 };
 
 module.exports = User = mongoose.model("User", UserSchema);
-
-// diyelim ki post silindi, bu posta bagli olan commentler ve likelar silinmesin; fakat gorunmesinde like ve commenti yapan sahis haricinde
-// diyelim ki pet silindi, alintindaki postlar silinsin, ama post altindaki likelar ve commentlar silinmesin, sadece yapan kisi gorebilsin
