@@ -21,6 +21,8 @@ export default function App() {
   const Navigator = () => {
     const token = useSelector(selectToken);
 
+    console.log(token);
+
     if (token) {
       return (
         <Stack.Navigator
