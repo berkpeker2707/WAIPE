@@ -14,11 +14,14 @@ const getCatArray = (httpGet = (sample20CatArrayURL) => {
 
 console.log(getCatArray);
 
-const DiscoverScreen = () => {
+const DiscoverScreen = ({ navigation }) => {
   return (
     <NativeBaseProvider>
       <Center flex={1} px="3">
         <Text>Discover Page</Text>
+        <Button onPress={() => navigation.navigate("MainProfile")}>
+          Main Profile
+        </Button>
       </Center>
     </NativeBaseProvider>
   );
