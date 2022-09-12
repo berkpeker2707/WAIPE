@@ -3,8 +3,11 @@ import { StyleSheet } from "react-native";
 import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
+import MainProfile from "./src/Screens/MainProfile";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
@@ -13,6 +16,8 @@ import { selectToken } from "./src/Redux/Slices/authSlice";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  let persistor = persistStore(store);
+
   const Navigator = () => {
     const token = useSelector(selectToken);
 
@@ -24,6 +29,9 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Discover" component={Discover} />
+          <Stack.Screen name="MainProfile">
+            {(props) => <MainProfile {...props} token={token} />}
+          </Stack.Screen>
         </Stack.Navigator>
       );
     } else {
@@ -42,10 +50,12 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Navigator />
-      </NavigationContainer>
-      <StatusBar style="auto" />
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+          <Navigator />
+        </NavigationContainer>
+        <StatusBar style="auto" />
+      </PersistGate>
     </Provider>
   );
 }
