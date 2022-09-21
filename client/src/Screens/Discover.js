@@ -1,112 +1,97 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
-import { NativeBaseProvider, Center, Text, Button, Image } from "native-base";
-import Masonry from "react-native-infinite-masonry";
-
-import "react-native-get-random-values";
-const { v4: uuidv4 } = require("uuid");
-
-const axios = require("axios");
-
-const sample20CatArrayURL =
-  "https://api.thecatapi.com/v1/images/search?limit=10&page=100&order=DESC";
+import { View, StyleSheet } from "react-native";
+import {
+  NativeBaseProvider,
+  ScrollView,
+  Center,
+  Text,
+  Button,
+  Image,
+  Box,
+  useSafeArea,
+  NativeBaseConfigProvider,
+  extendTheme,
+} from "native-base";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllPosts } from "../Redux/Slices/postSlice";
+import MasonryList from "@react-native-seoul/masonry-list";
 
 const DiscoverScreen = ({ navigation }) => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    axios
-      .get(sample20CatArrayURL)
-      .then((res) => setPosts(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+  const dispatch = useDispatch();
 
-  const vpWidth = Dimensions.get("window").width;
+  const allPost = useSelector((state) => state.post.allPost);
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [dispatch]);
+
+  // console.log(allPost);
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/notes")
+  //     .then((res) => res.json())
+  //     .then((data) => setNotes(data));
+  // }, []);
+
+  // const handleDelete = async (id) => {
+  //   await fetch("http://localhost:8000/notes/" + id, {
+  //     method: "DELETE",
+  //   });
+  //   const newNotes = notes.filter((note) => note.id != id);
+  //   setNotes(newNotes);
+  // };
+  const safeAreaProps = useSafeArea({
+    safeAreaTop: true,
+    pt: 2,
+  });
 
   return (
-    <NativeBaseProvider>
-      <ScrollView>
-        <Center flex={1} px="3">
-          {/* Initial render section starts */}
-          <Text>TEST</Text>
-          {posts.map((post1) => (
-            <View key={uuidv4()}>
-              <Masonry
-                itemsProvider={dataItemProvider}
-                renderItem={Item}
-                pageSize={10}
-              />
-            </View>
-          ))}
-          {/* Initial render section ends */}
-
-          {/* Render more section starts */}
-          {/* {posts.map((post2) => (
-            <View key={uuidv4()}>
-              <Image
-                source={{
-                  uri: post2.url,
-                }}
-                alt="Alternate Text"
-                size="xl"
-              />
-            </View>
-          ))} */}
-          {/* Render more section ends */}
-        </Center>
-      </ScrollView>
-    </NativeBaseProvider>
-  );
-
-  function Item(dataItem, key) {
-    return (
-      <View
-        key={key}
-        style={{
-          ...styles.card,
-          height: dataItem.height,
-        }}
+    <ScrollView>
+      <Box
+        flex={1}
+        bg="#fff"
+        alignItems="center"
+        justifyContent="center"
+        {...safeAreaProps}
       >
-        <Image style={styles.img} source={{ uri: dataItem.image_url }} />
-      </View>
-    );
-  }
-
-  function dataItemProvider(pageSize = 10) {
-    return [...Array(pageSize).keys()].map((i) => {
-      return {
-        image_url: `https://i.picsum.photos/id/${parseInt(
-          Math.random() * 200
-        )}/300/400.jpg`,
-        height: parseInt(Math.max(0.3, Math.random()) * vpWidth),
-        key: i,
-      };
-    });
-  }
+        <Center>
+          <Text>I RENDER</Text>
+          {allPost?.map((data, index) => (
+            <Image
+              key={index}
+              source={{
+                uri: data.postImage,
+              }}
+              alt="Alternate Text"
+              size="xl"
+            />
+          ))}
+        </Center>
+      </Box>
+    </ScrollView>
+  );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    alignContent: "center",
-    alignItems: "center",
-  },
-  card: {
-    margin: 8,
-    width: vpWidth * 0.5 - 15,
-    shadowColor: "#0000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const theme = extendTheme({
+  colors: {
+    mustard: {
+      400: "#e3b448",
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    backgroundColor: "white",
-    borderRadius: 5,
-  },
-  img: {
-    borderRadius: 5,
-    flex: 1,
+    extraOrage: {
+      400: "#E38E48",
+    },
+    sage: {
+      300: "#F8FFE3",
+      400: "#cbd18f",
+    },
+    forestGreen: {
+      400: "#3a6b35",
+    },
+    google: {
+      400: "#de5246",
+    },
   },
 });
+
+const styles = StyleSheet.create({});
 
 export default DiscoverScreen;

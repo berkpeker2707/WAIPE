@@ -12,6 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
+import { NativeBaseProvider, extendTheme } from "native-base";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,8 +21,6 @@ export default function App() {
 
   const Navigator = () => {
     const token = useSelector(selectToken);
-
-    console.log(token);
 
     if (token) {
       return (
@@ -54,13 +53,36 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <Navigator />
+          <NativeBaseProvider theme={theme}>
+            <Navigator />
+          </NativeBaseProvider>
         </NavigationContainer>
         <StatusBar style="auto" />
       </PersistGate>
     </Provider>
   );
 }
+
+const theme = extendTheme({
+  colors: {
+    mustard: {
+      400: "#e3b448",
+    },
+    extraOrage: {
+      400: "#E38E48",
+    },
+    sage: {
+      300: "#F8FFE3",
+      400: "#cbd18f",
+    },
+    forestGreen: {
+      400: "#3a6b35",
+    },
+    google: {
+      400: "#de5246",
+    },
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
