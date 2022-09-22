@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
-  NativeBaseProvider,
   ScrollView,
   Center,
   Text,
@@ -9,12 +8,13 @@ import {
   Image,
   Box,
   useSafeArea,
-  NativeBaseConfigProvider,
-  extendTheme,
 } from "native-base";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllPosts } from "../Redux/Slices/postSlice";
 import MasonryList from "@react-native-seoul/masonry-list";
+
+//check this one later//
+//source: https://www.npmjs.com/package/@react-native-seoul/masonry-list
 
 const DiscoverScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -44,53 +44,45 @@ const DiscoverScreen = ({ navigation }) => {
     pt: 2,
   });
 
+  const PhotoCard = ({ item, style }) => {
+    const randomBool = useMemo(() => Math.random() < 0.5, []);
+    return (
+      <View key={item.id} style={[{ marginTop: 12, flex: 1 }, style]}>
+        {/* height: randomBool ? 150 : 280, */}
+        <Image
+          source={{ uri: item.postImage }}
+          style={{
+            height: 280,
+            alignSelf: "stretch",
+          }}
+          resizeMode="cover"
+          alt="alt"
+        />
+      </View>
+    );
+  };
+
+  const renderItem = ({ item, i }) => {
+    return (
+      <PhotoCard item={item} style={{ marginLeft: i % 2 === 0 ? 0 : 12 }} />
+    );
+  };
+
   return (
-    <ScrollView>
-      <Box
-        flex={1}
-        bg="#fff"
-        alignItems="center"
-        justifyContent="center"
-        {...safeAreaProps}
-      >
-        <Center>
-          <Text>I RENDER</Text>
-          {allPost?.map((data, index) => (
-            <Image
-              key={index}
-              source={{
-                uri: data.postImage,
-              }}
-              alt="Alternate Text"
-              size="xl"
-            />
-          ))}
-        </Center>
-      </Box>
+    <ScrollView {...safeAreaProps}>
+      <MasonryList
+        style={{ alignSelf: "stretch" }}
+        data={allPost}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        onRefresh={() => refetch({ first: ITEM_CNT })}
+        onEndReachedThreshold={0.1}
+        onEndReached={() => loadNext(ITEM_CNT)}
+      />
     </ScrollView>
   );
 };
-
-const theme = extendTheme({
-  colors: {
-    mustard: {
-      400: "#e3b448",
-    },
-    extraOrage: {
-      400: "#E38E48",
-    },
-    sage: {
-      300: "#F8FFE3",
-      400: "#cbd18f",
-    },
-    forestGreen: {
-      400: "#3a6b35",
-    },
-    google: {
-      400: "#de5246",
-    },
-  },
-});
 
 const styles = StyleSheet.create({});
 
