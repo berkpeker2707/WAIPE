@@ -16,16 +16,15 @@ import MasonryList from "@react-native-seoul/masonry-list";
 //check this one later//
 //source: https://www.npmjs.com/package/@react-native-seoul/masonry-list
 
-const DiscoverScreen = ({ navigation }) => {
+const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-
-  const allPost = useSelector((state) => state.post.allPost);
+  const [allPostState, setAllPostState] = useState(route.params.allPost);
 
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
-  // console.log(allPost);
+  console.log(allPostState);
   // useEffect(() => {
   //   fetch("http://localhost:8000/notes")
   //     .then((res) => res.json())
@@ -48,11 +47,10 @@ const DiscoverScreen = ({ navigation }) => {
     const randomBool = useMemo(() => Math.random() < 0.5, []);
     return (
       <View key={item.id} style={[{ marginTop: 12, flex: 1 }, style]}>
-        {/* height: randomBool ? 150 : 280, */}
         <Image
           source={{ uri: item.postImage }}
           style={{
-            height: 280,
+            height: randomBool ? 150 : 280,
             alignSelf: "stretch",
           }}
           resizeMode="cover"
@@ -72,7 +70,7 @@ const DiscoverScreen = ({ navigation }) => {
     <ScrollView {...safeAreaProps}>
       <MasonryList
         style={{ alignSelf: "stretch" }}
-        data={allPost}
+        data={allPostState}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}

@@ -22,6 +22,8 @@ export default function App() {
   const Navigator = () => {
     const token = useSelector(selectToken);
 
+    const allPost = useSelector((state) => state.post.allPost);
+
     if (token) {
       return (
         <Stack.Navigator
@@ -29,7 +31,11 @@ export default function App() {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="Discover" component={Discover} />
+          <Stack.Screen
+            name="Discover"
+            component={Discover}
+            initialParams={{ allPost }}
+          />
           <Stack.Screen name="MainProfile">
             {(props) => <MainProfile {...props} token={token} />}
           </Stack.Screen>
