@@ -9,35 +9,11 @@ import {
   Box,
   useSafeArea,
 } from "native-base";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllPosts } from "../Redux/Slices/postSlice";
 import MasonryList from "@react-native-seoul/masonry-list";
 
-//check this one later//
-//source: https://www.npmjs.com/package/@react-native-seoul/masonry-list
-
 const DiscoverScreen = ({ navigation, route }) => {
-  const dispatch = useDispatch();
   const [allPostState, setAllPostState] = useState(route.params.allPost);
 
-  useEffect(() => {
-    dispatch(getAllPosts());
-  }, [dispatch]);
-
-  console.log(allPostState);
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/notes")
-  //     .then((res) => res.json())
-  //     .then((data) => setNotes(data));
-  // }, []);
-
-  // const handleDelete = async (id) => {
-  //   await fetch("http://localhost:8000/notes/" + id, {
-  //     method: "DELETE",
-  //   });
-  //   const newNotes = notes.filter((note) => note.id != id);
-  //   setNotes(newNotes);
-  // };
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
     pt: 2,
