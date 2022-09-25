@@ -24,6 +24,32 @@ export const getAllPosts = createAsyncThunk(
   }
 );
 
+export const getPost = createAsyncThunk(
+  "post/getPost",
+  async (postID, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${SERVER_URL}/post/fetch/${postID}`,
+        config
+      );
+
+      console.log("data");
+      console.log(data);
+      console.log("data");
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 // //get announcement action ***
 // export const getAnnouncementAction = createAsyncThunk(
 //   "get/announcement",
@@ -62,6 +88,19 @@ const postSlice = createSlice({
       state.error = action?.payload?.message;
     });
     builder.addCase(getAllPosts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //get a post reducer
+    builder.addCase(getPost.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getPost.fulfilled, (state, action) => {
+      state.loading = false;
+      state.post = action?.payload;
+      state.error = action?.payload?.message;
+    });
+    builder.addCase(getPost.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });

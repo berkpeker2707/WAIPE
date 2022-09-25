@@ -3,8 +3,9 @@ import { StyleSheet } from "react-native";
 import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
+import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -13,6 +14,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
 import { NativeBaseProvider, extendTheme } from "native-base";
+import { useEffect } from "react";
+import { getAllPosts, getPost } from "./src/Redux/Slices/postSlice";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,9 +23,21 @@ export default function App() {
   let persistor = persistStore(store);
 
   const Navigator = () => {
-    const token = useSelector(selectToken);
+    const dispatch = useDispatch();
 
+    var testID = "62c5253aba3f45ae697a82bc";
+
+    const token = useSelector(selectToken);
     const allPost = useSelector((state) => state.post.allPost);
+    const post = useSelector((state) => state.post.post);
+
+    useEffect(() => {
+      dispatch(getAllPosts());
+    }, [dispatch]);
+
+    useEffect(() => {
+      dispatch(getPost(testID));
+    }, [dispatch]);
 
     if (token) {
       return (
@@ -31,6 +46,7 @@ export default function App() {
             headerShown: false,
           }}
         >
+          <Stack.Screen name="Post" component={Post} initialParams={{ post }} />
           <Stack.Screen
             name="Discover"
             component={Discover}
