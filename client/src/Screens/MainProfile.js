@@ -41,6 +41,23 @@ const MainProfileScreen = ({ token }) => {
             <Spinner color={"mustard.400"} size="lg" />
           ) : (
             <>
+              <Box w="155%" h="5%">
+                <Button
+                  borderRadius="25"
+                  alignSelf="flex-end"
+                  variant="ghost"
+                  w={10}
+                  h={10}
+                  leftIcon={
+                    <Icon
+                      as={SimpleLineIcons}
+                      name="settings"
+                      size="xl"
+                      color="coolGray.500"
+                    />
+                  }
+                />
+              </Box>
               <Heading>
                 {currentUser.firstname} {currentUser.lastname}
               </Heading>
@@ -81,7 +98,7 @@ const MainProfileScreen = ({ token }) => {
                         color="coolGray.500"
                       />
                     }
-                  ></Button>
+                  />
                 </ZStack>
               </Box>
               {/* <ZStack>
