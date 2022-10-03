@@ -13,6 +13,7 @@ import {
   Button,
   Icon,
   ZStack,
+  ScrollView,
 } from "native-base";
 import {
   getUser,
@@ -41,7 +42,7 @@ const MainProfileScreen = ({ token }) => {
             <Spinner color={"mustard.400"} size="lg" />
           ) : (
             <>
-              <Box w="155%" h="5%">
+              <Box w="155%" h="5%" mt={10}>
                 <Button
                   borderRadius="25"
                   alignSelf="flex-end"
@@ -110,12 +111,14 @@ const MainProfileScreen = ({ token }) => {
                 width="120%"
                 padding="3"
                 shadow={1}
+                mb={12}
               >
                 <Text>
                   City, Country{"\n"}
                   {currentUser.biography}
                 </Text>
               </Box>
+              <Box w="155%" h="35%" bg="trueGray.50"></Box>
             </>
           )}
         </Center>
