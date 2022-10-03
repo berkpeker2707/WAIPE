@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
+import { SimpleLineIcons } from "@expo/vector-icons";
 import {
   NativeBaseProvider,
   Center,
@@ -9,6 +10,9 @@ import {
   Heading,
   Avatar,
   Box,
+  Button,
+  Icon,
+  ZStack,
 } from "native-base";
 import {
   getUser,
@@ -47,21 +51,48 @@ const MainProfileScreen = ({ token }) => {
               >
                 @Nickname
               </Text>
-              <Avatar
-                bg="purple.600"
-                alignSelf="center"
-                width={230}
-                height={230}
-                mb={4}
-                shadow={1}
-                source={{
-                  uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
-                }}
-              >
-                {currentUser.firstname[0]}
-                {currentUser.lastname[0]}
-              </Avatar>
-
+              <Box mb={4} width={230} height={230}>
+                <ZStack>
+                  <Avatar
+                    bg="purple.600"
+                    alignSelf="center"
+                    width={230}
+                    height={230}
+                    shadow={1}
+                    source={{
+                      uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
+                    }}
+                  >
+                    {currentUser.firstname[0]}
+                    {currentUser.lastname[0]}
+                  </Avatar>
+                  <Button
+                    borderRadius="25"
+                    bg="white"
+                    ml={175}
+                    mt={175}
+                    w={10}
+                    h={10}
+                    leftIcon={
+                      <Icon
+                        as={SimpleLineIcons}
+                        name="pencil"
+                        size="md"
+                        color="coolGray.500"
+                      />
+                    }
+                  ></Button>
+                </ZStack>
+              </Box>
+              {/* <ZStack>
+                <Button
+                  leftIcon={
+                    <Icon as={Ionicons} name="cloud-upload-outline" size="sm" />
+                  }
+                >
+                  Upload
+                </Button>
+              </ZStack> */}
               <Box
                 bg="trueGray.50"
                 rounded="xl"
