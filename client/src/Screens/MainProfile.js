@@ -46,6 +46,7 @@ const MainProfileScreen = ({ token }) => {
                   borderRadius="25"
                   alignSelf="flex-end"
                   variant="ghost"
+                  colorScheme="warning"
                   w={10}
                   h={10}
                   leftIcon={
@@ -90,6 +91,7 @@ const MainProfileScreen = ({ token }) => {
                     mt={175}
                     w={10}
                     h={10}
+                    colorScheme="warning"
                     leftIcon={
                       <Icon
                         as={SimpleLineIcons}
@@ -101,15 +103,6 @@ const MainProfileScreen = ({ token }) => {
                   />
                 </ZStack>
               </Box>
-              {/* <ZStack>
-                <Button
-                  leftIcon={
-                    <Icon as={Ionicons} name="cloud-upload-outline" size="sm" />
-                  }
-                >
-                  Upload
-                </Button>
-              </ZStack> */}
               <Box
                 bg="trueGray.50"
                 rounded="xl"
