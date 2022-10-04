@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
     age: { type: Boolean, required: true },
     visibility: { type: Boolean, default: true },
     handOrientation: { type: String, default: "right" },
-    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "pet" }],
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Pet" }],
     likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
     likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
     postedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
