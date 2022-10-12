@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import ProfileInfoCard from "../Components/ProfileInfoCard";
 import {
   NativeBaseProvider,
   Center,
@@ -71,82 +72,14 @@ const MainProfileScreen = ({ token }) => {
             <Spinner color={"mustard.400"} size="lg" />
           ) : (
             <>
-              <Box w={360} h="5%" mt={10}>
-                <Button
-                  borderRadius="25"
-                  alignSelf="flex-end"
-                  variant="ghost"
-                  colorScheme="warning"
-                  w={10}
-                  h={10}
-                  leftIcon={
-                    <Icon
-                      as={SimpleLineIcons}
-                      name="settings"
-                      size="xl"
-                      color="coolGray.500"
-                    />
-                  }
-                />
-              </Box>
-              <Heading>
-                {currentUser.firstname} {currentUser.lastname}
-              </Heading>
-              <Text
-                mb={4}
-                _light={{ color: "muted.500" }}
-                _dark={{ color: "muted.500" }}
-              >
-                @Nickname
-              </Text>
-              <Box mb={4} width={230} height={230}>
-                <ZStack>
-                  <Avatar
-                    bg="purple.600"
-                    alignSelf="center"
-                    width={230}
-                    height={230}
-                    shadow={1}
-                    source={{
-                      uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
-                    }}
-                  >
-                    {currentUser.firstname[0]}
-                    {currentUser.lastname[0]}
-                  </Avatar>
-                  <Button
-                    borderRadius="25"
-                    bg="white"
-                    ml={175}
-                    mt={175}
-                    w={10}
-                    h={10}
-                    colorScheme="warning"
-                    leftIcon={
-                      <Icon
-                        as={SimpleLineIcons}
-                        name="pencil"
-                        size="md"
-                        color="coolGray.500"
-                      />
-                    }
-                  />
-                </ZStack>
-              </Box>
-              <Box
-                bg="trueGray.50"
-                rounded="xl"
-                height="10%"
-                w={330}
-                padding="3"
-                shadow={1}
-                mb={5}
-              >
-                <Text>
-                  City, Country{"\n"}
-                  {currentUser.biography}
-                </Text>
-              </Box>
+              <ProfileInfoCard
+                name={`${currentUser.firstname} ${currentUser.lastname}`}
+                nickname={"@Nickname"}
+                image={
+                  "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80"
+                }
+                infoText={`City, Country\n${currentUser.biography}`}
+              />
               <Box w={330} h="40%">
                 <ScrollView w={400} h="80">
                   {pets?.map((petRow, index) => {
@@ -160,7 +93,7 @@ const MainProfileScreen = ({ token }) => {
                         {petRow?.map((pet, petIndex) => {
                           return (
                             <VStack space={2} key={petIndex}>
-                              <Box w={112}>
+                              <Box w={108}>
                                 {pet !== "end" ? (
                                   <Pressable
                                     onPress={() => console.log("I'm Pressed")}
@@ -171,8 +104,8 @@ const MainProfileScreen = ({ token }) => {
                                           <Avatar
                                             bg="purple.600"
                                             alignSelf="center"
-                                            width={isPressed ? 105 : 110}
-                                            height={isPressed ? 105 : 110}
+                                            width={isPressed ? 105 : 108}
+                                            height={isPressed ? 105 : 108}
                                             shadow={1}
                                             source={{
                                               uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
