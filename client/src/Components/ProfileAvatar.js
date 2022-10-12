@@ -14,6 +14,7 @@ const ProfileAvatar = (props) => {
           w={230}
           h={230}
           shadow={1}
+          _text={{ fontSize: 70 }}
           source={{
             uri: image,
           }}
