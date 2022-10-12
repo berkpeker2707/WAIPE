@@ -34,7 +34,7 @@ const preSignupController = expressHandler(async (req, res) => {
       termsOfUse: req?.body?.termsOfUse,
       privacyPolicy: req?.body?.privacyPolicy,
       age: req?.body?.age,
-      password: bcrypt.hashSync(password, 8),
+      password: req?.body?.password,
     });
 
     const recieved = req.body.email;
@@ -100,7 +100,7 @@ const signupController = expressHandler(async (req, res) => {
       termsOfUse: req?.body?.termsOfUse,
       privacyPolicy: req?.body?.privacyPolicy,
       age: req?.body?.age,
-      password: bcrypt.hashSync(password, 8),
+      password: req?.body?.password,
     });
 
     res.status(200).json(user);
@@ -124,7 +124,7 @@ const signinController = expressHandler(async (req, res) => {
     }
 
     var passwordIsValid = bcrypt.compareSync(password, user.password);
-
+    console.log({ passwordIsValid, password });
     if (!passwordIsValid) {
       return res.json({
         accessToken: null,
