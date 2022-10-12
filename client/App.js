@@ -9,6 +9,7 @@ import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
+import { NativeBaseProvider } from "native-base";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
@@ -52,7 +53,9 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <Navigator />
+          <NativeBaseProvider>
+            <Navigator />
+          </NativeBaseProvider>
         </NavigationContainer>
         <StatusBar style="auto" />
       </PersistGate>
