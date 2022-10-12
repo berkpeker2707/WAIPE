@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import ProfileInfoCard from "../Components/ProfileInfoCard";
+import ProfileAvatar from "../Components/ProfileAvatar";
+import NameAndNickname from "../Components/NameAndNickname";
+import SettingsButton from "../Components/SettingsButton";
+import InfoCard from "../Components/InfoCard";
 import {
   NativeBaseProvider,
   Center,
   Text,
   Spinner,
   extendTheme,
-  Heading,
   Avatar,
   Box,
   Button,
   Icon,
-  ZStack,
   ScrollView,
   HStack,
   VStack,
@@ -72,16 +73,22 @@ const MainProfileScreen = ({ token }) => {
             <Spinner color={"mustard.400"} size="lg" />
           ) : (
             <>
-              <ProfileInfoCard
+              <SettingsButton />
+              <NameAndNickname
                 name={`${currentUser.firstname} ${currentUser.lastname}`}
                 nickname={"@Nickname"}
+              />
+              <ProfileAvatar
                 image={
                   "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80"
                 }
-                infoText={`City, Country\n${currentUser.biography}`}
+                letter={`${currentUser.firstname[0]}${currentUser.lastname[0]}`}
+              />
+              <InfoCard
+                infoText={`City, Country${"\n"}${currentUser.biography}`}
               />
               <Box w={330} h="40%">
-                <ScrollView w={400} h="80">
+                <ScrollView w={330} h="80">
                   {pets?.map((petRow, index) => {
                     return (
                       <HStack
@@ -93,7 +100,7 @@ const MainProfileScreen = ({ token }) => {
                         {petRow?.map((pet, petIndex) => {
                           return (
                             <VStack space={2} key={petIndex}>
-                              <Box w={108}>
+                              <Box w={112}>
                                 {pet !== "end" ? (
                                   <Pressable
                                     onPress={() => console.log("I'm Pressed")}
@@ -104,8 +111,8 @@ const MainProfileScreen = ({ token }) => {
                                           <Avatar
                                             bg="purple.600"
                                             alignSelf="center"
-                                            width={isPressed ? 105 : 108}
-                                            height={isPressed ? 105 : 108}
+                                            width={isPressed ? 105 : 112}
+                                            height={isPressed ? 105 : 112}
                                             shadow={1}
                                             source={{
                                               uri: "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
