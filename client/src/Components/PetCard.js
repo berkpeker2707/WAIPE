@@ -6,16 +6,12 @@ const PetCard = (props) => {
 
   return (
     <Box alignItems="center" justifyContent="center">
-      <Pressable onPress={() => console.log("I'm Pressed")}>
+      <Pressable variant="ghost" onPress={() => console.log("I'm Pressed")}>
         {({ isPressed }) => {
           return (
             <Box
               style={{
-                transform: [
-                  {
-                    scale: isPressed ? 0.96 : 1,
-                  },
-                ],
+                opacity: isPressed ? 0.7 : 1,
               }}
             >
               <Avatar
@@ -26,7 +22,7 @@ const PetCard = (props) => {
                 shadow={1}
                 _text={{ fontSize: 40 }}
                 source={{
-                  uri: image,
+                  uri: image ? image : null,
                 }}
               >
                 {name[0]}
