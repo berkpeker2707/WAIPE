@@ -21,7 +21,6 @@ const {
 } = require("../middlewares/cloudinary");
 
 const fs = require("fs");
-const { findById } = require("../models/user");
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -36,10 +35,13 @@ const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id)
+      .populate({ path: "pets", model: "Pet" })
+      .exec();
 
     res.json(user);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
