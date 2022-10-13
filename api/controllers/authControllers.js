@@ -35,6 +35,8 @@ const preSignupController = expressHandler(async (req, res) => {
       privacyPolicy: req?.body?.privacyPolicy,
       age: req?.body?.age,
       password: req?.body?.password,
+      /* Defaults 1 days from now */
+      expireAt: new Date(new Date().valueOf() + 86400000),
     });
 
     const recieved = req.body.email;

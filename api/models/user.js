@@ -39,8 +39,6 @@ const UserSchema = new mongoose.Schema(
     },
     expireAt: {
       type: Date,
-      /* Defaults 1 days from now */
-      default: new Date(new Date().valueOf() + 86400000),
       /* Remove doc 5 min after specified date */
       expires: 300,
     },
