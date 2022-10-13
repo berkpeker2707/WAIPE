@@ -10,11 +10,11 @@ import {
   Center,
   Spinner,
   Box,
-  Button,
   Icon,
   ScrollView,
   HStack,
   VStack,
+  IconButton,
 } from "native-base";
 import {
   getUser,
@@ -28,7 +28,7 @@ const MainProfileScreen = ({ token }) => {
 
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
-  const [pets, setPets] = useState();
+  const [pets, setPets] = useState([["end"]]);
 
   const petsMatrix = () => {
     const petsOfUser = currentUser.pets;
@@ -44,7 +44,6 @@ const MainProfileScreen = ({ token }) => {
     });
 
     if (col.length) {
-      console.log(col);
       if (col.length % 3 !== 0) {
         col.push("end");
       }
@@ -59,9 +58,8 @@ const MainProfileScreen = ({ token }) => {
   useEffect(() => {
     dispatch(getUser(token));
     setPets(petsMatrix());
-  }, [dispatch]);
+  }, [dispatch, currentUser?._id]);
 
-  console.log(pets);
   return (
     <View style={style.container}>
       <Center flex={1} px="3">
@@ -71,17 +69,17 @@ const MainProfileScreen = ({ token }) => {
           <>
             <SettingsButton />
             <NameAndNickname
-              name={`${currentUser.firstname} ${currentUser.lastname}`}
+              name={`${currentUser?.firstname} ${currentUser?.lastname}`}
               nickname={"@Nickname"}
             />
             <ProfileAvatar
-              image={
-                "https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80"
-              }
-              letter={`${currentUser.firstname[0]}${currentUser.lastname[0]}`}
+              image={currentUser.picture}
+              letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
             />
             <InfoCard
-              infoText={`City, Country${"\n"}${currentUser.biography}`}
+              infoText={`${currentUser?.locations?.country}, ${
+                currentUser?.locations?.city
+              }${"\n"}${currentUser?.biography}`}
             />
             <Box w={330} h="40%">
               <ScrollView w={330} h="80">
@@ -102,16 +100,16 @@ const MainProfileScreen = ({ token }) => {
                               justifyContent="center"
                             >
                               {pet !== "end" ? (
-                                <PetCard name={pet.name} image={pets.picture} />
+                                <PetCard name={pet.name} image={pet.picture} />
                               ) : (
-                                <Button
+                                <IconButton
                                   borderRadius="70"
                                   variant="ghost"
                                   colorScheme="warning"
                                   alignSelf="center"
                                   width={100}
                                   height={100}
-                                  leftIcon={
+                                  icon={
                                     <Icon
                                       as={SimpleLineIcons}
                                       name="plus"
