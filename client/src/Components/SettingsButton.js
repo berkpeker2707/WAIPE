@@ -4,7 +4,7 @@ import { Box, Icon, IconButton } from "native-base";
 
 const SettingsButton = () => {
   return (
-    <Box w={360} mt={10}>
+    <Box w={360} mt={5}>
       <IconButton
         borderRadius="25"
         alignSelf="flex-end"
