@@ -23,7 +23,7 @@ import {
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-const MainProfileScreen = ({ token }) => {
+const MainProfileScreen = ({ token, navigation }) => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -31,11 +31,11 @@ const MainProfileScreen = ({ token }) => {
   const [pets, setPets] = useState([["end"]]);
 
   const petsMatrix = () => {
-    const petsOfUser = currentUser.pets;
+    const petsOfUser = currentUser?.pets;
     let rows = [];
     let col = [];
 
-    petsOfUser.forEach((pet, index) => {
+    petsOfUser?.forEach((pet, index) => {
       col.push(pet);
       if ((index + 1) % 3 === 0) {
         rows.push(col);
@@ -67,13 +67,13 @@ const MainProfileScreen = ({ token }) => {
           <Spinner color={"mustard.400"} size="lg" />
         ) : (
           <>
-            <SettingsButton />
+            <SettingsButton onPress={() => navigation.navigate("Settings")} />
             <NameAndNickname
               name={`${currentUser?.firstname} ${currentUser?.lastname}`}
               nickname={"@Nickname"}
             />
             <ProfileAvatar
-              image={currentUser.picture}
+              image={currentUser?.picture}
               letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
             />
             <InfoCard
