@@ -98,6 +98,7 @@ const MainProfileScreen = ({ token, navigation }) => {
                               w={102}
                               alignItems="center"
                               justifyContent="center"
+                              mb={4}
                             >
                               {pet !== "end" ? (
                                 <PetCard name={pet.name} image={pet.picture} />
