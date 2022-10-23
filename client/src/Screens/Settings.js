@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import PressableButton from "../Components/PressableButton";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import {
   Heading,
@@ -49,31 +50,21 @@ const SettingsScreen = () => {
             rightElement={<Switch size="sm" onTrackColor="forestGreen.400" />}
           />
           <Divider bg="extraOrage.400" thickness="2" />
-          <Pressable variant="ghost" onPress={() => console.log("I'm Pressed")}>
-            {({ isPressed }) => {
-              return (
-                <Box
-                  style={{
-                    opacity: isPressed ? 0.7 : 1,
-                  }}
-                >
-                  <SettingsLine
-                    leftIcon="ban"
-                    text="See blocked users"
-                    rightElement={
-                      <Icon
-                        as={SimpleLineIcons}
-                        name="arrow-right"
-                        size="md"
-                        mr={3}
-                        color="coolGray.500"
-                      />
-                    }
-                  />
-                </Box>
-              );
-            }}
-          </Pressable>
+          <PressableButton onPress={() => console.log("I'm Pressed")}>
+            <SettingsLine
+              leftIcon="ban"
+              text="See blocked users"
+              rightElement={
+                <Icon
+                  as={SimpleLineIcons}
+                  name="arrow-right"
+                  size="md"
+                  mr={3}
+                  color="coolGray.500"
+                />
+              }
+            />
+          </PressableButton>
         </VStack>
       </View>
     </NativeBaseProvider>
