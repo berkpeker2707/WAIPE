@@ -4,6 +4,7 @@ import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
 import MainProfile from "./src/Screens/MainProfile";
+import Settings from "./src/Screens/Settings";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
@@ -33,6 +34,7 @@ export default function App() {
           <Stack.Screen name="MainProfile">
             {(props) => <MainProfile {...props} token={token} />}
           </Stack.Screen>
+          <Stack.Screen name="Settings" component={Settings} />
         </Stack.Navigator>
       );
     } else {

@@ -2,10 +2,13 @@ import React from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Box, Icon, IconButton } from "native-base";
 
-const SettingsButton = () => {
+const SettingsButton = (props) => {
+  const { onPress } = props;
+
   return (
     <Box w={360} mt={5}>
       <IconButton
+        onPress={onPress}
         borderRadius="25"
         alignSelf="flex-end"
         variant="ghost"
