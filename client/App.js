@@ -6,10 +6,12 @@ import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
 import { Provider, useDispatch } from "react-redux";
+import Settings from "./src/Screens/Settings";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
+import { NativeBaseProvider } from "native-base";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
@@ -55,6 +57,7 @@ export default function App() {
           <Stack.Screen name="MainProfile">
             {(props) => <MainProfile {...props} token={token} />}
           </Stack.Screen>
+          <Stack.Screen name="Settings" component={Settings} />
         </Stack.Navigator>
       );
     } else {
