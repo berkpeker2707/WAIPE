@@ -6,20 +6,31 @@ import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
 import { Provider, useDispatch } from "react-redux";
+import Search from "./src/Screens/Search";
 import Settings from "./src/Screens/Settings";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
-import { NativeBaseProvider } from "native-base";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import { useEffect } from "react";
-import { getAllPosts, getPost } from "./src/Redux/Slices/postSlice";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Stack = createNativeStackNavigator();
+import { useEffect } from "react";
+import {
+  getAllPosts,
+  getPost,
+  selectAllPost,
+  selectPost,
+} from "./src/Redux/Slices/postSlice";
+import HomeIcon from "./src/Components/Icons/HomeIcon";
+import SearchIcon from "./src/Components/Icons/SearchIcon";
+import AddIcon from "./src/Components/Icons/AddIcon";
+import ProfileIcon from "./src/Components/Icons/ProfileIcon";
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   let persistor = persistStore(store);
@@ -30,46 +41,108 @@ export default function App() {
     var testID = "62c5253aba3f45ae697a82bc";
 
     const token = useSelector(selectToken);
-    const allPost = useSelector((state) => state.post.allPost);
-    const post = useSelector((state) => state.post.post);
+    // const allPost = useSelector(selectAllPost);
+    // const post = useSelector(selectPost);
 
-    useEffect(() => {
-      dispatch(getAllPosts());
-    }, [dispatch]);
+    // useEffect(() => {
+    //   dispatch(getAllPosts());
+    // }, [dispatch]);
 
-    useEffect(() => {
-      dispatch(getPost(testID));
-    }, [dispatch]);
+    // useEffect(() => {
+    //   dispatch(getPost(testID));
+    // }, [dispatch]);
 
     if (token) {
       return (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
+        <Tab.Navigator
+          initialRouteName="Home"
+          activeColor="#fff"
+          barStyle={{ backgroundColor: "#3a6b35" }}
         >
-          <Stack.Screen name="Post" component={Post} initialParams={{ post }} />
-          <Stack.Screen
+          <Tab.Screen
+            options={{
+              tabBarLabel: "Home",
+              tabBarIcon: ({ color }) => (
+                <HomeIcon name="home" color={"red"} size={26} />
+              ),
+            }}
             name="Discover"
             component={Discover}
-            initialParams={{ allPost }}
           />
-          <Stack.Screen name="MainProfile">
+
+          <Tab.Screen
+            options={{
+              tabBarLabel: "Search",
+              tabBarIcon: ({ color }) => (
+                <SearchIcon name="search" color={color} size={26} />
+              ),
+            }}
+            name="Search"
+            component={Search}
+          />
+          <Tab.Screen
+            options={{
+              tabBarLabel: "Add",
+              tabBarIcon: ({ color }) => (
+                <AddIcon name="add" color={color} size={26} />
+              ),
+            }}
+            name="Settings"
+            component={Settings}
+          />
+          <Tab.Screen
+            options={{
+              tabBarLabel: "Profile",
+              tabBarIcon: ({ color }) => (
+                <ProfileIcon name="Profile" color={color} size={26} />
+              ),
+            }}
+            name="MainProfile"
+          >
             {(props) => <MainProfile {...props} token={token} />}
-          </Stack.Screen>
-          <Stack.Screen name="Settings" component={Settings} />
-        </Stack.Navigator>
+          </Tab.Screen>
+          {/* screens that are not displayed in tab starts */}
+          <Tab.Screen
+            options={{
+              tabBarLabel: "Post",
+            }}
+            name="Post"
+          >
+            {(props) => <Post {...props} token={token} />}
+          </Tab.Screen>
+          {/* screens that are not displayed in tab ends */}
+        </Tab.Navigator>
       );
     } else {
       return (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
+        <Tab.Navigator>
+          <Tab.Screen
+            activeColor="#fff"
+            inactiveColor="#3a6b35"
+            barStyle={{ backgroundColor: "#3a6b35" }}
+            options={{
+              tabBarLabel: "Home",
+              tabBarIcon: ({ color }) => (
+                <HomeIcon name="home" color={color} size={26} />
+              ),
+            }}
+            name="Login"
+            component={Login}
+          />
+          <Tab.Screen
+            activeColor="#fff"
+            inactiveColor="#3a6b35"
+            barStyle={{ backgroundColor: "#3a6b35" }}
+            options={{
+              tabBarLabel: "Home",
+              tabBarIcon: ({ color }) => (
+                <HomeIcon name="home" color={color} size={26} />
+              ),
+            }}
+            name="Register"
+            component={Register}
+          />
+        </Tab.Navigator>
       );
     }
   };

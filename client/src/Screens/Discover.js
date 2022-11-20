@@ -8,11 +8,34 @@ import {
   Image,
   Box,
   useSafeArea,
+  Pressable,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllPosts,
+  getPost,
+  selectAllPost,
+  selectPost,
+} from "../Redux/Slices/postSlice";
 
 const DiscoverScreen = ({ navigation, route }) => {
-  const [allPostState, setAllPostState] = useState(route.params.allPost);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getPost(testID));
+  }, [dispatch]);
+  var testID = "62c5253aba3f45ae697a82bc";
+  const allPost = useSelector(selectAllPost);
+
+  console.log(
+    "🚀 ~ file: Discover.js ~ line 27 ~ DiscoverScreen ~ allPost",
+    allPost
+  );
 
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
@@ -38,15 +61,21 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   const renderItem = ({ item, i }) => {
     return (
-      <PhotoCard item={item} style={{ marginLeft: i % 2 === 0 ? 0 : 12 }} />
+      <Pressable
+        onPress={() => {
+          navigation.navigate("PostScreen");
+        }}
+      >
+        <PhotoCard item={item} style={{ marginLeft: i % 2 === 0 ? 0 : 12 }} />
+      </Pressable>
     );
   };
 
-  return (
+  return allPost ? (
     <ScrollView {...safeAreaProps}>
       <MasonryList
         style={{ alignSelf: "stretch" }}
-        data={allPostState}
+        data={allPost}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
@@ -55,6 +84,8 @@ const DiscoverScreen = ({ navigation, route }) => {
         onEndReached={() => loadNext(ITEM_CNT)}
       />
     </ScrollView>
+  ) : (
+    <Text>Loading...</Text>
   );
 };
 

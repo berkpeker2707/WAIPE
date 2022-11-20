@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { SSRProvider } from "@react-aria/ssr";
 import {
   signin,
+  selectToken,
   selectAuthLoading,
   selectAuthError,
 } from "../Redux/Slices/authSlice";
@@ -26,6 +27,7 @@ import {
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
   const authLoading = useSelector(selectAuthLoading);
   const authError = useSelector(selectAuthError);
 
@@ -42,6 +44,12 @@ const LoginScreen = ({ navigation }) => {
       />
     );
   };
+
+  console.log("🚀 ~ file: Login.js ~ line 51 ~ LoginScreen ~ token", token);
+
+  if (token) {
+    return navigation.navigate("Discover");
+  }
 
   return (
     <Formik

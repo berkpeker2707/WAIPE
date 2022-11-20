@@ -15,6 +15,7 @@ import {
   HStack,
   VStack,
   IconButton,
+  extendTheme,
 } from "native-base";
 import {
   getUser,

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.47:1000/api";
+const SERVER_URL = "http://192.168.1.43:1000/api";
 
 export const getAllPosts = createAsyncThunk(
   "post/getAll",
@@ -16,6 +16,8 @@ export const getAllPosts = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {
@@ -76,7 +78,7 @@ export const getPost = createAsyncThunk(
 
 const postSlice = createSlice({
   name: "post",
-  initialState: { loading: false },
+  initialState: { post: null, loading: false },
   extraReducers: (builder) => {
     //get all posts reducer
     builder.addCase(getAllPosts.pending, (state) => {
@@ -106,5 +108,10 @@ const postSlice = createSlice({
     });
   },
 });
+
+export const selectAuthError = (state) => state.post.error;
+export const selectAuthLoading = (state) => state.post.loading;
+export const selectAllPost = (state) => state.post.allPost;
+export const selectPost = (state) => state.post.post;
 
 export default postSlice.reducer;
