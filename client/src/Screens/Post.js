@@ -7,12 +7,19 @@ import {
   AspectRatio,
   Image,
   Text,
+  VStack,
   HStack,
   Stack,
+  Divider,
+  Circle,
+  Icon,
+  Center,
 } from "native-base";
+import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
+import ProfileIcon from "../Components/Icons/ProfileIcon";
 
 const PostScreen = ({ navigation, route }) => {
-  const [postState, setPostState] = useState(route.params.post);
+  const [postState, setPostState] = useState(route?.params?.post);
 
   console.log("postState");
   console.log(postState);
@@ -23,7 +30,7 @@ const PostScreen = ({ navigation, route }) => {
     pt: 2,
   });
 
-  return (
+  return postState ? (
     <ScrollView {...safeAreaProps}>
       <Box alignItems="center">
         <Box
@@ -48,56 +55,108 @@ const PostScreen = ({ navigation, route }) => {
             <AspectRatio w="100%" ratio={1 / 1}>
               <Image
                 source={{
-                  uri: postState[0].postImage,
+                  uri: postState.postImage,
                 }}
                 alt="image"
                 style={{ padding: 10 }}
               />
             </AspectRatio>
           </Box>
-          <Stack p="4" space={3}>
-            <Stack space={2}>
-              <Text
-                fontSize="xs"
-                _light={{
-                  color: "violet.500",
-                }}
-                _dark={{
-                  color: "violet.400",
-                }}
-                fontWeight="500"
-                ml="-0.5"
-                mt="-1"
-              >
-                My Cat's Cute Post
-              </Text>
-            </Stack>
-            <Text fontWeight="400">
-              Look at that cutie pie, she likes kisses and purrrrfect lap times.
-              She hated lap time first, but now she just can't get enough. So
-              glad I've found her. My life is complete. :)
-            </Text>
-            <HStack
-              alignItems="center"
-              space={4}
-              justifyContent="space-between"
-            >
-              <HStack alignItems="center">
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                  fontWeight="400"
-                >
-                  6 mins ago
-                </Text>
-              </HStack>
-            </HStack>
-          </Stack>
         </Box>
+        <Divider my={2} />
+        <Stack p="4" space={3}>
+          <Stack space={2}>
+            <Text
+              fontSize="xs"
+              _light={{
+                color: "violet.500",
+              }}
+              _dark={{
+                color: "violet.400",
+              }}
+              fontWeight="500"
+              ml="-0.5"
+              mt="-1"
+            >
+              My Cat's Cute Post
+            </Text>
+          </Stack>
+          <Text fontWeight="400">{postState.postDescription ?? ""}</Text>
+          <HStack alignItems="center" space={4} justifyContent="space-between">
+            <HStack alignItems="center">
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<LikeHeartIcon name="add" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<LikeHeartIcon name="add" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<LikeHeartIcon name="add" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<LikeHeartIcon name="add" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<LikeHeartIcon name="add" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+            </HStack>
+            <HStack alignItems="center">
+              <Center
+                bg="primary.400"
+                _text={{
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                {postState.postDescription ?? ""}
+              </Center>
+              <Circle size="40px" bg="secondary.400">
+                <Icon
+                  as={<ProfileIcon name="Profile" size={26} />}
+                  color="white"
+                  size={5}
+                />
+              </Circle>
+            </HStack>
+          </HStack>
+          <HStack>
+            <HStack alignItems="center">
+              <Center
+                bg="primary.400"
+                _text={{
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                {postState.postDescription ?? ""}
+              </Center>
+            </HStack>
+          </HStack>
+        </Stack>
       </Box>
     </ScrollView>
+  ) : (
+    <Text>Loading...</Text>
   );
 };
 

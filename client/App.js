@@ -52,99 +52,114 @@ export default function App() {
     //   dispatch(getPost(testID));
     // }, [dispatch]);
 
-    if (token) {
-      return (
-        <Tab.Navigator
-          initialRouteName="Home"
-          activeColor="#fff"
-          barStyle={{ backgroundColor: "#3a6b35" }}
-        >
-          <Tab.Screen
-            options={{
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color }) => (
-                <HomeIcon name="home" color={"red"} size={26} />
-              ),
+    return (
+      <>
+        {token ? (
+          <Tab.Navigator
+            initialRouteName="Home"
+            activeColor="#fff"
+            barStyle={{ backgroundColor: "#3a6b35" }}
+            backBehavior="history"
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#DBECF4",
+                shadowColor: "#DBECF4",
+              },
+              tabBarShowIcon: true,
+              tabBarStyle: {
+                backgroundColor: "#3a6b35",
+              },
+              tabActiveIcon: { fontWeight: "bold" },
+              tabBarActiveTintColor: "#fff",
+              tabBarInactiveTintColor: "#fff9",
             }}
-            name="Discover"
-            component={Discover}
-          />
+          >
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Home",
+                tabBarIcon: ({ color }) => (
+                  <HomeIcon name="home" color={"red"} size={26} />
+                ),
+              }}
+              name="Discover"
+              component={Discover}
+            />
 
-          <Tab.Screen
-            options={{
-              tabBarLabel: "Search",
-              tabBarIcon: ({ color }) => (
-                <SearchIcon name="search" color={color} size={26} />
-              ),
-            }}
-            name="Search"
-            component={Search}
-          />
-          <Tab.Screen
-            options={{
-              tabBarLabel: "Add",
-              tabBarIcon: ({ color }) => (
-                <AddIcon name="add" color={color} size={26} />
-              ),
-            }}
-            name="Settings"
-            component={Settings}
-          />
-          <Tab.Screen
-            options={{
-              tabBarLabel: "Profile",
-              tabBarIcon: ({ color }) => (
-                <ProfileIcon name="Profile" color={color} size={26} />
-              ),
-            }}
-            name="MainProfile"
-          >
-            {(props) => <MainProfile {...props} token={token} />}
-          </Tab.Screen>
-          {/* screens that are not displayed in tab starts */}
-          <Tab.Screen
-            options={{
-              tabBarLabel: "Post",
-            }}
-            name="Post"
-          >
-            {(props) => <Post {...props} token={token} />}
-          </Tab.Screen>
-          {/* screens that are not displayed in tab ends */}
-        </Tab.Navigator>
-      );
-    } else {
-      return (
-        <Tab.Navigator>
-          <Tab.Screen
-            activeColor="#fff"
-            inactiveColor="#3a6b35"
-            barStyle={{ backgroundColor: "#3a6b35" }}
-            options={{
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color }) => (
-                <HomeIcon name="home" color={color} size={26} />
-              ),
-            }}
-            name="Login"
-            component={Login}
-          />
-          <Tab.Screen
-            activeColor="#fff"
-            inactiveColor="#3a6b35"
-            barStyle={{ backgroundColor: "#3a6b35" }}
-            options={{
-              tabBarLabel: "Home",
-              tabBarIcon: ({ color }) => (
-                <HomeIcon name="home" color={color} size={26} />
-              ),
-            }}
-            name="Register"
-            component={Register}
-          />
-        </Tab.Navigator>
-      );
-    }
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Search",
+                tabBarIcon: ({ color }) => (
+                  <SearchIcon name="search" color={color} size={26} />
+                ),
+              }}
+              name="Search"
+              component={Search}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Add",
+                tabBarIcon: ({ color }) => (
+                  <AddIcon name="add" color={color} size={26} />
+                ),
+              }}
+              name="Settings"
+              component={Settings}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Profile",
+                tabBarIcon: ({ color }) => (
+                  <ProfileIcon name="Profile" color={color} size={26} />
+                ),
+              }}
+              name="MainProfile"
+              component={MainProfile}
+            />
+            {/* screens that are not displayed in tab starts */}
+            <Tab.Screen
+              options={{
+                tabBarButton: () => null,
+                tabBarIcon: ({ focused, color, size }) => (
+                  <Post size={0}></Post>
+                ),
+              }}
+              name="Post"
+              component={Post}
+            />
+            {/* screens that are not displayed in tab ends */}
+          </Tab.Navigator>
+        ) : (
+          <Tab.Navigator>
+            <Tab.Screen
+              activeColor="#fff"
+              inactiveColor="#3a6b35"
+              barStyle={{ backgroundColor: "#3a6b35" }}
+              options={{
+                tabBarLabel: "Home",
+                // tabBarIcon: ({ color }) => (
+                //   <HomeIcon name="home" color={color} size={26} />
+                // ),
+              }}
+              name="Login"
+              component={Login}
+            />
+            <Tab.Screen
+              activeColor="#fff"
+              inactiveColor="#3a6b35"
+              barStyle={{ backgroundColor: "#3a6b35" }}
+              options={{
+                tabBarLabel: "Home",
+                // tabBarIcon: ({ color }) => (
+                //   <HomeIcon name="home" color={color} size={26} />
+                // ),
+              }}
+              name="Register"
+              component={Register}
+            />
+          </Tab.Navigator>
+        )}
+      </>
+    );
   };
 
   return (

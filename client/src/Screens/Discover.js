@@ -63,7 +63,10 @@ const DiscoverScreen = ({ navigation, route }) => {
     return (
       <Pressable
         onPress={() => {
-          navigation.navigate("PostScreen");
+          /* 1. Navigate to the Details route with params */
+          navigation.navigate("Post", {
+            post: item,
+          });
         }}
       >
         <PhotoCard item={item} style={{ marginLeft: i % 2 === 0 ? 0 : 12 }} />
@@ -71,6 +74,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     );
   };
 
+  console.log(allPost);
   return allPost ? (
     <ScrollView {...safeAreaProps}>
       <MasonryList
