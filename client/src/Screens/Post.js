@@ -63,24 +63,7 @@ const PostScreen = ({ navigation, route }) => {
             </AspectRatio>
           </Box>
         </Box>
-        <Divider my={2} />
         <Stack p="4" space={3}>
-          <Stack space={2}>
-            <Text
-              fontSize="xs"
-              _light={{
-                color: "violet.500",
-              }}
-              _dark={{
-                color: "violet.400",
-              }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1"
-            >
-              My Cat's Cute Post
-            </Text>
-          </Stack>
           <Text fontWeight="400">{postState.postDescription ?? ""}</Text>
           <HStack alignItems="center" space={4} justifyContent="space-between">
             <HStack alignItems="center">
@@ -150,6 +133,96 @@ const PostScreen = ({ navigation, route }) => {
               >
                 {postState.postDescription ?? ""}
               </Center>
+            </HStack>
+          </HStack>
+          <Box>
+            <Divider my={1} />
+          </Box>
+          <HStack>
+            <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack>
+                <Circle size="40px" bg="secondary.400">
+                  <Icon
+                    as={<ProfileIcon name="Profile" size={26} />}
+                    color="white"
+                    size={5}
+                  />
+                </Circle>
+                <Center
+                  bg="primary.400"
+                  _text={{
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {postState.postDescription ?? ""}
+                </Center>
+              </HStack>
+              <HStack>
+                <Text bg="primary.400">
+                  Aenean quis efficitur orci. Nullam commodo sodales massa ac
+                  tincidunt. Sed sagittis ac lacus et posuere. Aenean quis
+                  efficitur orci.
+                </Text>
+              </HStack>
+            </HStack>
+          </HStack>
+          <HStack>
+            <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack>
+                <Circle size="40px" bg="secondary.400">
+                  <Icon
+                    as={<ProfileIcon name="Profile" size={26} />}
+                    color="white"
+                    size={5}
+                  />
+                </Circle>
+                <Center
+                  bg="primary.400"
+                  _text={{
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {postState.postDescription ?? ""}
+                </Center>
+              </HStack>
+              <HStack>
+                <Text bg="primary.400">
+                  Aenean quis efficitur orci. Nullam commodo sodales massa ac
+                  tincidunt. Sed sagittis ac lacus et posuere. Aenean quis
+                  efficitur orci.
+                </Text>
+              </HStack>
+            </HStack>
+          </HStack>
+          <HStack>
+            <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack>
+                <Circle size="40px" bg="secondary.400">
+                  <Icon
+                    as={<ProfileIcon name="Profile" size={26} />}
+                    color="white"
+                    size={5}
+                  />
+                </Circle>
+                <Center
+                  bg="primary.400"
+                  _text={{
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {postState.postDescription ?? ""}
+                </Center>
+              </HStack>
+              <HStack>
+                <Text bg="primary.400">
+                  Aenean quis efficitur orci. Nullam commodo sodales massa ac
+                  tincidunt. Sed sagittis ac lacus et posuere. Aenean quis
+                  efficitur orci.
+                </Text>
+              </HStack>
             </HStack>
           </HStack>
         </Stack>
