@@ -116,7 +116,7 @@ export default function App() {
               component={MainProfile}
             />
             {/* screens that are not displayed in tab starts */}
-            <Tab.Screen
+            {/* <Tab.Screen
               options={{
                 tabBarButton: () => null,
                 tabBarIcon: ({ focused, color, size }) => (
@@ -125,7 +125,7 @@ export default function App() {
               }}
               name="Post"
               component={Post}
-            />
+            /> */}
             {/* screens that are not displayed in tab ends */}
           </Tab.Navigator>
         ) : (

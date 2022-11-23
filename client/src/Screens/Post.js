@@ -21,9 +21,9 @@ import ProfileIcon from "../Components/Icons/ProfileIcon";
 const PostScreen = ({ navigation, route }) => {
   const [postState, setPostState] = useState(route?.params?.post);
 
-  console.log("postState");
-  console.log(postState);
-  console.log("postState");
+  // useEffect(() => {
+  //   s;
+  // }, [postState]);
 
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
@@ -40,25 +40,19 @@ const PostScreen = ({ navigation, route }) => {
           borderColor="#3a6b35"
           borderWidth="1"
         >
-          <Box>
-            <AspectRatio w="100%" ratio={1 / 1}>
-              <Image
-                source={{
-                  uri: postState.postImage,
-                }}
-                alt="image"
-                style={{ padding: 10 }}
-              />
-            </AspectRatio>
-          </Box>
+          <AspectRatio w="100%" ratio={1 / 1}>
+            <Image
+              source={{
+                uri: postState.postImage,
+              }}
+              alt="image"
+              style={{ padding: 10 }}
+            />
+          </AspectRatio>
         </Box>
         <Box>
           <Stack p="3" space={5}>
-            <HStack
-              alignItems="center"
-              space={4}
-              justifyContent="space-between"
-            >
+            <HStack space={12} justifyContent="space-between">
               <HStack alignItems="center">
                 <Circle size="30px" bg="#3a6b35">
                   <Icon as={<LikeHeartIcon />} color="black" />
@@ -99,6 +93,7 @@ const PostScreen = ({ navigation, route }) => {
                   }}
                 >
                   {postState.postDescription ?? ""}
+                  {"\n" + postState._id}
                 </Center>
               </HStack>
             </HStack>
@@ -106,7 +101,7 @@ const PostScreen = ({ navigation, route }) => {
               <Divider my={1} />
             </Box>
             <HStack>
-              <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
                   <Circle size="30px" bg="#3a6b35">
                     <Icon as={<ProfileIcon name="Profile" />} />
@@ -117,7 +112,7 @@ const PostScreen = ({ navigation, route }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    {postState.postDescription ?? ""}
+                    {" " + postState.postDescription ?? ""}
                   </Center>
                 </HStack>
                 <HStack>
@@ -130,7 +125,7 @@ const PostScreen = ({ navigation, route }) => {
               </HStack>
             </HStack>
             <HStack>
-              <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
                   <Circle size="30px" bg="#3a6b35">
                     <Icon as={<ProfileIcon name="Profile" />} />
@@ -141,7 +136,7 @@ const PostScreen = ({ navigation, route }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    {postState.postDescription ?? ""}
+                    {" " + postState.postDescription ?? ""}
                   </Center>
                 </HStack>
                 <HStack>
@@ -154,7 +149,7 @@ const PostScreen = ({ navigation, route }) => {
               </HStack>
             </HStack>
             <HStack>
-              <HStack style={{ flex: 1, flexWrap: "wrap" }} space={2}>
+              <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
                   <Circle size="30px" bg="#3a6b35">
                     <Icon as={<ProfileIcon name="Profile" />} />
@@ -165,7 +160,7 @@ const PostScreen = ({ navigation, route }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    {postState.postDescription ?? ""}
+                    {" " + postState.postDescription ?? ""}
                   </Center>
                 </HStack>
                 <HStack>
