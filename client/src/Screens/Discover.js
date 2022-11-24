@@ -12,12 +12,7 @@ import {
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllPosts,
-  getPost,
-  selectAllPost,
-  selectPost,
-} from "../Redux/Slices/postSlice";
+import { getAllPosts, selectAllPost } from "../Redux/Slices/postSlice";
 
 const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -28,32 +23,10 @@ const DiscoverScreen = ({ navigation, route }) => {
     dispatch(getAllPosts());
   }, [dispatch, allPost]);
 
-  // useEffect(() => {
-  //   dispatch(getPost(testID));
-  // }, [dispatch]);
-  // var testID = "62c5253aba3f45ae697a82bc";
-
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
     pt: 2,
   });
-
-  // const PhotoCard = ({ item, style }) => {
-  //   const randomBool = useMemo(() => Math.random() < 0.5, []);
-  //   return (
-  //     <View key={item._id} style={[{ marginTop: 12, flex: 1 }, style]}>
-  //       <Image
-  //         source={{ uri: item.postImage }}
-  //         style={{
-  //           height: randomBool ? 150 : 280,
-  //           alignSelf: "stretch",
-  //         }}
-  //         resizeMode="cover"
-  //         alt="alt"
-  //       />
-  //     </View>
-  //   );
-  // };
 
   const renderItem = ({ item, i }) => {
     const randomBool = useMemo(() => Math.random() < 0.5, []);
@@ -64,10 +37,6 @@ const DiscoverScreen = ({ navigation, route }) => {
           navigation.navigate("Post", {
             post: item,
           });
-          console.log(
-            "🚀 ~ file: Discover.js ~ line 67 ~ renderItem ~ item",
-            item
-          );
         }}
       >
         <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>

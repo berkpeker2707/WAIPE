@@ -36,21 +36,7 @@ export default function App() {
   let persistor = persistStore(store);
 
   const Navigator = () => {
-    const dispatch = useDispatch();
-
-    var testID = "62c5253aba3f45ae697a82bc";
-
     const token = useSelector(selectToken);
-    // const allPost = useSelector(selectAllPost);
-    // const post = useSelector(selectPost);
-
-    // useEffect(() => {
-    //   dispatch(getAllPosts());
-    // }, [dispatch]);
-
-    // useEffect(() => {
-    //   dispatch(getPost(testID));
-    // }, [dispatch]);
 
     return (
       <>

@@ -14,14 +14,13 @@ import {
   Circle,
   Icon,
   Center,
+  Pressable,
 } from "native-base";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
+import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 
 const PostScreen = ({ navigation, route }) => {
-  if (!route.params.post) {
-    navigation.navigate("Discovery");
-  }
   useEffect(() => {
     setPostState(route.params.post);
   }, [route.params.post]);
@@ -58,19 +57,19 @@ const PostScreen = ({ navigation, route }) => {
             <HStack space={12} justifyContent="space-between">
               <HStack alignItems="center">
                 <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} color="black" />
+                  <Icon as={<LikeHeartIcon />} />
                 </Circle>
                 <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} color="white" />
+                  <Icon as={<LikeHeartIcon />} />
                 </Circle>
                 <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} color="white" />
+                  <Icon as={<LikeHeartIcon />} />
                 </Circle>
                 <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} color="white" />
+                  <Icon as={<LikeHeartIcon />} />
                 </Circle>
                 <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} color="white" />
+                  <Icon as={<LikeHeartIcon />} />
                 </Circle>
               </HStack>
               <HStack alignItems="center">
@@ -92,16 +91,27 @@ const PostScreen = ({ navigation, route }) => {
                 <Center
                   _text={{
                     color: "black",
-                    fontWeight: "bold",
+                    fontWeight: "normal",
                   }}
                 >
                   {postState.postDescription ?? ""}
-                  {"\n" + postState._id}
                 </Center>
               </HStack>
             </HStack>
             <Box>
-              <Divider my={1} />
+              <VStack alignItems="center">
+                <Divider my={1} />
+                <Pressable
+                  onPress={() => console.log("I'm Pressed")}
+                  rounded="8"
+                  overflow="hidden"
+                  bg="coolGray.100"
+                >
+                  <Circle size="30px">
+                    <Icon as={<AddCommentIcon />} />
+                  </Circle>
+                </Pressable>
+              </VStack>
             </Box>
             <HStack>
               <HStack style={{ flex: 1, flexWrap: "wrap" }}>
