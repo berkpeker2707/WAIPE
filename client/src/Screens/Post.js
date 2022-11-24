@@ -15,6 +15,7 @@ import {
   Icon,
   Center,
   Pressable,
+  TextArea,
 } from "native-base";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
@@ -26,6 +27,7 @@ const PostScreen = ({ navigation, route }) => {
   }, [route.params.post]);
 
   const [postState, setPostState] = useState(route.params.post);
+  const [commentOpenState, setCommentOpenState] = useState(false);
 
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
@@ -102,7 +104,11 @@ const PostScreen = ({ navigation, route }) => {
               <VStack alignItems="center">
                 <Divider my={1} />
                 <Pressable
-                  onPress={() => console.log("I'm Pressed")}
+                  onPress={() =>
+                    commentOpenState
+                      ? setCommentOpenState(false)
+                      : setCommentOpenState(true)
+                  }
                   rounded="8"
                   overflow="hidden"
                   bg="coolGray.100"
@@ -111,6 +117,19 @@ const PostScreen = ({ navigation, route }) => {
                     <Icon as={<AddCommentIcon />} />
                   </Circle>
                 </Pressable>
+              </VStack>
+            </Box>
+            <Box>
+              <VStack alignItems="center">
+                <Center
+                  style={
+                    commentOpenState
+                      ? styles.commentOpenStyle
+                      : styles.commentClosedStyle
+                  }
+                >
+                  <TextArea h={20} placeholder="Add a comment..." />
+                </Center>
               </VStack>
             </Box>
             <HStack>
@@ -194,6 +213,13 @@ const PostScreen = ({ navigation, route }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  commentOpenStyle: {
+    display: "flex",
+  },
+  commentClosedStyle: {
+    display: "none",
+  },
+});
 
 export default PostScreen;
