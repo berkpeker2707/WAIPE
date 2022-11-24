@@ -64,6 +64,10 @@ const DiscoverScreen = ({ navigation, route }) => {
           navigation.navigate("Post", {
             post: item,
           });
+          console.log(
+            "🚀 ~ file: Discover.js ~ line 67 ~ renderItem ~ item",
+            item
+          );
         }}
       >
         <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>

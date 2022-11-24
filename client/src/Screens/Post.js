@@ -19,11 +19,14 @@ import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
 
 const PostScreen = ({ navigation, route }) => {
-  const [postState, setPostState] = useState(route?.params?.post);
+  if (!route.params.post) {
+    navigation.navigate("Discovery");
+  }
+  useEffect(() => {
+    setPostState(route.params.post);
+  }, [route.params.post]);
 
-  // useEffect(() => {
-  //   s;
-  // }, [postState]);
+  const [postState, setPostState] = useState(route.params.post);
 
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,

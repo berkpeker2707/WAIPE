@@ -116,16 +116,14 @@ export default function App() {
               component={MainProfile}
             />
             {/* screens that are not displayed in tab starts */}
-            {/* <Tab.Screen
+            <Tab.Screen
               options={{
                 tabBarButton: () => null,
-                tabBarIcon: ({ focused, color, size }) => (
-                  <Post size={0}></Post>
-                ),
+                tabBarIcon: ({ focused, color, size }) => <></>,
               }}
               name="Post"
               component={Post}
-            /> */}
+            />
             {/* screens that are not displayed in tab ends */}
           </Tab.Navigator>
         ) : (
