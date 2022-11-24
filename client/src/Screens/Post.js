@@ -20,6 +20,7 @@ import {
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
+import SendCommentIcon from "../Components/Icons/SendCommentIcon";
 
 const PostScreen = ({ navigation, route }) => {
   useEffect(() => {
@@ -129,6 +130,9 @@ const PostScreen = ({ navigation, route }) => {
                   }
                 >
                   <TextArea h={20} placeholder="Add a comment..." />
+                  <Circle size="30px" bg="#3a6b35">
+                    <Icon as={<SendCommentIcon name="SendCommentIcon" />} />
+                  </Circle>
                 </Center>
               </VStack>
             </Box>
