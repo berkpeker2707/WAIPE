@@ -75,6 +75,7 @@ const MainProfileScreen = ({ token, navigation }) => {
             <ProfileAvatar
               image={currentUser?.picture}
               letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
+              onPress={() => navigation.navigate("EditMainProfile")}
             />
             <InfoCard
               infoText={`${currentUser?.locations?.country}, ${

@@ -3,7 +3,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Avatar, Box, Button, Icon, ZStack } from "native-base";
 
 const ProfileAvatar = (props) => {
-  const { image, letter } = props;
+  const { image, letter, onPress } = props;
 
   return (
     <Box mb={4} w={230} h={230}>
@@ -29,6 +29,7 @@ const ProfileAvatar = (props) => {
           w={10}
           h={10}
           colorScheme="warning"
+          onPress={onPress}
           leftIcon={
             <Icon
               as={SimpleLineIcons}
