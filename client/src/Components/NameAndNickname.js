@@ -6,11 +6,7 @@ const NameAndNickname = (props) => {
   return (
     <Center>
       <Heading>{name}</Heading>
-      <Text
-        mb={4}
-        _light={{ color: "muted.500" }}
-        _dark={{ color: "muted.500" }}
-      >
+      <Text _light={{ color: "muted.500" }} _dark={{ color: "muted.500" }}>
         {nickname}
       </Text>
     </Center>

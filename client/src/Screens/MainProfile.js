@@ -68,20 +68,23 @@ const MainProfileScreen = ({ token, navigation }) => {
         ) : (
           <>
             <SettingsButton onPress={() => navigation.navigate("Settings")} />
-            <NameAndNickname
-              name={`${currentUser?.firstname} ${currentUser?.lastname}`}
-              nickname={"@Nickname"}
-            />
-            <ProfileAvatar
-              image={currentUser?.picture}
-              letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
-              onPress={() => navigation.navigate("EditMainProfile")}
-            />
-            <InfoCard
-              infoText={`${currentUser?.locations?.country}, ${
-                currentUser?.locations?.city
-              }${"\n"}${currentUser?.biography}`}
-            />
+            <VStack space={4}>
+              <NameAndNickname
+                name={`${currentUser?.firstname} ${currentUser?.lastname}`}
+                nickname={"@Nickname"}
+              />
+              <ProfileAvatar
+                image={currentUser?.picture}
+                letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
+                onPress={() => navigation.navigate("EditMainProfile")}
+                icon="pencil"
+              />
+              <InfoCard
+                infoText={`${currentUser?.locations?.country}, ${
+                  currentUser?.locations?.city
+                }${"\n"}${currentUser?.biography}`}
+              />
+            </VStack>
             <Box w={330} h="40%">
               <ScrollView w={330} h="80">
                 {pets?.map((petRow, index) => {
