@@ -5,6 +5,7 @@ import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
 import MainProfile from "./src/Screens/MainProfile";
 import Settings from "./src/Screens/Settings";
+import EditMainProfile from "./src/Screens/EditMainProfile";
 import { Provider } from "react-redux";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
@@ -35,6 +36,7 @@ export default function App() {
             {(props) => <MainProfile {...props} token={token} />}
           </Stack.Screen>
           <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="EditMainProfile" component={EditMainProfile} />
         </Stack.Navigator>
       );
     } else {
