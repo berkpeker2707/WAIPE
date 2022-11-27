@@ -19,7 +19,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
 
-const EditMainProfileScreen = () => {
+const EditMainProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -44,6 +44,11 @@ const EditMainProfileScreen = () => {
                 },
                 biography: `${currentUser?.biography}`,
               }}
+              onSubmit={(values) => {
+                console.log("values");
+                console.log(values);
+                console.log("values");
+              }}
             >
               {({
                 handleChange,
@@ -52,7 +57,7 @@ const EditMainProfileScreen = () => {
                 setFieldValue,
                 values,
               }) => (
-                <VStack space={5}>
+                <VStack space={7}>
                   <VStack>
                     <ProfileAvatar
                       image={values.picture}
@@ -70,7 +75,6 @@ const EditMainProfileScreen = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      {console.log(values)}
                       <Input
                         bg="white"
                         _focus={style.input}
@@ -143,6 +147,28 @@ const EditMainProfileScreen = () => {
                       onBlur={handleBlur("biography")}
                       value={values.biography}
                     />
+                  </VStack>
+                  <VStack>
+                    <Button
+                      w="50%"
+                      size="md"
+                      borderRadius="50"
+                      bg="extraOrage.400"
+                      colorScheme="warning"
+                      _text={{ fontSize: "md" }}
+                      alignSelf="center"
+                      onPress={handleSubmit}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      _text={{ color: "forestGreen.400" }}
+                      onPress={() => navigation.navigate("MainProfile")}
+                    >
+                      Cancel
+                    </Button>
                   </VStack>
                 </VStack>
               )}
