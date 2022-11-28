@@ -94,15 +94,51 @@ const PostScreen = ({ navigation, route }) => {
                       p="2"
                       bg="#f3f3f3"
                     >
-                      <Circle size="30px" bg="#3a6b35">
-                        <Icon as={<ReportIcon />} />
-                      </Circle>
-                      <Circle size="30px" bg="#3a6b35">
-                        <Icon as={<SendMessageIcon />} />
-                      </Circle>
-                      <Circle size="30px" bg="#3a6b35">
-                        <Icon as={<BookmarkIcon />} />
-                      </Circle>
+                      <Pressable>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg="#3a6b35"
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon as={<ReportIcon />} />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable>
+                      <Pressable>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg="#3a6b35"
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon as={<SendMessageIcon />} />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable>
+                      <Pressable>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg="#3a6b35"
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon as={<BookmarkIcon />} />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable>
                     </HStack>
                   </HStack>
                 ) : (
@@ -116,35 +152,117 @@ const PostScreen = ({ navigation, route }) => {
           <Stack p="3" space={5}>
             <HStack space={12} justifyContent="space-between">
               <HStack alignItems="center">
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} />
-                </Circle>
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} />
-                </Circle>
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} />
-                </Circle>
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} />
-                </Circle>
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<LikeHeartIcon />} />
-                </Circle>
-              </HStack>
-              <HStack alignItems="center">
-                <Center
-                  _text={{
-                    color: "black",
-                    fontWeight: "bold",
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<LikeHeartIcon />} />
+                      </Circle>
+                    );
                   }}
-                >
-                  {"Lulu "}
-                </Center>
-                <Circle size="30px" bg="#3a6b35">
-                  <Icon as={<ProfileIcon name="Profile" />} />
-                </Circle>
+                </Pressable>
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<LikeHeartIcon />} />
+                      </Circle>
+                    );
+                  }}
+                </Pressable>
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<LikeHeartIcon />} />
+                      </Circle>
+                    );
+                  }}
+                </Pressable>
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<LikeHeartIcon />} />
+                      </Circle>
+                    );
+                  }}
+                </Pressable>
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<LikeHeartIcon />} />
+                      </Circle>
+                    );
+                  }}
+                </Pressable>
               </HStack>
+              <Pressable>
+                {({ isHovered, isFocused, isPressed }) => {
+                  return (
+                    <HStack
+                      style={{
+                        transform: [{ scale: isPressed ? 0.96 : 1 }],
+                      }}
+                    >
+                      <Center
+                        _text={{
+                          color: "black",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Name
+                      </Center>
+                      <Pressable>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg="#3a6b35"
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon as={<ProfileIcon name="Profile" />} />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable>
+                    </HStack>
+                  );
+                }}
+              </Pressable>
             </HStack>
             <HStack>
               <HStack alignItems="center">
@@ -186,32 +304,53 @@ const PostScreen = ({ navigation, route }) => {
                 }
               >
                 <TextArea h={20} placeholder="Add a comment..." />
-                <Circle
-                  size="30px"
-                  bg="#3a6b35"
-                  alignItems={{
-                    base: "center",
-                    md: "flex-end",
+                <Pressable>
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <Circle
+                        size="30px"
+                        bg="#3a6b35"
+                        style={{
+                          margin: "auto",
+                          position: "absolute",
+                          bottom: 0,
+                          right: 0,
+                          transform: [{ scale: isPressed ? 0.96 : 1 }],
+                        }}
+                      >
+                        <Icon as={<SendMessageIcon name="SendMessageIcon" />} />
+                      </Circle>
+                    );
                   }}
-                >
-                  <Icon as={<SendMessageIcon name="SendMessageIcon" />} />
-                </Circle>
+                </Pressable>
               </VStack>
             </Box>
             <HStack>
               <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
-                  <Circle size="30px" bg="#3a6b35">
-                    <Icon as={<ProfileIcon name="Profile" />} />
-                  </Circle>
-                  <Center
-                    _text={{
-                      color: "black",
-                      fontWeight: "bold",
+                  <Pressable>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <HStack
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
+                          }}
+                        >
+                          <Circle size="30px" bg="#3a6b35">
+                            <Icon as={<ProfileIcon name="Profile" />} />
+                          </Circle>
+                          <Center
+                            _text={{
+                              color: "black",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Name
+                          </Center>
+                        </HStack>
+                      );
                     }}
-                  >
-                    {" " + postState.postDescription ?? ""}
-                  </Center>
+                  </Pressable>
                 </HStack>
                 <HStack>
                   <Text bg="#fff9">
@@ -225,17 +364,35 @@ const PostScreen = ({ navigation, route }) => {
             <HStack>
               <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
-                  <Circle size="30px" bg="#3a6b35">
-                    <Icon as={<ProfileIcon name="Profile" />} />
-                  </Circle>
-                  <Center
-                    _text={{
-                      color: "black",
-                      fontWeight: "bold",
+                  <Pressable>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <HStack
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
+                          }}
+                        >
+                          <Circle
+                            size="30px"
+                            bg="#3a6b35"
+                            style={{
+                              transform: [{ scale: isPressed ? 0.96 : 1 }],
+                            }}
+                          >
+                            <Icon as={<ProfileIcon name="Profile" />} />
+                          </Circle>
+                          <Center
+                            _text={{
+                              color: "black",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Name
+                          </Center>
+                        </HStack>
+                      );
                     }}
-                  >
-                    {" " + postState.postDescription ?? ""}
-                  </Center>
+                  </Pressable>
                 </HStack>
                 <HStack>
                   <Text bg="#fff9">
@@ -249,17 +406,35 @@ const PostScreen = ({ navigation, route }) => {
             <HStack>
               <HStack style={{ flex: 1, flexWrap: "wrap" }}>
                 <HStack>
-                  <Circle size="30px" bg="#3a6b35">
-                    <Icon as={<ProfileIcon name="Profile" />} />
-                  </Circle>
-                  <Center
-                    _text={{
-                      color: "black",
-                      fontWeight: "bold",
+                  <Pressable>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <HStack
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
+                          }}
+                        >
+                          <Circle
+                            size="30px"
+                            bg="#3a6b35"
+                            style={{
+                              transform: [{ scale: isPressed ? 0.96 : 1 }],
+                            }}
+                          >
+                            <Icon as={<ProfileIcon name="Profile" />} />
+                          </Circle>
+                          <Center
+                            _text={{
+                              color: "black",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Name
+                          </Center>
+                        </HStack>
+                      );
                     }}
-                  >
-                    {" " + postState.postDescription ?? ""}
-                  </Center>
+                  </Pressable>
                 </HStack>
                 <HStack>
                   <Text bg="#fff9">
