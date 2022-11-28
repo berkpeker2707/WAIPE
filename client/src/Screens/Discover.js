@@ -67,9 +67,12 @@ const DiscoverScreen = ({ navigation, route }) => {
           variant="filled"
           width="100%"
           borderRadius="10"
+          borderColor={"#f3f3f3"}
           py="3"
           px="3"
           InputLeftElement={<Icon as={<SearchBarIcon />} />}
+          bgColor="#f3f3f3"
+          _focus={{ bg: "#3a6b35", borderColor: "#3a6b35" }}
         />
       </VStack>
       <MasonryList
