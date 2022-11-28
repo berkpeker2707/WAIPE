@@ -6,7 +6,7 @@ import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
 import { Provider, useDispatch } from "react-redux";
-import Search from "./src/Screens/Search";
+import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
 import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
@@ -67,19 +67,18 @@ export default function App() {
                   <HomeIcon name="home" color={"red"} size={26} />
                 ),
               }}
-              name="Discover"
-              component={Discover}
+              name="My Feed"
+              component={MyFeed}
             />
-
             <Tab.Screen
               options={{
-                tabBarLabel: "Search",
+                tabBarLabel: "Discover",
                 tabBarIcon: ({ color }) => (
-                  <SearchIcon name="search" color={color} size={26} />
+                  <SearchIcon name="discover" color={"red"} size={26} />
                 ),
               }}
-              name="Search"
-              component={Search}
+              name="Discover"
+              component={Discover}
             />
             <Tab.Screen
               options={{
