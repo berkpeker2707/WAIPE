@@ -13,6 +13,7 @@ import {
   HStack,
 } from "native-base";
 import {
+  updateUser,
   selectCurrentUser,
   selectUserLoading,
 } from "../Redux/Slices/userSlice";
@@ -45,9 +46,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                 biography: `${currentUser?.biography}`,
               }}
               onSubmit={(values) => {
-                console.log("values");
-                console.log(values);
-                console.log("values");
+                dispatch(updateUser(values));
               }}
             >
               {({
@@ -62,7 +61,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                     <ProfileAvatar
                       image={values.picture}
                       letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
-                      onPress={() => console.log("delete profile")}
+                      onPress={() => setFieldValue("picture", "nextValue")}
                       icon="trash"
                     />
                     <Button size="md" variant="ghost">
@@ -150,6 +149,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                   </VStack>
                   <VStack>
                     <Button
+                      isLoading={userLoading}
                       w="50%"
                       size="md"
                       borderRadius="50"

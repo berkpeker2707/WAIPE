@@ -20,6 +20,33 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async (userUpdateInfo, { rejectWithValue, getState }) => {
+    try {
+      const token = getState()?.auth?.token;
+
+      const { data } = await axios.put(
+        `${SERVER_URL}/user/update`,
+        userUpdateInfo,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("data");
+      console.log(data);
+      console.log("data");
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: { currentUser: null, loading: false, error: null },
