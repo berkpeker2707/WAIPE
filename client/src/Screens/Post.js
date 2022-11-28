@@ -27,7 +27,15 @@ const PostScreen = ({ navigation, route }) => {
     setPostState(route.params.post);
   }, [route.params.post]);
 
+  useEffect(() => {
+    setOnLongPressState(false);
+    setCommentOpenState(false);
+
+    console.log(onLongPressState);
+  }, [postState]);
+
   const [postState, setPostState] = useState(route.params.post);
+  const [onLongPressState, setOnLongPressState] = useState(false);
   const [commentOpenState, setCommentOpenState] = useState(false);
 
   const safeAreaProps = useSafeArea({
@@ -38,23 +46,63 @@ const PostScreen = ({ navigation, route }) => {
   return postState ? (
     <ScrollView {...safeAreaProps}>
       <Box alignItems="center">
-        <Box
-          maxW="80"
-          rounded="lg"
-          overflow="hidden"
-          borderColor="#3a6b35"
-          borderWidth="1"
+        <Pressable
+          onLongPress={() => {
+            onLongPressState
+              ? setOnLongPressState(false)
+              : setOnLongPressState(true);
+          }}
         >
-          <AspectRatio w="100%" ratio={1 / 1}>
-            <Image
-              source={{
-                uri: postState.postImage,
-              }}
-              alt="image"
-              style={{ padding: 10 }}
-            />
-          </AspectRatio>
-        </Box>
+          {({ isHovered, isFocused, isPressed }) => {
+            return (
+              <Box
+                maxW="80"
+                rounded="lg"
+                overflow="hidden"
+                borderColor={isPressed ? "#E38E48" : "#3a6b35"}
+                borderWidth="1"
+              >
+                <AspectRatio w="100%" ratio={1 / 1}>
+                  <Image
+                    source={{
+                      uri: postState.postImage,
+                    }}
+                    alt="image"
+                    style={{ padding: 10 }}
+                    blurRadius={onLongPressState ? 50 : 0}
+                  />
+                </AspectRatio>
+                {onLongPressState ? (
+                  <HStack
+                    alignItems="center"
+                    textAlign="center"
+                    justifyContent="center"
+                    style={{
+                      margin: "auto",
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                    }}
+                  >
+                    <Circle size="30px" bg="#3a6b35">
+                      <Icon as={<LikeHeartIcon />} />
+                    </Circle>
+                    <Circle size="30px" bg="#3a6b35">
+                      <Icon as={<LikeHeartIcon />} />
+                    </Circle>
+                    <Circle size="30px" bg="#3a6b35">
+                      <Icon as={<LikeHeartIcon />} />
+                    </Circle>
+                  </HStack>
+                ) : (
+                  <></>
+                )}
+              </Box>
+            );
+          }}
+        </Pressable>
         <Box>
           <Stack p="3" space={5}>
             <HStack space={12} justifyContent="space-between">
