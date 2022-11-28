@@ -9,10 +9,14 @@ import {
   Box,
   useSafeArea,
   Pressable,
+  VStack,
+  Input,
+  Icon,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts, selectAllPost } from "../Redux/Slices/postSlice";
+import SearchBarIcon from "../Components/Icons/SearchBarIcon";
 
 const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -57,6 +61,17 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   return allPost ? (
     <ScrollView {...safeAreaProps}>
+      <VStack w="100%" space={5} alignSelf="center">
+        <Input
+          placeholder="Search"
+          variant="filled"
+          width="100%"
+          borderRadius="10"
+          py="3"
+          px="3"
+          InputLeftElement={<Icon as={<SearchBarIcon />} />}
+        />
+      </VStack>
       <MasonryList
         style={{ alignSelf: "stretch" }}
         data={allPost}
