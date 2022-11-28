@@ -4,7 +4,7 @@ import { View } from "native-base";
 import React from "react";
 import Svg, { G, Path } from "react-native-svg";
 
-const SendCommentIcon = () => {
+const SendMessageIcon = () => {
   return (
     <View>
       <Svg width={15} height={15} viewBox="0 0 512.308 512.308">
@@ -23,4 +23,4 @@ const SendCommentIcon = () => {
   );
 };
 
-export default SendCommentIcon;
+export default SendMessageIcon;

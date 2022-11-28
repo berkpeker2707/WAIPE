@@ -20,7 +20,10 @@ import {
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
-import SendCommentIcon from "../Components/Icons/SendCommentIcon";
+import SendMessageIcon from "../Components/Icons/SendMessageIcon";
+
+import ReportIcon from "../Components/Icons/ReportIcon";
+import BookmarkIcon from "../Components/Icons/BookmarkIcon";
 
 const PostScreen = ({ navigation, route }) => {
   useEffect(() => {
@@ -30,8 +33,6 @@ const PostScreen = ({ navigation, route }) => {
   useEffect(() => {
     setOnLongPressState(false);
     setCommentOpenState(false);
-
-    console.log(onLongPressState);
   }, [postState]);
 
   const [postState, setPostState] = useState(route.params.post);
@@ -86,15 +87,23 @@ const PostScreen = ({ navigation, route }) => {
                       right: 0,
                     }}
                   >
-                    <Circle size="30px" bg="#3a6b35">
-                      <Icon as={<LikeHeartIcon />} />
-                    </Circle>
-                    <Circle size="30px" bg="#3a6b35">
-                      <Icon as={<LikeHeartIcon />} />
-                    </Circle>
-                    <Circle size="30px" bg="#3a6b35">
-                      <Icon as={<LikeHeartIcon />} />
-                    </Circle>
+                    <HStack
+                      borderWidth="1"
+                      borderRadius="lg"
+                      borderColor="#f3f3f3"
+                      p="2"
+                      bg="#f3f3f3"
+                    >
+                      <Circle size="30px" bg="#3a6b35">
+                        <Icon as={<ReportIcon />} />
+                      </Circle>
+                      <Circle size="30px" bg="#3a6b35">
+                        <Icon as={<SendMessageIcon />} />
+                      </Circle>
+                      <Circle size="30px" bg="#3a6b35">
+                        <Icon as={<BookmarkIcon />} />
+                      </Circle>
+                    </HStack>
                   </HStack>
                 ) : (
                   <></>
@@ -177,7 +186,6 @@ const PostScreen = ({ navigation, route }) => {
                 }
               >
                 <TextArea h={20} placeholder="Add a comment..." />
-
                 <Circle
                   size="30px"
                   bg="#3a6b35"
@@ -186,7 +194,7 @@ const PostScreen = ({ navigation, route }) => {
                     md: "flex-end",
                   }}
                 >
-                  <Icon as={<SendCommentIcon name="SendCommentIcon" />} />
+                  <Icon as={<SendMessageIcon name="SendMessageIcon" />} />
                 </Circle>
               </VStack>
             </Box>
