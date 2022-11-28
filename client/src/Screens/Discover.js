@@ -25,7 +25,7 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch, allPost]);
+  }, [dispatch]);
 
   const safeAreaProps = useSafeArea({
     safeAreaTop: true,
