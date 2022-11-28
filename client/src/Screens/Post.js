@@ -121,19 +121,25 @@ const PostScreen = ({ navigation, route }) => {
               </VStack>
             </Box>
             <Box>
-              <VStack alignItems="center">
-                <Center
-                  style={
-                    commentOpenState
-                      ? styles.commentOpenStyle
-                      : styles.commentClosedStyle
-                  }
+              <VStack
+                style={
+                  commentOpenState
+                    ? styles.commentOpenStyle
+                    : styles.commentClosedStyle
+                }
+              >
+                <TextArea h={20} placeholder="Add a comment..." />
+
+                <Circle
+                  size="30px"
+                  bg="#3a6b35"
+                  alignItems={{
+                    base: "center",
+                    md: "flex-end",
+                  }}
                 >
-                  <TextArea h={20} placeholder="Add a comment..." />
-                  <Circle size="30px" bg="#3a6b35">
-                    <Icon as={<SendCommentIcon name="SendCommentIcon" />} />
-                  </Circle>
-                </Center>
+                  <Icon as={<SendCommentIcon name="SendCommentIcon" />} />
+                </Circle>
               </VStack>
             </Box>
             <HStack>
