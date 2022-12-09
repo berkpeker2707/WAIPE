@@ -15,6 +15,7 @@ import {
   HStack,
   VStack,
   IconButton,
+  extendTheme,
 } from "native-base";
 import {
   getUser,
@@ -139,6 +140,27 @@ const MainProfileScreen = ({ token, navigation }) => {
     </View>
   );
 };
+
+const theme = extendTheme({
+  colors: {
+    mustard: {
+      400: "#e3b448",
+    },
+    extraOrage: {
+      400: "#E38E48",
+    },
+    sage: {
+      300: "#F8FFE3",
+      400: "#cbd18f",
+    },
+    forestGreen: {
+      400: "#3a6b35",
+    },
+    google: {
+      400: "#de5246",
+    },
+  },
+});
 
 const style = {
   container: {

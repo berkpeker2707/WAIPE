@@ -6,30 +6,6 @@ const nodemailer = require("nodemailer");
 
 require("dotenv").config();
 
-//Mailing System
-// const mailgun = require("mailgun-js");
-// const mg = mailgun({
-//   apiKey: process.env.MAILGUN_PASS,
-//   domain: process.env.MAILGUN_USER,
-// });
-
-const formData = require("form-data");
-const Mailgun = require("mailgun.js");
-const {
-  cloudinaryUploadUserImg,
-  cloudinaryDeleteUserImg,
-} = require("../middlewares/cloudinary");
-
-const fs = require("fs");
-
-const mailgun = new Mailgun(formData);
-const mg = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_PASS,
-  // url: "https://api.eu.mailgun.net",
-  url: process.env.MAILGUN_HOST,
-});
-
 // *
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;

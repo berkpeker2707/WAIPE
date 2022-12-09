@@ -1,9 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
+import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
+import { Provider, useDispatch } from "react-redux";
+import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
 import EditMainProfile from "./src/Screens/EditMainProfile";
 import { Provider } from "react-redux";
@@ -11,12 +14,25 @@ import { store } from "./src/Redux/store";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
-import { NativeBaseProvider } from "native-base";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
+import { NativeBaseProvider, extendTheme, useSafeArea } from "native-base";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Stack = createNativeStackNavigator();
+import { useEffect } from "react";
+import {
+  getAllPosts,
+  getPost,
+  selectAllPost,
+  selectPost,
+} from "./src/Redux/Slices/postSlice";
+import HomeIcon from "./src/Components/Icons/HomeIcon";
+import SearchIcon from "./src/Components/Icons/SearchIcon";
+import AddIcon from "./src/Components/Icons/AddIcon";
+import ProfileIcon from "./src/Components/Icons/ProfileIcon";
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   let persistor = persistStore(store);
@@ -24,40 +40,114 @@ export default function App() {
   const Navigator = () => {
     const token = useSelector(selectToken);
 
-    if (token) {
-      return (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
+    return token ? (
+      <Tab.Navigator
+        initialRouteName="Home"
+        activeColor="#fff"
+        barStyle={{ backgroundColor: "#3a6b35" }}
+        backBehavior="history"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#DBECF4",
+            shadowColor: "#DBECF4",
+          },
+          tabBarShowIcon: true,
+          tabBarStyle: {
+            backgroundColor: "#3a6b35",
+          },
+          tabActiveIcon: { fontWeight: "bold" },
+          tabBarActiveTintColor: "#fff",
+          tabBarInactiveTintColor: "#fff9",
+        }}
+      >
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Feed",
+            tabBarIcon: ({ color }) => (
+              <HomeIcon name="myfeed" color={"red"} size={26} />
+            ),
           }}
-        >
-          <Stack.Screen name="Discover" component={Discover} />
-          <Stack.Screen name="MainProfile">
-            {(props) => <MainProfile {...props} token={token} />}
-          </Stack.Screen>
-          <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen name="EditMainProfile" component={EditMainProfile} />
-        </Stack.Navigator>
-      );
-    } else {
-      return (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
+          name="My Feed"
+          component={MyFeed}
+        />
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Discover",
+            tabBarIcon: ({ color }) => (
+              <SearchIcon name="discover" color={"red"} size={26} />
+            ),
           }}
-        >
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
-      );
-    }
+          name="Discover"
+          component={Discover}
+        />
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Add",
+            tabBarIcon: ({ color }) => (
+              <AddIcon name="add" color={color} size={26} />
+            ),
+          }}
+          name="Settings"
+          component={Settings}
+        />
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color }) => (
+              <ProfileIcon name="Profile" color={color} size={26} />
+            ),
+          }}
+          name="MainProfile"
+          component={MainProfile}
+        />
+        {/* screens that are not displayed in tab starts */}
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ focused, color, size }) => <></>,
+          }}
+          name="Post"
+          component={Post}
+        />
+        {/* screens that are not displayed in tab ends */}
+      </Tab.Navigator>
+    ) : (
+      <Tab.Navigator>
+        <Tab.Screen
+          activeColor="#fff"
+          inactiveColor="#3a6b35"
+          barStyle={{ backgroundColor: "#3a6b35" }}
+          options={{
+            tabBarLabel: "Home",
+            // tabBarIcon: ({ color }) => (
+            //   <HomeIcon name="home" color={color} size={26} />
+            // ),
+          }}
+          name="Login"
+          component={Login}
+        />
+        <Tab.Screen
+          activeColor="#fff"
+          inactiveColor="#3a6b35"
+          barStyle={{ backgroundColor: "#3a6b35" }}
+          options={{
+            tabBarLabel: "Home",
+            // tabBarIcon: ({ color }) => (
+            //   <HomeIcon name="home" color={color} size={26} />
+            // ),
+          }}
+          name="Register"
+          component={Register}
+        />
+      </Tab.Navigator>
+    );
   };
 
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <NativeBaseProvider>
+          <NativeBaseProvider theme={theme}>
             <Navigator />
           </NativeBaseProvider>
         </NavigationContainer>
@@ -66,6 +156,27 @@ export default function App() {
     </Provider>
   );
 }
+
+const theme = extendTheme({
+  colors: {
+    mustard: {
+      400: "#e3b448",
+    },
+    extraOrage: {
+      400: "#E38E48",
+    },
+    sage: {
+      300: "#F8FFE3",
+      400: "#cbd18f",
+    },
+    forestGreen: {
+      400: "#3a6b35",
+    },
+    google: {
+      400: "#de5246",
+    },
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
