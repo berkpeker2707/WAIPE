@@ -24,7 +24,7 @@ const MyFeedScreen = ({ navigation, route }) => {
   }, [dispatch]);
 
   const safeAreaProps = useSafeArea({
-    safeAreaTop: true,
+    safeArea: true,
     pt: 2,
   });
 

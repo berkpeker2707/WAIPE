@@ -13,7 +13,7 @@ import {
 
 const EditPetProfile = ({ navigation, route }) => {
   const safeAreaProps = useSafeArea({
-    safeAreaTop: true,
+    safeArea: true,
     pt: 2,
   });
 
