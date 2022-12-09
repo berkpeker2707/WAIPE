@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.1.6:1000/api";
+const SERVER_URL = "http://192.168.100.73:1000/api";
 
 export const getUser = createAsyncThunk(
   "user/me",
