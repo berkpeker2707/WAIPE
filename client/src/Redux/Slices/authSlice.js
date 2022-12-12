@@ -103,16 +103,25 @@ export const verifyPasswordAction = createAsyncThunk(
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { token: null, loading: false, error: null },
+  initialState: {
+    loading: false,
+    error: null,
+    preSignupData: null,
+    verifysignupData: null,
+    signupData: null,
+    token: null,
+    forgotPasswordData: null,
+    verifyPasswordData: null,
+  },
   extraReducers: (builder) => {
     //pre sign up action
     builder.addCase(presignupAction.pending, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(presignupAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = action?.payload?.message;
+      state.error = null;
       state.preSignupData = action?.payload;
     });
     builder.addCase(presignupAction.rejected, (state, action) => {
@@ -121,12 +130,13 @@ const authSlice = createSlice({
     });
     //verify sign up action
     builder.addCase(verifysignupAction.pending, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(verifysignupAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.verifysignupData = action?.payload;
     });
     builder.addCase(verifysignupAction.rejected, (state, action) => {
       state.loading = false;
@@ -134,12 +144,13 @@ const authSlice = createSlice({
     });
     ///sign up without verification
     builder.addCase(signupAction.pending, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(signupAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.signupData = action?.payload;
     });
     builder.addCase(signupAction.rejected, (state, action) => {
       state.loading = false;
@@ -148,11 +159,12 @@ const authSlice = createSlice({
     //sign in action
     builder.addCase(signinAction.pending, (state) => {
       state.loading = true;
+      state.error = null;
     });
     builder.addCase(signinAction.fulfilled, (state, action) => {
       state.loading = false;
+      state.error = null;
       state.token = action?.payload?.accessToken;
-      state.error = action?.payload?.message;
     });
     builder.addCase(signinAction.rejected, (state, action) => {
       state.token = null;
@@ -161,12 +173,13 @@ const authSlice = createSlice({
     });
     //forgot password action
     builder.addCase(forgotPasswordAction.pending, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
+      sstate.loading = true;
+      state.error = null;
     });
     builder.addCase(forgotPasswordAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.forgotPasswordData = action?.payload;
     });
     builder.addCase(forgotPasswordAction.rejected, (state, action) => {
       state.loading = false;
@@ -174,12 +187,13 @@ const authSlice = createSlice({
     });
     //verify password action
     builder.addCase(verifyPasswordAction.pending, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(verifyPasswordAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.verifyPasswordData = action?.payload;
     });
     builder.addCase(verifyPasswordAction.rejected, (state, action) => {
       state.loading = false;
@@ -188,9 +202,15 @@ const authSlice = createSlice({
   },
 });
 
-export const selectToken = (state) => state.auth.token;
-export const selectAuthError = (state) => state.auth.error;
 export const selectAuthLoading = (state) => state.auth.loading;
-export const selectresetPassword = (state) => state.auth.resetPassword;
+export const selectAuthError = (state) => state.auth.error;
+export const selectPreSignupData = (state) => state.auth.preSignupData;
+export const selectVerifySignupData = (state) => state.auth.verifysignupData;
+export const selectSignupData = (state) => state.auth.signupData;
+export const selectToken = (state) => state.auth.token;
+export const selectForgotPasswordData = (state) =>
+  state.auth.forgotPasswordData;
+export const selectVerifyPasswordData = (state) =>
+  state.auth.verifyPasswordData;
 
 export default authSlice.reducer;
