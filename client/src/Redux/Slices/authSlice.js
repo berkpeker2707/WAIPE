@@ -204,13 +204,11 @@ const authSlice = createSlice({
 
 export const selectAuthLoading = (state) => state.auth.loading;
 export const selectAuthError = (state) => state.auth.error;
-export const selectPreSignupData = (state) => state.auth.preSignupData;
-export const selectVerifySignupData = (state) => state.auth.verifysignupData;
-export const selectSignupData = (state) => state.auth.signupData;
+export const selectPreSignup = (state) => state.auth.preSignupData;
+export const selectVerifySignup = (state) => state.auth.verifysignupData;
+export const selectSignup = (state) => state.auth.signupData;
 export const selectToken = (state) => state.auth.token;
-export const selectForgotPasswordData = (state) =>
-  state.auth.forgotPasswordData;
-export const selectVerifyPasswordData = (state) =>
-  state.auth.verifyPasswordData;
+export const selectForgotPassword = (state) => state.auth.forgotPasswordData;
+export const selectVerifyPassword = (state) => state.auth.verifyPasswordData;
 
 export default authSlice.reducer;
