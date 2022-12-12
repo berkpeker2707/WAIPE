@@ -2,11 +2,10 @@ const User = require("../models/user");
 const Pet = require("../models/pet");
 const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
-const nodemailer = require("nodemailer");
 
 require("dotenv").config();
 
-// *
+//get current user ***
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
 
@@ -22,7 +21,7 @@ const getCurrentUserController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+//get selected user ***
 const getUserController = expressHandler(async (req, res) => {
   const _id = req.params.id;
 
@@ -41,45 +40,7 @@ const getUserController = expressHandler(async (req, res) => {
   }
 });
 
-// //forgot password & reset password
-// const testresetPasswordController = expressHandler(async (req, res) => {
-//   try {
-//     // let testAccount = await nodemailer.createTestAccount();
-
-//     let transporter = nodemailer.createTransport({
-//       host: process.env.MAILGUN_HOST,
-//       port: process.env.MAILGUN_PORT,
-//       secure: false, // true for 465, false for other ports
-//       auth: {
-//         user: process.env.MAILGUN_USER,
-//         pass: process.env.MAILGUN_PASS,
-//       },
-//     });
-
-//     console.log(process.env.MAILGUN_HOST);
-
-//     // send mail with defined transport object
-//     let info = await transporter.sendMail({
-//       from: '"Harold Flower 👻" <support@testmail.com>', // sender address
-//       to: "berkolatto@gmail.com", // list of receivers
-//       subject: "Support Test Mail ✔", // Subject line
-//       text: "Hello world? Does this actually work?", // plain text body
-//       html: "<b>Anybody out there... out there... out there... I'm so cold... cold... cold...</b>", // html body
-//     });
-
-//     console.log("Message sent: %s", info.messageId);
-//     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-//     // Preview only available when sending through an Ethereal account
-//     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-//     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-//     res.json(200);
-//   } catch (error) {
-//     res.json(error);
-//   }
-// });
-
-// *
+//update current user ***
 const updateUserController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -104,8 +65,7 @@ const updateUserController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//block user & unblock user
+//block user & unblock user ***
 const blockUserController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -122,8 +82,7 @@ const blockUserController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//follow & unfollow pet
+//follow & unfollow pet ***
 const followPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -140,8 +99,7 @@ const followPetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//block & unblock pet
+//block & unblock pet ***
 const blockPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -205,6 +163,7 @@ const pictureDeleteController = expressHandler(async (req, res) => {
   res.json(imgUploaded);
 });
 
+//delete user
 const userDeleteController = expressHandler(async (req, res) => {
   const { _id } = req?.user;
   try {
