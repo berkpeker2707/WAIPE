@@ -4,13 +4,45 @@ import axios from "axios";
 
 const SERVER_URL = "http://192.168.100.21:1000/api";
 
+export const presignup = createAsyncThunk(
+  "auth/presignup",
+  async (preSignupData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        `${SERVER_URL}/auth/presignup`,
+        preSignupData
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const verifysignup = createAsyncThunk(
+  "auth/verifysignup",
+  async (verifySignupData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        `${SERVER_URL}/auth/verify-signup`,
+        verifySignupData
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (userRegisterInfo, { rejectWithValue }) => {
+  async (signupData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signup`,
-        userRegisterInfo
+        signupData
       );
 
       return data;
@@ -22,11 +54,11 @@ export const signup = createAsyncThunk(
 
 export const signin = createAsyncThunk(
   "auth/signin",
-  async (userAuthInfo, { rejectWithValue }) => {
+  async (signinData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signin`,
-        userAuthInfo
+        signinData
       );
 
       await AsyncStorege.setItem("Token", JSON.stringify(data));
@@ -37,13 +69,29 @@ export const signin = createAsyncThunk(
   }
 );
 
-export const resetPassword = createAsyncThunk(
-  "auth/reset-password",
-  async (resetPasswordInfo, { rejectWithValue }) => {
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (forgotPasswordData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        `${SERVER_URL}/auth/reset-password`,
-        resetPasswordInfo
+        `${SERVER_URL}/auth/forgot-password`,
+        forgotPasswordData
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const verifyPassword = createAsyncThunk(
+  "auth/verifyPassword",
+  async (verifyPasswordData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        `${SERVER_URL}/auth/verify-password`,
+        verifyPasswordData
       );
 
       return data;
@@ -57,7 +105,47 @@ const authSlice = createSlice({
   name: "auth",
   initialState: { token: null, loading: false, error: null },
   extraReducers: (builder) => {
-    //signin
+    //pre sign up
+    builder.addCase(presignup.pending, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    builder.addCase(presignup.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = action?.payload?.message;
+      state.preSignupData = action?.payload;
+    });
+    builder.addCase(presignup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //verify sign up
+    builder.addCase(verifysignup.pending, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    builder.addCase(verifysignup.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = action?.payload?.message;
+    });
+    builder.addCase(verifysignup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    ///sign up without verification
+    builder.addCase(signup.pending, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    builder.addCase(signup.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = action?.payload?.message;
+    });
+    builder.addCase(signup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //sign in
     builder.addCase(signin.pending, (state) => {
       state.loading = true;
     });
@@ -71,29 +159,29 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    ///signup
-    builder.addCase(signup.pending, (state, action) => {
+    //forgot password
+    builder.addCase(forgotPassword.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(signup.fulfilled, (state, action) => {
+    builder.addCase(forgotPassword.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(signup.rejected, (state, action) => {
+    builder.addCase(forgotPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    ///reset password
-    builder.addCase(resetPassword.pending, (state, action) => {
+    //verify password
+    builder.addCase(verifyPassword.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(resetPassword.fulfilled, (state, action) => {
+    builder.addCase(verifyPassword.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(resetPassword.rejected, (state, action) => {
+    builder.addCase(verifyPassword.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
