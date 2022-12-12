@@ -24,7 +24,7 @@ import {
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-const MainProfileScreen = ({ token, navigation }) => {
+const MainProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -57,7 +57,7 @@ const MainProfileScreen = ({ token, navigation }) => {
   };
 
   useEffect(() => {
-    dispatch(getUser(token));
+    dispatch(getUser());
     setPets(petsMatrix());
   }, [dispatch, currentUser?._id]);
 

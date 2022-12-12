@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:1000/api";
+const SERVER_URL = "http://192.168.100.23:1000/api";
 
 export const getAllPosts = createAsyncThunk(
   "post/getAll",
@@ -16,8 +16,6 @@ export const getAllPosts = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
-
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {

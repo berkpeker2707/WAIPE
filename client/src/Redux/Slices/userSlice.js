@@ -5,8 +5,10 @@ const SERVER_URL = "http://192.168.100.23:1000/api";
 
 export const getUser = createAsyncThunk(
   "user/me",
-  async (token, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
+      const token = getState()?.auth?.token;
+
       const { data } = await axios.get(`${SERVER_URL}/user/me`, {
         headers: {
           authorization: `Bearer ${token}`,
@@ -35,10 +37,6 @@ export const updateUser = createAsyncThunk(
           },
         }
       );
-
-      console.log("data");
-      console.log(data);
-      console.log("data");
 
       return data;
     } catch (error) {

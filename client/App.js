@@ -5,7 +5,6 @@ import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
 import MainProfile from "./src/Screens/MainProfile";
-import { Provider, useDispatch } from "react-redux";
 import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
 import EditMainProfile from "./src/Screens/EditMainProfile";
@@ -18,15 +17,6 @@ import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
 import { NativeBaseProvider, extendTheme, useSafeArea } from "native-base";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-import { useEffect } from "react";
-import {
-  getAllPosts,
-  getPost,
-  selectAllPost,
-  selectPost,
-} from "./src/Redux/Slices/postSlice";
 import HomeIcon from "./src/Components/Icons/HomeIcon";
 import SearchIcon from "./src/Components/Icons/SearchIcon";
 import AddIcon from "./src/Components/Icons/AddIcon";
@@ -100,6 +90,7 @@ export default function App() {
           name="MainProfile"
           component={MainProfile}
         />
+        <Tab.Screen name="EditMainProfile" component={EditMainProfile} />
         {/* screens that are not displayed in tab starts */}
         <Tab.Screen
           options={{
