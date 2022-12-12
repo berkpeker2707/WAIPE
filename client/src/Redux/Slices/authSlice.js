@@ -4,8 +4,8 @@ import axios from "axios";
 
 const SERVER_URL = "http://192.168.100.21:1000/api";
 
-export const presignup = createAsyncThunk(
-  "auth/presignup",
+export const presignupAction = createAsyncThunk(
+  "auth/presignupAction",
   async (preSignupData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -20,8 +20,8 @@ export const presignup = createAsyncThunk(
   }
 );
 
-export const verifysignup = createAsyncThunk(
-  "auth/verifysignup",
+export const verifysignupAction = createAsyncThunk(
+  "auth/verifysignupAction",
   async (verifySignupData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -36,8 +36,8 @@ export const verifysignup = createAsyncThunk(
   }
 );
 
-export const signup = createAsyncThunk(
-  "auth/signup",
+export const signupAction = createAsyncThunk(
+  "auth/signupAction",
   async (signupData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -52,8 +52,8 @@ export const signup = createAsyncThunk(
   }
 );
 
-export const signin = createAsyncThunk(
-  "auth/signin",
+export const signinAction = createAsyncThunk(
+  "auth/signinAction",
   async (signinData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -69,8 +69,8 @@ export const signin = createAsyncThunk(
   }
 );
 
-export const forgotPassword = createAsyncThunk(
-  "auth/forgotPassword",
+export const forgotPasswordAction = createAsyncThunk(
+  "auth/forgotPasswordAction",
   async (forgotPasswordData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -85,8 +85,8 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
-export const verifyPassword = createAsyncThunk(
-  "auth/verifyPassword",
+export const verifyPasswordAction = createAsyncThunk(
+  "auth/verifyPasswordAction",
   async (verifyPasswordData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
@@ -105,83 +105,83 @@ const authSlice = createSlice({
   name: "auth",
   initialState: { token: null, loading: false, error: null },
   extraReducers: (builder) => {
-    //pre sign up
-    builder.addCase(presignup.pending, (state, action) => {
+    //pre sign up action
+    builder.addCase(presignupAction.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(presignup.fulfilled, (state, action) => {
+    builder.addCase(presignupAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
       state.preSignupData = action?.payload;
     });
-    builder.addCase(presignup.rejected, (state, action) => {
+    builder.addCase(presignupAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    //verify sign up
-    builder.addCase(verifysignup.pending, (state, action) => {
+    //verify sign up action
+    builder.addCase(verifysignupAction.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(verifysignup.fulfilled, (state, action) => {
+    builder.addCase(verifysignupAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(verifysignup.rejected, (state, action) => {
+    builder.addCase(verifysignupAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
     ///sign up without verification
-    builder.addCase(signup.pending, (state, action) => {
+    builder.addCase(signupAction.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(signup.fulfilled, (state, action) => {
+    builder.addCase(signupAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(signup.rejected, (state, action) => {
+    builder.addCase(signupAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    //sign in
-    builder.addCase(signin.pending, (state) => {
+    //sign in action
+    builder.addCase(signinAction.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(signin.fulfilled, (state, action) => {
+    builder.addCase(signinAction.fulfilled, (state, action) => {
       state.loading = false;
       state.token = action?.payload?.accessToken;
       state.error = action?.payload?.message;
     });
-    builder.addCase(signin.rejected, (state, action) => {
+    builder.addCase(signinAction.rejected, (state, action) => {
       state.token = null;
       state.loading = false;
       state.error = action?.error;
     });
-    //forgot password
-    builder.addCase(forgotPassword.pending, (state, action) => {
+    //forgot password action
+    builder.addCase(forgotPasswordAction.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(forgotPassword.fulfilled, (state, action) => {
+    builder.addCase(forgotPasswordAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(forgotPassword.rejected, (state, action) => {
+    builder.addCase(forgotPasswordAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    //verify password
-    builder.addCase(verifyPassword.pending, (state, action) => {
+    //verify password action
+    builder.addCase(verifyPasswordAction.pending, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    builder.addCase(verifyPassword.fulfilled, (state, action) => {
+    builder.addCase(verifyPasswordAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = action?.payload?.message;
     });
-    builder.addCase(verifyPassword.rejected, (state, action) => {
+    builder.addCase(verifyPasswordAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
