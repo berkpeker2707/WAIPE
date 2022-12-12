@@ -23,7 +23,7 @@ const preSignupController = expressHandler(async (req, res) => {
       });
     }
 
-    const { password } = req.body;
+    // const { password } = req.body;
 
     //save the user
     const newUserInvalidated = await User.create({
@@ -39,7 +39,7 @@ const preSignupController = expressHandler(async (req, res) => {
       expireAt: new Date(new Date().valueOf() + 86400000),
     });
 
-    const recieved = req.body.email;
+    // const recieved = req.body.email;
 
     //generate token
     const verificationToken =
@@ -91,7 +91,7 @@ const signupController = expressHandler(async (req, res) => {
       message: userExists ? "Email already exists." : "Phone already exists.",
     });
   }
-  const { password } = req.body;
+  // const { password } = req.body;
 
   try {
     const user = await User.create({
