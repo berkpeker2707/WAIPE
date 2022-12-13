@@ -103,10 +103,11 @@ const commentSlice = createSlice({
   },
 });
 
-export const selectAuthLoading = (state) => state.auth.loading;
-export const selectAuthError = (state) => state.auth.error;
-export const selectUpdateComment = (state) => state.auth.updateCommentData;
-export const selectGetComment = (state) => state.auth.getCommentData;
-export const selectDeleteCommentData = (state) => state.auth.deleteCommentData;
+export const selectCommentLoading = (state) => state.comment.loading;
+export const selectCommentError = (state) => state.comment.error;
+export const selectUpdateComment = (state) => state.comment.updateCommentData;
+export const selectGetComment = (state) => state.comment.getCommentData;
+export const selectDeleteCommentData = (state) =>
+  state.comment.deleteCommentData;
 
 export default commentSlice.reducer;
