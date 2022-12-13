@@ -178,7 +178,7 @@ const userSlice = createSlice({
     userDeleteData: null,
   },
   extraReducers: (builder) => {
-    //get current user action
+    //get current user reducer
     builder.addCase(getCurrentUserAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -192,7 +192,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //get user action
+    //get user reducer
     builder.addCase(getUserAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -206,7 +206,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //update user action
+    //update user reducer
     builder.addCase(updateUserAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -220,7 +220,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //block user action
+    //block user reducer
     builder.addCase(blockUserAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -234,7 +234,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //follow pet action
+    //follow pet reducer
     builder.addCase(followPetAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -248,7 +248,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //block pet action
+    //block pet reducer
     builder.addCase(blockPetAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -262,7 +262,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //picture upload action
+    //picture upload reducer
     builder.addCase(pictureUploadAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -276,7 +276,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //picture delete action
+    //picture delete reducer
     builder.addCase(pictureDeleteAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -290,7 +290,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //user delete action
+    //user delete reducer
     builder.addCase(userDeleteAction.pending, (state) => {
       state.loading = true;
       state.error = null;
