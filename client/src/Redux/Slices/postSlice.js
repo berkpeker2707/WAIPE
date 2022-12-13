@@ -5,7 +5,7 @@ import axios from "axios";
 const SERVER_URL = "http://192.168.100.21:1000/api";
 
 export const postPostAction = createAsyncThunk(
-  "post/getAll",
+  "post/postPost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -19,8 +19,6 @@ export const postPostAction = createAsyncThunk(
         `${SERVER_URL}/post/new/${petID}`,
         config
       );
-
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {
@@ -45,9 +43,6 @@ export const getPostAction = createAsyncThunk(
         config
       );
 
-      console.log("data");
-      console.log(data);
-      console.log("data");
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -56,7 +51,7 @@ export const getPostAction = createAsyncThunk(
 );
 
 export const getPetPostsAction = createAsyncThunk(
-  "post/getAll",
+  "post/getPetPosts",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -71,8 +66,6 @@ export const getPetPostsAction = createAsyncThunk(
         config
       );
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -81,8 +74,8 @@ export const getPetPostsAction = createAsyncThunk(
 );
 
 export const getAllPostsAction = createAsyncThunk(
-  "post/getAll",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  "post/getAllPosts",
+  async (_, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -93,8 +86,6 @@ export const getAllPostsAction = createAsyncThunk(
     try {
       const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -103,7 +94,7 @@ export const getAllPostsAction = createAsyncThunk(
 );
 
 export const updatePostAction = createAsyncThunk(
-  "post/getAll",
+  "post/updatePost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -118,8 +109,6 @@ export const updatePostAction = createAsyncThunk(
         config
       );
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -128,7 +117,7 @@ export const updatePostAction = createAsyncThunk(
 );
 
 export const deletePostAction = createAsyncThunk(
-  "post/getAll",
+  "post/deletePost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -143,8 +132,6 @@ export const deletePostAction = createAsyncThunk(
         config
       );
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -153,7 +140,7 @@ export const deletePostAction = createAsyncThunk(
 );
 
 export const archivePostAction = createAsyncThunk(
-  "post/getAll",
+  "post/archivePost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -164,8 +151,6 @@ export const archivePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(`${SERVER_URL}/post/archive`, config);
-
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {
@@ -238,7 +223,7 @@ const postSlice = createSlice({
     builder.addCase(getAllPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getAllPostsData = action?.payload;
+      state.getAllPostsData = action.payload;
     });
     builder.addCase(getAllPostsAction.rejected, (state, action) => {
       state.loading = false;

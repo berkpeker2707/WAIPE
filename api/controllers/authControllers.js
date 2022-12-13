@@ -126,7 +126,7 @@ const signinController = expressHandler(async (req, res) => {
     }
 
     var passwordIsValid = bcrypt.compareSync(password, user.password);
-    console.log({ passwordIsValid, password });
+
     if (!passwordIsValid) {
       return res.json({
         accessToken: null,

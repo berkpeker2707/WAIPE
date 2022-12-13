@@ -130,8 +130,6 @@ const pictureUploadController = expressHandler(async (req, res) => {
     await cloudinaryDeleteUserImg(foundUser.picture);
   }
 
-  console.log(foundUser);
-
   await User.findByIdAndUpdate(
     _id,
     {
@@ -168,12 +166,10 @@ const userDeleteController = expressHandler(async (req, res) => {
   const { _id } = req?.user;
   try {
     const user = await User.findByIdAndDelete(_id);
-    console.log(user);
 
     const pets = user.pets;
     for (let i = 0; i < pets.length; i++) {
       const pet = await Pet.findByIdAndDelete(pets[i]);
-      console.log(pet);
       const posts = pet.petPost;
       for (let j = 0; j < posts.length; j++) {
         await Post.deleteOne({ _id: posts[j] });

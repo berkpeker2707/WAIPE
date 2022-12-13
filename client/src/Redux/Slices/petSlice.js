@@ -17,8 +17,6 @@ export const getPetAction = createAsyncThunk(
     try {
       const { data } = await axios.get(`${SERVER_URL}/pet/${id}`, config);
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -39,9 +37,6 @@ export const postPetAction = createAsyncThunk(
     try {
       const { data } = await axios.post(`${SERVER_URL}/pet/new`, config);
 
-      console.log("data");
-      console.log(data);
-      console.log("data");
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -64,8 +59,6 @@ export const updatePetAction = createAsyncThunk(
         `${SERVER_URL}/pet/update/${id}`,
         config
       );
-
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {
@@ -90,8 +83,6 @@ export const uploadPetPhotoAction = createAsyncThunk(
         config
       );
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -115,8 +106,6 @@ export const deletePetPhotoAction = createAsyncThunk(
         config
       );
 
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -139,8 +128,6 @@ export const deletePetAction = createAsyncThunk(
         `${SERVER_URL}/pet/delete/photo/${id}}`,
         config
       );
-
-      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
       return data;
     } catch (error) {
