@@ -13,6 +13,7 @@ import authSlice from "./Slices/authSlice";
 import userSlice from "./Slices/userSlice";
 import postSlice from "./Slices/postSlice";
 import petSlice from "./Slices/petSlice";
+import commentSlice from "./Slices/commentSlice";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   post: postSlice,
   pet: petSlice,
+  comment: commentSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
