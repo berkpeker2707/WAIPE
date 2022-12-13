@@ -3,7 +3,6 @@ const sharp = require("sharp");
 const path = require("path");
 //storage
 const multerStorage = multer.memoryStorage();
-
 //file type checking
 const multerFilter = (req, file, cb) => {
   //check file type
@@ -19,25 +18,28 @@ const multerFilter = (req, file, cb) => {
     );
   }
 };
-
 const photoUpload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
   limits: { fileSize: 1000000 },
 });
-
 //Image Resizing
 const photoResize = async (req, res, next) => {
   //check if there is no file
-  if (!req.file) return next();
-  req.file.filename = `photo-${Date.now()}-${req.file.originalname}`;
-
-  await sharp(req.file.buffer)
+  console.log("req.files");
+  console.log(req.files.picture.originalFilename);
+  if (!req.files) return next();
+  req.files.filename = `photo-${Date.now()}-${
+    req.files.picture.originalFilename
+  }`;
+  console.log(req.files.picture.path);
+  console.log(req.files.filename);
+  console.log("req.files");
+  await sharp(req.files.picture.path)
     .resize(250, 250)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(path.join(`./photos/${req.file.filename}`));
+    .toFile(path.join(`./photos/${req.files.filename}`));
   next();
 };
-
 module.exports = { photoUpload, photoResize };
