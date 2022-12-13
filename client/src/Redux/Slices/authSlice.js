@@ -114,7 +114,7 @@ const authSlice = createSlice({
     verifyPasswordData: null,
   },
   extraReducers: (builder) => {
-    //pre sign up action
+    //pre sign up reducer
     builder.addCase(presignupAction.pending, (state, action) => {
       state.loading = true;
       state.error = null;
@@ -128,7 +128,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //verify sign up action
+    //verify sign up reducer
     builder.addCase(verifysignupAction.pending, (state, action) => {
       state.loading = true;
       state.error = null;
@@ -142,7 +142,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    ///sign up without verification
+    ///sign up without verification reducer
     builder.addCase(signupAction.pending, (state, action) => {
       state.loading = true;
       state.error = null;
@@ -156,7 +156,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //sign in action
+    //sign in reducer
     builder.addCase(signinAction.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -171,7 +171,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //forgot password action
+    //forgot password reducer
     builder.addCase(forgotPasswordAction.pending, (state, action) => {
       sstate.loading = true;
       state.error = null;
@@ -185,7 +185,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    //verify password action
+    //verify password reducer
     builder.addCase(verifyPasswordAction.pending, (state, action) => {
       state.loading = true;
       state.error = null;
