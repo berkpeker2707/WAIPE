@@ -4,10 +4,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { SSRProvider } from "@react-aria/ssr";
 import {
-  signin,
-  selectToken,
   selectAuthLoading,
   selectAuthError,
+  selectToken,
+  signinAction,
 } from "../Redux/Slices/authSlice";
 import { Formik } from "formik";
 import {
@@ -45,8 +45,6 @@ const LoginScreen = ({ navigation }) => {
     );
   };
 
-  console.log("🚀 ~ file: Login.js ~ line 51 ~ LoginScreen ~ token", token);
-
   if (token) {
     return navigation.navigate("Discover");
   }
@@ -54,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
-      onSubmit={(values) => dispatch(signin(values))}
+      onSubmit={(values) => dispatch(signinAction(values))}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
         <View style={style.container}>
