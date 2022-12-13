@@ -184,8 +184,8 @@ const postSlice = createSlice({
     getPetPostsData: null,
     getAllPostsData: null,
     updatePostData: null,
-    deletePostAction: null,
-    archivePostAction: null,
+    deletePostData: null,
+    archivePostData: null,
   },
   extraReducers: (builder) => {
     //post post reducer
@@ -266,7 +266,7 @@ const postSlice = createSlice({
     builder.addCase(deletePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.post = action?.payload;
+      state.deletePostData = action?.payload;
     });
     builder.addCase(deletePostAction.rejected, (state, action) => {
       state.loading = false;
@@ -280,7 +280,7 @@ const postSlice = createSlice({
     builder.addCase(archivePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.post = action?.payload;
+      state.archivePostData = action?.payload;
     });
     builder.addCase(archivePostAction.rejected, (state, action) => {
       state.loading = false;
@@ -296,7 +296,7 @@ export const selectGetPost = (state) => state.post.getPostData;
 export const selectGetPetPosts = (state) => state.post.getPetPostsData;
 export const selectGetAllPosts = (state) => state.post.getAllPostsData;
 export const selectUpdatePost = (state) => state.post.updatePostData;
-export const selectDeletePost = (state) => state.post.deletePostAction;
-export const selectArchivePost = (state) => state.post.archivePostAction;
+export const selectDeletePost = (state) => state.post.deletePostData;
+export const selectArchivePost = (state) => state.post.archivePostData;
 
 export default postSlice.reducer;
