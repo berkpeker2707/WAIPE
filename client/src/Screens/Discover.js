@@ -15,16 +15,19 @@ import {
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts, selectAllPost } from "../Redux/Slices/postSlice";
+import {
+  selectGetAllPosts,
+  getAllPostsAction,
+} from "../Redux/Slices/postSlice";
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
 
 const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
-  const allPost = useSelector(selectAllPost);
+  const allPosts = useSelector(selectGetAllPosts);
 
   useEffect(() => {
-    dispatch(getAllPosts());
+    dispatch(getAllPostsAction());
   }, [dispatch]);
 
   const safeAreaProps = useSafeArea({
@@ -59,7 +62,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     );
   };
 
-  return allPost ? (
+  return allPosts ? (
     <ScrollView {...safeAreaProps}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
@@ -77,11 +80,11 @@ const DiscoverScreen = ({ navigation, route }) => {
       </VStack>
       <MasonryList
         style={{ alignSelf: "stretch" }}
-        data={allPost}
+        data={allPosts}
         keyExtractor={(item) => item._id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        renderItem={(allPost) => renderItem(allPost)}
+        renderItem={(allPosts) => renderItem(allPosts)}
         onRefresh={() => refetch({ first: ITEM_CNT })}
         onEndReachedThreshold={0.1}
         onEndReached={() => loadNext(ITEM_CNT)}
