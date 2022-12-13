@@ -12,7 +12,7 @@ const {
 
 // *
 const getPetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findById(id);
@@ -50,7 +50,7 @@ const postPetController = expressHandler(async (req, res) => {
 
 // *
 const updatePetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findByIdAndUpdate(id, {
@@ -71,7 +71,7 @@ const updatePetController = expressHandler(async (req, res) => {
 
 // *
 const uploadPetPhotoController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const localPath = `photos/${req.file.filename}`;
   const imgUploaded = await cloudinaryUploadPetImg(localPath);
 
@@ -89,7 +89,7 @@ const uploadPetPhotoController = expressHandler(async (req, res) => {
 
 // *
 const deletePetPhotoController = expressHandler(async (req, res) => {
-  const { id } = req?.params;
+  const id = req.params.id;
   const { selectedPhoto } = req?.body;
 
   const imgUploaded = await cloudinaryDeletePetImg(selectedPhoto);
@@ -107,7 +107,7 @@ const deletePetPhotoController = expressHandler(async (req, res) => {
 
 // *
 const deletePetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findByIdAndDelete(id);
