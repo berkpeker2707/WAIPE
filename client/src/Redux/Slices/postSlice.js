@@ -4,7 +4,7 @@ import axios from "axios";
 
 const SERVER_URL = "http://192.168.100.21:1000/api";
 
-export const getAllPosts = createAsyncThunk(
+export const postPostAction = createAsyncThunk(
   "post/getAll",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
@@ -15,7 +15,10 @@ export const getAllPosts = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
+      const { data } = await axios.post(
+        `${SERVER_URL}/post/new/${petID}`,
+        config
+      );
 
       console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
 
@@ -26,7 +29,7 @@ export const getAllPosts = createAsyncThunk(
   }
 );
 
-export const getPost = createAsyncThunk(
+export const getPostAction = createAsyncThunk(
   "post/getPost",
   async (postID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
@@ -52,66 +55,248 @@ export const getPost = createAsyncThunk(
   }
 );
 
-// //get announcement action ***
-// export const getAnnouncementAction = createAsyncThunk(
-//   "get/announcement",
-//   async (payload, { rejectWithValue, getState, dispatch }) => {
-//     //get employee token
-//     const employeeState = getState()?.employeeState;
-//     const { employeeAuthState } = employeeState;
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${employeeAuthState?.token}`,
-//       },
-//     };
-//     try {
-//       const { data } = await axios.get(`${api_url}/api/announcements`, config);
-//       return data;
-//     } catch (err) {
-//       if (!error?.response) {
-//         throw error;
-//       }
-//       return rejectWithValue(error?.response?.data);
-//     }
-//   }
-// );
+export const getPetPostsAction = createAsyncThunk(
+  "post/getAll",
+  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${SERVER_URL}/post/fetch/pet/${petID}}`,
+        config
+      );
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const getAllPostsAction = createAsyncThunk(
+  "post/getAll",
+  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const updatePostAction = createAsyncThunk(
+  "post/getAll",
+  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${SERVER_URL}/post/update/${postID}}`,
+        config
+      );
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const deletePostAction = createAsyncThunk(
+  "post/getAll",
+  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.delete(
+        `${SERVER_URL}/post/delete/${postID}}`,
+        config
+      );
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const archivePostAction = createAsyncThunk(
+  "post/getAll",
+  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(`${SERVER_URL}/post/archive`, config);
+
+      console.log("🚀 ~ file: postSlice.js ~ line 22 ~ data", data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
 
 const postSlice = createSlice({
   name: "post",
-  initialState: { post: null, loading: false },
+  initialState: {
+    loading: false,
+    error: null,
+    postPostData: null,
+    getPostData: null,
+    getPetPostsData: null,
+    getAllPostsData: null,
+    updatePostData: null,
+    deletePostAction: null,
+    archivePostAction: null,
+  },
   extraReducers: (builder) => {
-    //get all posts reducer
-    builder.addCase(getAllPosts.pending, (state) => {
+    //post post reducer
+    builder.addCase(postPostAction.pending, (state) => {
       state.loading = true;
+      state.error = null;
     });
-    builder.addCase(getAllPosts.fulfilled, (state, action) => {
+    builder.addCase(postPostAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.allPost = action?.payload;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.postPostData = action?.payload;
     });
-    builder.addCase(getAllPosts.rejected, (state, action) => {
+    builder.addCase(postPostAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    //get a post reducer
-    builder.addCase(getPost.pending, (state) => {
+    //get post reducer
+    builder.addCase(getPostAction.pending, (state) => {
       state.loading = true;
+      state.error = null;
     });
-    builder.addCase(getPost.fulfilled, (state, action) => {
+    builder.addCase(getPostAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.post = action?.payload;
-      state.error = action?.payload?.message;
+      state.error = null;
+      state.getPostData = action?.payload;
     });
-    builder.addCase(getPost.rejected, (state, action) => {
+    builder.addCase(getPostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //get pet posts reducer
+    builder.addCase(getPetPostsAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getPetPostsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.getPetPostsData = action?.payload;
+    });
+    builder.addCase(getPetPostsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //get all posts reducer
+    builder.addCase(getAllPostsAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllPostsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.getAllPostsData = action?.payload;
+    });
+    builder.addCase(getAllPostsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //update post reducer
+    builder.addCase(updatePostAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updatePostAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.updatePostData = action?.payload;
+    });
+    builder.addCase(updatePostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //delete post reducer
+    builder.addCase(deletePostAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(deletePostAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.post = action?.payload;
+    });
+    builder.addCase(deletePostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //archive post reducer
+    builder.addCase(archivePostAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(archivePostAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.post = action?.payload;
+    });
+    builder.addCase(archivePostAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
   },
 });
 
-export const selectAuthError = (state) => state.post.error;
-export const selectAuthLoading = (state) => state.post.loading;
-export const selectAllPost = (state) => state.post.allPost;
-export const selectPost = (state) => state.post.post;
+export const selectPostLoading = (state) => state.post.loading;
+export const selectPostError = (state) => state.post.error;
+export const selectPostPost = (state) => state.post.postPostData;
+export const selectGetPost = (state) => state.post.getPostData;
+export const selectGetPetPosts = (state) => state.post.getPetPostsData;
+export const selectGetAllPosts = (state) => state.post.getAllPostsData;
+export const selectUpdatePost = (state) => state.post.updatePostData;
+export const selectDeletePost = (state) => state.post.deletePostAction;
+export const selectArchivePost = (state) => state.post.archivePostAction;
 
 export default postSlice.reducer;
