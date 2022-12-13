@@ -74,7 +74,7 @@ const getAllPostsController = expressHandler(async (req, res) => {
 
 // *
 const updatePostController = expressHandler(async (req, res) => {
-  const { postID } = req.params;
+  const postID = req.params.postID;
   console.log(postID);
   const { postDescription } = req.body;
 
