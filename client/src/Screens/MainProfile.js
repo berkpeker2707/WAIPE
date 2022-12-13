@@ -18,7 +18,7 @@ import {
   extendTheme,
 } from "native-base";
 import {
-  getUser,
+  getCurrentUserAction,
   selectCurrentUser,
   selectUserLoading,
 } from "../Redux/Slices/userSlice";
@@ -57,7 +57,7 @@ const MainProfileScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getCurrentUserAction());
     setPets(petsMatrix());
   }, [dispatch, currentUser?._id]);
 

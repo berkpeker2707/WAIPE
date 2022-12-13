@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Formik } from "formik";
 import {
@@ -14,8 +14,10 @@ import {
 } from "native-base";
 import {
   updateUser,
+  pictureUploadAction,
   selectCurrentUser,
   selectUserLoading,
+  selectpictureUpload,
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -26,6 +28,13 @@ const EditMainProfileScreen = ({ navigation }) => {
 
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
+  const pictureUpload = useSelector(selectpictureUpload);
+
+  const [picture, setPicture] = useState(currentUser.picture);
+
+  useEffect(() => {
+    setPicture(pictureUpload.data.url);
+  }, [dispatch, pictureUpload.data.url]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -36,14 +45,8 @@ const EditMainProfileScreen = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log("result");
-    console.log(result);
-    console.log("result");
-
     if (!result.canceled) {
-      console.log("uri");
-      console.log(result.uri);
-      console.log("uri");
+      dispatch(pictureUploadAction(result));
     }
   };
 
@@ -56,7 +59,6 @@ const EditMainProfileScreen = ({ navigation }) => {
           ) : (
             <Formik
               initialValues={{
-                picture: `${currentUser?.picture}`,
                 firstname: `${currentUser?.firstname}`,
                 lastname: `${currentUser?.lastname}`,
                 nickname: "",
@@ -80,7 +82,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                 <VStack space={7}>
                   <VStack>
                     <ProfileAvatar
-                      image={values.picture}
+                      image={picture}
                       letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
                       onPress={() => setFieldValue("picture", "nextValue")}
                       icon="trash"

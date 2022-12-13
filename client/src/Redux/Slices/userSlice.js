@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const mime = require("mime");
 
 const SERVER_URL = "http://192.168.100.23:1000/api";
 
-export const getUser = createAsyncThunk(
+export const getCurrentUserAction = createAsyncThunk(
   "user/me",
   async (_, { rejectWithValue, getState }) => {
     try {
@@ -45,29 +46,207 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const pictureUploadAction = createAsyncThunk(
+  "user/pictureUploadAction",
+  async (pictureInfo, { rejectWithValue, getState }) => {
+    try {
+      const uri = pictureInfo.uri;
+      const token = getState()?.auth?.token;
+
+      const FormData = global.FormData;
+      const formData = new FormData();
+
+      const trimmedURI =
+        Platform.OS === "android" ? uri : uri.replace("file://", "");
+      const fileName = trimmedURI.split("/").pop();
+
+      formData.append("picture", {
+        name: fileName,
+        type: mime.getType(trimmedURI),
+        uri: trimmedURI,
+      });
+
+      const { data } = await axios.post(
+        `${SERVER_URL}/user/upload/profile/image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${token}`,
+          },
+          transformRequest: (data, headers) => {
+            return formData;
+          },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: { currentUser: null, loading: false, error: null },
   extraReducers: (builder) => {
-    builder.addCase(getUser.pending, (state) => {
+    //get current user reducer
+    builder.addCase(getCurrentUserAction.pending, (state) => {
       state.loading = true;
+      state.error = null;
     });
-    builder.addCase(getUser.fulfilled, (state, action) => {
+    builder.addCase(getCurrentUserAction.fulfilled, (state, action) => {
       state.loading = false;
+      state.error = null;
       state.currentUser = action?.payload;
-      state.error = action?.payload?.message;
     });
-    builder.addCase(getUser.rejected, (state, action) => {
+    builder.addCase(getCurrentUserAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
+    // //get user reducer
+    // builder.addCase(getUserAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(getUserAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.userData = action?.payload;
+    // });
+    // builder.addCase(getUserAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    // //update user reducer
+    // builder.addCase(updateUserAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(updateUserAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.updateUserData = action?.payload;
+    // });
+    // builder.addCase(updateUserAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    // //block user reducer
+    // builder.addCase(blockUserAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(blockUserAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.blockUserData = action?.payload;
+    // });
+    // builder.addCase(blockUserAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    // //follow pet reducer
+    // builder.addCase(followPetAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(followPetAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.followPetData = action?.payload;
+    // });
+    // builder.addCase(followPetAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    // //block pet reducer
+    // builder.addCase(blockPetAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(blockPetAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.blockPetData = action?.payload;
+    // });
+    // builder.addCase(blockPetAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    //picture upload reducer
+    builder.addCase(pictureUploadAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(pictureUploadAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.pictureUploadData = action?.payload;
+    });
+    builder.addCase(pictureUploadAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    // //picture delete reducer
+    // builder.addCase(pictureDeleteAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(pictureDeleteAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.pictureDeleteData = action?.payload;
+    // });
+    // builder.addCase(pictureDeleteAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
+    // //user delete reducer
+    // builder.addCase(userDeleteAction.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(userDeleteAction.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.userDeleteData = action?.payload;
+    // });
+    // builder.addCase(userDeleteAction.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error;
+    // });
   },
 });
 
+export const selectUserLoading = (state) => state.user.loading;
+export const selectUserError = (state) => state.user.error;
 export const selectCurrentUser = (state) => {
   return state.user.currentUser;
 };
-export const selectUserError = (state) => state.user.error;
-export const selectUserLoading = (state) => state.user.loading;
-
+export const selectUser = (state) => {
+  return state.user.userData;
+};
+export const selectUpdateUser = (state) => {
+  return state.user.updateUserData;
+};
+export const selectBlockUser = (state) => {
+  return state.user.blockUserData;
+};
+export const selectFollowPet = (state) => {
+  return state.user.followPetData;
+};
+export const selectBlockPet = (state) => {
+  return state.user.blockPetData;
+};
+export const selectpictureUpload = (state) => {
+  return state.user.pictureUploadData;
+};
+export const selectPictureDelete = (state) => {
+  return state.user.pictureDeleteData;
+};
+export const selectUserDelete = (state) => {
+  return state.user.userDeleteData;
+};
 export default userSlice.reducer;
