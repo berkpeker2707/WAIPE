@@ -68,7 +68,7 @@ const PostScreen = ({ navigation, route }) => {
                   <AspectRatio w="100%" ratio={1 / 1}>
                     <Image
                       source={{
-                        uri: postState.postImage,
+                        uri: postState.picture,
                       }}
                       alt="image"
                       style={{ padding: 10 }}

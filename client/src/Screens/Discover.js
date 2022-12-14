@@ -48,7 +48,7 @@ const DiscoverScreen = ({ navigation, route }) => {
       >
         <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
           <Image
-            source={{ uri: item.postImage }}
+            source={{ uri: item.picture }}
             style={{
               height: randomBool ? 150 : 280,
               alignSelf: "stretch",
