@@ -2,8 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
-const formData = require("express-form-data");
 const cors = require("cors");
+const formData = require("express-form-data");
 require("dotenv").config();
 require("./config/passport")(passport);
 
@@ -17,14 +17,13 @@ const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
-
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
+app.use(express.json()); // Used to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(formData.parse());
 
 //database connection
 dbConnect();
-
 app.use(
   session({
     secret: "dbApp",
@@ -32,7 +31,6 @@ app.use(
     saveUninitialized: false,
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -44,7 +42,5 @@ app.use("/api/like", likeRoutes);
 app.use("/api/pet", petRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
-
 const PORT = process.env.PORT || 1000;
-
 app.listen(1000, console.log(`Server running at PORT ${PORT}`));
