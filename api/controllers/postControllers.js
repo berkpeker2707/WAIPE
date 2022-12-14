@@ -4,20 +4,30 @@ const Comment = require("../models/comment");
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
 const { cloudinaryUploadPostImg } = require("../middlewares/cloudinary");
+const fs = require("fs");
 
 // *
 const postPostController = expressHandler(async (req, res) => {
-  const petID = req.body.petID;
-
   try {
-    const imgUploaded = await cloudinaryUploadPostImg(req?.body?.postImage);
+    const petID = req.body.petID;
+
+    console.log(petID);
+    console.log("TEST1");
+    const localPath = `photos/${req.files.filename}`;
+    const imgUploaded = await cloudinaryUploadPostImg(localPath);
     if (imgUploaded === "Wrong type") return res.json("Wrong type");
+
+    console.log("petID");
+    console.log(petID);
+    console.log("petID");
 
     const post = await Post.create({
       petID: petID,
-      postImage: req?.body?.postImage,
+      picture: imgUploaded?.data?.secure_url,
       postDescription: req?.body?.postDescription,
     });
+
+    console.log("TEST2");
 
     const like = await Like.create({
       postID: post._id,
@@ -26,9 +36,13 @@ const postPostController = expressHandler(async (req, res) => {
       postID: post._id,
     });
 
+    console.log("TEST3");
+
     post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-    const pet = await Pet.findById(post.petID);
+    console.log("TEST4");
+
+    const pet = await Pet.findById(petID);
     pet
       .updateOne(
         { $push: { petPost: [post._id] } },
@@ -36,6 +50,9 @@ const postPostController = expressHandler(async (req, res) => {
       )
       .exec();
 
+    fs.unlinkSync(localPath);
+
+    console.log(post);
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);
@@ -62,8 +79,18 @@ const getPetPostsController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// get all posts ***
 const getAllPostsController = expressHandler(async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+const getFollowedPostsController = expressHandler(async (req, res) => {
   try {
     const posts = await Post.find();
     res.status(200).json(posts);
@@ -75,7 +102,7 @@ const getAllPostsController = expressHandler(async (req, res) => {
 // *
 const updatePostController = expressHandler(async (req, res) => {
   const postID = req.params.postID;
-  console.log(postID);
+
   const { postDescription } = req.body;
 
   try {
@@ -157,6 +184,7 @@ module.exports = {
   getPostController,
   getPetPostsController,
   getAllPostsController,
+  getFollowedPostsController,
   updatePostController,
   deletePostController,
   archivePostController,
