@@ -20,21 +20,23 @@ const multerFilter = (req, file, cb) => {
 };
 const photoUpload = multer({
   storage: multerStorage,
-  fileFilter: multerFilter,
+  // fileFilter: multerFilter,
   limits: { fileSize: 1000000 },
 });
+
 //Image Resizing
 const photoResize = async (req, res, next) => {
+  console.log("req");
+  console.log(req.body);
+  console.log(req.files);
+  console.log("req");
+
   //check if there is no file
-  console.log("req.files");
-  console.log(req.files.picture.originalFilename);
   if (!req.files) return next();
+
   req.files.filename = `photo-${Date.now()}-${
     req.files.picture.originalFilename
   }`;
-  console.log(req.files.picture.path);
-  console.log(req.files.filename);
-  console.log("req.files");
   await sharp(req.files.picture.path)
     .resize(250, 250)
     .toFormat("jpeg")
