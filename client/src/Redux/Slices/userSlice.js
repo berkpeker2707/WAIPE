@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
 const SERVER_URL = "http://192.168.100.23:1000/api";
+const updatedUser = createAction("user/update");
 
 export const getCurrentUserAction = createAsyncThunk(
   "user/me",
@@ -23,9 +24,9 @@ export const getCurrentUserAction = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
+export const updateUserAction = createAsyncThunk(
   "user/update",
-  async (userUpdateInfo, { rejectWithValue, getState }) => {
+  async (userUpdateInfo, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState()?.auth?.token;
 
@@ -39,6 +40,7 @@ export const updateUser = createAsyncThunk(
         }
       );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -48,7 +50,7 @@ export const updateUser = createAsyncThunk(
 
 export const pictureUploadAction = createAsyncThunk(
   "user/pictureUploadAction",
-  async (pictureInfo, { rejectWithValue, getState }) => {
+  async (pictureInfo, { rejectWithValue, getState, dispatch }) => {
     try {
       const uri = pictureInfo.uri;
       const token = getState()?.auth?.token;
@@ -80,6 +82,7 @@ export const pictureUploadAction = createAsyncThunk(
         }
       );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -89,8 +92,16 @@ export const pictureUploadAction = createAsyncThunk(
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { currentUser: null, loading: false, error: null },
+  initialState: {
+    currentUser: null,
+    loading: false,
+    error: null,
+    isUpdated: false,
+  },
   extraReducers: (builder) => {
+    builder.addCase(updatedUser, (state) => {
+      state.isUpdated = true;
+    });
     //get current user reducer
     builder.addCase(getCurrentUserAction.pending, (state) => {
       state.loading = true;
@@ -119,20 +130,21 @@ const userSlice = createSlice({
     //   state.loading = false;
     //   state.error = action?.error;
     // });
-    // //update user reducer
-    // builder.addCase(updateUserAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(updateUserAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.updateUserData = action?.payload;
-    // });
-    // builder.addCase(updateUserAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
+    //update user reducer
+    builder.addCase(updateUserAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+
+    builder.addCase(updateUserAction.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      state.isUpdated = false;
+    });
+    builder.addCase(updateUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     // //block user reducer
     // builder.addCase(blockUserAction.pending, (state) => {
     //   state.loading = true;
@@ -180,10 +192,10 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(pictureUploadAction.fulfilled, (state, action) => {
+    builder.addCase(pictureUploadAction.fulfilled, (state) => {
       state.loading = false;
       state.error = null;
-      state.pictureUploadData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(pictureUploadAction.rejected, (state, action) => {
       state.loading = false;
@@ -228,9 +240,6 @@ export const selectCurrentUser = (state) => {
 export const selectUser = (state) => {
   return state.user.userData;
 };
-export const selectUpdateUser = (state) => {
-  return state.user.updateUserData;
-};
 export const selectBlockUser = (state) => {
   return state.user.blockUserData;
 };
@@ -240,13 +249,13 @@ export const selectFollowPet = (state) => {
 export const selectBlockPet = (state) => {
   return state.user.blockPetData;
 };
-export const selectpictureUpload = (state) => {
-  return state.user.pictureUploadData;
-};
 export const selectPictureDelete = (state) => {
   return state.user.pictureDeleteData;
 };
 export const selectUserDelete = (state) => {
   return state.user.userDeleteData;
+};
+export const selectUserUpdated = (state) => {
+  return state.user.isUpdated;
 };
 export default userSlice.reducer;

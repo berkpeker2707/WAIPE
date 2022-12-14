@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View } from "react-native";
 import { Formik } from "formik";
 import {
@@ -13,11 +13,10 @@ import {
   HStack,
 } from "native-base";
 import {
-  updateUser,
+  updateUserAction,
   pictureUploadAction,
   selectCurrentUser,
   selectUserLoading,
-  selectpictureUpload,
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -28,13 +27,6 @@ const EditMainProfileScreen = ({ navigation }) => {
 
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
-  const pictureUpload = useSelector(selectpictureUpload);
-
-  const [picture, setPicture] = useState(currentUser.picture);
-
-  useEffect(() => {
-    setPicture(pictureUpload.data.url);
-  }, [dispatch, pictureUpload.data.url]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -47,6 +39,7 @@ const EditMainProfileScreen = ({ navigation }) => {
 
     if (!result.canceled) {
       dispatch(pictureUploadAction(result));
+      navigation.navigate("MainProfile");
     }
   };
 
@@ -69,7 +62,8 @@ const EditMainProfileScreen = ({ navigation }) => {
                 biography: `${currentUser?.biography}`,
               }}
               onSubmit={(values) => {
-                dispatch(updateUser(values));
+                dispatch(updateUserAction(values));
+                navigation.navigate("MainProfile");
               }}
             >
               {({
@@ -82,7 +76,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                 <VStack space={7}>
                   <VStack>
                     <ProfileAvatar
-                      image={picture}
+                      image={currentUser.picture}
                       letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
                       onPress={() => setFieldValue("picture", "nextValue")}
                       icon="trash"

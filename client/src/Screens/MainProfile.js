@@ -18,6 +18,7 @@ import {
   extendTheme,
 } from "native-base";
 import {
+  selectUserUpdated,
   getCurrentUserAction,
   selectCurrentUser,
   selectUserLoading,
@@ -29,7 +30,11 @@ const MainProfileScreen = ({ navigation }) => {
 
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
+  const isUpdate = useSelector(selectUserUpdated);
   const [pets, setPets] = useState([["end"]]);
+  console.log("isUpdate");
+  console.log(isUpdate);
+  console.log("isUpdate");
 
   const petsMatrix = () => {
     const petsOfUser = currentUser?.pets;
@@ -59,7 +64,7 @@ const MainProfileScreen = ({ navigation }) => {
   useEffect(() => {
     dispatch(getCurrentUserAction());
     setPets(petsMatrix());
-  }, [dispatch, currentUser?._id]);
+  }, [dispatch, currentUser?._id, isUpdate]);
 
   return (
     <View style={style.container}>
