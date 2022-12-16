@@ -32,9 +32,6 @@ const MainProfileScreen = ({ navigation }) => {
   const userLoading = useSelector(selectUserLoading);
   const isUpdate = useSelector(selectUserUpdated);
   const [pets, setPets] = useState([["end"]]);
-  console.log("isUpdate");
-  console.log(isUpdate);
-  console.log("isUpdate");
 
   const petsMatrix = () => {
     const petsOfUser = currentUser?.pets;

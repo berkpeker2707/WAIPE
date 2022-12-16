@@ -90,6 +90,30 @@ export const pictureUploadAction = createAsyncThunk(
   }
 );
 
+export const pictureDeleteAction = createAsyncThunk(
+  "/user/pictureDeleteAction",
+  async (pictureUrl, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.auth?.token;
+
+      const { data } = await axios.delete(
+        `${SERVER_URL}/user/delete/profile/image`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+        pictureUrl
+      );
+
+      dispatch(updatedUser());
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -201,20 +225,20 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    // //picture delete reducer
-    // builder.addCase(pictureDeleteAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(pictureDeleteAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.pictureDeleteData = action?.payload;
-    // });
-    // builder.addCase(pictureDeleteAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
+    //picture delete reducer
+    builder.addCase(pictureDeleteAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(pictureDeleteAction.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      state.isUpdated = false;
+    });
+    builder.addCase(pictureDeleteAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     // //user delete reducer
     // builder.addCase(userDeleteAction.pending, (state) => {
     //   state.loading = true;

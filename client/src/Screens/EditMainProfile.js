@@ -15,6 +15,7 @@ import {
 import {
   updateUserAction,
   pictureUploadAction,
+  pictureDeleteAction,
   selectCurrentUser,
   selectUserLoading,
 } from "../Redux/Slices/userSlice";
@@ -66,19 +67,16 @@ const EditMainProfileScreen = ({ navigation }) => {
                 navigation.navigate("MainProfile");
               }}
             >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-                values,
-              }) => (
+              {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <VStack space={7}>
                   <VStack>
                     <ProfileAvatar
                       image={currentUser.picture}
                       letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
-                      onPress={() => setFieldValue("picture", "nextValue")}
+                      onPress={() => {
+                        dispatch(pictureDeleteAction(currentUser?.picture));
+                        navigation.navigate("MainProfile");
+                      }}
                       icon="trash"
                     />
                     <Button size="md" variant="ghost" onPress={pickImage}>

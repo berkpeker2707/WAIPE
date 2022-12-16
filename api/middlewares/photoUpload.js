@@ -29,17 +29,11 @@ const photoUpload = multer({
 //Image Resizing
 const photoResize = async (req, res, next) => {
   //check if there is no file
-  console.log("req.files");
-  console.log(req.files.picture.originalFilename);
 
   if (!req.files) return next();
   req.files.filename = `photo-${Date.now()}-${
     req.files.picture.originalFilename
   }`;
-
-  console.log(req.files.picture.path);
-  console.log(req.files.filename);
-  console.log("req.files");
 
   await sharp(req.files.picture.path)
     .resize(250, 250)
