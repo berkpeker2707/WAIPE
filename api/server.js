@@ -3,6 +3,7 @@ const passport = require("passport");
 const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
+const formData = require("express-form-data");
 require("dotenv").config();
 require("./config/passport")(passport);
 
@@ -19,6 +20,7 @@ const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(formData.parse());
 
 //database connection
 dbConnect();

@@ -45,8 +45,6 @@ const LoginScreen = ({ navigation }) => {
     );
   };
 
-  console.log("🚀 ~ file: Login.js ~ line 51 ~ LoginScreen ~ token", token);
-
   if (token) {
     return navigation.navigate("Discover");
   }

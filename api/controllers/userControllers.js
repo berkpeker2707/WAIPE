@@ -3,6 +3,11 @@ const Pet = require("../models/pet");
 const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const {
+  cloudinaryUploadUserImg,
+  cloudinaryDeleteUserImg,
+} = require("../middlewares/cloudinary");
 
 require("dotenv").config();
 
@@ -164,7 +169,7 @@ const blockPetController = expressHandler(async (req, res) => {
 //profile photo upload controller
 const pictureUploadController = expressHandler(async (req, res) => {
   const { _id } = req.user;
-  const localPath = `photos/${req.file.filename}`;
+  const localPath = `photos/${req.files.filename}`;
   const imgUploaded = await cloudinaryUploadUserImg(localPath);
 
   const foundUser = await User.findById(_id);
