@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const CommentSchema = new mongoose.Schema({
   postID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "post",
+    ref: "Post",
   },
   comment: [
     {
       ownerID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
       },
       commentText: String,
       likes: [],

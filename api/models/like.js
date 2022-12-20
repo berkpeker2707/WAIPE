@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const LikeSchema = new mongoose.Schema({
   postID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "post",
+    ref: "Post",
   },
   like: [
     {
-      ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+      ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       likeType: String,
     },
   ],
