@@ -17,22 +17,27 @@ const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    // origin: true,
+    // credentials: true,
+  })
+);
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
-app.use(formData.parse());
+// app.use(formData.parse());
 
 //database connection
 dbConnect();
-app.use(
-  session({
-    secret: "dbApp",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     secret: "dbApp",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 //routes
 // app.use("/api/overlord", adminRoutes);
