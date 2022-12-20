@@ -64,7 +64,7 @@ const getPostController = expressHandler(async (req, res) => {
   }
 });
 
-// get all posts of a pet ***
+// get all posts of a pet controller ***
 const getPetPostsController = expressHandler(async (req, res) => {
   try {
     const posts = await Post.find({ petID: req.params.petID })
@@ -78,7 +78,7 @@ const getPetPostsController = expressHandler(async (req, res) => {
   }
 });
 
-// get all posts of all ***
+// get all posts of all controller ***
 const getAllPostsController = expressHandler(async (req, res) => {
   try {
     const posts = await Post.find()
@@ -92,7 +92,7 @@ const getAllPostsController = expressHandler(async (req, res) => {
   }
 });
 
-// get all posts of followed pets ***
+// get all posts of followed pets controller ***
 const getFollowedPostsController = expressHandler(async (req, res) => {
   try {
     const id = req.user.id;
@@ -100,7 +100,11 @@ const getFollowedPostsController = expressHandler(async (req, res) => {
 
     const posts = await Post.find({
       petID: { $in: user.followedPets },
-    });
+    })
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
 
     res.status(200).json(posts);
   } catch (err) {
@@ -109,7 +113,7 @@ const getFollowedPostsController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// update selected post's description controller ***
 const updatePostController = expressHandler(async (req, res) => {
   const postID = req.params.postID;
 
@@ -118,7 +122,11 @@ const updatePostController = expressHandler(async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(postID, {
       postDescription: postDescription,
-    });
+    })
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
 
     res.status(200).json(post);
   } catch (error) {
@@ -126,7 +134,7 @@ const updatePostController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// delete selected post controller controller ***
 const deletePostController = expressHandler(async (req, res) => {
   const id = req.params.postID;
   try {
@@ -150,11 +158,12 @@ const deletePostController = expressHandler(async (req, res) => {
 
     res.status(200).json("Deleted");
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
 
-//
+// archieve and remove from archieve post controller ***
 const archivePostController = expressHandler(async (req, res) => {
   const { id } = req?.user;
   const { postID } = req?.body;
@@ -174,16 +183,6 @@ const archivePostController = expressHandler(async (req, res) => {
 
       res.status(200).json("Post has been removed from archived");
     }
-
-    // await User.updateOne(
-    //   { _id: _id },
-    //   {
-    //     $push: {
-    //       archivedPosts: [{ _id: postID }],
-    //     },
-    //   }
-    // );
-    // res.status(200).json("Archived");
   } catch (error) {
     res.status(500).json(error);
   }
