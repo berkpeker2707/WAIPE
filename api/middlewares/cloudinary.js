@@ -43,9 +43,9 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
           resource_type: "auto",
           folder: `waipe/post/${type}`,
           tags: `post${type}`,
-          height: 654,
-          width: 420,
-          crop: "fill",
+          // height: 250,
+          // width: 250,
+          // crop: "fill",
           async: false,
           end_offset: "15",
         })
