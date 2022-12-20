@@ -6,28 +6,21 @@ const expressHandler = require("express-async-handler");
 const { cloudinaryUploadPostImg } = require("../middlewares/cloudinary");
 const fs = require("fs");
 
-// *
+// ***
 const postPostController = expressHandler(async (req, res) => {
   try {
     const petID = req.body.petID;
 
-    console.log(petID);
-    console.log("TEST1");
-    const localPath = `photos/${req.files.filename}`;
+    const localPathRaw = `middlewares/photos/${req.file.filename}`;
+    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
     const imgUploaded = await cloudinaryUploadPostImg(localPath);
     if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
-    console.log("petID");
-    console.log(petID);
-    console.log("petID");
-
     const post = await Post.create({
       petID: petID,
-      picture: imgUploaded?.data?.secure_url,
+      picture: imgUploaded?.secure_url,
       postDescription: req?.body?.postDescription,
     });
-
-    console.log("TEST2");
 
     const like = await Like.create({
       postID: post._id,
@@ -36,11 +29,7 @@ const postPostController = expressHandler(async (req, res) => {
       postID: post._id,
     });
 
-    console.log("TEST3");
-
     post.updateOne({ like: like._id, comment: comment._id }).exec();
-
-    console.log("TEST4");
 
     const pet = await Pet.findById(petID);
     pet
@@ -50,6 +39,7 @@ const postPostController = expressHandler(async (req, res) => {
       )
       .exec();
 
+    fs.unlinkSync(localPathRaw);
     fs.unlinkSync(localPath);
 
     console.log(post);
