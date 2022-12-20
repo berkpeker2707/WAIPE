@@ -18,17 +18,7 @@ const postRoutes = express.Router();
 postRoutes.post(
   "/new",
   verifyToken,
-  // photoUpload.single("image"),
-  photoUpload.fields([
-    {
-      name: "image",
-      maxCount: 1,
-    },
-    {
-      name: "petID",
-      maxCount: 1,
-    },
-  ]),
+  photoUpload.single("image"),
   photoResize,
   postPostController
 );
