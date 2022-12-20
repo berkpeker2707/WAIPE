@@ -1,12 +1,13 @@
 const Post = require("../models/post");
 const Like = require("../models/like");
 const Comment = require("../models/comment");
+
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
 const { cloudinaryUploadPostImg } = require("../middlewares/cloudinary");
 const fs = require("fs");
 
-// ***
+// post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
   try {
     const petID = req.body.petID;
@@ -49,42 +50,61 @@ const postPostController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// get a single post controller ***
 const getPostController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({ _id: req.params.postID });
+    const posts = await Post.find({ _id: req.params.postID })
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// *
+// get all posts of a pet ***
 const getPetPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({ petID: req.params.petID });
+    const posts = await Post.find({ petID: req.params.petID })
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// get all posts ***
+// get all posts of all ***
 const getAllPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//
+// get all posts of followed pets ***
 const getFollowedPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find();
+    const id = req.user.id;
+    const user = await User.findById(id);
+
+    const posts = await Post.find({
+      petID: { $in: user.followedPets },
+    });
+
     res.status(200).json(posts);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
