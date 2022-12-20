@@ -37,22 +37,36 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
 
     if (type === "Wrong type") return "Wrong type";
 
-    const data = await cloudinary.v2.uploader.upload(fileToUpload, {
-      resource_type: "auto",
-      folder: `waipe/post/${type}`,
-      tags: `post${type}`,
-      height: 654,
-      width: 420,
-      crop: "fill",
-      async: true,
-      end_offset: "15",
+    let promise = new Promise((resolve, reject) => {
+      cloudinary.v2.uploader
+        .upload(fileToUpload, {
+          resource_type: "auto",
+          folder: `waipe/post/${type}`,
+          tags: `post${type}`,
+          height: 654,
+          width: 420,
+          crop: "fill",
+          async: false,
+          end_offset: "15",
+        })
+        .then((result) => {
+          if (result && result.hasOwnProperty("secure_url")) {
+            // console.log(" I DO HAVE SECURE URL");
+            // if secure_url exists
+            resolve(result);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
 
-    return {
-      data,
-    };
+    let result = await promise; // wait until the promise resolves (*)
+
+    return result;
+
+    // return data;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
