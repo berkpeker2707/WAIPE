@@ -196,10 +196,11 @@ const pictureDeleteController = expressHandler(async (req, res) => {
   }
 });
 
-// delete user controller
+// delete user controller ***
 const userDeleteController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
   try {
+    const _id = req.user._id;
+
     const user = await User.findByIdAndDelete(_id);
 
     const pets = user.pets;

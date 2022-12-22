@@ -53,7 +53,7 @@ const postPetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// update pet controller ***
 const updatePetController = expressHandler(async (req, res) => {
   const id = req.params.id;
 
