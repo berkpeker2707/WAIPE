@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const cloudinaryUploadUserImg = async (fileToUpload) => {
+const cloudinaryUploadUserImg = async (fileToUpload, id) => {
   try {
     const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
     const extension = path.extname(fileToUpload);
@@ -21,7 +21,7 @@ const cloudinaryUploadUserImg = async (fileToUpload) => {
         .upload(fileToUpload, {
           resource_type: "auto",
           folder: `waipe/user/${type}`,
-          tags: `user${type}`,
+          tags: [`user${type}`, id],
           // height: 250,
           // width: 250,
           // crop: "fill",
@@ -47,7 +47,7 @@ const cloudinaryUploadUserImg = async (fileToUpload) => {
   }
 };
 
-const cloudinaryUploadPostImg = async (fileToUpload) => {
+const cloudinaryUploadPostImg = async (fileToUpload, id) => {
   try {
     const videoFormats = [".mp4", ".avi"];
     const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
@@ -65,7 +65,7 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
         .upload(fileToUpload, {
           resource_type: "auto",
           folder: `waipe/post/${type}`,
-          tags: `post${type}`,
+          tags: [`post${type}`, id],
           // height: 250,
           // width: 250,
           // crop: "fill",
@@ -94,7 +94,7 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
   }
 };
 
-const cloudinaryUploadPetImg = async (fileToUpload) => {
+const cloudinaryUploadPetImg = async (fileToUpload, id) => {
   try {
     const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
     const extension = path.extname(fileToUpload);
@@ -108,7 +108,7 @@ const cloudinaryUploadPetImg = async (fileToUpload) => {
         .upload(fileToUpload, {
           resource_type: "auto",
           folder: `waipe/pet/${type}`,
-          tags: `pet${type}`,
+          tags: [`pet${type}`, id],
           // height: 250,
           // width: 250,
           // crop: "fill",
