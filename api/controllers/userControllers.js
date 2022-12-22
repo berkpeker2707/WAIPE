@@ -179,8 +179,6 @@ const pictureDeleteController = expressHandler(async (req, res) => {
     if (foundUserPicture.picture !== "") {
       const imgUploaded = await cloudinaryDeleteUserImg(image);
 
-      console.log(imgUploaded);
-
       await User.findByIdAndUpdate(
         id,
         {
