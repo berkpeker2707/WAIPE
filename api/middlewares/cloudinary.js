@@ -9,15 +9,39 @@ cloudinary.config({
 
 const cloudinaryUploadUserImg = async (fileToUpload) => {
   try {
-    const data = await cloudinary.v2.uploader.upload(fileToUpload, {
-      resource_type: "auto",
-      folder: "waipe/user/photos",
-      tags: "userPhotos",
+    const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
+    const extension = path.extname(fileToUpload);
+
+    const type = imageFormats.includes(extension) ? "photos" : "Wrong type";
+
+    if (type === "Wrong type") return "Wrong type";
+
+    let promise = new Promise((resolve, reject) => {
+      cloudinary.v2.uploader
+        .upload(fileToUpload, {
+          resource_type: "auto",
+          folder: `waipe/user/${type}`,
+          tags: `user${type}`,
+          // height: 250,
+          // width: 250,
+          // crop: "fill",
+          async: false,
+          end_offset: "15",
+        })
+        .then((result) => {
+          if (result && result.hasOwnProperty("secure_url")) {
+            // if secure_url exists
+            resolve(result);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
 
-    return {
-      data,
-    };
+    let result = await promise; // wait until the promise resolves (*)
+
+    return result;
   } catch (error) {
     return error;
   }
@@ -36,7 +60,6 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
       : "Wrong type";
 
     if (type === "Wrong type") return "Wrong type";
-
     let promise = new Promise((resolve, reject) => {
       cloudinary.v2.uploader
         .upload(fileToUpload, {
@@ -50,8 +73,10 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
           end_offset: "15",
         })
         .then((result) => {
+          console.log(`result`);
+          console.log(result);
+          console.log(`result`);
           if (result && result.hasOwnProperty("secure_url")) {
-            // console.log(" I DO HAVE SECURE URL");
             // if secure_url exists
             resolve(result);
           }
@@ -64,8 +89,6 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
     let result = await promise; // wait until the promise resolves (*)
 
     return result;
-
-    // return data;
   } catch (error) {
     return error;
   }
@@ -73,15 +96,39 @@ const cloudinaryUploadPostImg = async (fileToUpload) => {
 
 const cloudinaryUploadPetImg = async (fileToUpload) => {
   try {
-    const data = await cloudinary.v2.uploader.upload(fileToUpload, {
-      resource_type: "auto",
-      folder: "waipe/pet/photos",
-      tags: "petPhotos",
+    const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
+    const extension = path.extname(fileToUpload);
+
+    const type = imageFormats.includes(extension) ? "photos" : "Wrong type";
+
+    if (type === "Wrong type") return "Wrong type";
+
+    let promise = new Promise((resolve, reject) => {
+      cloudinary.v2.uploader
+        .upload(fileToUpload, {
+          resource_type: "auto",
+          folder: `waipe/pet/${type}`,
+          tags: `pet${type}`,
+          // height: 250,
+          // width: 250,
+          // crop: "fill",
+          async: false,
+          end_offset: "15",
+        })
+        .then((result) => {
+          if (result && result.hasOwnProperty("secure_url")) {
+            // if secure_url exists
+            resolve(result);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
 
-    return {
-      data,
-    };
+    let result = await promise; // wait until the promise resolves (*)
+
+    return result;
   } catch (error) {
     return error;
   }
@@ -110,7 +157,9 @@ const cloudinaryDeleteUserImg = async (public_id) => {
 const cloudinaryDeletePostImg = async (public_id) => {
   try {
     const getPublicId = public_id.split("/").pop().split(".")[0];
-    var imagePath = "waipe/post/photos/" + getPublicId;
+    const type = public_id.split("waipe/post/").pop().split("/")[0];
+
+    var imagePath = `waipe/post/${type}/` + getPublicId;
 
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
@@ -130,6 +179,7 @@ const cloudinaryDeletePostImg = async (public_id) => {
 const cloudinaryDeletePetImg = async (public_id) => {
   try {
     const getPublicId = public_id.split("/").pop().split(".")[0];
+
     var imagePath = "waipe/pet/photos/" + getPublicId;
 
     const data = await cloudinary.v2.uploader.destroy(
