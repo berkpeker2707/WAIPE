@@ -2,45 +2,57 @@ const User = require("../models/user");
 const Pet = require("../models/pet");
 const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
+const {
+  cloudinaryUploadUserImg,
+  cloudinaryDeleteUserImg,
+} = require("../middlewares/cloudinary");
+const fs = require("fs");
 
-require("dotenv").config();
-
-//get current user ***
+// get current user controller ***
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
 
   try {
     const user = await User.findById(id)
       .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
       .exec();
 
-    res.json(user);
+    res.status(200).json("Fetched current user.");
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 });
 
-//get selected user ***
+// get selected user controller ***
 const getUserController = expressHandler(async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const user = await User.findById(_id);
+    const user = await User.findById(_id)
+      .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
+      .exec();
 
-    let pets = [];
-    for (let i = 0; i < user.pets.length; i++) {
-      const pet = await Pet.findById(user.pets[i]);
-      pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
-    }
+    // Doga's code commented just in case
+    // let pets = [];
+    // for (let i = 0; i < user.pets.length; i++) {
+    //   const pet = await Pet.findById(user.pets[i]);
+    //   pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
+    // }
 
-    res.json(user);
+    res.status(200).json("Fetched user.");
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-//update current user ***
+// update current user controller ***
 const updateUserController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -65,7 +77,7 @@ const updateUserController = expressHandler(async (req, res) => {
   }
 });
 
-//block user & unblock user ***
+// block user & unblock user ***
 const blockUserController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -82,7 +94,7 @@ const blockUserController = expressHandler(async (req, res) => {
   }
 });
 
-//follow & unfollow pet ***
+// follow & unfollow pet ***
 const followPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -99,7 +111,7 @@ const followPetController = expressHandler(async (req, res) => {
   }
 });
 
-//block & unblock pet ***
+// block & unblock pet ***
 const blockPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -118,50 +130,75 @@ const blockPetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//profile photo upload controller
+// profile photo upload controller ***
 const pictureUploadController = expressHandler(async (req, res) => {
-  const { _id } = req.user;
-  const localPath = `photos/${req.file.filename}`;
-  const imgUploaded = await cloudinaryUploadUserImg(localPath);
+  try {
+    const id = req.user._id;
+    const localPathRaw = `middlewares/photos/${req.file.filename}`;
+    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
+    const imgUploaded = await cloudinaryUploadUserImg(localPath, id);
 
-  const foundUser = await User.findById(_id);
-  if (foundUser.picture) {
-    await cloudinaryDeleteUserImg(foundUser.picture);
+    const foundUserPicture = await User.findById(id);
+
+    //delete old profile picture if exists
+    if (
+      foundUserPicture.picture === "" ||
+      foundUserPicture.picture.includes("https://res.cloudinary.com")
+    ) {
+      await cloudinaryDeleteUserImg(foundUserPicture.picture);
+
+      const user = await User.findByIdAndUpdate(
+        id,
+        {
+          picture: imgUploaded.secure_url,
+        },
+        { new: true }
+      );
+
+      fs.unlinkSync(localPathRaw);
+      fs.unlinkSync(localPath);
+
+      res.status(200).json("Profile photo updated.");
+    } else {
+      res.json("Profile photo already deleted.");
+    }
+  } catch (error) {
+    res.status(500).json(error);
   }
-
-  await User.findByIdAndUpdate(
-    _id,
-    {
-      picture: imgUploaded?.data?.secure_url,
-      $push: { pictures: imgUploaded?.data?.secure_url },
-    },
-    { new: true }
-  );
-  fs.unlinkSync(localPath);
-
-  res.json(imgUploaded);
 });
 
-// *
-//profile photo delete controller
+// profile photo delete controller ***
 const pictureDeleteController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
-  const { picture } = req?.body;
-  const imgUploaded = await cloudinaryDeleteUserImg(picture);
+  const id = req.user._id;
+  const image = req.body.picture;
 
-  await User.findByIdAndUpdate(
-    _id,
-    {
-      picture: "",
-    },
-    { new: true }
-  );
+  try {
+    const foundUserPicture = await User.findById(id);
 
-  res.json(imgUploaded);
+    //delete old profile picture if exists
+    if (foundUserPicture.picture !== "") {
+      const imgUploaded = await cloudinaryDeleteUserImg(image);
+
+      console.log(imgUploaded);
+
+      await User.findByIdAndUpdate(
+        id,
+        {
+          picture: "",
+        },
+        { new: true }
+      );
+
+      res.status(200).json("Profile photo deleted");
+    } else {
+      res.json("Profile photo already deleted.");
+    }
+  } catch (error) {
+    return error;
+  }
 });
 
-//delete user
+// delete user controller
 const userDeleteController = expressHandler(async (req, res) => {
   const { _id } = req?.user;
   try {
@@ -175,7 +212,7 @@ const userDeleteController = expressHandler(async (req, res) => {
         await Post.deleteOne({ _id: posts[j] });
       }
     }
-    res.status(200).json("USER DELETED");
+    res.status(200).json("User deleted.");
   } catch (error) {
     res.status(500).json(error);
   }
