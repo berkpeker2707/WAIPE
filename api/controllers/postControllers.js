@@ -4,7 +4,10 @@ const Comment = require("../models/comment");
 
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
-const { cloudinaryUploadPostImg } = require("../middlewares/cloudinary");
+const {
+  cloudinaryUploadPostImg,
+  cloudinaryDeletePostImg,
+} = require("../middlewares/cloudinary");
 const fs = require("fs");
 
 // post a post controller ***
@@ -14,7 +17,7 @@ const postPostController = expressHandler(async (req, res) => {
 
     const localPathRaw = `middlewares/photos/${req.file.filename}`;
     const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
-    const imgUploaded = await cloudinaryUploadPostImg(localPath);
+    const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
     if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
     const post = await Post.create({
@@ -43,7 +46,6 @@ const postPostController = expressHandler(async (req, res) => {
     fs.unlinkSync(localPathRaw);
     fs.unlinkSync(localPath);
 
-    console.log(post);
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);
@@ -138,25 +140,36 @@ const updatePostController = expressHandler(async (req, res) => {
 const deletePostController = expressHandler(async (req, res) => {
   const id = req.params.postID;
   try {
-    const post = await Post.findOneAndDelete({ _id: id });
+    const foundPost = await Post.findById(id);
+    console.log(foundPost);
+    if (foundPost) {
+      const postPicture = await Post.find({ _id: id }).select("picture -_id");
 
-    const pet = await Pet.findOne({
-      petPost: { $in: [post._id] },
-    });
+      let pictureURL = postPicture[0].picture;
+      const post = await Post.findOneAndDelete({ _id: id });
 
-    if (pet.petPost.includes(post._id)) {
-      await pet.updateOne({
-        $pull: { petPost: post._id },
+      const pet = await Pet.findOne({
+        petPost: { $in: [post._id] },
       });
+
+      if (pet.petPost.includes(post._id)) {
+        await pet.updateOne({
+          $pull: { petPost: post._id },
+        });
+      }
+
+      await Comment.findOneAndDelete({
+        postID: id,
+      });
+
+      await Like.findOneAndDelete({ postID: id });
+
+      await cloudinaryDeletePostImg(pictureURL);
+
+      res.status(200).json("Deleted");
+    } else {
+      res.status(200).json("Post already deleted.");
     }
-
-    await Comment.findOneAndDelete({
-      postID: id,
-    });
-
-    await Like.findOneAndDelete({ postID: id });
-
-    res.status(200).json("Deleted");
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
