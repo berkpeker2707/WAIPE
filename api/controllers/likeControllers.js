@@ -3,7 +3,6 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const User = require("../models/user");
 const expressHandler = require("express-async-handler");
-const { findOne, updateOne } = require("../models/pet");
 
 // const getPostLikesController = expressHandler(async (req, res) => {
 //   try {
@@ -41,19 +40,23 @@ const { findOne, updateOne } = require("../models/pet");
 //   }
 // });
 
-// *
+// like unline post controller ***
 const updatePostLikeController = expressHandler(async (req, res) => {
-  const likeID = req.params.id;
-  const selectedLike = await Like.findById(likeID);
-  const userID = req.user.id;
-  const likeType = req.body.likeType;
-  const user = await User.findById(userID);
-
   try {
-    const like = await Like.findById(likeID);
+    const likeID = req.params.id;
+    const selectedLike = await Like.findById(likeID);
+    const userID = req.user.id;
+    const likeType = req.body.likeType;
+    const user = await User.findById(userID);
+
+    const like = await Like.findById(likeID)
+      .populate({ path: "postID", model: "Post" })
+      .populate({ path: "like.ownerID", model: "User" })
+      .exec();
+
     if (
       like.like.find((element) => element.likeType === likeType) &&
-      like.like.find((element) => element.ownerID.toString() === userID)
+      like.like.find((element) => element.ownerID._id.toString() === userID)
     ) {
       await like.updateOne(
         {
@@ -62,6 +65,8 @@ const updatePostLikeController = expressHandler(async (req, res) => {
         { multi: true }
       );
       await user.updateOne({ $pull: { likedPosts: selectedLike.postID } });
+
+      res.status(200).json(like);
     } else {
       await like.updateOne(
         {
@@ -70,9 +75,9 @@ const updatePostLikeController = expressHandler(async (req, res) => {
         { upsert: true }
       );
       await user.updateOne({ $push: { likedPosts: selectedLike.postID } });
-    }
 
-    res.status(200).json(like);
+      res.status(200).json(like);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
