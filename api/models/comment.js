@@ -12,7 +12,12 @@ const CommentSchema = new mongoose.Schema({
         ref: "User",
       },
       commentText: String,
-      likes: [],
+      likedBy: [
+        {
+          ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+          likeType: String,
+        },
+      ],
     },
   ],
 });
