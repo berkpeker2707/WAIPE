@@ -15,7 +15,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
 import { NativeBaseProvider, extendTheme, useSafeArea } from "native-base";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import ReanimatedBottomTabs from "reanimated-bottom-tabs";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useEffect } from "react";
@@ -30,7 +32,7 @@ import SearchIcon from "./src/Components/Icons/SearchIcon";
 import AddIcon from "./src/Components/Icons/AddIcon";
 import ProfileIcon from "./src/Components/Icons/ProfileIcon";
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   let persistor = persistStore(store);
@@ -57,6 +59,7 @@ export default function App() {
           tabBarActiveTintColor: "#fff",
           tabBarInactiveTintColor: "#fff9",
         }}
+        tabBar={(props) => <ReanimatedBottomTabs {...props} />}
       >
         <Tab.Screen
           options={{
@@ -119,7 +122,7 @@ export default function App() {
             tabBarLabel: "Home",
             // tabBarIcon: ({ color }) => (
             //   <HomeIcon name="home" color={color} size={26} />
-            // ),
+            // )
           }}
           name="Login"
           component={Login}
