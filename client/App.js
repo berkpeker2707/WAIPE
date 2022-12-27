@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
 import { NativeBaseProvider, extendTheme, useSafeArea } from "native-base";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ReanimatedBottomTabs from "reanimated-bottom-tabs";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -59,7 +58,6 @@ export default function App() {
           tabBarActiveTintColor: "#fff",
           tabBarInactiveTintColor: "#fff9",
         }}
-        tabBar={(props) => <ReanimatedBottomTabs {...props} />}
       >
         <Tab.Screen
           options={{
@@ -115,27 +113,17 @@ export default function App() {
     ) : (
       <Tab.Navigator>
         <Tab.Screen
-          activeColor="#fff"
-          inactiveColor="#3a6b35"
-          barStyle={{ backgroundColor: "#3a6b35" }}
           options={{
-            tabBarLabel: "Home",
-            // tabBarIcon: ({ color }) => (
-            //   <HomeIcon name="home" color={color} size={26} />
-            // )
+            tabBarButton: () => null,
+            tabBarIcon: ({ focused, color, size }) => <></>,
           }}
           name="Login"
           component={Login}
         />
         <Tab.Screen
-          activeColor="#fff"
-          inactiveColor="#3a6b35"
-          barStyle={{ backgroundColor: "#3a6b35" }}
           options={{
-            tabBarLabel: "Home",
-            // tabBarIcon: ({ color }) => (
-            //   <HomeIcon name="home" color={color} size={26} />
-            // ),
+            tabBarButton: () => null,
+            tabBarIcon: ({ focused, color, size }) => <></>,
           }}
           name="Register"
           component={Register}
