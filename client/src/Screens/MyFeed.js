@@ -12,23 +12,26 @@ import {
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
-import { selectGetAllPosts } from "../Redux/Slices/postSlice";
+import {
+  selectGetFollowedPosts,
+  getFollowedPostsAction,
+} from "../Redux/Slices/postSlice";
 
 const MyFeedScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
-  const allPosts = useSelector(selectGetAllPosts);
+  const followedPosts = useSelector(selectGetFollowedPosts);
 
-  // useEffect(() => {
-  //   dispatch(getAllPosts());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
+  }, [dispatch]);
 
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
   });
 
-  return allPosts ? (
+  return followedPosts ? (
     <ScrollView {...safeAreaProps}></ScrollView>
   ) : (
     <Text>Loading...</Text>

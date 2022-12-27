@@ -93,6 +93,29 @@ export const getAllPostsAction = createAsyncThunk(
   }
 );
 
+export const getFollowedPostsAction = createAsyncThunk(
+  "post/getFollowedPosts",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${SERVER_URL}/post/fetch/all/followed`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 export const updatePostAction = createAsyncThunk(
   "post/updatePost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
@@ -229,6 +252,20 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    //get followed posts reducer
+    builder.addCase(getFollowedPostsAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getFollowedPostsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.getFollowedPostsData = action.payload;
+    });
+    builder.addCase(getFollowedPostsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //update post reducer
     builder.addCase(updatePostAction.pending, (state) => {
       state.loading = true;
@@ -280,6 +317,8 @@ export const selectPostPost = (state) => state.post.postPostData;
 export const selectGetPost = (state) => state.post.getPostData;
 export const selectGetPetPosts = (state) => state.post.getPetPostsData;
 export const selectGetAllPosts = (state) => state.post.getAllPostsData;
+export const selectGetFollowedPosts = (state) =>
+  state.post.getFollowedPostsData;
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
 export const selectArchivePost = (state) => state.post.archivePostData;
