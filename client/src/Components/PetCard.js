@@ -1,13 +1,15 @@
 import React from "react";
 import PressableButton from "./PressableButton";
-import { Text, Avatar, Pressable, Box } from "native-base";
+import { Text, Avatar, Box } from "native-base";
 
 const PetCard = (props) => {
-  const { name, image } = props;
+  const { name, image, petId, navigation } = props;
 
   return (
     <Box alignItems="center" justifyContent="center">
-      <PressableButton onPress={() => console.log("I'm Pressed")}>
+      <PressableButton
+        onPress={() => navigation.navigate("PetProfile", { petId: petId })}
+      >
         <Avatar
           bg="purple.600"
           alignSelf="center"

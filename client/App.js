@@ -21,6 +21,7 @@ import HomeIcon from "./src/Components/Icons/HomeIcon";
 import SearchIcon from "./src/Components/Icons/SearchIcon";
 import AddIcon from "./src/Components/Icons/AddIcon";
 import ProfileIcon from "./src/Components/Icons/ProfileIcon";
+import PetProfile from "./src/Screens/PetProfile";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -100,6 +101,7 @@ export default function App() {
           name="Post"
           component={Post}
         />
+        <Tab.Screen name="PetProfile" component={PetProfile} />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
     ) : (

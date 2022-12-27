@@ -108,7 +108,12 @@ const MainProfileScreen = ({ navigation }) => {
                               mb={4}
                             >
                               {pet !== "end" ? (
-                                <PetCard name={pet.name} image={pet.picture} />
+                                <PetCard
+                                  name={pet.name}
+                                  image={pet.picture}
+                                  petId={pet._id}
+                                  navigation={navigation}
+                                />
                               ) : (
                                 <IconButton
                                   borderRadius="70"
