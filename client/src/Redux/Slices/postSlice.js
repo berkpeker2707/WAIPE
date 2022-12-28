@@ -50,30 +50,6 @@ export const getPost = createAsyncThunk(
   }
 );
 
-// //get announcement action ***
-// export const getAnnouncementAction = createAsyncThunk(
-//   "get/announcement",
-//   async (payload, { rejectWithValue, getState, dispatch }) => {
-//     //get employee token
-//     const employeeState = getState()?.employeeState;
-//     const { employeeAuthState } = employeeState;
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${employeeAuthState?.token}`,
-//       },
-//     };
-//     try {
-//       const { data } = await axios.get(`${api_url}/api/announcements`, config);
-//       return data;
-//     } catch (err) {
-//       if (!error?.response) {
-//         throw error;
-//       }
-//       return rejectWithValue(error?.response?.data);
-//     }
-//   }
-// );
-
 const postSlice = createSlice({
   name: "post",
   initialState: { post: null, loading: false },

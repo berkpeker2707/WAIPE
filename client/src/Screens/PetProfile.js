@@ -1,16 +1,26 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Center, Spinner, VStack } from "native-base";
+import {
+  Center,
+  Spinner,
+  VStack,
+  HStack,
+  Box,
+  ScrollView,
+  Image,
+} from "native-base";
 import {
   selectGetPet,
   selectPetLoading,
   getPetAction,
+  getPost,
 } from "../Redux/Slices/petSlice";
 import { useSelector, useDispatch } from "react-redux";
 import SettingsButton from "../Components/SettingsButton";
 import NameAndNickname from "../Components/NameAndNickname";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
+import PressableButton from "../Components/PressableButton";
 
 const PetProfile = ({ navigation, route }) => {
   const { petId } = route.params;
@@ -18,8 +28,8 @@ const PetProfile = ({ navigation, route }) => {
 
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
-  console.log(pet);
-  console.log(petLoading);
+
+  console.log(pet.petPost[0]);
 
   useEffect(() => {
     dispatch(getPetAction(petId));
@@ -47,6 +57,36 @@ const PetProfile = ({ navigation, route }) => {
                 }${"\n"}${pet?.biography}`}
               />
             </VStack>
+            <Box w={330} h="40%">
+              <ScrollView w={330} h="80">
+                <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
+                  {pet?.petPost?.map((post, index) => {
+                    return (
+                      <PressableButton
+                        onPress={() =>
+                          navigation.navigate("Post", { post: post })
+                        }
+                      >
+                        <Image
+                          source={{
+                            uri: `${post.picture}`,
+                          }}
+                          alt="Alternate Text"
+                          size="xl"
+                          w={160}
+                          mr={(index + 1) % 2 === 0 ? "0" : "1"}
+                          ml={(index + 1) % 2 !== 0 ? "0" : "1"}
+                          mt="1"
+                          mb="1"
+                          borderRadius="xl"
+                          key={index}
+                        />
+                      </PressableButton>
+                    );
+                  })}
+                </HStack>
+              </ScrollView>
+            </Box>
           </>
         )}
       </Center>

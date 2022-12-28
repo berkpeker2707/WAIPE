@@ -9,7 +9,7 @@ const PetSchema = new mongoose.Schema({
   breed: { type: String },
   interestedIn: { type: String },
   ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-  petPost: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
+  petPost: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
 });
 
 module.exports = Pet = mongoose.model("Pet", PetSchema);
