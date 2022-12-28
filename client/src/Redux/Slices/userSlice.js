@@ -5,11 +5,11 @@ const SERVER_URL = "http://192.168.100.21:1000/api";
 
 export const getCurrentUserAction = createAsyncThunk(
   "user/getCurrentUserAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${SERVER_URL}/user/me`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -22,11 +22,11 @@ export const getCurrentUserAction = createAsyncThunk(
 
 export const getUserAction = createAsyncThunk(
   "user/getUserAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${SERVER_URL}/user/${_id}}`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -39,11 +39,11 @@ export const getUserAction = createAsyncThunk(
 
 export const updateUserAction = createAsyncThunk(
   "user/updateUserAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.put(`${SERVER_URL}/user/update`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -56,11 +56,11 @@ export const updateUserAction = createAsyncThunk(
 
 export const blockUserAction = createAsyncThunk(
   "user/blockUserAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.put(`${SERVER_URL}/user/block/user`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -73,11 +73,11 @@ export const blockUserAction = createAsyncThunk(
 
 export const followPetAction = createAsyncThunk(
   "user/followPetAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.put(`${SERVER_URL}/user/follow/pet`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -90,11 +90,11 @@ export const followPetAction = createAsyncThunk(
 
 export const blockPetAction = createAsyncThunk(
   "user/blockPetAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.put(`${SERVER_URL}/user/block/pet`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -107,13 +107,13 @@ export const blockPetAction = createAsyncThunk(
 
 export const pictureUploadAction = createAsyncThunk(
   "user/pictureUploadAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/user/upload/profile/image`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -127,13 +127,13 @@ export const pictureUploadAction = createAsyncThunk(
 
 export const pictureDeleteAction = createAsyncThunk(
   "user/pictureDeleteAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.delete(
         `${SERVER_URL}/user/delete/profile/image`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -147,11 +147,11 @@ export const pictureDeleteAction = createAsyncThunk(
 
 export const userDeleteAction = createAsyncThunk(
   "user/userDeleteAction",
-  async (token, { rejectWithValue }) => {
+  async (token, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.delete(`${SERVER_URL}/user/delete`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 

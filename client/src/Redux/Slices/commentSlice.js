@@ -5,11 +5,18 @@ const SERVER_URL = "http://192.168.100.21:1000/api";
 
 export const updateCommentAction = createAsyncThunk(
   "comment/updateComment",
-  async (parentCommentID, { rejectWithValue }) => {
+  async (parentCommentID, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
     try {
       const { data } = await axios.put(
         `${SERVER_URL}/comment/update/${parentCommentID}`,
-        preSignupData
+        config
       );
 
       return data;
@@ -21,15 +28,27 @@ export const updateCommentAction = createAsyncThunk(
 
 export const getCommentAction = createAsyncThunk(
   "comment/getComment",
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, getState }) => {
+    console.log(`auth`);
+    console.log(getState()?.auth);
+    console.log(`auth`);
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+
     try {
       const { data } = await axios.get(
         `${SERVER_URL}/comment/fetch/${id}`,
-        verifySignupData
+        config
       );
 
       return data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error?.reponse?.data);
     }
   }
@@ -37,9 +56,19 @@ export const getCommentAction = createAsyncThunk(
 
 export const deleteCommentAction = createAsyncThunk(
   "comment/deleteComment",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
     try {
-      const { data } = await axios.post(`${SERVER_URL}/comment/delete/comment`);
+      const { data } = await axios.post(
+        `${SERVER_URL}/comment/delete/comment`,
+        config
+      );
 
       return data;
     } catch (error) {

@@ -5,10 +5,17 @@ const SERVER_URL = "http://192.168.100.21:1000/api";
 
 export const updatePostLikeAction = createAsyncThunk(
   "like/updatePostLike",
-  async (likeID, { rejectWithValue }) => {
+  async (likeID, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/like/update/post/${likeID}`
+        `${SERVER_URL}/like/update/post/${likeID},config`
       );
 
       return data;

@@ -6,7 +6,7 @@ const SERVER_URL = "http://192.168.100.21:1000/api";
 
 export const presignupAction = createAsyncThunk(
   "auth/presignupAction",
-  async (preSignupData, { rejectWithValue }) => {
+  async (preSignupData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/presignup`,
@@ -22,7 +22,7 @@ export const presignupAction = createAsyncThunk(
 
 export const verifysignupAction = createAsyncThunk(
   "auth/verifysignupAction",
-  async (verifySignupData, { rejectWithValue }) => {
+  async (verifySignupData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/verify-signup`,
@@ -38,7 +38,7 @@ export const verifysignupAction = createAsyncThunk(
 
 export const signupAction = createAsyncThunk(
   "auth/signupAction",
-  async (signupData, { rejectWithValue }) => {
+  async (signupData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signup`,
@@ -54,7 +54,7 @@ export const signupAction = createAsyncThunk(
 
 export const signinAction = createAsyncThunk(
   "auth/signinAction",
-  async (signinData, { rejectWithValue }) => {
+  async (signinData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/signin`,
@@ -71,7 +71,7 @@ export const signinAction = createAsyncThunk(
 
 export const forgotPasswordAction = createAsyncThunk(
   "auth/forgotPasswordAction",
-  async (forgotPasswordData, { rejectWithValue }) => {
+  async (forgotPasswordData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/forgot-password`,
@@ -87,7 +87,7 @@ export const forgotPasswordAction = createAsyncThunk(
 
 export const verifyPasswordAction = createAsyncThunk(
   "auth/verifyPasswordAction",
-  async (verifyPasswordData, { rejectWithValue }) => {
+  async (verifyPasswordData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${SERVER_URL}/auth/verify-password`,

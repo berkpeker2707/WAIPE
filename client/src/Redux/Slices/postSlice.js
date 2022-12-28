@@ -96,6 +96,9 @@ export const getAllPostsAction = createAsyncThunk(
 export const getFollowedPostsAction = createAsyncThunk(
   "post/getFollowedPosts",
   async (_, { rejectWithValue, getState, dispatch }) => {
+    console.log(`first`);
+    console.log(`first`);
+    console.log(`first`);
     //get employee token
     const auth = getState()?.auth;
     const config = {
