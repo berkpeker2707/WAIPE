@@ -85,9 +85,9 @@ const DiscoverScreen = ({ navigation, route }) => {
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={(allPosts) => renderItem(allPosts)}
-        onRefresh={() => refetch({ first: ITEM_CNT })}
-        onEndReachedThreshold={0.1}
-        onEndReached={() => loadNext(ITEM_CNT)}
+        // onRefresh={() => refetch({ first: ITEM_CNT })}
+        // onEndReachedThreshold={0.1}
+        // onEndReached={() => loadNext(ITEM_CNT)}
       />
     </ScrollView>
   ) : (

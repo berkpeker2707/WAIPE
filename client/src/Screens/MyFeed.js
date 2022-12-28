@@ -9,6 +9,9 @@ import {
   Box,
   useSafeArea,
   Pressable,
+  VStack,
+  Input,
+  Icon,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,13 +29,54 @@ const MyFeedScreen = ({ navigation, route }) => {
     dispatch(getFollowedPostsAction());
   }, [dispatch]);
 
+  console.log(`followedPosts`);
+  console.log(followedPosts);
+  console.log(`followedPosts`);
+
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
   });
 
+  const renderItem = ({ item }) => {
+    return (
+      <Pressable
+        onPress={() => {
+          navigation.navigate("Post", {
+            post: item,
+          });
+        }}
+      >
+        <View key={item._id} style={[{ flex: 1 }]}>
+          <Image
+            source={{ uri: item.picture }}
+            style={{
+              height: 150,
+              alignSelf: "stretch",
+              margin: 2,
+            }}
+            resizeMode="cover"
+            alt="alt"
+          />
+        </View>
+      </Pressable>
+    );
+  };
+
   return followedPosts ? (
-    <ScrollView {...safeAreaProps}></ScrollView>
+    <ScrollView {...safeAreaProps}>
+      <MasonryList
+        style={{ alignSelf: "stretch" }}
+        data={followedPosts}
+        keyExtractor={(item) => item._id}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={(followedPosts) => renderItem(followedPosts)}
+        // onRefresh={() => refetch({ first: ITEM_CNT })}
+        // onEndReachedThreshold={0.1}
+        // onEndReached={() => loadNext(ITEM_CNT)}
+      />
+    </ScrollView>
   ) : (
     <Text>Loading...</Text>
   );
