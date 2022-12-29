@@ -23,9 +23,11 @@ import {
   Divider,
   Text,
   FormControl,
+  useTheme,
 } from "native-base";
 
 const LoginScreen = ({ navigation }) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const authLoading = useSelector(selectAuthLoading);
@@ -39,7 +41,7 @@ const LoginScreen = ({ navigation }) => {
         as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />}
         size={5}
         mr="3"
-        color="muted.400"
+        color={theme.colors.muted[600]}
         onPress={() => setShow(!show)}
       />
     );
@@ -55,12 +57,12 @@ const LoginScreen = ({ navigation }) => {
       onSubmit={(values) => dispatch(signinAction(values))}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={style.container}>
+        <View style={theme.container}>
           <SSRProvider>
             <Center flex={1} px="3">
               <VStack space={5} w="300">
                 <VStack space={6} alignItems="center">
-                  <Heading size="md" color="extraOrage.400">
+                  <Heading size="md" color={theme.colors.extraOrage[400]}>
                     Log in to Waipe
                   </Heading>
                   <Stack direction="column" w="300">
@@ -72,11 +74,11 @@ const LoginScreen = ({ navigation }) => {
                       >
                         <Input
                           bg="white"
-                          borderColor="extraOrage.400"
+                          borderColor={theme.colors.extraOrage[400]}
                           variant="rounded"
                           placeholder="Email"
                           w="100%"
-                          _focus={style.input}
+                          _focus={theme.input}
                           onChangeText={handleChange("email")}
                           onBlur={handleBlur("email")}
                           value={values.email}
@@ -92,13 +94,13 @@ const LoginScreen = ({ navigation }) => {
                       >
                         <Input
                           bg="white"
-                          borderColor="extraOrage.400"
+                          borderColor={theme.colors.extraOrage[400]}
                           variant="rounded"
                           placeholder="Password"
                           w="100%"
                           type={show ? "text" : "password"}
                           InputRightElement={<VisibilityIcon />}
-                          _focus={style.input}
+                          _focus={theme.input}
                           onChangeText={handleChange("password")}
                           onBlur={handleBlur("password")}
                           value={values.password}
@@ -112,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
                       <Button
                         size="sm"
                         variant="link"
-                        _text={{ color: "forestGreen.400" }}
+                        _text={{ color: theme.colors.forestGreen[400] }}
                       >
                         Forgot password?
                       </Button>
@@ -126,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
                     w="50%"
                     size="md"
                     borderRadius="50"
-                    bg="extraOrage.400"
+                    bg={theme.colors.extraOrage[400]}
                     mb="2"
                     colorScheme="warning"
                     _text={{ fontSize: "md" }}
@@ -136,11 +138,16 @@ const LoginScreen = ({ navigation }) => {
                     Sign in
                   </Button>
                   <Flex direction="row" mb="5" mt="3" alignItems="center">
-                    <Divider bg="sage.300" w="55" />
-                    <Text fontSize="md" color="sage.300" mr="2" ml="2">
+                    <Divider bg={theme.colors.sage[300]} w="55" />
+                    <Text
+                      fontSize="md"
+                      color={theme.colors.singletons["white"]}
+                      mr="2"
+                      ml="2"
+                    >
                       OR
                     </Text>
-                    <Divider bg="sage.300" w="55" />
+                    <Divider bg={theme.colors.sage[300]} w="55" />
                   </Flex>
                   <Button
                     isLoading={false}
@@ -149,7 +156,7 @@ const LoginScreen = ({ navigation }) => {
                     w="100%"
                     size="md"
                     borderRadius="50"
-                    bg="forestGreen.400"
+                    bg={theme.colors.forestGreen[400]}
                     mb="2"
                     colorScheme="green"
                     justifyContent="flex-start"
@@ -158,8 +165,12 @@ const LoginScreen = ({ navigation }) => {
                   >
                     Login with Google
                   </Button>
-                  <Divider mb="2" mt="5" bg="sage.300" w="100%" />
-                  <Heading my="3" size="md" color="forestGreen.400">
+                  <Divider mb="2" mt="5" bg={theme.colors.sage[300]} w="100%" />
+                  <Heading
+                    my="3"
+                    size="md"
+                    color={theme.colors.forestGreen[400]}
+                  >
                     New to Waipe?
                   </Heading>
                   <Button
@@ -169,14 +180,14 @@ const LoginScreen = ({ navigation }) => {
                     w="100%"
                     size="md"
                     borderRadius="50"
-                    bg="extraOrage.400"
+                    bg={theme.colors.extraOrage[400]}
                     mb="2"
                     colorScheme="warning"
                     justifyContent="flex-start"
                     _text={{ fontSize: "md" }}
                     onPress={() => navigation.navigate("Register")}
                   >
-                    Sign up for App Name
+                    Sign up for Waipe
                   </Button>
                 </Box>
               </VStack>
@@ -186,17 +197,6 @@ const LoginScreen = ({ navigation }) => {
       )}
     </Formik>
   );
-};
-
-const style = {
-  input: { bg: "white", borderColor: "forestGreen.400" },
-  checkbox: { borderColor: "forestGreen.400", bg: "forestGreen.400" },
-  container: {
-    flex: 1,
-    backgroundColor: "#cbd18f",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 };
 
 export default LoginScreen;
