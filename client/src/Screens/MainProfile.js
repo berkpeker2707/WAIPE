@@ -24,6 +24,7 @@ import {
   selectUserLoading,
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import ProfilePage from "../Components/ProfilePage";
 
 const MainProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -64,87 +65,61 @@ const MainProfileScreen = ({ navigation }) => {
   }, [dispatch, currentUser?._id, isUpdate]);
 
   return (
-    <View style={style.container}>
-      <Center flex={1} px="3">
-        {userLoading ? (
-          <Spinner color={"mustard.400"} size="lg" />
-        ) : (
-          <>
-            <SettingsButton onPress={() => navigation.navigate("Settings")} />
-            <VStack space={4}>
-              <NameAndNickname
-                name={`${currentUser?.firstname} ${currentUser?.lastname}`}
-                nickname={"@Nickname"}
-              />
-              <ProfileAvatar
-                image={currentUser?.picture}
-                letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
-                onPress={() => navigation.navigate("EditMainProfile")}
-                icon="pencil"
-              />
-              <InfoCard
-                infoText={`${currentUser?.locations?.country}, ${
-                  currentUser?.locations?.city
-                }${"\n"}${currentUser?.biography}`}
-              />
-            </VStack>
-            <Box w={330} h="40%">
-              <ScrollView w={330} h="80">
-                {pets?.map((petRow, index) => {
-                  return (
-                    <HStack
-                      space={3}
-                      flex="1"
-                      key={index}
-                      justifyContent="flex-start"
-                    >
-                      {petRow?.map((pet, petIndex) => {
-                        return (
-                          <VStack space={2} key={petIndex}>
-                            <Box
-                              w={102}
-                              alignItems="center"
-                              justifyContent="center"
-                              mb={4}
-                            >
-                              {pet !== "end" ? (
-                                <PetCard
-                                  name={pet.name}
-                                  image={pet.picture}
-                                  petId={pet._id}
-                                  navigation={navigation}
-                                />
-                              ) : (
-                                <IconButton
-                                  borderRadius="70"
-                                  variant="ghost"
-                                  colorScheme="warning"
-                                  alignSelf="center"
-                                  width={100}
-                                  height={100}
-                                  icon={
-                                    <Icon
-                                      as={SimpleLineIcons}
-                                      name="plus"
-                                      size="5xl"
-                                      color="trueGray.50"
-                                    />
-                                  }
-                                />
-                              )}
-                            </Box>
-                          </VStack>
-                        );
-                      })}
-                    </HStack>
-                  );
-                })}
-              </ScrollView>
-            </Box>
-          </>
-        )}
-      </Center>
-    </View>
+    <ProfilePage
+      navigation={navigation}
+      loading={userLoading}
+      name={`${currentUser?.firstname} ${currentUser?.lastname}`}
+      pictureUrl={currentUser?.picture}
+      infoText={`${currentUser?.locations?.country}, ${
+        currentUser?.locations?.city
+      }${"\n"}${currentUser?.biography}`}
+      editPage={"EditMainProfile"}
+    >
+      {pets?.map((petRow, index) => {
+        return (
+          <HStack space={3} flex="1" key={index} justifyContent="flex-start">
+            {petRow?.map((pet, petIndex) => {
+              return (
+                <VStack space={2} key={petIndex}>
+                  <Box
+                    w={102}
+                    alignItems="center"
+                    justifyContent="center"
+                    mb={4}
+                  >
+                    {pet !== "end" ? (
+                      <PetCard
+                        name={pet.name}
+                        image={pet.picture}
+                        petId={pet._id}
+                        navigation={navigation}
+                      />
+                    ) : (
+                      <IconButton
+                        borderRadius="70"
+                        variant="ghost"
+                        colorScheme="warning"
+                        alignSelf="center"
+                        width={100}
+                        height={100}
+                        icon={
+                          <Icon
+                            as={SimpleLineIcons}
+                            name="plus"
+                            size="5xl"
+                            color="trueGray.50"
+                          />
+                        }
+                      />
+                    )}
+                  </Box>
+                </VStack>
+              );
+            })}
+          </HStack>
+        );
+      })}
+    </ProfilePage>
   );
 };
 
