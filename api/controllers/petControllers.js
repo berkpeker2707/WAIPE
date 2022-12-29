@@ -15,7 +15,9 @@ const getPetController = expressHandler(async (req, res) => {
   const { id } = req.params;
 
   try {
-    const pet = await Pet.findById(id);
+    const pet = await Pet.findById(id)
+      .populate({ path: "petPost", model: "Post" })
+      .exec();
     res.json(pet);
   } catch (error) {
     res.status(500).json(error);

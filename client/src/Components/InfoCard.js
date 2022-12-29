@@ -15,7 +15,7 @@ const InfoCard = (props) => {
       shadow={1}
       mb={5}
     >
-      <Text>{infoText}</Text>
+      <Text h={16}>{infoText}</Text>
     </Box>
   );
 };
