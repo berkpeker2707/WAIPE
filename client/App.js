@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, SafeAreaView } from "react-native";
 import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
@@ -38,6 +37,7 @@ export default function App() {
         barStyle={{ backgroundColor: theme.colors.forestGreen[400] }}
         backBehavior="history"
         screenOptions={{
+          headerShown: false,
           tabBarStyle: {
             backgroundColor: "#CBD18F",
           },
@@ -126,7 +126,24 @@ export default function App() {
           name="MainProfile"
           component={MainProfile}
         />
-        <Tab.Screen name="EditMainProfile" component={EditMainProfile} />
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="EditMainProfile"
+          component={EditMainProfile}
+        />
         {/* screens that are not displayed in tab starts */}
         <Tab.Screen
           options={{
@@ -146,7 +163,24 @@ export default function App() {
           name="Post"
           component={Post}
         />
-        <Tab.Screen name="PetProfile" component={PetProfile} />
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="PetProfile"
+          component={PetProfile}
+        />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
     ) : (
