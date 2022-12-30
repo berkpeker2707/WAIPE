@@ -129,7 +129,7 @@ export const uploadPetPhotoAction = createAsyncThunk(
         Platform.OS === "android" ? uri : uri.replace("file://", "");
       const fileName = trimmedURI.split("/").pop();
 
-      formData.append("picture", {
+      formData.append("image", {
         name: fileName,
         type: mime.getType(trimmedURI),
         uri: trimmedURI,

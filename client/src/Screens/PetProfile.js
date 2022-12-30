@@ -18,8 +18,6 @@ const PetProfile = ({ navigation, route }) => {
   const petLoading = useSelector(selectPetLoading);
   const isUpdate = useSelector(selectPetUpdated);
 
-  console.log(pet);
-
   useEffect(() => {
     dispatch(getPetAction(petId));
   }, [dispatch, pet?._id, isUpdate]);
