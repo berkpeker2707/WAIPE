@@ -1,17 +1,29 @@
 import React, { useEffect } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import PetCard from "../Components/PetCard";
-import { Icon, HStack, IconButton } from "native-base";
 import {
-  selectUserUpdated,
-  getCurrentUserAction,
+  Center,
+  Spinner,
+  Box,
+  Icon,
+  ScrollView,
+  HStack,
+  VStack,
+  IconButton,
+  useTheme,
+} from "native-base";
+import {
+  getUser,
   selectCurrentUser,
   selectUserLoading,
+  selectUserUpdated,
+  getCurrentUserAction,
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePage from "../Components/ProfilePage";
 
 const MainProfileScreen = ({ navigation }) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -56,7 +68,7 @@ const MainProfileScreen = ({ navigation }) => {
               as={SimpleLineIcons}
               name="plus"
               size="5xl"
-              color="trueGray.50"
+              color={theme.colors.trueGray[50]}
             />
           }
         />

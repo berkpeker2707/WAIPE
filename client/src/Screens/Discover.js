@@ -12,19 +12,25 @@ import {
   VStack,
   Input,
   Icon,
+  useTheme,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts, selectAllPost } from "../Redux/Slices/postSlice";
+import {
+  selectGetAllPosts,
+  getAllPostsAction,
+} from "../Redux/Slices/postSlice";
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
 
 const DiscoverScreen = ({ navigation, route }) => {
+  const theme = useTheme();
+
   const dispatch = useDispatch();
 
-  const allPost = useSelector(selectAllPost);
+  const allPosts = useSelector(selectGetAllPosts);
 
   useEffect(() => {
-    dispatch(getAllPosts());
+    dispatch(getAllPostsAction());
   }, [dispatch]);
 
   const safeAreaProps = useSafeArea({
@@ -45,7 +51,7 @@ const DiscoverScreen = ({ navigation, route }) => {
       >
         <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
           <Image
-            source={{ uri: item.postImage }}
+            source={{ uri: item.picture }}
             style={{
               height: randomBool ? 150 : 280,
               alignSelf: "stretch",
@@ -59,7 +65,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     );
   };
 
-  return allPost ? (
+  return allPosts ? (
     <ScrollView {...safeAreaProps}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
@@ -72,19 +78,22 @@ const DiscoverScreen = ({ navigation, route }) => {
           px="3"
           InputLeftElement={<Icon as={<SearchBarIcon />} />}
           bgColor="#f3f3f3"
-          _focus={{ bg: "#3a6b35", borderColor: "#3a6b35" }}
+          _focus={{
+            bg: theme.colors.forestGreen[400],
+            borderColor: theme.colors.forestGreen[400],
+          }}
         />
       </VStack>
       <MasonryList
         style={{ alignSelf: "stretch" }}
-        data={allPost}
+        data={allPosts}
         keyExtractor={(item) => item._id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        renderItem={(allPost) => renderItem(allPost)}
-        onRefresh={() => refetch({ first: ITEM_CNT })}
-        onEndReachedThreshold={0.1}
-        onEndReached={() => loadNext(ITEM_CNT)}
+        renderItem={(allPosts) => renderItem(allPosts)}
+        // onRefresh={() => refetch({ first: ITEM_CNT })}
+        // onEndReachedThreshold={0.1}
+        // onEndReached={() => loadNext(ITEM_CNT)}
       />
     </ScrollView>
   ) : (

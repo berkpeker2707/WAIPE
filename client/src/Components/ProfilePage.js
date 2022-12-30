@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Center, Spinner, VStack, Box, ScrollView } from "native-base";
+import { Center, Spinner, VStack, Box, ScrollView, Stack } from "native-base";
 import SettingsButton from "../Components/SettingsButton";
 import NameAndNickname from "../Components/NameAndNickname";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -22,7 +22,7 @@ const ProfilePage = (props) => {
         {loading ? (
           <Spinner color={"mustard.400"} size="lg" />
         ) : (
-          <>
+          <Stack safeAreaTop alignItems="center" justifyContent="center">
             <SettingsButton onPress={() => navigation.navigate("Settings")} />
             <VStack space={4}>
               <NameAndNickname name={`${name}`} nickname={"@Nickname"} />
@@ -39,7 +39,7 @@ const ProfilePage = (props) => {
                 {children}
               </ScrollView>
             </Box>
-          </>
+          </Stack>
         )}
       </Center>
     </View>

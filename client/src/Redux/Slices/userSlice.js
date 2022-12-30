@@ -6,14 +6,99 @@ const SERVER_URL = "http://192.168.100.23:1000/api";
 const updatedUser = createAction("user/update");
 
 export const getCurrentUserAction = createAsyncThunk(
-  "user/me",
-  async (_, { rejectWithValue, getState }) => {
+  "user/getCurrentUserAction",
+  async (_, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState()?.auth?.token;
 
       const { data } = await axios.get(`${SERVER_URL}/user/me`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserAction = createAsyncThunk(
+  "user/getUserAction",
+  async (token, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${SERVER_URL}/user/${_id}}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const blockUserAction = createAsyncThunk(
+  "user/blockUserAction",
+  async (token, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.put(`${SERVER_URL}/user/block/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const followPetAction = createAsyncThunk(
+  "user/followPetAction",
+  async (token, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.put(`${SERVER_URL}/user/follow/pet`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const blockPetAction = createAsyncThunk(
+  "user/blockPetAction",
+  async (token, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.put(`${SERVER_URL}/user/block/pet`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const userDeleteAction = createAsyncThunk(
+  "user/userDeleteAction",
+  async (token, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.delete(`${SERVER_URL}/user/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -25,7 +110,7 @@ export const getCurrentUserAction = createAsyncThunk(
 );
 
 export const updateUserAction = createAsyncThunk(
-  "user/update",
+  "user/updateUserAction",
   async (userUpdateInfo, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState()?.auth?.token;
@@ -35,7 +120,7 @@ export const updateUserAction = createAsyncThunk(
         userUpdateInfo,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -62,7 +147,7 @@ export const pictureUploadAction = createAsyncThunk(
         Platform.OS === "android" ? uri : uri.replace("file://", "");
       const fileName = trimmedURI.split("/").pop();
 
-      formData.append("picture", {
+      formData.append("image", {
         name: fileName,
         type: mime.getType(trimmedURI),
         uri: trimmedURI,
@@ -74,7 +159,7 @@ export const pictureUploadAction = createAsyncThunk(
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           transformRequest: (data, headers) => {
             return formData;
@@ -100,7 +185,7 @@ export const pictureDeleteAction = createAsyncThunk(
         `${SERVER_URL}/user/delete/profile/image`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
         pictureUrl
@@ -117,12 +202,21 @@ export const pictureDeleteAction = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    currentUser: null,
     loading: false,
     error: null,
     isUpdated: false,
+    currentUserData: null,
+    userData: null,
+    updateUserData: null,
+    blockUserData: null,
+    followPetData: null,
+    blockPetData: null,
+    pictureUploadData: null,
+    pictureDeleteData: null,
+    userDeleteData: null,
   },
   extraReducers: (builder) => {
+    //updated check reducer
     builder.addCase(updatedUser, (state) => {
       state.isUpdated = true;
     });
@@ -134,26 +228,112 @@ const userSlice = createSlice({
     builder.addCase(getCurrentUserAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.currentUser = action?.payload;
+      state.currentUserData = action?.payload;
     });
     builder.addCase(getCurrentUserAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
-    // //get user reducer
-    // builder.addCase(getUserAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(getUserAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.userData = action?.payload;
-    // });
-    // builder.addCase(getUserAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
+    //get user reducer
+    builder.addCase(getUserAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.userData = action?.payload;
+    });
+    builder.addCase(getUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //block user reducer
+    builder.addCase(blockUserAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(blockUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.blockUserData = action?.payload;
+    });
+    builder.addCase(blockUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //follow pet reducer
+    builder.addCase(followPetAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(followPetAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.followPetData = action?.payload;
+    });
+    builder.addCase(followPetAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //block pet reducer
+    builder.addCase(blockPetAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(blockPetAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.blockPetData = action?.payload;
+    });
+    builder.addCase(blockPetAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //picture upload reducer
+    builder.addCase(pictureUploadAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(pictureUploadAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isUpdated = false;
+      state.pictureUploadData = action?.payload;
+    });
+    builder.addCase(pictureUploadAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //picture delete reducer
+    builder.addCase(pictureDeleteAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(pictureDeleteAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isUpdated = false;
+      state.pictureDeleteData = action?.payload;
+    });
+    builder.addCase(pictureDeleteAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //user delete reducer
+    builder.addCase(userDeleteAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(userDeleteAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.userDeleteData = action?.payload;
+    });
+    builder.addCase(userDeleteAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //update user reducer
     builder.addCase(updateUserAction.pending, (state) => {
       state.loading = true;
@@ -169,100 +349,19 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
-    // //block user reducer
-    // builder.addCase(blockUserAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(blockUserAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.blockUserData = action?.payload;
-    // });
-    // builder.addCase(blockUserAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
-    // //follow pet reducer
-    // builder.addCase(followPetAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(followPetAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.followPetData = action?.payload;
-    // });
-    // builder.addCase(followPetAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
-    // //block pet reducer
-    // builder.addCase(blockPetAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(blockPetAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.blockPetData = action?.payload;
-    // });
-    // builder.addCase(blockPetAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
-    //picture upload reducer
-    builder.addCase(pictureUploadAction.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(pictureUploadAction.fulfilled, (state) => {
-      state.loading = false;
-      state.error = null;
-      state.isUpdated = false;
-    });
-    builder.addCase(pictureUploadAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
-    });
-    //picture delete reducer
-    builder.addCase(pictureDeleteAction.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(pictureDeleteAction.fulfilled, (state) => {
-      state.loading = false;
-      state.error = null;
-      state.isUpdated = false;
-    });
-    builder.addCase(pictureDeleteAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action?.error;
-    });
-    // //user delete reducer
-    // builder.addCase(userDeleteAction.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(userDeleteAction.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.userDeleteData = action?.payload;
-    // });
-    // builder.addCase(userDeleteAction.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error;
-    // });
   },
 });
 
 export const selectUserLoading = (state) => state.user.loading;
 export const selectUserError = (state) => state.user.error;
 export const selectCurrentUser = (state) => {
-  return state.user.currentUser;
+  return state.user.currentUserData;
 };
 export const selectUser = (state) => {
   return state.user.userData;
+};
+export const selectUpdateUser = (state) => {
+  return state.user.updateUserData;
 };
 export const selectBlockUser = (state) => {
   return state.user.blockUserData;
@@ -272,6 +371,9 @@ export const selectFollowPet = (state) => {
 };
 export const selectBlockPet = (state) => {
   return state.user.blockPetData;
+};
+export const selectpictureUpload = (state) => {
+  return state.user.pictureUploadData;
 };
 export const selectPictureDelete = (state) => {
   return state.user.pictureDeleteData;

@@ -10,27 +10,30 @@ const {
   cloudinaryDeletePetImg,
 } = require("../middlewares/cloudinary");
 
-// *
+// fetch a pet controller ***
 const getPetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findById(id)
+      .populate({ path: "ownerID", model: "User", select: "-password" })
       .populate({ path: "petPost", model: "Post" })
       .exec();
-    res.json(pet);
+
+    res.status(200).json(pet);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// *
+// post new pet controller ***
 const postPetController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
   try {
     const pet = await Pet.create({
       name: req?.body?.name,
+      picture: "",
       age: req?.body?.age,
       biography: req?.body?.biography,
       species: req?.body?.species,
@@ -44,15 +47,15 @@ const postPetController = expressHandler(async (req, res) => {
     user.pets.push(pet._id);
     await user.save();
 
-    res.json(pet);
+    res.status(200).json("Created new pet.");
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// *
+// update pet controller ***
 const updatePetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findByIdAndUpdate(id, {
@@ -71,45 +74,75 @@ const updatePetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
+// upload pet profile photo controller ***
 const uploadPetPhotoController = expressHandler(async (req, res) => {
-  const { id } = req.params;
-  const localPath = `photos/${req.file.filename}`;
-  const imgUploaded = await cloudinaryUploadPetImg(localPath);
+  try {
+    const id = req.params.id;
+    const localPathRaw = `middlewares/photos/${req.file.filename}`;
+    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
+    const imgUploaded = await cloudinaryUploadPetImg(localPath, id);
 
-  const foundUser = await Pet.findByIdAndUpdate(
-    id,
-    {
-      picture: imgUploaded?.data?.secure_url,
-    },
-    { new: true }
-  );
-  fs.unlinkSync(localPath);
+    const foundPetProfilePicture = await Pet.findById(id);
 
-  res.json(imgUploaded);
+    //delete old profile picture if exists
+    if (
+      foundPetProfilePicture.picture === "" ||
+      foundPetProfilePicture.picture.includes("https://res.cloudinary.com")
+    ) {
+      await cloudinaryDeletePetImg(foundPetProfilePicture.picture);
+
+      const foundUser = await Pet.findByIdAndUpdate(
+        id,
+        {
+          picture: imgUploaded?.secure_url,
+        },
+        { new: true }
+      );
+
+      fs.unlinkSync(localPathRaw);
+      fs.unlinkSync(localPath);
+
+      res.status(200).json("Pet profile photo updated.");
+    } else {
+      res.json("Profile photo already deleted.");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 });
 
-// *
+// delete pet profile photo controller ***
 const deletePetPhotoController = expressHandler(async (req, res) => {
-  const { id } = req?.params;
-  const { selectedPhoto } = req?.body;
+  try {
+    const id = req.params.id;
+    const selectedPhoto = req.body.selectedPhoto;
 
-  const imgUploaded = await cloudinaryDeletePetImg(selectedPhoto);
+    const foundPetPicture = await Pet.findById(id);
+    //delete old profile picture if exists
+    if (foundPetPicture.picture !== "") {
+      const imgUploaded = await cloudinaryDeletePetImg(selectedPhoto);
 
-  await Pet.findByIdAndUpdate(
-    id,
-    {
-      picture: null,
-    },
-    { new: true }
-  );
+      await Pet.findByIdAndUpdate(
+        id,
+        {
+          picture: "",
+        },
+        { new: true }
+      );
 
-  res.json(imgUploaded);
+      res.status(200).json("Pet profile photo deleted");
+    } else {
+      res.json("Pet profile photo already deleted.");
+    }
+  } catch (error) {
+    return error;
+  }
 });
 
-// *
+// delete pet controller ***
 const deletePetController = expressHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   try {
     const pet = await Pet.findByIdAndDelete(id);
@@ -129,7 +162,7 @@ const deletePetController = expressHandler(async (req, res) => {
       }
     );
 
-    res.status(200).json("Deleted");
+    res.status(200).json("Pet deleted.");
   } catch (error) {
     res.status(500).json(error);
   }

@@ -1,11 +1,13 @@
 const express = require("express");
 const { verifyToken } = require("../middlewares/auth");
+const { photoUpload, photoResize } = require("../middlewares/photoUpload");
 
 const {
   postPostController,
   getPostController,
   getPetPostsController,
   getAllPostsController,
+  getFollowedPostsController,
   updatePostController,
   deletePostController,
   archivePostController,
@@ -13,10 +15,17 @@ const {
 
 const postRoutes = express.Router();
 
-postRoutes.post("/new/:id", verifyToken, postPostController);
+postRoutes.post(
+  "/new",
+  verifyToken,
+  photoUpload.single("image"),
+  photoResize,
+  postPostController
+);
 postRoutes.get("/fetch/:postID", verifyToken, getPostController);
 postRoutes.get("/fetch/pet/:petID", verifyToken, getPetPostsController);
 postRoutes.get("/fetch", verifyToken, getAllPostsController);
+postRoutes.get("/fetch/all/followed", verifyToken, getFollowedPostsController);
 postRoutes.put("/update/:postID", verifyToken, updatePostController);
 postRoutes.delete("/delete/:postID", verifyToken, deletePostController);
 postRoutes.put("/archive", verifyToken, archivePostController);
