@@ -15,15 +15,15 @@ import { PersistGate } from "redux-persist/integration/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { selectToken } from "./src/Redux/Slices/authSlice";
-import { NativeBaseProvider, extendTheme, useSafeArea } from "native-base";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { NativeBaseProvider, extendTheme } from "native-base";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeIcon from "./src/Components/Icons/HomeIcon";
 import SearchIcon from "./src/Components/Icons/SearchIcon";
 import AddIcon from "./src/Components/Icons/AddIcon";
 import ProfileIcon from "./src/Components/Icons/ProfileIcon";
 import PetProfile from "./src/Screens/PetProfile";
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   let persistor = persistStore(store);
@@ -34,29 +34,34 @@ export default function App() {
     return token ? (
       <Tab.Navigator
         initialRouteName="Home"
-        activeColor="#fff"
-        barStyle={{ backgroundColor: "#3a6b35" }}
+        activeColor="#E38E48"
+        barStyle={{ backgroundColor: theme.colors.forestGreen[400] }}
         backBehavior="history"
         screenOptions={{
-          headerStyle: {
-            backgroundColor: "#DBECF4",
-            shadowColor: "#DBECF4",
-          },
-          tabBarShowIcon: true,
           tabBarStyle: {
-            backgroundColor: "#3a6b35",
+            backgroundColor: "#CBD18F",
           },
           tabActiveIcon: { fontWeight: "bold" },
-          tabBarActiveTintColor: "#fff",
-          tabBarInactiveTintColor: "#fff9",
+          tabBarActiveTintColor: "#E38E48",
+          tabBarInactiveTintColor: "#F8FFE3",
         }}
       >
         <Tab.Screen
           options={{
             tabBarLabel: "Feed",
             tabBarIcon: ({ color }) => (
-              <HomeIcon name="myfeed" color={"red"} size={26} />
+              <HomeIcon name="myfeed" color={color} size={26} />
             ),
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="My Feed"
           component={MyFeed}
@@ -65,8 +70,18 @@ export default function App() {
           options={{
             tabBarLabel: "Discover",
             tabBarIcon: ({ color }) => (
-              <SearchIcon name="discover" color={"red"} size={26} />
+              <SearchIcon name="discover" color={color} size={26} />
             ),
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="Discover"
           component={Discover}
@@ -77,6 +92,16 @@ export default function App() {
             tabBarIcon: ({ color }) => (
               <AddIcon name="add" color={color} size={26} />
             ),
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="Settings"
           component={Settings}
@@ -87,6 +112,16 @@ export default function App() {
             tabBarIcon: ({ color }) => (
               <ProfileIcon name="Profile" color={color} size={26} />
             ),
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="MainProfile"
           component={MainProfile}
@@ -96,7 +131,17 @@ export default function App() {
         <Tab.Screen
           options={{
             tabBarButton: () => null,
-            tabBarIcon: ({ focused, color, size }) => <></>,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="Post"
           component={Post}
@@ -107,27 +152,37 @@ export default function App() {
     ) : (
       <Tab.Navigator>
         <Tab.Screen
-          activeColor="#fff"
-          inactiveColor="#3a6b35"
-          barStyle={{ backgroundColor: "#3a6b35" }}
           options={{
-            tabBarLabel: "Home",
-            // tabBarIcon: ({ color }) => (
-            //   <HomeIcon name="home" color={color} size={26} />
-            // ),
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="Login"
           component={Login}
         />
         <Tab.Screen
-          activeColor="#fff"
-          inactiveColor="#3a6b35"
-          barStyle={{ backgroundColor: "#3a6b35" }}
           options={{
-            tabBarLabel: "Home",
-            // tabBarIcon: ({ color }) => (
-            //   <HomeIcon name="home" color={color} size={26} />
-            // ),
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
           }}
           name="Register"
           component={Register}
@@ -153,29 +208,61 @@ export default function App() {
 const theme = extendTheme({
   colors: {
     mustard: {
-      400: "#e3b448",
+      400: "#E3B448",
     },
     extraOrage: {
       400: "#E38E48",
     },
     sage: {
       300: "#F8FFE3",
-      400: "#cbd18f",
+      400: "#CBD18F",
     },
     forestGreen: {
-      400: "#3a6b35",
+      400: "#3A6B35",
     },
     google: {
-      400: "#de5246",
+      400: "#DE5246",
+    },
+    singletons: {
+      white: "#FFFFFF",
+      black: "#000000",
+    },
+    muted: {
+      600: "#525252",
+    },
+    coolGray: {
+      500: "#6B7280",
+      900: "#111827      ",
+    },
+    trueGray: {
+      50: "#FAFAFA",
     },
   },
-});
-
-const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#cbd18f",
+    backgroundColor: "#CBD18F",
     alignItems: "center",
     justifyContent: "center",
+  },
+  settingsContainer: {
+    flex: 1,
+    backgroundColor: "#CBD18F",
+    alignItems: "center",
+  },
+  input: {
+    bg: "white",
+    borderColor: "forestGreen.400",
+  },
+  checkbox: {
+    borderColor: "forestGreen.400",
+    bg: "forestGreen.400",
+  },
+  commentOpenStyle: {
+    display: "flex",
+    flex: 1,
+    width: "100%",
+  },
+  commentClosedStyle: {
+    display: "none",
   },
 });

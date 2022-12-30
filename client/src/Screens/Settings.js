@@ -9,20 +9,23 @@ import {
   Switch,
   Text,
   Divider,
-  extendTheme,
-  NativeBaseProvider,
-  Pressable,
   Icon,
-  Box,
+  useTheme,
 } from "native-base";
-
 const SettingsLine = (props) => {
+  const theme = useTheme();
+
   const { leftIcon, text, rightElement } = props;
 
   return (
     <HStack alignItems="center" justifyContent="space-between">
       <HStack alignItems="center" space={2}>
-        <Icon as={SimpleLineIcons} name={leftIcon} size="xl" color="black" />
+        <Icon
+          as={SimpleLineIcons}
+          name={leftIcon}
+          size="xl"
+          color={theme.colors.coolGray[900]}
+        />
         <Text fontSize="xl">{text}</Text>
       </HStack>
       {rightElement}
@@ -31,73 +34,48 @@ const SettingsLine = (props) => {
 };
 
 const SettingsScreen = () => {
+  const theme = useTheme();
+
   return (
-    <NativeBaseProvider theme={theme}>
-      <View style={style.container}>
-        <Heading mt={50} mb={30} size="xl">
-          Settings
-        </Heading>
-        <VStack w={"80%"} space={4}>
+    <View style={theme.settingsContainer}>
+      <Heading mt={50} mb={30} size="xl">
+        Settings
+      </Heading>
+      <VStack w={"80%"} space={4}>
+        <SettingsLine
+          leftIcon="shuffle"
+          text="Hand option"
+          rightElement={
+            <Switch size="sm" onTrackColor={theme.colors.forestGreen[400]} />
+          }
+        />
+        <Divider bg={theme.colors.extraOrage[400]} thickness="2" />
+        <SettingsLine
+          leftIcon="lock"
+          text="Private account"
+          rightElement={
+            <Switch size="sm" onTrackColor={theme.colors.forestGreen[400]} />
+          }
+        />
+        <Divider bg={theme.colors.extraOrage[400]} thickness="2" />
+        <PressableButton onPress={() => console.log("I'm Pressed")}>
           <SettingsLine
-            leftIcon="shuffle"
-            text="Hand option"
-            rightElement={<Switch size="sm" onTrackColor="forestGreen.400" />}
+            leftIcon="ban"
+            text="See blocked users"
+            rightElement={
+              <Icon
+                as={SimpleLineIcons}
+                name="arrow-right"
+                size="md"
+                mr={3}
+                color={theme.colors.coolGray[500]}
+              />
+            }
           />
-          <Divider bg="extraOrage.400" thickness="2" />
-          <SettingsLine
-            leftIcon="lock"
-            text="Private account"
-            rightElement={<Switch size="sm" onTrackColor="forestGreen.400" />}
-          />
-          <Divider bg="extraOrage.400" thickness="2" />
-          <PressableButton onPress={() => console.log("I'm Pressed")}>
-            <SettingsLine
-              leftIcon="ban"
-              text="See blocked users"
-              rightElement={
-                <Icon
-                  as={SimpleLineIcons}
-                  name="arrow-right"
-                  size="md"
-                  mr={3}
-                  color="coolGray.500"
-                />
-              }
-            />
-          </PressableButton>
-        </VStack>
-      </View>
-    </NativeBaseProvider>
+        </PressableButton>
+      </VStack>
+    </View>
   );
-};
-
-const theme = extendTheme({
-  colors: {
-    mustard: {
-      400: "#e3b448",
-    },
-    extraOrage: {
-      400: "#E38E48",
-    },
-    sage: {
-      300: "#F8FFE3",
-      400: "#cbd18f",
-    },
-    forestGreen: {
-      400: "#3a6b35",
-    },
-    google: {
-      400: "#de5246",
-    },
-  },
-});
-
-const style = {
-  container: {
-    flex: 1,
-    backgroundColor: "#cbd18f",
-    alignItems: "center",
-  },
 };
 
 export default SettingsScreen;

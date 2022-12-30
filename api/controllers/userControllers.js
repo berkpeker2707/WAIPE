@@ -2,89 +2,57 @@ const User = require("../models/user");
 const Pet = require("../models/pet");
 const Post = require("../models/post");
 const expressHandler = require("express-async-handler");
-const nodemailer = require("nodemailer");
-const fs = require("fs");
 const {
   cloudinaryUploadUserImg,
   cloudinaryDeleteUserImg,
 } = require("../middlewares/cloudinary");
+const fs = require("fs");
 
-require("dotenv").config();
-
-// *
+// get current user controller ***
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
 
   try {
     const user = await User.findById(id)
       .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
       .exec();
 
-    res.json(user);
+    res.status(200).json("Fetched current user.");
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 });
 
-// *
+// get selected user controller ***
 const getUserController = expressHandler(async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const user = await User.findById(_id);
+    const user = await User.findById(_id)
+      .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
+      .exec();
 
-    let pets = [];
-    for (let i = 0; i < user.pets.length; i++) {
-      const pet = await Pet.findById(user.pets[i]);
-      pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
-    }
+    // Doga's code commented just in case
+    // let pets = [];
+    // for (let i = 0; i < user.pets.length; i++) {
+    //   const pet = await Pet.findById(user.pets[i]);
+    //   pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
+    // }
 
-    res.json(user);
+    res.status(200).json("Fetched user.");
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// //forgot password & reset password
-// const testresetPasswordController = expressHandler(async (req, res) => {
-//   try {
-//     // let testAccount = await nodemailer.createTestAccount();
-
-//     let transporter = nodemailer.createTransport({
-//       host: process.env.MAILGUN_HOST,
-//       port: process.env.MAILGUN_PORT,
-//       secure: false, // true for 465, false for other ports
-//       auth: {
-//         user: process.env.MAILGUN_USER,
-//         pass: process.env.MAILGUN_PASS,
-//       },
-//     });
-
-//     console.log(process.env.MAILGUN_HOST);
-
-//     // send mail with defined transport object
-//     let info = await transporter.sendMail({
-//       from: '"Harold Flower 👻" <support@testmail.com>', // sender address
-//       to: "berkolatto@gmail.com", // list of receivers
-//       subject: "Support Test Mail ✔", // Subject line
-//       text: "Hello world? Does this actually work?", // plain text body
-//       html: "<b>Anybody out there... out there... out there... I'm so cold... cold... cold...</b>", // html body
-//     });
-
-//     console.log("Message sent: %s", info.messageId);
-//     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-//     // Preview only available when sending through an Ethereal account
-//     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-//     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-//     res.json(200);
-//   } catch (error) {
-//     res.json(error);
-//   }
-// });
-
-// *
+// update current user controller ***
 const updateUserController = expressHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -109,8 +77,7 @@ const updateUserController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//block user & unblock user
+// block user & unblock user ***
 const blockUserController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -127,8 +94,7 @@ const blockUserController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//follow & unfollow pet
+// follow & unfollow pet ***
 const followPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -145,8 +111,7 @@ const followPetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//block & unblock pet
+// block & unblock pet ***
 const blockPetController = expressHandler(async (req, res) => {
   try {
     const { _id } = req.user;
@@ -165,67 +130,88 @@ const blockPetController = expressHandler(async (req, res) => {
   }
 });
 
-// *
-//profile photo upload controller
+// profile photo upload controller ***
 const pictureUploadController = expressHandler(async (req, res) => {
-  const { _id } = req.user;
-  const localPath = `photos/${req.files.filename}`;
-  const imgUploaded = await cloudinaryUploadUserImg(localPath);
-
-  const foundUser = await User.findById(_id);
-  if (foundUser.picture) {
-    await cloudinaryDeleteUserImg(foundUser.picture);
-  }
-
-  console.log(foundUser);
-
-  await User.findByIdAndUpdate(
-    _id,
-    {
-      picture: imgUploaded?.data?.secure_url,
-      $push: { pictures: imgUploaded?.data?.secure_url },
-    },
-    { new: true }
-  );
-  fs.unlinkSync(localPath);
-
-  res.json(imgUploaded);
-});
-
-// *
-//profile photo delete controller
-const pictureDeleteController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
-  const { picture } = req?.body;
-  const imgUploaded = await cloudinaryDeleteUserImg(picture);
-
-  await User.findByIdAndUpdate(
-    _id,
-    {
-      picture: "",
-    },
-    { new: true }
-  );
-
-  res.json(imgUploaded);
-});
-
-const userDeleteController = expressHandler(async (req, res) => {
-  const { _id } = req?.user;
   try {
+    const id = req.user._id;
+    const localPathRaw = `middlewares/photos/${req.file.filename}`;
+    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
+    const imgUploaded = await cloudinaryUploadUserImg(localPath, id);
+
+    const foundUserPicture = await User.findById(id);
+
+    //delete old profile picture if exists
+    if (
+      foundUserPicture.picture === "" ||
+      foundUserPicture.picture.includes("https://res.cloudinary.com")
+    ) {
+      await cloudinaryDeleteUserImg(foundUserPicture.picture);
+
+      const user = await User.findByIdAndUpdate(
+        id,
+        {
+          picture: imgUploaded.secure_url,
+        },
+        { new: true }
+      );
+
+      fs.unlinkSync(localPathRaw);
+      fs.unlinkSync(localPath);
+
+      res.status(200).json("Profile photo updated.");
+    } else {
+      res.json("Profile photo already deleted.");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// profile photo delete controller ***
+const pictureDeleteController = expressHandler(async (req, res) => {
+  const id = req.user._id;
+  const image = req.body.picture;
+
+  try {
+    const foundUserPicture = await User.findById(id);
+
+    //delete old profile picture if exists
+    if (foundUserPicture.picture !== "") {
+      const imgUploaded = await cloudinaryDeleteUserImg(image);
+
+      await User.findByIdAndUpdate(
+        id,
+        {
+          picture: "",
+        },
+        { new: true }
+      );
+
+      res.status(200).json("Profile photo deleted");
+    } else {
+      res.json("Profile photo already deleted.");
+    }
+  } catch (error) {
+    return error;
+  }
+});
+
+// delete user controller ***
+const userDeleteController = expressHandler(async (req, res) => {
+  try {
+    const _id = req.user._id;
+
     const user = await User.findByIdAndDelete(_id);
-    console.log(user);
 
     const pets = user.pets;
     for (let i = 0; i < pets.length; i++) {
       const pet = await Pet.findByIdAndDelete(pets[i]);
-      console.log(pet);
       const posts = pet.petPost;
       for (let j = 0; j < posts.length; j++) {
         await Post.deleteOne({ _id: posts[j] });
       }
     }
-    res.status(200).json("USER DELETED");
+    res.status(200).json("User deleted.");
   } catch (error) {
     res.status(500).json(error);
   }
