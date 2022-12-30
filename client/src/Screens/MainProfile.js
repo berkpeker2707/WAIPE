@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import PetCard from "../Components/PetCard";
-import { Icon, HStack, IconButton } from "native-base";
 import {
   Center,
   Spinner,
