@@ -29,9 +29,6 @@ export const updateCommentAction = createAsyncThunk(
 export const getCommentAction = createAsyncThunk(
   "comment/getComment",
   async (id, { rejectWithValue, getState }) => {
-    console.log(`auth`);
-    console.log(getState()?.auth);
-    console.log(`auth`);
     //get employee token
     const auth = getState()?.auth;
     const config = {
