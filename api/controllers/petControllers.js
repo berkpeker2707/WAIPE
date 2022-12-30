@@ -16,7 +16,7 @@ const getPetController = expressHandler(async (req, res) => {
 
   try {
     const pet = await Pet.findById(id)
-      .populate({ path: "ownerID", model: "User" })
+      .populate({ path: "ownerID", model: "User", select: "-password" })
       .populate({ path: "petPost", model: "Post" })
       .exec();
 

@@ -16,7 +16,7 @@ const updatePostLikeController = expressHandler(async (req, res) => {
 
     const like = await Like.findById(likeID)
       .populate({ path: "postID", model: "Post" })
-      .populate({ path: "like.ownerID", model: "User" })
+      .populate({ path: "like.ownerID", model: "User", select: "-password" })
       .exec();
 
     if (
@@ -58,14 +58,12 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
     const comment = await Comment.find({
       "comment._id": childCommentID,
     })
-      // .populate({ path: "postID", model: "Post" })
-      // .populate({ path: "comment.ownerID", model: "User" })
-      .populate({ path: "comment.likedBy.ownerID", model: "User" })
+      .populate({
+        path: "comment.likedBy.ownerID",
+        model: "User",
+        select: "-password",
+      })
       .exec();
-
-    // console.log(`comment`);
-    // console.log(comment);
-    // console.log(`comment`);
 
     if (
       comment.find((element) =>

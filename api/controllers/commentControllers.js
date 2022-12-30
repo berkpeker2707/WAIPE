@@ -39,7 +39,7 @@ const updateCommentController = expressHandler(async (req, res) => {
 const getCommentController = expressHandler(async (req, res) => {
   try {
     const comment = await Comment.find({ _id: req.params.id })
-      .populate({ path: "comment.ownerID", model: "User" })
+      .populate({ path: "comment.ownerID", model: "User", select: "-password" })
       .exec();
     res.status(200).json(comment);
   } catch (err) {
