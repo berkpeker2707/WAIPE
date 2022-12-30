@@ -32,12 +32,14 @@ const photoUpload = multer({
 //Image Resizing
 const photoResize = async (req, res, next) => {
   //check if there is no file
-  if (!req.file) return next();
-  await sharp(req.file.path)
+  if (!req.files) return next();
+  await sharp(req.files.image.path)
     .resize(250, 250)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(path.resolve(`${req.file.path}-cropped.jpg`));
+    .toFile(
+      path.resolve(`./middlewares/photos/${req.files.image.originalFilename}`)
+    );
   next();
 };
 module.exports = { photoUpload, photoResize };

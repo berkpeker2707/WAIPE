@@ -134,8 +134,9 @@ const blockPetController = expressHandler(async (req, res) => {
 const pictureUploadController = expressHandler(async (req, res) => {
   try {
     const id = req.user._id;
-    const localPathRaw = `middlewares/photos/${req.file.filename}`;
-    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
+
+    const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
+
     const imgUploaded = await cloudinaryUploadUserImg(localPath, id);
 
     const foundUserPicture = await User.findById(id);
@@ -155,7 +156,6 @@ const pictureUploadController = expressHandler(async (req, res) => {
         { new: true }
       );
 
-      fs.unlinkSync(localPathRaw);
       fs.unlinkSync(localPath);
 
       res.status(200).json(user);
