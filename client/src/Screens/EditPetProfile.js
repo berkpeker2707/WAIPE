@@ -21,7 +21,7 @@ import {
 import {
   selectGetPet,
   selectPetLoading,
-  getPetAction,
+  uploadPetPhotoAction,
 } from "../Redux/Slices/petSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -32,6 +32,22 @@ const EditPetProfile = ({ navigation, route }) => {
 
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      result["petID"] = pet._id;
+      dispatch(uploadPetPhotoAction(result));
+      navigation.navigate("PetProfile", { petId: pet._id });
+    }
+  };
 
   return (
     <View style={style.container}>
@@ -60,11 +76,7 @@ const EditPetProfile = ({ navigation, route }) => {
                     onPress={() => console.log("delete picture")}
                     icon="trash"
                   />
-                  <Button
-                    size="md"
-                    variant="ghost"
-                    onPress={() => console.log("change picture")}
-                  >
+                  <Button size="md" variant="ghost" onPress={pickImage}>
                     Change Profile Picture
                   </Button>
                 </VStack>
@@ -147,7 +159,9 @@ const EditPetProfile = ({ navigation, route }) => {
                     size="sm"
                     variant="link"
                     _text={{ color: "forestGreen.400" }}
-                    onPress={() => navigation.navigate("PetProfile")}
+                    onPress={() =>
+                      navigation.navigate("PetProfile", { petId: pet._id })
+                    }
                   >
                     Cancel
                   </Button>

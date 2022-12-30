@@ -4,6 +4,7 @@ import {
   selectGetPet,
   selectPetLoading,
   getPetAction,
+  selectPetUpdated,
 } from "../Redux/Slices/petSlice";
 import { useSelector, useDispatch } from "react-redux";
 import PressableButton from "../Components/PressableButton";
@@ -15,10 +16,11 @@ const PetProfile = ({ navigation, route }) => {
 
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
+  const isUpdate = useSelector(selectPetUpdated);
 
   useEffect(() => {
     dispatch(getPetAction(petId));
-  }, [dispatch, pet?._id]);
+  }, [dispatch, pet?._id, isUpdate]);
 
   return (
     <ProfilePage
