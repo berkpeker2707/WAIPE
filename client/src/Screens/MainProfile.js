@@ -15,7 +15,7 @@ import {
   HStack,
   VStack,
   IconButton,
-  extendTheme,
+  useTheme,
 } from "native-base";
 import {
   getUser,
@@ -25,6 +25,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 const MainProfileScreen = ({ token, navigation }) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
 
   const currentUser = useSelector(selectCurrentUser);
@@ -62,10 +63,10 @@ const MainProfileScreen = ({ token, navigation }) => {
   }, [dispatch, currentUser?._id]);
 
   return (
-    <View style={style.container}>
+    <View style={theme.container}>
       <Center flex={1} px="3">
         {userLoading ? (
-          <Spinner color={"mustard.400"} size="lg" />
+          <Spinner color={theme.colors.mustard[400]} size="lg" />
         ) : (
           <>
             <SettingsButton onPress={() => navigation.navigate("Settings")} />
@@ -116,7 +117,7 @@ const MainProfileScreen = ({ token, navigation }) => {
                                       as={SimpleLineIcons}
                                       name="plus"
                                       size="5xl"
-                                      color="trueGray.50"
+                                      color={theme.colors.trueGray[50]}
                                     />
                                   }
                                 />
@@ -135,36 +136,6 @@ const MainProfileScreen = ({ token, navigation }) => {
       </Center>
     </View>
   );
-};
-
-const theme = extendTheme({
-  colors: {
-    mustard: {
-      400: "#e3b448",
-    },
-    extraOrage: {
-      400: "#E38E48",
-    },
-    sage: {
-      300: "#F8FFE3",
-      400: "#cbd18f",
-    },
-    forestGreen: {
-      400: "#3a6b35",
-    },
-    google: {
-      400: "#de5246",
-    },
-  },
-});
-
-const style = {
-  container: {
-    flex: 1,
-    backgroundColor: "#cbd18f",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 };
 
 export default MainProfileScreen;

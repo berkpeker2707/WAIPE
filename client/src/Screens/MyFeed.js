@@ -29,10 +29,6 @@ const MyFeedScreen = ({ navigation, route }) => {
     dispatch(getFollowedPostsAction());
   }, [dispatch]);
 
-  console.log(`followedPosts`);
-  console.log(followedPosts);
-  console.log(`followedPosts`);
-
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
@@ -81,7 +77,5 @@ const MyFeedScreen = ({ navigation, route }) => {
     <Text>Loading...</Text>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default MyFeedScreen;

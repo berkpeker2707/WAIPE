@@ -12,6 +12,7 @@ import {
   VStack,
   Input,
   Icon,
+  useTheme,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,8 @@ import {
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
 
 const DiscoverScreen = ({ navigation, route }) => {
+  const theme = useTheme();
+
   const dispatch = useDispatch();
 
   const allPosts = useSelector(selectGetAllPosts);
@@ -75,7 +78,10 @@ const DiscoverScreen = ({ navigation, route }) => {
           px="3"
           InputLeftElement={<Icon as={<SearchBarIcon />} />}
           bgColor="#f3f3f3"
-          _focus={{ bg: "#3a6b35", borderColor: "#3a6b35" }}
+          _focus={{
+            bg: theme.colors.forestGreen[400],
+            borderColor: theme.colors.forestGreen[400],
+          }}
         />
       </VStack>
       <MasonryList
