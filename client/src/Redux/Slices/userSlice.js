@@ -120,7 +120,7 @@ export const updateUserAction = createAsyncThunk(
         userUpdateInfo,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -147,7 +147,7 @@ export const pictureUploadAction = createAsyncThunk(
         Platform.OS === "android" ? uri : uri.replace("file://", "");
       const fileName = trimmedURI.split("/").pop();
 
-      formData.append("picture", {
+      formData.append("image", {
         name: fileName,
         type: mime.getType(trimmedURI),
         uri: trimmedURI,
@@ -159,7 +159,7 @@ export const pictureUploadAction = createAsyncThunk(
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           transformRequest: (data, headers) => {
             return formData;
@@ -185,7 +185,7 @@ export const pictureDeleteAction = createAsyncThunk(
         `${SERVER_URL}/user/delete/profile/image`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
         pictureUrl
@@ -344,7 +344,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.isUpdated = false;
-      state.updateUserData = action?.payload;
     });
     builder.addCase(updateUserAction.rejected, (state, action) => {
       state.loading = false;
