@@ -82,9 +82,7 @@ const uploadPetPhotoController = expressHandler(async (req, res) => {
     const imgUploaded = await cloudinaryUploadPetImg(localPath, id);
 
     const foundPetProfilePicture = await Pet.findById(id);
-    console.log("foundPetProfilePicture");
-    console.log(foundPetProfilePicture);
-    console.log("foundPetProfilePicture");
+
     //delete old profile picture if exists
     if (
       foundPetProfilePicture.picture === "" ||
@@ -107,7 +105,6 @@ const uploadPetPhotoController = expressHandler(async (req, res) => {
       res.json("Profile photo already deleted.");
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });

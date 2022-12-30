@@ -47,20 +47,22 @@ export const postPetAction = createAsyncThunk(
 
 export const updatePetAction = createAsyncThunk(
   "pet/updatePet",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (updateInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      const petID = updateInfo.petID;
+      const token = getState()?.auth?.token;
       const { data } = await axios.put(
-        `${SERVER_URL}/pet/update/${id}`,
-        config
+        `${SERVER_URL}/pet/update/${petID}`,
+        updateInfo,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
+      dispatch(updatedPet());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);

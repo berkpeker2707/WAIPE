@@ -1,27 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { Formik } from "formik";
 import {
-  ScrollView,
-  useSafeArea,
-  Box,
-  AspectRatio,
-  Image,
-  Text,
   HStack,
-  Stack,
   Input,
   Button,
   VStack,
   Center,
   Spinner,
-  NativeBaseProvider,
   TextArea,
 } from "native-base";
 import {
   selectGetPet,
   selectPetLoading,
   uploadPetPhotoAction,
+  updatePetAction,
 } from "../Redux/Slices/petSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -64,7 +57,9 @@ const EditPetProfile = ({ navigation, route }) => {
               biography: `${pet?.biography}`,
             }}
             onSubmit={(values) => {
-              console.log(values);
+              values["petID"] = pet._id;
+              dispatch(updatePetAction(values));
+              navigation.navigate("PetProfile", { petId: pet._id });
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
