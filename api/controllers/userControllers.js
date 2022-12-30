@@ -20,7 +20,7 @@ const getCurrentUserController = expressHandler(async (req, res) => {
       .populate({ path: "postedComments", model: "Comment" })
       .exec();
 
-    res.status(200).json("Fetched current user.");
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -46,7 +46,7 @@ const getUserController = expressHandler(async (req, res) => {
     //   pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
     // }
 
-    res.status(200).json("Fetched user.");
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -71,7 +71,7 @@ const updateUserController = expressHandler(async (req, res) => {
       handOrientation: req?.body?.handOrientation,
     });
 
-    res.status(200).send("Updated");
+    res.status(200).send(user);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -84,10 +84,10 @@ const blockUserController = expressHandler(async (req, res) => {
     const user = await User.findById(_id);
     if (!user.blockedUsers.includes(req.body.blockedUsers)) {
       await user.updateOne({ $push: { blockedUsers: req.body.blockedUsers } });
-      res.status(200).json("User has been blocked");
+      res.status(200).json(user);
     } else {
       await user.updateOne({ $pull: { blockedUsers: req.body.blockedUsers } });
-      res.status(200).json("User has been unblocked");
+      res.status(200).json(user);
     }
   } catch (error) {
     res.status(500).json(error);
@@ -101,10 +101,10 @@ const followPetController = expressHandler(async (req, res) => {
     const user = await User.findById(_id);
     if (!user.followedPets.includes(req.body.followedPets)) {
       await user.updateOne({ $push: { followedPets: req.body.followedPets } });
-      res.status(200).json("Pet has been followed");
+      res.status(200).json(user);
     } else {
       await user.updateOne({ $pull: { followedPets: req.body.followedPets } });
-      res.status(200).json("Pet has been unfollowed");
+      res.status(200).json(user);
     }
   } catch (error) {
     res.status(500).json(error);
@@ -120,10 +120,10 @@ const blockPetController = expressHandler(async (req, res) => {
       await user.updateOne({ $push: { blockedPets: req.body.blockedPets } });
       //if pet is already followed, remove id from followedPets as well
       await user.updateOne({ $pull: { followedPets: req.body.blockedPets } });
-      res.status(200).json("Pet has been blocked");
+      res.status(200).json(user);
     } else {
       await user.updateOne({ $pull: { blockedPets: req.body.blockedPets } });
-      res.status(200).json("Pet has been unblocked");
+      res.status(200).json(user);
     }
   } catch (error) {
     res.status(500).json(error);
@@ -158,7 +158,7 @@ const pictureUploadController = expressHandler(async (req, res) => {
       fs.unlinkSync(localPathRaw);
       fs.unlinkSync(localPath);
 
-      res.status(200).json("Profile photo updated.");
+      res.status(200).json(user);
     } else {
       res.json("Profile photo already deleted.");
     }
@@ -187,7 +187,7 @@ const pictureDeleteController = expressHandler(async (req, res) => {
         { new: true }
       );
 
-      res.status(200).json("Profile photo deleted");
+      res.status(200).json(foundUserPicture);
     } else {
       res.json("Profile photo already deleted.");
     }
@@ -211,7 +211,7 @@ const userDeleteController = expressHandler(async (req, res) => {
         await Post.deleteOne({ _id: posts[j] });
       }
     }
-    res.status(200).json("User deleted.");
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);
   }
