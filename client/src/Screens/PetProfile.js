@@ -16,6 +16,8 @@ const PetProfile = ({ navigation, route }) => {
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
 
+  console.log(pet);
+
   useEffect(() => {
     dispatch(getPetAction(petId));
   }, [dispatch, pet?._id]);

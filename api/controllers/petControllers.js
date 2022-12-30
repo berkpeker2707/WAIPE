@@ -20,7 +20,7 @@ const getPetController = expressHandler(async (req, res) => {
       .populate({ path: "petPost", model: "Post" })
       .exec();
 
-    res.status(200).json("Fetched pet.");
+    res.status(200).json(pet);
   } catch (error) {
     res.status(500).json(error);
   }
