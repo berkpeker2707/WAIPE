@@ -25,7 +25,7 @@ app.use(
 );
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
-// app.use(formData.parse());
+app.use(formData.parse());
 
 //database connection
 dbConnect();
