@@ -72,20 +72,24 @@ export const updatePetAction = createAsyncThunk(
 
 export const deletePetPhotoAction = createAsyncThunk(
   "pet/deletePetPhoto",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (deleteInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      console.log(deleteInfo.picture);
+      const petID = deleteInfo.petID;
+      const token = getState()?.auth?.token;
+
       const { data } = await axios.delete(
-        `${SERVER_URL}/post/update/${id}}`,
-        config
+        `${SERVER_URL}/pet/delete/photo/${petID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        deleteInfo.picture
       );
 
+      dispatch(updatedPet());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -212,7 +216,7 @@ const petSlice = createSlice({
     builder.addCase(updatePetAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(updatePetAction.rejected, (state, action) => {
       state.loading = false;
@@ -237,10 +241,10 @@ const petSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(deletePetPhotoAction.fulfilled, (state, action) => {
+    builder.addCase(deletePetPhotoAction.fulfilled, (state) => {
       state.loading = false;
       state.error = null;
-      state.deletePetPhotoData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(deletePetPhotoAction.rejected, (state, action) => {
       state.loading = false;

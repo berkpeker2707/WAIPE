@@ -15,6 +15,7 @@ import {
   selectPetLoading,
   uploadPetPhotoAction,
   updatePetAction,
+  deletePetPhotoAction,
 } from "../Redux/Slices/petSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileAvatar from "../Components/ProfileAvatar";
@@ -68,7 +69,15 @@ const EditPetProfile = ({ navigation, route }) => {
                   <ProfileAvatar
                     image={pet.picture}
                     letter={`${pet?.name[0]}`}
-                    onPress={() => console.log("delete picture")}
+                    onPress={() => {
+                      dispatch(
+                        deletePetPhotoAction({
+                          picture: pet?.picture,
+                          petID: pet._id,
+                        })
+                      );
+                      navigation.navigate("PetProfile", { petId: pet._id });
+                    }}
                     icon="trash"
                   />
                   <Button size="md" variant="ghost" onPress={pickImage}>
