@@ -75,7 +75,6 @@ export const deletePetPhotoAction = createAsyncThunk(
   async (deleteInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     try {
-      console.log(deleteInfo.picture);
       const petID = deleteInfo.petID;
       const token = getState()?.auth?.token;
 
@@ -85,8 +84,10 @@ export const deletePetPhotoAction = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
-        deleteInfo.picture
+          data: {
+            selectedPhoto: deleteInfo.picture,
+          },
+        }
       );
 
       dispatch(updatedPet());
