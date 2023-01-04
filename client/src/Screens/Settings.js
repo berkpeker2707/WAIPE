@@ -33,7 +33,7 @@ const SettingsLine = (props) => {
   );
 };
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
   const theme = useTheme();
 
   return (
@@ -64,7 +64,7 @@ const SettingsScreen = () => {
           }
         />
         <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
-        <PressableButton onPress={() => console.log("I'm Pressed")}>
+        <PressableButton onPress={() => navigation.navigate("BlockedUsers")}>
           <SettingsLine
             leftIcon="ban"
             text="See blocked users"

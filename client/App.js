@@ -21,6 +21,7 @@ import SearchIcon from "./src/Components/Icons/SearchIcon";
 import AddIcon from "./src/Components/Icons/AddIcon";
 import ProfileIcon from "./src/Components/Icons/ProfileIcon";
 import PetProfile from "./src/Screens/PetProfile";
+import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 
 const Tab = createBottomTabNavigator();
 
@@ -181,6 +182,24 @@ export default function App() {
           name="PetProfile"
           component={PetProfile}
         />
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="BlockedUsers"
+          component={BlockedUsersScreen}
+        />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
     ) : (
@@ -266,7 +285,7 @@ const theme = extendTheme({
     },
     coolGray: {
       500: "#6B7280",
-      900: "#111827      ",
+      900: "#111827",
     },
     trueGray: {
       50: "#FAFAFA",
