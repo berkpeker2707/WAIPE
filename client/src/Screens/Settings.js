@@ -24,7 +24,7 @@ const SettingsLine = (props) => {
           as={SimpleLineIcons}
           name={leftIcon}
           size="xl"
-          color={theme.colors.coolGray[900]}
+          color={theme.colors.coolGray[900].toString()}
         />
         <Text fontSize="xl">{text}</Text>
       </HStack>
@@ -46,18 +46,24 @@ const SettingsScreen = () => {
           leftIcon="shuffle"
           text="Hand option"
           rightElement={
-            <Switch size="sm" onTrackColor={theme.colors.forestGreen[400]} />
+            <Switch
+              size="sm"
+              onTrackColor={theme.colors.forestGreen[400].toString()}
+            />
           }
         />
-        <Divider bg={theme.colors.extraOrage[400]} thickness="2" />
+        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
         <SettingsLine
           leftIcon="lock"
           text="Private account"
           rightElement={
-            <Switch size="sm" onTrackColor={theme.colors.forestGreen[400]} />
+            <Switch
+              size="sm"
+              onTrackColor={theme.colors.forestGreen[400].toString()}
+            />
           }
         />
-        <Divider bg={theme.colors.extraOrage[400]} thickness="2" />
+        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
         <PressableButton onPress={() => console.log("I'm Pressed")}>
           <SettingsLine
             leftIcon="ban"
@@ -68,7 +74,7 @@ const SettingsScreen = () => {
                 name="arrow-right"
                 size="md"
                 mr={3}
-                color={theme.colors.coolGray[500]}
+                color={theme.colors.coolGray[500].toString()}
               />
             }
           />
