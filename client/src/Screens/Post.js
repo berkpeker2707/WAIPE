@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
-  useSafeArea,
   Box,
   AspectRatio,
   Image,
@@ -17,13 +16,14 @@ import {
   Pressable,
   TextArea,
   Avatar,
-  theme,
   useTheme,
 } from "native-base";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import ProfileIcon from "../Components/Icons/ProfileIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
+
+import CuteCatEnvelopeIcon from "../Components/Icons/CuteCatEnvelopeIcon";
 
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
@@ -40,6 +40,10 @@ const PostScreen = ({ navigation, route }) => {
 
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
+
+  console.log("getCommentState");
+  console.log(getCommentState);
+  console.log("getCommentState");
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
@@ -65,18 +69,10 @@ const PostScreen = ({ navigation, route }) => {
   const [onLongPressState, setOnLongPressState] = useState(false);
   const [commentOpenState, setCommentOpenState] = useState(false);
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return postState ? (
-    <ScrollView
-      m="2"
-      // {...safeAreaProps}
-    >
+    <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
-      <Stack alignItems="center">
+      <Box safeAreaTop ml={7} mr={7}>
         <Pressable
           onLongPress={() => {
             onLongPressState
@@ -86,120 +82,124 @@ const PostScreen = ({ navigation, route }) => {
         >
           {({ isHovered, isFocused, isPressed }) => {
             return (
-              <Box
-                maxW="80"
-                rounded="lg"
-                overflow="hidden"
-                borderColor={
-                  isPressed ? "#E38E48" : theme.colors.forestGreen[400]
-                }
-                borderWidth="1"
-              >
-                <AspectRatio w="100%" ratio={1 / 1}>
-                  <Image
-                    source={{
-                      uri: postState.picture,
-                    }}
-                    alt="image"
-                    style={{ padding: 10 }}
-                    blurRadius={onLongPressState ? 50 : 0}
-                  />
-                </AspectRatio>
-                {onLongPressState ? (
-                  <HStack
-                    alignItems="center"
-                    textAlign="center"
-                    justifyContent="center"
-                    style={{
-                      margin: "auto",
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                    }}
-                  >
+              <Box style={theme.postShadow}>
+                <Box
+                  maxW="100%"
+                  rounded="3xl"
+                  overflow="hidden"
+                  borderColor={
+                    isPressed ? "#E38E48" : theme.colors.forestGreen[400]
+                  }
+                  borderWidth="3.5"
+                  mt="40%"
+                >
+                  <AspectRatio w="100%" ratio={1 / 1}>
+                    <Image
+                      source={{
+                        uri: postState.picture,
+                      }}
+                      alt="image"
+                      blurRadius={onLongPressState ? 50 : 0}
+                    />
+                  </AspectRatio>
+                  {onLongPressState ? (
                     <HStack
-                      borderWidth="1"
-                      borderRadius="lg"
-                      borderColor={theme.colors.sage[300]}
-                      p="2"
-                      bg={theme.colors.sage[300]}
+                      alignItems="center"
+                      textAlign="center"
+                      justifyContent="center"
+                      style={{
+                        margin: "auto",
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                      }}
                     >
-                      <Pressable>
-                        {({ isHovered, isFocused, isPressed }) => {
-                          return (
-                            <Circle
-                              size="30px"
-                              bg={theme.colors.forestGreen[400]}
-                              style={{
-                                transform: [{ scale: isPressed ? 0.96 : 1 }],
-                              }}
-                            >
-                              <Icon
-                                as={
-                                  <ReportIcon color={theme.colors.sage[300]} />
-                                }
-                              />
-                            </Circle>
-                          );
-                        }}
-                      </Pressable>
-                      <Pressable>
-                        {({ isHovered, isFocused, isPressed }) => {
-                          return (
-                            <Circle
-                              size="30px"
-                              bg={theme.colors.forestGreen[400]}
-                              style={{
-                                transform: [{ scale: isPressed ? 0.96 : 1 }],
-                              }}
-                            >
-                              <Icon
-                                as={
-                                  <SendMessageIcon
-                                    color={theme.colors.sage[300]}
-                                  />
-                                }
-                              />
-                            </Circle>
-                          );
-                        }}
-                      </Pressable>
-                      <Pressable>
-                        {({ isHovered, isFocused, isPressed }) => {
-                          return (
-                            <Circle
-                              size="30px"
-                              bg={theme.colors.forestGreen[400]}
-                              style={{
-                                transform: [{ scale: isPressed ? 0.96 : 1 }],
-                              }}
-                            >
-                              <Icon
-                                as={
-                                  <BookmarkIcon
-                                    color={theme.colors.sage[300]}
-                                  />
-                                }
-                              />
-                            </Circle>
-                          );
-                        }}
-                      </Pressable>
+                      <HStack
+                        borderWidth="1"
+                        borderRadius="lg"
+                        borderColor={theme.colors.sage[300]}
+                        p="2"
+                        bg={theme.colors.sage[300]}
+                      >
+                        <Pressable>
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <ReportIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            );
+                          }}
+                        </Pressable>
+                        <Pressable>
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <SendMessageIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            );
+                          }}
+                        </Pressable>
+                        <Pressable>
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <BookmarkIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            );
+                          }}
+                        </Pressable>
+                      </HStack>
                     </HStack>
-                  </HStack>
-                ) : (
-                  <></>
-                )}
+                  ) : (
+                    <></>
+                  )}
+                </Box>
               </Box>
             );
           }}
         </Pressable>
-      </Stack>
+      </Box>
       {/* image section ends */}
 
-      {/* like section starts */}
+      {/* like section 1 starts */}
       <Stack alignItems="center" p="3">
         <HStack space={12} justifyContent="space-between">
           <HStack alignItems="center">
@@ -213,9 +213,7 @@ const PostScreen = ({ navigation, route }) => {
                       transform: [{ scale: isPressed ? 0.96 : 1 }],
                     }}
                   >
-                    <Icon
-                      as={<LikeHeartIcon color={theme.colors.sage[300]} />}
-                    />
+                    <Icon as={<CuteCatEnvelopeIcon />} />
                   </Circle>
                 );
               }}
@@ -339,7 +337,7 @@ const PostScreen = ({ navigation, route }) => {
           <HStack alignItems="center">
             <Center
               _text={{
-                color: "black",
+                color: theme.colors.singletons["black"],
                 fontWeight: "normal",
               }}
             >
@@ -347,9 +345,17 @@ const PostScreen = ({ navigation, route }) => {
             </Center>
           </HStack>
         </HStack>
+      </Stack>
+      {/* like section 1 ends */}
+
+      <Box alignItems="center">
+        <Divider bg={theme.colors.forestGreen[400]} mt="5" mb="5" w="60%" />
+      </Box>
+
+      {/* like section 2 starts */}
+      <Stack alignItems="center" p="3">
         <Box>
           <VStack alignItems="center">
-            <Divider my={1} />
             <Pressable
               onPress={() =>
                 commentOpenState
@@ -358,23 +364,22 @@ const PostScreen = ({ navigation, route }) => {
               }
               rounded="8"
               overflow="hidden"
-              bg="coolGray.100"
+              bg={theme.colors.sage[400]}
             >
               <Circle size="30px">
-                <Icon as={<AddCommentIcon color={theme.colors.sage[300]} />} />
+                <Icon
+                  as={<AddCommentIcon color={theme.colors.forestGreen[400]} />}
+                />
               </Circle>
             </Pressable>
           </VStack>
         </Box>
       </Stack>
-      {/* like section ends */}
+      {/* like section 2 ends */}
 
       {/* comment section starts */}
-      <Stack alignItems="center">
+      <Stack alignItems="center" m="2" bg={theme.colors.sage[300]}>
         <VStack
-          safeAreaBottom
-          safeAreaLeft
-          safeAreaRight
           style={
             commentOpenState ? theme.commentOpenStyle : theme.commentClosedStyle
           }
@@ -407,7 +412,6 @@ const PostScreen = ({ navigation, route }) => {
             }}
           </Pressable>
         </VStack>
-
         {getCommentState &&
           getCommentState[0].comment.map(
             (getCommentStateInfo, getCommentStateIndex) => {
@@ -416,7 +420,7 @@ const PostScreen = ({ navigation, route }) => {
                   flex="1"
                   width="100%"
                   key={getCommentStateIndex}
-                  bg="#3a6b"
+                  bg={theme.colors.sage[400]}
                   safeAreaBottom
                   safeAreaLeft
                   safeAreaRight
@@ -445,7 +449,7 @@ const PostScreen = ({ navigation, route }) => {
                           </Circle>
                           <Center
                             _text={{
-                              color: "black",
+                              color: theme.colors.singletons["white"],
                               fontWeight: "bold",
                             }}
                           >
@@ -456,7 +460,9 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                   </Pressable>
                   <HStack>
-                    <Text bg="#fff9">{getCommentStateInfo.commentText}</Text>
+                    <Text bg={theme.colors.singletons["white"]}>
+                      {getCommentStateInfo.commentText}
+                    </Text>
                   </HStack>
                   {/* </Stack> */}
                 </Stack>
