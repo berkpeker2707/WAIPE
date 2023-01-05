@@ -24,6 +24,10 @@ import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
 
 import CuteCatEnvelopeIcon from "../Components/Icons/CuteCatEnvelopeIcon";
+import CuteCatFeverCoffeeIcon from "../Components/Icons/CuteCatFeverCoffeeIcon";
+import CuteCowSurprisedIcon from "../Components/Icons/CuteCowSurprisedIcon";
+import CuteRabbitHoldingCarrotIcon from "../Components/Icons/CuteRabbitHoldingCarrotIcon";
+import CuteSadCatSittingIcon from "../Components/Icons/CuteSadCatSittingIcon";
 
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
@@ -228,14 +232,57 @@ const PostScreen = ({ navigation, route }) => {
                       transform: [{ scale: isPressed ? 0.96 : 1 }],
                     }}
                   >
-                    <Icon
-                      as={<LikeHeartIcon color={theme.colors.sage[300]} />}
-                    />
+                    <Icon as={<CuteCatFeverCoffeeIcon />} />
                   </Circle>
                 );
               }}
             </Pressable>
             <Pressable>
+              {({ isHovered, isFocused, isPressed }) => {
+                return (
+                  <Circle
+                    size="30px"
+                    bg={theme.colors.forestGreen[400]}
+                    style={{
+                      transform: [{ scale: isPressed ? 0.96 : 1 }],
+                    }}
+                  >
+                    <Icon as={<CuteCowSurprisedIcon />} />
+                  </Circle>
+                );
+              }}
+            </Pressable>
+            <Pressable>
+              {({ isHovered, isFocused, isPressed }) => {
+                return (
+                  <Circle
+                    size="30px"
+                    bg={theme.colors.forestGreen[400]}
+                    style={{
+                      transform: [{ scale: isPressed ? 0.96 : 1 }],
+                    }}
+                  >
+                    <Icon as={<CuteRabbitHoldingCarrotIcon />} />
+                  </Circle>
+                );
+              }}
+            </Pressable>
+            <Pressable>
+              {({ isHovered, isFocused, isPressed }) => {
+                return (
+                  <Circle
+                    size="30px"
+                    bg={theme.colors.forestGreen[400]}
+                    style={{
+                      transform: [{ scale: isPressed ? 0.96 : 1 }],
+                    }}
+                  >
+                    <Icon as={<CuteSadCatSittingIcon />} />
+                  </Circle>
+                );
+              }}
+            </Pressable>
+            {/* <Pressable>
               {({ isHovered, isFocused, isPressed }) => {
                 return (
                   <Circle
@@ -251,41 +298,7 @@ const PostScreen = ({ navigation, route }) => {
                   </Circle>
                 );
               }}
-            </Pressable>
-            <Pressable>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon
-                      as={<LikeHeartIcon color={theme.colors.sage[300]} />}
-                    />
-                  </Circle>
-                );
-              }}
-            </Pressable>
-            <Pressable>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon
-                      as={<LikeHeartIcon color={theme.colors.sage[300]} />}
-                    />
-                  </Circle>
-                );
-              }}
-            </Pressable>
+            </Pressable> */}
           </HStack>
           <Pressable>
             {({ isHovered, isFocused, isPressed }) => {
@@ -300,6 +313,7 @@ const PostScreen = ({ navigation, route }) => {
                       color: "black",
                       fontWeight: "bold",
                     }}
+                    mr={1}
                   >
                     {postState.petID.name ?? ""}
                   </Center>
@@ -377,9 +391,20 @@ const PostScreen = ({ navigation, route }) => {
       </Stack>
       {/* like section 2 ends */}
 
-      {/* comment section starts */}
-      <Stack alignItems="center" m="2" bg={theme.colors.sage[300]}>
+      {/* comment section 1 starts */}
+      <Stack
+        alignItems="center"
+        ml={7}
+        mr={7}
+        mb={2}
+        bg={theme.colors.sage[300]}
+        borderRadius="2xl"
+      >
         <VStack
+          overflow="hidden"
+          bg={theme.colors.sage[300]}
+          borderRadius="2xl"
+          borderColor={theme.colors.sage[300]}
           style={
             commentOpenState ? theme.commentOpenStyle : theme.commentClosedStyle
           }
@@ -412,6 +437,17 @@ const PostScreen = ({ navigation, route }) => {
             }}
           </Pressable>
         </VStack>
+      </Stack>
+      {/* comment section 1 ends */}
+
+      {/* comment section 2 starts */}
+      <Stack
+        alignItems="center"
+        ml={7}
+        mr={7}
+        bg={theme.colors.forestGreen[400]}
+        borderRadius="2xl"
+      >
         {getCommentState &&
           getCommentState[0].comment.map(
             (getCommentStateInfo, getCommentStateIndex) => {
@@ -449,9 +485,10 @@ const PostScreen = ({ navigation, route }) => {
                           </Circle>
                           <Center
                             _text={{
-                              color: theme.colors.singletons["white"],
+                              color: theme.colors.forestGreen[400],
                               fontWeight: "bold",
                             }}
+                            ml={1}
                           >
                             {getCommentStateInfo?.ownerID?.firstname}
                           </Center>
@@ -459,8 +496,16 @@ const PostScreen = ({ navigation, route }) => {
                       );
                     }}
                   </Pressable>
-                  <HStack>
-                    <Text bg={theme.colors.singletons["white"]}>
+                  <HStack
+                    ml={8}
+                    pt={1}
+                    pb={1}
+                    bg={theme.colors.sage[300]}
+                    borderWidth="1"
+                    borderRadius="xs"
+                    borderColor={theme.colors.sage[300]}
+                  >
+                    <Text color={theme.colors.forestGreen[400]}>
                       {getCommentStateInfo.commentText}
                     </Text>
                   </HStack>
@@ -470,7 +515,7 @@ const PostScreen = ({ navigation, route }) => {
             }
           )}
       </Stack>
-      {/* comment section ends */}
+      {/* comment section 2 ends */}
     </ScrollView>
   ) : (
     <Text>Loading...</Text>
