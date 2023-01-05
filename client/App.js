@@ -266,7 +266,7 @@ const theme = extendTheme({
     },
     coolGray: {
       500: "#6B7280",
-      900: "#111827      ",
+      900: "#111827",
     },
     trueGray: {
       50: "#FAFAFA",
