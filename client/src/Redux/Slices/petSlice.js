@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AsyncStorege from "@react-native-async-storage/async-storage";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.23:5000/api";
+const SERVER_URL = "http://192.168.100.23:1000/api";
+const updatedPet = createAction("pet/update");
 
 export const getPetAction = createAsyncThunk(
   "pet/getPet",
@@ -46,43 +47,22 @@ export const postPetAction = createAsyncThunk(
 
 export const updatePetAction = createAsyncThunk(
   "pet/updatePet",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (updateInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      const petID = updateInfo.petID;
+      const token = getState()?.auth?.token;
       const { data } = await axios.put(
-        `${SERVER_URL}/pet/update/${id}`,
-        config
+        `${SERVER_URL}/pet/update/${petID}`,
+        updateInfo,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.reponse?.data);
-    }
-  }
-);
-
-export const uploadPetPhotoAction = createAsyncThunk(
-  "pet/uploadPetPhoto",
-  async (id, { rejectWithValue, getState, dispatch }) => {
-    //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
-    try {
-      const { data } = await axios.post(
-        `${SERVER_URL}/pet/upload/photo/${id}`,
-        config
-      );
-
+      dispatch(updatedPet());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -92,20 +72,25 @@ export const uploadPetPhotoAction = createAsyncThunk(
 
 export const deletePetPhotoAction = createAsyncThunk(
   "pet/deletePetPhoto",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (deleteInfo, { rejectWithValue, getState, dispatch }) => {
     //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      const petID = deleteInfo.petID;
+      const token = getState()?.auth?.token;
+
       const { data } = await axios.delete(
-        `${SERVER_URL}/post/update/${id}}`,
-        config
+        `${SERVER_URL}/pet/delete/photo/${petID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            selectedPhoto: deleteInfo.picture,
+          },
+        }
       );
 
+      dispatch(updatedPet());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -136,12 +121,56 @@ export const deletePetAction = createAsyncThunk(
   }
 );
 
+export const uploadPetPhotoAction = createAsyncThunk(
+  "pet/uploadPetPhoto",
+  async (uploadInfo, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const uri = uploadInfo.uri;
+      const petID = uploadInfo.petID;
+      const token = getState()?.auth?.token;
+
+      const FormData = global.FormData;
+      const formData = new FormData();
+
+      const trimmedURI =
+        Platform.OS === "android" ? uri : uri.replace("file://", "");
+      const fileName = trimmedURI.split("/").pop();
+
+      formData.append("image", {
+        name: fileName,
+        type: mime.getType(trimmedURI),
+        uri: trimmedURI,
+      });
+
+      const { data } = await axios.post(
+        `${SERVER_URL}/pet/upload/photo/${petID}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${token}`,
+          },
+          transformRequest: (data, headers) => {
+            return formData;
+          },
+        }
+      );
+
+      dispatch(updatedPet());
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 const petSlice = createSlice({
   name: "pet",
   initialState: {
     loading: false,
     error: null,
     getPetData: null,
+    isUpdated: false,
     postPetData: null,
     updatePetData: null,
     uploadPetPhotoData: null,
@@ -149,6 +178,9 @@ const petSlice = createSlice({
     deletePetData: null,
   },
   extraReducers: (builder) => {
+    builder.addCase(updatedPet, (state) => {
+      state.isUpdated = true;
+    });
     //get pet reducer
     builder.addCase(getPetAction.pending, (state) => {
       state.loading = true;
@@ -185,7 +217,7 @@ const petSlice = createSlice({
     builder.addCase(updatePetAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(updatePetAction.rejected, (state, action) => {
       state.loading = false;
@@ -199,7 +231,7 @@ const petSlice = createSlice({
     builder.addCase(uploadPetPhotoAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.uploadPetPhotoData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(uploadPetPhotoAction.rejected, (state, action) => {
       state.loading = false;
@@ -210,10 +242,10 @@ const petSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(deletePetPhotoAction.fulfilled, (state, action) => {
+    builder.addCase(deletePetPhotoAction.fulfilled, (state) => {
       state.loading = false;
       state.error = null;
-      state.deletePetPhotoData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(deletePetPhotoAction.rejected, (state, action) => {
       state.loading = false;
@@ -239,6 +271,9 @@ const petSlice = createSlice({
 export const selectPetLoading = (state) => state.pet.loading;
 export const selectPetError = (state) => state.pet.error;
 export const selectGetPet = (state) => state.pet.getPetData;
+export const selectPetUpdated = (state) => {
+  return state.pet.isUpdated;
+};
 export const selectPostPet = (state) => state.pet.postPetData;
 export const selectUpdatePet = (state) => state.pet.updatePetData;
 export const selectUploadPetPhoto = (state) => state.pet.uploadPetPhotoData;
