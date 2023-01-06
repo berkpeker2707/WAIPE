@@ -32,7 +32,12 @@ import CuteSadCatSittingIcon from "../Components/Icons/CuteSadCatSittingIcon";
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
-import { getPostAction, selectGetPost } from "../Redux/Slices/postSlice";
+import {
+  archivePostAction,
+  getPostAction,
+  selectGetPost,
+  selectPostUpdated,
+} from "../Redux/Slices/postSlice";
 import {
   getCommentAction,
   selectGetComment,
@@ -49,21 +54,22 @@ const PostScreen = ({ navigation, route }) => {
 
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
-  const updatePostLikeState = useSelector(selectUpdatePostLike);
+  // const updatePostLikeState = useSelector(selectUpdatePostLike);
   const [likeState, setLikeState] = useState([getPostState]);
-  const isUpdated = useSelector(selectLikeUpdated);
+  const isLikeUpdated = useSelector(selectLikeUpdated);
+  const isPostUpdated = useSelector(selectPostUpdated);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
-  }, [dispatch, route.params.post._id, isUpdated]);
+  }, [dispatch, route.params.post._id, isLikeUpdated]);
 
   useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
-  }, [dispatch, route.params.post.comment._id, isUpdated]);
+  }, [dispatch, route.params.post.comment._id, isLikeUpdated]);
 
   useEffect(() => {
     setLikeState([getPostState[0].like.like]);
-  }, [dispatch, route.params.post.comment._id, getPostState, isUpdated]);
+  }, [dispatch, route.params.post.comment._id, getPostState, isLikeUpdated]);
 
   useEffect(() => {
     setOnLongPressState(false);
@@ -124,8 +130,6 @@ const PostScreen = ({ navigation, route }) => {
     (occur) => occur.likeType === "cuteSadCatSittingIcon"
   )?.occurrence;
 
-  // console.log(getPostState[0].like._id);
-
   return getPostState[0] ? (
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
@@ -179,7 +183,9 @@ const PostScreen = ({ navigation, route }) => {
                         p="2"
                         bg={theme.colors.sage[300]}
                       >
-                        <Pressable>
+                        <Pressable
+                          onPress={() => console.log("Pressed report button")}
+                        >
                           {({ isHovered, isFocused, isPressed }) => {
                             return (
                               <Circle
@@ -200,7 +206,7 @@ const PostScreen = ({ navigation, route }) => {
                             );
                           }}
                         </Pressable>
-                        <Pressable>
+                        {/* <Pressable>
                           {({ isHovered, isFocused, isPressed }) => {
                             return (
                               <Circle
@@ -220,25 +226,56 @@ const PostScreen = ({ navigation, route }) => {
                               </Circle>
                             );
                           }}
-                        </Pressable>
-                        <Pressable>
+                        </Pressable> */}
+                        <Pressable
+                          onPress={() => {
+                            dispatch(
+                              archivePostAction({ postID: getPostState[0]._id })
+                            );
+                            console.log(getPostState[0]);
+                          }}
+                        >
                           {({ isHovered, isFocused, isPressed }) => {
                             return (
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <BookmarkIcon
-                                      color={theme.colors.sage[300]}
+                              <>
+                                {!isPostUpdated ? (
+                                  <Circle
+                                    size="30px"
+                                    bg={theme.colors.forestGreen[400]}
+                                    style={{
+                                      transform: [
+                                        { scale: isPressed ? 0.96 : 1 },
+                                      ],
+                                    }}
+                                  >
+                                    <Icon
+                                      as={
+                                        <BookmarkIcon
+                                          color={theme.colors.sage[300]}
+                                        />
+                                      }
                                     />
-                                  }
-                                />
-                              </Circle>
+                                  </Circle>
+                                ) : (
+                                  <Circle
+                                    size="30px"
+                                    bg={theme.colors.muted[600]}
+                                    style={{
+                                      transform: [
+                                        { scale: isPressed ? 0.96 : 1 },
+                                      ],
+                                    }}
+                                  >
+                                    <Icon
+                                      as={
+                                        <BookmarkIcon
+                                          color={theme.colors.sage[300]}
+                                        />
+                                      }
+                                    />
+                                  </Circle>
+                                )}
+                              </>
                             );
                           }}
                         </Pressable>
@@ -276,7 +313,7 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {!isUpdated &&
+                          {!isLikeUpdated &&
                           likeStateInfo.some((likeStateSingle) => {
                             return likeStateSingle["likeType"] === "heart";
                           }) ? (
@@ -344,7 +381,7 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {!isUpdated &&
+                          {!isLikeUpdated &&
                           likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
@@ -415,7 +452,7 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {!isUpdated &&
+                          {!isLikeUpdated &&
                           likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
@@ -486,7 +523,7 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {!isUpdated &&
+                          {!isLikeUpdated &&
                           likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
@@ -557,7 +594,7 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {!isUpdated &&
+                          {!isLikeUpdated &&
                           likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
@@ -754,6 +791,7 @@ const PostScreen = ({ navigation, route }) => {
         </VStack>
       </Stack>
       {/* comment section 1 ends */}
+
       {/* comment section 2 starts */}
       <Stack
         alignItems="center"
