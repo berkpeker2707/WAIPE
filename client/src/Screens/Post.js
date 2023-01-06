@@ -97,9 +97,21 @@ const PostScreen = ({ navigation, route }) => {
 
   var likeNumbers = findOcc(likeState[0], "likeType");
 
-  // console.log(`likeNumbers`);
-  // console.log(likeNumbers);
-  // console.log(`likeNumbers`);
+  var numOfHeart = likeNumbers.find(
+    (occur) => occur.likeType === "heart"
+  )?.occurrence;
+  var numOfCuteCatFeverCoffeeIcon = likeNumbers.find(
+    (occur) => occur.likeType === "cuteCatFeverCoffeeIcon"
+  )?.occurrence;
+  var numOfCuteCowSurprisedIcon = likeNumbers.find(
+    (occur) => occur.likeType === "cuteCowSurprisedIcon"
+  )?.occurrence;
+  var numOfCuteRabbitHoldingCarrotIcon = likeNumbers.find(
+    (occur) => occur.likeType === "cuteRabbitHoldingCarrotIcon"
+  )?.occurrence;
+  var numOfCuteSadCatSittingIcon = likeNumbers.find(
+    (occur) => occur.likeType === "cuteSadCatSittingIcon"
+  )?.occurrence;
 
   return getPostState[0] ? (
     <ScrollView bg={theme.colors.sage[400]}>
@@ -123,7 +135,6 @@ const PostScreen = ({ navigation, route }) => {
                     isPressed ? "#E38E48" : theme.colors.forestGreen[400]
                   }
                   borderWidth="3.5"
-                  mt="40%"
                 >
                   <AspectRatio w="100%" ratio={1 / 1}>
                     <Image
@@ -235,17 +246,16 @@ const PostScreen = ({ navigation, route }) => {
       <Stack alignItems="center" p="3">
         <HStack space={12} justifyContent="space-between">
           <HStack alignItems="center">
-            {likeState[0].map((likeStateInfo, likeStateIndex) => {
-              {
-                console.log(likeNumbers[0]);
-              }
+            {likeState.map((likeStateInfo, likeStateIndex) => {
               return (
                 <HStack key={likeStateIndex}>
                   <Pressable mr={1}>
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.likeType == "heart" ? (
+                          {likeStateInfo.some((likeStateSingle) => {
+                            return likeStateSingle["likeType"] === "heart";
+                          }) ? (
                             <>
                               <Circle
                                 size="30px"
@@ -269,7 +279,7 @@ const PostScreen = ({ navigation, route }) => {
                                 }}
                                 mr={1}
                               >
-                                2
+                                {numOfHeart ?? ""}
                               </Center>
                             </>
                           ) : (
@@ -300,8 +310,12 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.likeType ==
-                          "cuteCatFeverCoffeeIcon" ? (
+                          {likeStateInfo.some((likeStateSingle) => {
+                            return (
+                              likeStateSingle["likeType"] ===
+                              "cuteCatFeverCoffeeIcon"
+                            );
+                          }) ? (
                             <>
                               <Circle
                                 size="30px"
@@ -325,7 +339,7 @@ const PostScreen = ({ navigation, route }) => {
                                 }}
                                 mr={1}
                               >
-                                2
+                                {numOfCuteCatFeverCoffeeIcon ?? ""}
                               </Center>
                             </>
                           ) : (
@@ -339,8 +353,8 @@ const PostScreen = ({ navigation, route }) => {
                               >
                                 <Icon
                                   as={
-                                    <LikeHeartIcon
-                                      bg={theme.colors.forestGreen[400]}
+                                    <CuteCatFeverCoffeeIcon
+                                      color={theme.colors.sage[300]}
                                     />
                                   }
                                 />
@@ -356,7 +370,12 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.likeType == "cuteCowSurprisedIcon" ? (
+                          {likeStateInfo.some((likeStateSingle) => {
+                            return (
+                              likeStateSingle["likeType"] ===
+                              "cuteCowSurprisedIcon"
+                            );
+                          }) ? (
                             <>
                               <Circle
                                 size="30px"
@@ -380,7 +399,7 @@ const PostScreen = ({ navigation, route }) => {
                                 }}
                                 mr={1}
                               >
-                                2
+                                {numOfCuteCowSurprisedIcon ?? ""}
                               </Center>
                             </>
                           ) : (
@@ -394,8 +413,8 @@ const PostScreen = ({ navigation, route }) => {
                               >
                                 <Icon
                                   as={
-                                    <LikeHeartIcon
-                                      bg={theme.colors.forestGreen[400]}
+                                    <CuteCowSurprisedIcon
+                                      color={theme.colors.sage[300]}
                                     />
                                   }
                                 />
@@ -411,8 +430,12 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.likeType ==
-                          "cuteRabbitHoldingCarrotIcon" ? (
+                          {likeStateInfo.some((likeStateSingle) => {
+                            return (
+                              likeStateSingle["likeType"] ===
+                              "cuteRabbitHoldingCarrotIcon"
+                            );
+                          }) ? (
                             <>
                               <Circle
                                 size="30px"
@@ -436,14 +459,14 @@ const PostScreen = ({ navigation, route }) => {
                                 }}
                                 mr={1}
                               >
-                                2
+                                {numOfCuteRabbitHoldingCarrotIcon ?? ""}
                               </Center>
                             </>
                           ) : (
                             <>
                               <Circle
                                 size="30px"
-                                bg={theme.colors.google[400]}
+                                bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
                                 }}
@@ -467,7 +490,12 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.likeType == "cuteSadCatSittingIcon" ? (
+                          {likeStateInfo.some((likeStateSingle) => {
+                            return (
+                              likeStateSingle["likeType"] ===
+                              "cuteSadCatSittingIcon"
+                            );
+                          }) ? (
                             <>
                               <Circle
                                 size="30px"
@@ -491,7 +519,7 @@ const PostScreen = ({ navigation, route }) => {
                                 }}
                                 mr={1}
                               >
-                                2
+                                {numOfCuteSadCatSittingIcon ?? ""}
                               </Center>
                             </>
                           ) : (
@@ -505,8 +533,8 @@ const PostScreen = ({ navigation, route }) => {
                               >
                                 <Icon
                                   as={
-                                    <LikeHeartIcon
-                                      bg={theme.colors.forestGreen[400]}
+                                    <CuteSadCatSittingIcon
+                                      color={theme.colors.sage[300]}
                                     />
                                   }
                                 />
@@ -520,110 +548,6 @@ const PostScreen = ({ navigation, route }) => {
                 </HStack>
               );
             })}
-            {/* <Pressable mr={1}>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <>
-                    <Circle
-                      size="30px"
-                      bg={theme.colors.forestGreen[400]}
-                      style={{
-                        transform: [{ scale: isPressed ? 0.96 : 1 }],
-                      }}
-                    >
-                      <Icon as={<CuteCatFeverCoffeeIcon />} />
-                    </Circle>
-                    <Center
-                      _text={{
-                        color: theme.colors.extraOrage[400],
-                        fontWeight: "bold",
-                      }}
-                      mr={1}
-                    >
-                      2
-                    </Center>
-                  </>
-                );
-              }}
-            </Pressable>
-            <Pressable mr={1}>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <>
-                    <Circle
-                      size="30px"
-                      bg={theme.colors.forestGreen[400]}
-                      style={{
-                        transform: [{ scale: isPressed ? 0.96 : 1 }],
-                      }}
-                    >
-                      <Icon as={<CuteCowSurprisedIcon />} />
-                    </Circle>
-                    <Center
-                      _text={{
-                        color: theme.colors.extraOrage[400],
-                        fontWeight: "bold",
-                      }}
-                      mr={1}
-                    >
-                      2
-                    </Center>
-                  </>
-                );
-              }}
-            </Pressable>
-            <Pressable mr={1}>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <>
-                    <Circle
-                      size="30px"
-                      bg={theme.colors.forestGreen[400]}
-                      style={{
-                        transform: [{ scale: isPressed ? 0.96 : 1 }],
-                      }}
-                    >
-                      <Icon as={<CuteRabbitHoldingCarrotIcon />} />
-                    </Circle>
-                    <Center
-                      _text={{
-                        color: theme.colors.extraOrage[400],
-                        fontWeight: "bold",
-                      }}
-                      mr={1}
-                    >
-                      2
-                    </Center>
-                  </>
-                );
-              }}
-            </Pressable>
-            <Pressable mr={1}>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <>
-                    <Circle
-                      size="30px"
-                      bg={theme.colors.forestGreen[400]}
-                      style={{
-                        transform: [{ scale: isPressed ? 0.96 : 1 }],
-                      }}
-                    >
-                      <Icon as={<CuteSadCatSittingIcon />} />
-                    </Circle>
-                    <Center
-                      _text={{
-                        color: theme.colors.extraOrage[400],
-                        fontWeight: "bold",
-                      }}
-                      mr={1}
-                    >
-                      2
-                    </Center>
-                  </>
-                );
-              }}
-            </Pressable> */}
           </HStack>
           <Pressable>
             {({ isHovered, isFocused, isPressed }) => {
