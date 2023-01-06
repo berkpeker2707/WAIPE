@@ -16,15 +16,11 @@ import {
   Pressable,
   TextArea,
   Avatar,
-  Badge,
   useTheme,
 } from "native-base";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
-import ProfileIcon from "../Components/Icons/ProfileIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
-
-import CuteCatEnvelopeIcon from "../Components/Icons/CuteCatEnvelopeIcon";
 import CuteCatFeverCoffeeIcon from "../Components/Icons/CuteCatFeverCoffeeIcon";
 import CuteCowSurprisedIcon from "../Components/Icons/CuteCowSurprisedIcon";
 import CuteRabbitHoldingCarrotIcon from "../Components/Icons/CuteRabbitHoldingCarrotIcon";
@@ -38,6 +34,10 @@ import {
   getCommentAction,
   selectGetComment,
 } from "../Redux/Slices/commentSlice";
+import {
+  selectUpdatePostLike,
+  updatePostLikeAction,
+} from "../Redux/Slices/likeSlice";
 
 const PostScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -45,6 +45,7 @@ const PostScreen = ({ navigation, route }) => {
 
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
+  const updatePostLikeState = useSelector(selectUpdatePostLike);
   const [likeState, setLikeState] = useState([getPostState[0].like.like]);
 
   useEffect(() => {
@@ -54,6 +55,10 @@ const PostScreen = ({ navigation, route }) => {
   useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
   }, [dispatch, route.params.post.comment._id]);
+
+  useEffect(() => {
+    setLikeState([getPostState[0].like.like]);
+  }, [dispatch, route.params.post.comment._id, getPostState]);
 
   useEffect(() => {
     setOnLongPressState(false);
@@ -249,7 +254,16 @@ const PostScreen = ({ navigation, route }) => {
             {likeState.map((likeStateInfo, likeStateIndex) => {
               return (
                 <HStack key={likeStateIndex}>
-                  <Pressable mr={1}>
+                  <Pressable
+                    mr={1}
+                    onPress={() =>
+                      // values
+                      {
+                        console.log(likeState);
+                        // dispatch(updatePostLikeAction(values));
+                      }
+                    }
+                  >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>

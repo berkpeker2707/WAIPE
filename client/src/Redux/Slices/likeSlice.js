@@ -15,7 +15,8 @@ export const updatePostLikeAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/like/update/post/${likeID},config`
+        `${SERVER_URL}/like/update/post/${likeID}`,
+        config
       );
 
       return data;
