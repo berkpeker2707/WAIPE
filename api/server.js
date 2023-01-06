@@ -47,5 +47,5 @@ app.use("/api/like", likeRoutes);
 app.use("/api/pet", petRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
