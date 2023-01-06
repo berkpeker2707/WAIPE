@@ -71,10 +71,7 @@ const PostScreen = ({ navigation, route }) => {
   });
 
   return postState ? (
-    <ScrollView
-      m="2"
-      // {...safeAreaProps}
-    >
+    <ScrollView m="2">
       {/* image section starts */}
       <Stack alignItems="center">
         <Pressable
