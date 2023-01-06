@@ -16,6 +16,7 @@ import {
   Pressable,
   TextArea,
   Avatar,
+  Badge,
   useTheme,
 } from "native-base";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
@@ -44,10 +45,7 @@ const PostScreen = ({ navigation, route }) => {
 
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
-
-  console.log("getCommentState");
-  console.log(getCommentState);
-  console.log("getCommentState");
+  const [likeState, setLikeState] = useState([getPostState[0].like.like]);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
@@ -57,23 +55,53 @@ const PostScreen = ({ navigation, route }) => {
     dispatch(getCommentAction(route.params.post.comment._id));
   }, [dispatch, route.params.post.comment._id]);
 
-  ///BELOW
-  useEffect(() => {
-    setPostState(route.params.post);
-  }, [route.params.post]);
-
   useEffect(() => {
     setOnLongPressState(false);
     setCommentOpenState(false);
-  }, [postState]);
-
-  const [postState, setPostState] = useState(route.params.post);
-  const [commentState, setCommentState] = useState(route.params.post);
+  }, [getPostState[0]]);
 
   const [onLongPressState, setOnLongPressState] = useState(false);
   const [commentOpenState, setCommentOpenState] = useState(false);
 
-  return postState ? (
+  //checking number of like types
+  function findOcc(arr, key) {
+    let arr2 = [];
+
+    arr.forEach((x) => {
+      // Checking if there is any object in arr2
+      // which contains the key value
+      if (
+        arr2.some((val) => {
+          return val[key] == x[key];
+        })
+      ) {
+        // If yes! then increase the occurrence by 1
+        arr2.forEach((k) => {
+          if (k[key] === x[key]) {
+            k["occurrence"]++;
+          }
+        });
+      } else {
+        // If not! Then create a new object initialize
+        // it with the present iteration key's value and
+        // set the occurrence to 1
+        let a = {};
+        a[key] = x[key];
+        a["occurrence"] = 1;
+        arr2.push(a);
+      }
+    });
+
+    return arr2;
+  }
+
+  var likeNumbers = findOcc(likeState[0], "likeType");
+
+  // console.log(`likeNumbers`);
+  // console.log(likeNumbers);
+  // console.log(`likeNumbers`);
+
+  return getPostState[0] ? (
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
       <Box safeAreaTop ml={7} mr={7}>
@@ -100,7 +128,7 @@ const PostScreen = ({ navigation, route }) => {
                   <AspectRatio w="100%" ratio={1 / 1}>
                     <Image
                       source={{
-                        uri: postState.picture,
+                        uri: getPostState[0].picture,
                       }}
                       alt="image"
                       blurRadius={onLongPressState ? 50 : 0}
@@ -207,95 +235,392 @@ const PostScreen = ({ navigation, route }) => {
       <Stack alignItems="center" p="3">
         <HStack space={12} justifyContent="space-between">
           <HStack alignItems="center">
-            <Pressable>
+            {likeState[0].map((likeStateInfo, likeStateIndex) => {
+              {
+                console.log(likeNumbers[0]);
+              }
+              return (
+                <HStack key={likeStateIndex}>
+                  <Pressable mr={1}>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <>
+                          {likeStateInfo.likeType == "heart" ? (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <LikeHeartIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                              <Center
+                                _text={{
+                                  color: theme.colors.extraOrage[400],
+                                  fontWeight: "bold",
+                                }}
+                                mr={1}
+                              >
+                                2
+                              </Center>
+                            </>
+                          ) : (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.muted[600]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <LikeHeartIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  </Pressable>
+
+                  <Pressable mr={1}>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <>
+                          {likeStateInfo.likeType ==
+                          "cuteCatFeverCoffeeIcon" ? (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <CuteCatFeverCoffeeIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                              <Center
+                                _text={{
+                                  color: theme.colors.extraOrage[400],
+                                  fontWeight: "bold",
+                                }}
+                                mr={1}
+                              >
+                                2
+                              </Center>
+                            </>
+                          ) : (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.muted[600]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <LikeHeartIcon
+                                      bg={theme.colors.forestGreen[400]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  </Pressable>
+
+                  <Pressable mr={1}>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <>
+                          {likeStateInfo.likeType == "cuteCowSurprisedIcon" ? (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <CuteCowSurprisedIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                              <Center
+                                _text={{
+                                  color: theme.colors.extraOrage[400],
+                                  fontWeight: "bold",
+                                }}
+                                mr={1}
+                              >
+                                2
+                              </Center>
+                            </>
+                          ) : (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.muted[600]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <LikeHeartIcon
+                                      bg={theme.colors.forestGreen[400]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  </Pressable>
+
+                  <Pressable mr={1}>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <>
+                          {likeStateInfo.likeType ==
+                          "cuteRabbitHoldingCarrotIcon" ? (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <CuteRabbitHoldingCarrotIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                              <Center
+                                _text={{
+                                  color: theme.colors.extraOrage[400],
+                                  fontWeight: "bold",
+                                }}
+                                mr={1}
+                              >
+                                2
+                              </Center>
+                            </>
+                          ) : (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.google[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <CuteRabbitHoldingCarrotIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  </Pressable>
+
+                  <Pressable mr={1}>
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <>
+                          {likeStateInfo.likeType == "cuteSadCatSittingIcon" ? (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <CuteSadCatSittingIcon
+                                      color={theme.colors.sage[300]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                              <Center
+                                _text={{
+                                  color: theme.colors.extraOrage[400],
+                                  fontWeight: "bold",
+                                }}
+                                mr={1}
+                              >
+                                2
+                              </Center>
+                            </>
+                          ) : (
+                            <>
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.muted[600]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={
+                                    <LikeHeartIcon
+                                      bg={theme.colors.forestGreen[400]}
+                                    />
+                                  }
+                                />
+                              </Circle>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  </Pressable>
+                </HStack>
+              );
+            })}
+            {/* <Pressable mr={1}>
               {({ isHovered, isFocused, isPressed }) => {
                 return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon as={<CuteCatEnvelopeIcon />} />
-                  </Circle>
+                  <>
+                    <Circle
+                      size="30px"
+                      bg={theme.colors.forestGreen[400]}
+                      style={{
+                        transform: [{ scale: isPressed ? 0.96 : 1 }],
+                      }}
+                    >
+                      <Icon as={<CuteCatFeverCoffeeIcon />} />
+                    </Circle>
+                    <Center
+                      _text={{
+                        color: theme.colors.extraOrage[400],
+                        fontWeight: "bold",
+                      }}
+                      mr={1}
+                    >
+                      2
+                    </Center>
+                  </>
                 );
               }}
             </Pressable>
-            <Pressable>
+            <Pressable mr={1}>
               {({ isHovered, isFocused, isPressed }) => {
                 return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon as={<CuteCatFeverCoffeeIcon />} />
-                  </Circle>
+                  <>
+                    <Circle
+                      size="30px"
+                      bg={theme.colors.forestGreen[400]}
+                      style={{
+                        transform: [{ scale: isPressed ? 0.96 : 1 }],
+                      }}
+                    >
+                      <Icon as={<CuteCowSurprisedIcon />} />
+                    </Circle>
+                    <Center
+                      _text={{
+                        color: theme.colors.extraOrage[400],
+                        fontWeight: "bold",
+                      }}
+                      mr={1}
+                    >
+                      2
+                    </Center>
+                  </>
                 );
               }}
             </Pressable>
-            <Pressable>
+            <Pressable mr={1}>
               {({ isHovered, isFocused, isPressed }) => {
                 return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon as={<CuteCowSurprisedIcon />} />
-                  </Circle>
+                  <>
+                    <Circle
+                      size="30px"
+                      bg={theme.colors.forestGreen[400]}
+                      style={{
+                        transform: [{ scale: isPressed ? 0.96 : 1 }],
+                      }}
+                    >
+                      <Icon as={<CuteRabbitHoldingCarrotIcon />} />
+                    </Circle>
+                    <Center
+                      _text={{
+                        color: theme.colors.extraOrage[400],
+                        fontWeight: "bold",
+                      }}
+                      mr={1}
+                    >
+                      2
+                    </Center>
+                  </>
                 );
               }}
             </Pressable>
-            <Pressable>
+            <Pressable mr={1}>
               {({ isHovered, isFocused, isPressed }) => {
                 return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon as={<CuteRabbitHoldingCarrotIcon />} />
-                  </Circle>
-                );
-              }}
-            </Pressable>
-            <Pressable>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon as={<CuteSadCatSittingIcon />} />
-                  </Circle>
-                );
-              }}
-            </Pressable>
-            {/* <Pressable>
-              {({ isHovered, isFocused, isPressed }) => {
-                return (
-                  <Circle
-                    size="30px"
-                    bg={theme.colors.forestGreen[400]}
-                    style={{
-                      transform: [{ scale: isPressed ? 0.96 : 1 }],
-                    }}
-                  >
-                    <Icon
-                      as={<LikeHeartIcon color={theme.colors.sage[300]} />}
-                    />
-                  </Circle>
+                  <>
+                    <Circle
+                      size="30px"
+                      bg={theme.colors.forestGreen[400]}
+                      style={{
+                        transform: [{ scale: isPressed ? 0.96 : 1 }],
+                      }}
+                    >
+                      <Icon as={<CuteSadCatSittingIcon />} />
+                    </Circle>
+                    <Center
+                      _text={{
+                        color: theme.colors.extraOrage[400],
+                        fontWeight: "bold",
+                      }}
+                      mr={1}
+                    >
+                      2
+                    </Center>
+                  </>
                 );
               }}
             </Pressable> */}
@@ -315,7 +640,7 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                     mr={1}
                   >
-                    {postState.petID.name ?? ""}
+                    {getPostState[0].petID.name ?? ""}
                   </Center>
                   <Pressable>
                     {({ isHovered, isFocused, isPressed }) => {
@@ -332,12 +657,11 @@ const PostScreen = ({ navigation, route }) => {
                             alignSelf="center"
                             size="xs"
                             source={{
-                              uri: postState.petID.picture ?? "",
+                              uri: getPostState[0].petID.picture ?? "",
                             }}
                           >
-                            {postState.petID.name ?? ""}
+                            {getPostState[0].petID.name ?? ""}
                           </Avatar>
-                          {/* <Icon as={<ProfileIcon name="Profile" />} /> */}
                         </Circle>
                       );
                     }}
@@ -355,7 +679,7 @@ const PostScreen = ({ navigation, route }) => {
                 fontWeight: "normal",
               }}
             >
-              {postState.postDescription ?? ""}
+              {getPostState[0].postDescription ?? ""}
             </Center>
           </HStack>
         </HStack>
@@ -461,7 +785,6 @@ const PostScreen = ({ navigation, route }) => {
                   safeAreaLeft
                   safeAreaRight
                 >
-                  {/* <Stack direction="row" space={3}> */}
                   <Pressable>
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
@@ -474,14 +797,17 @@ const PostScreen = ({ navigation, route }) => {
                             size="30px"
                             bg={theme.colors.forestGreen[400]}
                           >
-                            <Icon
-                              as={
-                                <ProfileIcon
-                                  name="Profile"
-                                  color={theme.colors.sage[300]}
-                                />
-                              }
-                            />
+                            <Avatar
+                              bg={theme.colors.forestGreen[400]}
+                              alignSelf="center"
+                              size="xs"
+                              source={{
+                                uri:
+                                  getCommentStateInfo?.ownerID?.picture ?? "",
+                              }}
+                            >
+                              {getPostState[0].petID.name ?? ""}
+                            </Avatar>
                           </Circle>
                           <Center
                             _text={{
@@ -509,7 +835,6 @@ const PostScreen = ({ navigation, route }) => {
                       {getCommentStateInfo.commentText}
                     </Text>
                   </HStack>
-                  {/* </Stack> */}
                 </Stack>
               );
             }
