@@ -18,6 +18,9 @@ import {
   Avatar,
   useTheme,
 } from "native-base";
+
+import uuid from "react-native-uuid";
+
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
@@ -35,6 +38,7 @@ import {
   selectGetComment,
 } from "../Redux/Slices/commentSlice";
 import {
+  selectLikeUpdated,
   selectUpdatePostLike,
   updatePostLikeAction,
 } from "../Redux/Slices/likeSlice";
@@ -47,18 +51,19 @@ const PostScreen = ({ navigation, route }) => {
   const getCommentState = useSelector(selectGetComment);
   const updatePostLikeState = useSelector(selectUpdatePostLike);
   const [likeState, setLikeState] = useState([getPostState]);
+  const isUpdated = useSelector(selectLikeUpdated);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
-  }, [dispatch, route.params.post._id]);
+  }, [dispatch, route.params.post._id, isUpdated]);
 
   useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
-  }, [dispatch, route.params.post.comment._id]);
+  }, [dispatch, route.params.post.comment._id, isUpdated]);
 
   useEffect(() => {
     setLikeState([getPostState[0].like.like]);
-  }, [dispatch, route.params.post.comment._id, getPostState]);
+  }, [dispatch, route.params.post.comment._id, getPostState, isUpdated]);
 
   useEffect(() => {
     setOnLongPressState(false);
@@ -105,6 +110,7 @@ const PostScreen = ({ navigation, route }) => {
   var numOfHeart = likeNumbers.find(
     (occur) => occur.likeType === "heart"
   )?.occurrence;
+
   var numOfCuteCatFeverCoffeeIcon = likeNumbers.find(
     (occur) => occur.likeType === "cuteCatFeverCoffeeIcon"
   )?.occurrence;
@@ -255,7 +261,7 @@ const PostScreen = ({ navigation, route }) => {
           <HStack alignItems="center">
             {likeState.map((likeStateInfo, likeStateIndex) => {
               return (
-                <HStack key={likeStateIndex}>
+                <HStack key={uuid.v4()}>
                   <Pressable
                     mr={1}
                     onPress={() => {
@@ -270,7 +276,8 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.some((likeStateSingle) => {
+                          {!isUpdated &&
+                          likeStateInfo.some((likeStateSingle) => {
                             return likeStateSingle["likeType"] === "heart";
                           }) ? (
                             <>
@@ -337,7 +344,8 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.some((likeStateSingle) => {
+                          {!isUpdated &&
+                          likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
                               "cuteCatFeverCoffeeIcon"
@@ -407,7 +415,8 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.some((likeStateSingle) => {
+                          {!isUpdated &&
+                          likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
                               "cuteCowSurprisedIcon"
@@ -477,7 +486,8 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.some((likeStateSingle) => {
+                          {!isUpdated &&
+                          likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
                               "cuteRabbitHoldingCarrotIcon"
@@ -547,7 +557,8 @@ const PostScreen = ({ navigation, route }) => {
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
-                          {likeStateInfo.some((likeStateSingle) => {
+                          {!isUpdated &&
+                          likeStateInfo.some((likeStateSingle) => {
                             return (
                               likeStateSingle["likeType"] ===
                               "cuteSadCatSittingIcon"
@@ -758,7 +769,7 @@ const PostScreen = ({ navigation, route }) => {
                 <Stack
                   flex="1"
                   width="100%"
-                  key={getCommentStateIndex}
+                  key={uuid.v4()}
                   bg={theme.colors.sage[400]}
                   safeAreaBottom
                   safeAreaLeft

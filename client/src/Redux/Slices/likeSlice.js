@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.46:5001/api";
+const updatedLike = createAction("like/update");
 
 export const updatePostLikeAction = createAsyncThunk(
   "like/updatePostLike",
@@ -20,6 +21,7 @@ export const updatePostLikeAction = createAsyncThunk(
         config
       );
 
+      dispatch(updatedLike());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -32,9 +34,14 @@ const likeSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
+    isUpdated: null,
     updatePostLikeData: null,
   },
   extraReducers: (builder) => {
+    //updated check reducer
+    builder.addCase(updatedLike, (state) => {
+      state.isUpdated = true;
+    });
     //update post like reducer
     builder.addCase(updatePostLikeAction.pending, (state, action) => {
       state.loading = true;
@@ -44,6 +51,7 @@ const likeSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.updatePostLikeData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(updatePostLikeAction.rejected, (state, action) => {
       state.loading = false;
@@ -55,5 +63,8 @@ const likeSlice = createSlice({
 export const selectLikeLoading = (state) => state.like.loading;
 export const selectLikeError = (state) => state.like.error;
 export const selectUpdatePostLike = (state) => state.like.updatePostLikeData;
+export const selectLikeUpdated = (state) => {
+  return state.like.isUpdated;
+};
 
 export default likeSlice.reducer;

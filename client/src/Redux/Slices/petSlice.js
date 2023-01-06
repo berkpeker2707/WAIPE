@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.46:5001/api";
 
 export const getPetAction = createAsyncThunk(
   "pet/getPet",
