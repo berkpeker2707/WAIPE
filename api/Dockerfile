@@ -16,6 +16,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 1000
+EXPOSE 5001
 
 CMD ["sh", "-c", "npm run api"]

@@ -46,7 +46,7 @@ const PostScreen = ({ navigation, route }) => {
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
   const updatePostLikeState = useSelector(selectUpdatePostLike);
-  const [likeState, setLikeState] = useState([getPostState[0].like.like]);
+  const [likeState, setLikeState] = useState([getPostState]);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
@@ -117,6 +117,8 @@ const PostScreen = ({ navigation, route }) => {
   var numOfCuteSadCatSittingIcon = likeNumbers.find(
     (occur) => occur.likeType === "cuteSadCatSittingIcon"
   )?.occurrence;
+
+  // console.log(getPostState[0].like._id);
 
   return getPostState[0] ? (
     <ScrollView bg={theme.colors.sage[400]}>
@@ -256,13 +258,14 @@ const PostScreen = ({ navigation, route }) => {
                 <HStack key={likeStateIndex}>
                   <Pressable
                     mr={1}
-                    onPress={() =>
-                      // values
-                      {
-                        console.log(likeState);
-                        // dispatch(updatePostLikeAction(values));
-                      }
-                    }
+                    onPress={() => {
+                      dispatch(
+                        updatePostLikeAction({
+                          likeID: getPostState[0].like._id,
+                          likeType: "heart",
+                        })
+                      );
+                    }}
                   >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
@@ -320,7 +323,17 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                   </Pressable>
 
-                  <Pressable mr={1}>
+                  <Pressable
+                    mr={1}
+                    onPress={() => {
+                      dispatch(
+                        updatePostLikeAction({
+                          likeID: getPostState[0].like._id,
+                          likeType: "cuteCatFeverCoffeeIcon",
+                        })
+                      );
+                    }}
+                  >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
@@ -380,7 +393,17 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                   </Pressable>
 
-                  <Pressable mr={1}>
+                  <Pressable
+                    mr={1}
+                    onPress={() => {
+                      dispatch(
+                        updatePostLikeAction({
+                          likeID: getPostState[0].like._id,
+                          likeType: "cuteCowSurprisedIcon",
+                        })
+                      );
+                    }}
+                  >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
@@ -440,7 +463,17 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                   </Pressable>
 
-                  <Pressable mr={1}>
+                  <Pressable
+                    mr={1}
+                    onPress={() => {
+                      dispatch(
+                        updatePostLikeAction({
+                          likeID: getPostState[0].like._id,
+                          likeType: "cuteRabbitHoldingCarrotIcon",
+                        })
+                      );
+                    }}
+                  >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
@@ -500,7 +533,17 @@ const PostScreen = ({ navigation, route }) => {
                     }}
                   </Pressable>
 
-                  <Pressable mr={1}>
+                  <Pressable
+                    mr={1}
+                    onPress={() => {
+                      dispatch(
+                        updatePostLikeAction({
+                          likeID: getPostState[0].like._id,
+                          likeType: "cuteSadCatSittingIcon",
+                        })
+                      );
+                    }}
+                  >
                     {({ isHovered, isFocused, isPressed }) => {
                       return (
                         <>
@@ -652,7 +695,6 @@ const PostScreen = ({ navigation, route }) => {
         </Box>
       </Stack>
       {/* like section 2 ends */}
-
       {/* comment section 1 starts */}
       <Stack
         alignItems="center"
@@ -701,7 +743,6 @@ const PostScreen = ({ navigation, route }) => {
         </VStack>
       </Stack>
       {/* comment section 1 ends */}
-
       {/* comment section 2 starts */}
       <Stack
         alignItems="center"

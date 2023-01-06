@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:1000/api";
+const SERVER_URL = "http://192.168.100.21:5001/api";
 
 export const updatePostLikeAction = createAsyncThunk(
   "like/updatePostLike",
-  async (likeID, { rejectWithValue, getState, dispatch }) => {
+  async (values, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -15,7 +15,8 @@ export const updatePostLikeAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/like/update/post/${likeID}`,
+        `${SERVER_URL}/like/update/post/${values.likeID}`,
+        { likeType: values.likeType },
         config
       );
 
