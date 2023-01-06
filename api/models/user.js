@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
     ],
     followedPets: { type: Array, default: [] },
-    blockedUsers: { type: Array, default: [] },
+    blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     blockedPets: { type: Array, default: [] },
     accountVerified: {
       type: Boolean,

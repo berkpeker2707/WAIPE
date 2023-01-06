@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.23:1000/api";
+const SERVER_URL = "http://192.168.100.23:5000/api";
 
 export const postPostAction = createAsyncThunk(
   "post/postPost",
