@@ -18,6 +18,7 @@ const getCurrentUserController = expressHandler(async (req, res) => {
       .populate({ path: "likedPosts", model: "Post" })
       .populate({ path: "likedComments", model: "Like" })
       .populate({ path: "postedComments", model: "Comment" })
+      .populate({ path: "archivedPosts", model: "Post" })
       .exec();
 
     res.status(200).json(user);
