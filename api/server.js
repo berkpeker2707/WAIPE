@@ -1,4 +1,5 @@
 const express = require("express");
+const redis = require("redis");
 const passport = require("passport");
 const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
@@ -15,8 +16,10 @@ const likeRoutes = require("./routes/likeRoutes");
 const petRoutes = require("./routes/petRoutes");
 const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
+const user = require("./models/user");
 
 const app = express();
+
 app.use(
   cors({
     // origin: true,
@@ -48,4 +51,5 @@ app.use("/api/pet", petRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
 const PORT = process.env.PORT || 5001;
+
 app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
