@@ -23,6 +23,7 @@ const getCurrentUserController = expressHandler(async (req, res) => {
         model: "User",
         select: "firstname lastname picture",
       })
+      .populate({ path: "archivedPosts", model: "Post" })
       .exec();
 
     res.status(200).json(user);

@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AsyncStorege from "@react-native-async-storage/async-storage";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.46:5001/api";
+const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
   "post/postPost",
@@ -164,7 +164,7 @@ export const deletePostAction = createAsyncThunk(
 
 export const archivePostAction = createAsyncThunk(
   "post/archivePost",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  async (postID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -173,7 +173,13 @@ export const archivePostAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.put(`${SERVER_URL}/post/archive`, config);
+      const { data } = await axios.put(
+        `${SERVER_URL}/post/archive`,
+        postID,
+        config
+      );
+
+      dispatch(updatedPost());
 
       return data;
     } catch (error) {
@@ -187,6 +193,7 @@ const postSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
+    isUpdated: null,
     postPostData: null,
     getPostData: null,
     getPetPostsData: null,
@@ -196,6 +203,10 @@ const postSlice = createSlice({
     archivePostData: null,
   },
   extraReducers: (builder) => {
+    //updated check reducer
+    builder.addCase(updatedPost, (state) => {
+      state.isUpdated = true;
+    });
     //post post reducer
     builder.addCase(postPostAction.pending, (state) => {
       state.loading = true;
@@ -302,6 +313,7 @@ const postSlice = createSlice({
     builder.addCase(archivePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.archivePostData = action?.payload;
     });
     builder.addCase(archivePostAction.rejected, (state, action) => {
@@ -322,5 +334,8 @@ export const selectGetFollowedPosts = (state) =>
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
 export const selectArchivePost = (state) => state.post.archivePostData;
+export const selectPostUpdated = (state) => {
+  return state.post.isUpdated;
+};
 
 export default postSlice.reducer;

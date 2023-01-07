@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Formik } from "formik";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  signup,
+  signupAction,
   selectAuthLoading,
   selectAuthError,
 } from "../Redux/Slices/authSlice";
@@ -73,7 +73,7 @@ const RegisterScreen = ({ navigation }) => {
         age: false,
       }}
       onSubmit={(values) => {
-        dispatch(signup(values));
+        dispatch(signupAction(values));
         setIsOpen(!isOpen);
       }}
     >
