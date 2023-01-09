@@ -20,7 +20,6 @@ import {
 } from "native-base";
 
 import uuid from "react-native-uuid";
-
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
 import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
@@ -32,6 +31,7 @@ import CuteSadCatSittingIcon from "../Components/Icons/CuteSadCatSittingIcon";
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   archivePostAction,
   getPostAction,
@@ -41,6 +41,7 @@ import {
 import {
   getCommentAction,
   selectGetComment,
+  updateCommentAction,
 } from "../Redux/Slices/commentSlice";
 import {
   selectLikeUpdated,
@@ -75,6 +76,8 @@ const PostScreen = ({ navigation, route }) => {
     setOnLongPressState(false);
     setCommentOpenState(false);
   }, [getPostState[0]]);
+
+  const [commentTextState, setCommentTextState] = useState("");
 
   const [onLongPressState, setOnLongPressState] = useState(false);
   const [commentOpenState, setCommentOpenState] = useState(false);
@@ -761,8 +764,28 @@ const PostScreen = ({ navigation, route }) => {
             commentOpenState ? theme.commentOpenStyle : theme.commentClosedStyle
           }
         >
-          <TextArea h={20} placeholder="Add a comment..." />
-          <Pressable>
+          <TextArea
+            h={20}
+            _focus={{
+              bg: theme.colors.singletons["white"],
+              borderColor: theme.colors.sage[300],
+            }}
+            placeholder="Add a comment..."
+            value={commentTextState}
+            onChangeText={(commentTextState) =>
+              setCommentTextState(commentTextState)
+            }
+          />
+          <Pressable
+            onPress={() => {
+              dispatch(
+                updateCommentAction({
+                  parentCommentID: getCommentState[0]._id,
+                  commentText: commentTextState,
+                })
+              );
+            }}
+          >
             {({ isHovered, isFocused, isPressed }) => {
               return (
                 <Circle

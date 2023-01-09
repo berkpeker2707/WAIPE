@@ -5,7 +5,7 @@ const SERVER_URL = "http://192.168.100.21:5001/api";
 
 export const updateCommentAction = createAsyncThunk(
   "comment/updateComment",
-  async (parentCommentID, { rejectWithValue, getState, dispatch }) => {
+  async (commentData, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -15,7 +15,8 @@ export const updateCommentAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/comment/update/${parentCommentID}`,
+        `${SERVER_URL}/comment/update/${commentData.parentCommentID}`,
+        { commentText: commentData.commentText },
         config
       );
 
