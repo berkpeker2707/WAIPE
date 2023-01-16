@@ -8,51 +8,55 @@ const {
   cloudinaryDeleteUserImg,
 } = require("../middlewares/cloudinary");
 const fs = require("fs");
-const redis = require("redis");
-const util = require("util");
+const { getOrSetCache } = require("../utils/redis");
 
-// create redis client
-const client = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT),
-});
+// const redis = require("redis");
+// const util = require("util");
 
-// redis.js doesn't support async utils as of writing this article
-// we can use the recommended workaround
-const getAsync = util.promisify(client.get).bind(client);
-const setAsync = util.promisify(client.set).bind(client);
+// // create redis client
+// const client = redis.createClient({
+//   host: process.env.REDIS_HOST,
+//   port: parseInt(process.env.REDIS_PORT),
+// });
+
+// // redis.js doesn't support async utils as of writing this article
+// // we can use the recommended workaround
+// const getAsync = util.promisify(client.get).bind(client);
+// const setAsync = util.promisify(client.set).bind(client);
 
 // get current user controller ***
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
-
   try {
-    const getRes = await getAsync("user");
-    if (getRes) {
-      console.log("Used Cache");
-      return res.json({ success: true, data: JSON.parse(getRes) });
-    }
+    // const getRes = await getAsync("user");
+    // if (getRes) {
+    //   console.log("Used Cache");
+    //   return res.json({ success: true, data: JSON.parse(getRes) });
+    // }
+    const currentUser = await getOrSetCache("currentUser", async () => {
+      const user = await User.findById(id)
+        .populate({ path: "pets", model: "Pet" })
+        .populate({ path: "likedPosts", model: "Post" })
+        .populate({ path: "likedComments", model: "Like" })
+        .populate({ path: "postedComments", model: "Comment" })
+        .populate({
+          path: "blockedUsers",
+          model: "User",
+          select: "firstname lastname picture",
+        })
+        .exec();
 
-    const user = await User.findById(id)
-      .populate({ path: "pets", model: "Pet" })
-      .populate({ path: "likedPosts", model: "Post" })
-      .populate({ path: "likedComments", model: "Like" })
-      .populate({ path: "postedComments", model: "Comment" })
-      .populate({
-        path: "blockedUsers",
-        model: "User",
-        select: "firstname lastname picture",
-      })
-      .exec();
+      return user;
+    });
 
-    await setAsync(
-      "user", //
-      JSON.stringify({ user }), //
-      "EX", //
-      60 //
-    );
+    // await setAsync(
+    //   "user", //
+    //   JSON.stringify({ user }), //
+    //   "EX", //
+    //   60 //
+    // );
 
-    res.status(200).json(user);
+    res.status(200).json(currentUser);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
