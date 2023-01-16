@@ -1,7 +1,5 @@
 const express = require("express");
-const redis = require("redis");
 const passport = require("passport");
-const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
 const formData = require("express-form-data");
@@ -16,7 +14,6 @@ const likeRoutes = require("./routes/likeRoutes");
 const petRoutes = require("./routes/petRoutes");
 const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
-const user = require("./models/user");
 
 const app = express();
 

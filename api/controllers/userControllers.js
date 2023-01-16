@@ -10,29 +10,10 @@ const {
 const fs = require("fs");
 const { getOrSetCache } = require("../utils/redis");
 
-// const redis = require("redis");
-// const util = require("util");
-
-// // create redis client
-// const client = redis.createClient({
-//   host: process.env.REDIS_HOST,
-//   port: parseInt(process.env.REDIS_PORT),
-// });
-
-// // redis.js doesn't support async utils as of writing this article
-// // we can use the recommended workaround
-// const getAsync = util.promisify(client.get).bind(client);
-// const setAsync = util.promisify(client.set).bind(client);
-
 // get current user controller ***
 const getCurrentUserController = expressHandler(async (req, res) => {
   const id = req.user.id;
   try {
-    // const getRes = await getAsync("user");
-    // if (getRes) {
-    //   console.log("Used Cache");
-    //   return res.json({ success: true, data: JSON.parse(getRes) });
-    // }
     const currentUser = await getOrSetCache("currentUser", async () => {
       const user = await User.findById(id)
         .populate({ path: "pets", model: "Pet" })
@@ -49,13 +30,6 @@ const getCurrentUserController = expressHandler(async (req, res) => {
       return user;
     });
 
-    // await setAsync(
-    //   "user", //
-    //   JSON.stringify({ user }), //
-    //   "EX", //
-    //   60 //
-    // );
-
     res.status(200).json(currentUser);
   } catch (error) {
     console.log(error);
@@ -68,19 +42,16 @@ const getUserController = expressHandler(async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const user = await User.findById(_id)
-      .populate({ path: "pets", model: "Pet" })
-      .populate({ path: "likedPosts", model: "Post" })
-      .populate({ path: "likedComments", model: "Like" })
-      .populate({ path: "postedComments", model: "Comment" })
-      .exec();
+    const user = await getOrSetCache(`user:${_id}`, async () => {
+      const user = await User.findById(_id)
+        .populate({ path: "pets", model: "Pet" })
+        .populate({ path: "likedPosts", model: "Post" })
+        .populate({ path: "likedComments", model: "Like" })
+        .populate({ path: "postedComments", model: "Comment" })
+        .exec();
 
-    // Doga's code commented just in case
-    // let pets = [];
-    // for (let i = 0; i < user.pets.length; i++) {
-    //   const pet = await Pet.findById(user.pets[i]);
-    //   pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
-    // }
+      return user;
+    });
 
     res.status(200).json(user);
   } catch (error) {
