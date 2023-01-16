@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const Like = require("../models/like");
 const Comment = require("../models/comment");
+const User = require("../models/user");
 
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
@@ -9,6 +10,7 @@ const {
   cloudinaryDeletePostImg,
 } = require("../middlewares/cloudinary");
 const fs = require("fs");
+const { getOrSetCache } = require("../utils/redis");
 
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
@@ -55,12 +57,19 @@ const postPostController = expressHandler(async (req, res) => {
 // get a single post controller ***
 const getPostController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({ _id: req.params.postID })
-      .populate({ path: "comment" })
-      .populate({ path: "like" })
-      .populate({ path: "petID" })
-      .exec();
-    res.status(200).json(posts);
+    const postID = req.params.postID;
+
+    const post = await getOrSetCache(`post:${postID}`, async () => {
+      const post = await Post.find({ _id: postID })
+        .populate({ path: "comment" })
+        .populate({ path: "like" })
+        .populate({ path: "petID" })
+        .exec();
+
+      return post;
+    });
+
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -69,12 +78,19 @@ const getPostController = expressHandler(async (req, res) => {
 // get all posts of a pet controller ***
 const getPetPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find({ petID: req.params.petID })
-      .populate({ path: "comment" })
-      .populate({ path: "like" })
-      .populate({ path: "petID" })
-      .exec();
-    res.status(200).json(posts);
+    const petID = req.params.petID;
+
+    const petAllPost = await getOrSetCache(`petAllPost:${petID}`, async () => {
+      const allPost = await Post.find({ petID: petID })
+        .populate({ path: "comment" })
+        .populate({ path: "like" })
+        .populate({ path: "petID" })
+        .exec();
+
+      return allPost;
+    });
+
+    res.status(200).json(petAllPost);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -83,12 +99,17 @@ const getPetPostsController = expressHandler(async (req, res) => {
 // get all posts of all controller ***
 const getAllPostsController = expressHandler(async (req, res) => {
   try {
-    const posts = await Post.find()
-      .populate({ path: "comment" })
-      .populate({ path: "like" })
-      .populate({ path: "petID" })
-      .exec();
-    res.status(200).json(posts);
+    const allPost = await getOrSetCache("allPost", async () => {
+      const allPost = await Post.find()
+        .populate({ path: "comment" })
+        .populate({ path: "like" })
+        .populate({ path: "petID" })
+        .exec();
+
+      return allPost;
+    });
+
+    res.status(200).json(allPost);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -98,17 +119,25 @@ const getAllPostsController = expressHandler(async (req, res) => {
 const getFollowedPostsController = expressHandler(async (req, res) => {
   try {
     const id = req.user.id;
-    const user = await User.findById(id);
 
-    const posts = await Post.find({
-      petID: { $in: user.followedPets },
-    })
-      .populate({ path: "comment" })
-      .populate({ path: "like" })
-      .populate({ path: "petID" })
-      .exec();
+    const followedPosts = await getOrSetCache(
+      `followedPosts:${id}`,
+      async () => {
+        const user = await User.findById(id);
 
-    res.status(200).json(posts);
+        const followedPosts = await Post.find({
+          petID: { $in: user.followedPets },
+        })
+          .populate({ path: "comment" })
+          .populate({ path: "like" })
+          .populate({ path: "petID" })
+          .exec();
+
+        return followedPosts;
+      }
+    );
+
+    res.status(200).json(followedPosts);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
