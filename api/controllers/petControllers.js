@@ -9,16 +9,21 @@ const {
   cloudinaryUploadPetImg,
   cloudinaryDeletePetImg,
 } = require("../middlewares/cloudinary");
+const { getOrSetCache } = require("../utils/redis");
 
 // fetch a pet controller ***
 const getPetController = expressHandler(async (req, res) => {
   const id = req.params.id;
 
   try {
-    const pet = await Pet.findById(id)
-      .populate({ path: "ownerID", model: "User", select: "-password" })
-      .populate({ path: "petPost", model: "Post" })
-      .exec();
+    const pet = await getOrSetCache(`pet:${id}`, async () => {
+      const pet = await Pet.findById(id)
+        .populate({ path: "ownerID", model: "User", select: "-password" })
+        .populate({ path: "petPost", model: "Post" })
+        .exec();
+
+      return pet;
+    });
 
     res.status(200).json(pet);
   } catch (error) {
