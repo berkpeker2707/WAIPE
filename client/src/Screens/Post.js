@@ -40,6 +40,7 @@ import {
 } from "../Redux/Slices/postSlice";
 import {
   getCommentAction,
+  selectCommentUpdated,
   selectGetComment,
   updateCommentAction,
 } from "../Redux/Slices/commentSlice";
@@ -59,6 +60,7 @@ const PostScreen = ({ navigation, route }) => {
   const [likeState, setLikeState] = useState([getPostState]);
   const isLikeUpdated = useSelector(selectLikeUpdated);
   const isPostUpdated = useSelector(selectPostUpdated);
+  const isCommentUpdated = useSelector(selectCommentUpdated);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
@@ -66,7 +68,7 @@ const PostScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
-  }, [dispatch, route.params.post.comment._id, isLikeUpdated]);
+  }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
 
   useEffect(() => {
     setLikeState([getPostState[0].like.like]);
@@ -746,6 +748,7 @@ const PostScreen = ({ navigation, route }) => {
         </Box>
       </Stack>
       {/* like section 2 ends */}
+
       {/* comment section 1 starts */}
       <Stack
         alignItems="center"
@@ -853,8 +856,7 @@ const PostScreen = ({ navigation, route }) => {
                               alignSelf="center"
                               size="xs"
                               source={{
-                                uri:
-                                  getCommentStateInfo?.ownerID?.picture ?? "",
+                                uri: getCommentStateInfo.ownerID.picture ?? "",
                               }}
                             >
                               {getPostState[0].petID.name ?? ""}

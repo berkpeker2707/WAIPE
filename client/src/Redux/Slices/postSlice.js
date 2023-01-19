@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.43:5001/api";
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
@@ -215,6 +215,7 @@ const postSlice = createSlice({
     builder.addCase(postPostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.postPostData = action?.payload;
     });
     builder.addCase(postPostAction.rejected, (state, action) => {
@@ -285,6 +286,7 @@ const postSlice = createSlice({
     builder.addCase(updatePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.updatePostData = action?.payload;
     });
     builder.addCase(updatePostAction.rejected, (state, action) => {
@@ -299,6 +301,7 @@ const postSlice = createSlice({
     builder.addCase(deletePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.deletePostData = action?.payload;
     });
     builder.addCase(deletePostAction.rejected, (state, action) => {

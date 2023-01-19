@@ -1,7 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.43:5001/api";
+
+const updatedComment = createAction("comment/update");
 
 export const updateCommentAction = createAsyncThunk(
   "comment/updateComment",
@@ -19,6 +21,7 @@ export const updateCommentAction = createAsyncThunk(
         { commentText: commentData.commentText },
         config
       );
+      dispatch(updatedComment());
 
       return data;
     } catch (error) {
@@ -68,6 +71,8 @@ export const deleteCommentAction = createAsyncThunk(
         config
       );
 
+      dispatch(updatedComment());
+
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -81,10 +86,15 @@ const commentSlice = createSlice({
     loading: false,
     error: null,
     updateCommentData: null,
-    updateCommentData: null,
+    getCommentData: null,
     deleteCommentData: null,
+    isUpdated: null,
   },
   extraReducers: (builder) => {
+    //updated check reducer
+    builder.addCase(updatedComment, (state) => {
+      state.isUpdated = true;
+    });
     //update comment reducer
     builder.addCase(updateCommentAction.pending, (state, action) => {
       state.loading = true;
@@ -93,6 +103,7 @@ const commentSlice = createSlice({
     builder.addCase(updateCommentAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.updateCommentData = action?.payload;
     });
     builder.addCase(updateCommentAction.rejected, (state, action) => {
@@ -121,6 +132,7 @@ const commentSlice = createSlice({
     builder.addCase(deleteCommentAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.deleteCommentData = action?.payload;
     });
     builder.addCase(deleteCommentAction.rejected, (state, action) => {
@@ -136,5 +148,8 @@ export const selectUpdateComment = (state) => state.comment.updateCommentData;
 export const selectGetComment = (state) => state.comment.getCommentData;
 export const selectDeleteCommentData = (state) =>
   state.comment.deleteCommentData;
+export const selectCommentUpdated = (state) => {
+  return state.comment.isUpdated;
+};
 
 export default commentSlice.reducer;
