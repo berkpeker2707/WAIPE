@@ -79,10 +79,10 @@ const PostScreen = ({ navigation, route }) => {
   //   setLikeState([getPostState[0].like.like]);
   // }, [dispatch, route.params.post.comment._id, getPostState, isLikeUpdated]);
 
-  useEffect(() => {
-    setOnLongPressState(false);
-    setCommentOpenState(false);
-  }, [getPostState[0]]);
+  // useEffect(() => {
+  //   setOnLongPressState(false);
+  //   setCommentOpenState(false);
+  // }, [getPostState[0]]);
 
   // const [commentTextState, setCommentTextState] = useState("");
 
