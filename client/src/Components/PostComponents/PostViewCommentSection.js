@@ -32,24 +32,6 @@ import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
 
-// import {
-//   archivePostAction,
-//   getPostAction,
-//   selectGetPost,
-//   selectPostUpdated,
-// } from "../Redux/Slices/postSlice";
-// import {
-//   getCommentAction,
-//   selectCommentUpdated,
-//   selectGetComment,
-//   updateCommentAction,
-// } from "../Redux/Slices/commentSlice";
-// import {
-//   selectLikeUpdated,
-//   selectUpdatePostLike,
-//   updatePostLikeAction,
-// } from "../Redux/Slices/likeSlice";
-
 export default function PostViewCommentSection(props) {
   const { theme, getPostState, getCommentState } = props;
 
@@ -79,49 +61,58 @@ export default function PostViewCommentSection(props) {
                 <Pressable>
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
-                      <HStack
-                        style={{
-                          transform: [{ scale: isPressed ? 0.96 : 1 }],
-                        }}
-                      >
-                        <Circle size="30px" bg={theme.colors.forestGreen[400]}>
-                          <Avatar
-                            bg={theme.colors.forestGreen[400]}
-                            alignSelf="center"
-                            size="xs"
-                            source={{
-                              uri: getCommentStateInfo.ownerID.picture ?? "",
-                            }}
-                          >
-                            {getPostState[0].petID.name ?? ""}
-                          </Avatar>
-                        </Circle>
-                        <Center
-                          _text={{
-                            color: theme.colors.forestGreen[400],
-                            fontWeight: "bold",
+                      <>
+                        <HStack
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
                           }}
-                          ml={1}
                         >
-                          {getCommentStateInfo?.ownerID?.firstname}
-                        </Center>
-                      </HStack>
+                          <Circle
+                            size="30px"
+                            bg={theme.colors.forestGreen[400]}
+                          >
+                            <Avatar
+                              bg={theme.colors.forestGreen[400]}
+                              alignSelf="center"
+                              size="xs"
+                              source={{
+                                uri: getCommentStateInfo.ownerID.picture ?? "",
+                              }}
+                            >
+                              {getPostState[0].petID.name ?? ""}
+                            </Avatar>
+                          </Circle>
+                          <Center
+                            _text={{
+                              color: theme.colors.forestGreen[400],
+                              fontWeight: "bold",
+                            }}
+                            ml={1}
+                          >
+                            {getCommentStateInfo?.ownerID?.firstname}
+                          </Center>
+                        </HStack>
+
+                        <HStack
+                          ml={8}
+                          pt={1}
+                          pb={1}
+                          bg={theme.colors.sage[300]}
+                          borderWidth="1"
+                          borderRadius="xs"
+                          borderColor={theme.colors.sage[300]}
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
+                          }}
+                        >
+                          <Text color={theme.colors.forestGreen[400]}>
+                            {getCommentStateInfo.commentText}
+                          </Text>
+                        </HStack>
+                      </>
                     );
                   }}
                 </Pressable>
-                <HStack
-                  ml={8}
-                  pt={1}
-                  pb={1}
-                  bg={theme.colors.sage[300]}
-                  borderWidth="1"
-                  borderRadius="xs"
-                  borderColor={theme.colors.sage[300]}
-                >
-                  <Text color={theme.colors.forestGreen[400]}>
-                    {getCommentStateInfo.commentText}
-                  </Text>
-                </HStack>
               </Stack>
             );
           }
