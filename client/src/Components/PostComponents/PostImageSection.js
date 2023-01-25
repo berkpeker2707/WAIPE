@@ -1,50 +1,65 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
-  Center,
-  Text,
-  Button,
-  Image,
   Box,
-  useSafeArea,
-  Pressable,
-  VStack,
-  Input,
-  Icon,
-  useTheme,
-  Stack,
   AspectRatio,
+  Image,
+  Text,
+  VStack,
   HStack,
-  Circle,
+  Stack,
   Divider,
+  Circle,
+  Icon,
+  Center,
+  Pressable,
+  TextArea,
+  Avatar,
+  useTheme,
 } from "native-base";
+
+import uuid from "react-native-uuid";
+import LikeHeartIcon from "../Icons/LikeHeartIcon";
+import AddCommentIcon from "../Icons/AddCommentIcon";
+import SendMessageIcon from "../Icons/SendMessageIcon";
+import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
+import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
+import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
+import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
+
+import ReportIcon from "../Icons/ReportIcon";
+import BookmarkIcon from "../Icons/BookmarkIcon";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import {
-  selectGetFollowedPosts,
-  getFollowedPostsAction,
-} from "../Redux/Slices/postSlice";
+  archivePostAction,
+  getPostAction,
+  selectGetPost,
+  selectPostUpdated,
+} from "../../Redux/Slices/postSlice";
 
-import SendMessageIcon from "../Components/Icons/SendMessageIcon";
+import {
+  getCommentAction,
+  selectCommentUpdated,
+  selectGetComment,
+  updateCommentAction,
+} from "../../Redux/Slices/commentSlice";
+import {
+  selectLikeUpdated,
+  selectUpdatePostLike,
+  updatePostLikeAction,
+} from "../../Redux/Slices/likeSlice";
 
-import ReportIcon from "../Components/Icons/ReportIcon";
-import BookmarkIcon from "../Components/Icons/BookmarkIcon";
+export default function PostImageSection(props) {
+  const { navigation, theme, getPostState } = props;
 
-const MyFeedScreen = ({ navigation, route }) => {
-  const theme = useTheme();
   const dispatch = useDispatch();
 
-  const followedPosts = useSelector(selectGetFollowedPosts);
-
-  useEffect(() => {
-    dispatch(getFollowedPostsAction());
-
-    return () => {
-      //clean up function
-    };
-  }, [dispatch]);
+  const isPostUpdated = useSelector(selectPostUpdated);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
-  const [onLongPressItemState, setOnLongPressItemState] = useState(() => null);
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -59,58 +74,37 @@ const MyFeedScreen = ({ navigation, route }) => {
     };
   }, []);
 
-  return followedPosts ? (
-    <ScrollView bg={theme.colors.sage[400]}>
-      {followedPosts.map((fP, followedPostsIndex) => {
-        return (
-          <Box
-            key={followedPostsIndex}
-            safeAreaTop
-            ml={7}
-            mr={7}
-            style={theme.postShadow}
-          >
-            <Pressable
-              onPress={() => {
-                navigation.navigate("Post", {
-                  post: fP,
-                });
-              }}
-              onLongPress={() => {
-                onLongPressState
-                  ? (setOnLongPressState(() => false),
-                    setOnLongPressItemState(() => null))
-                  : (setOnLongPressState(() => true),
-                    setOnLongPressItemState(() => fP._id));
-              }}
-            >
+  return (
+    <Box safeAreaTop ml={7} mr={7}>
+      <Pressable
+        onLongPress={() => {
+          onLongPressState
+            ? setOnLongPressState(() => false)
+            : setOnLongPressState(() => true);
+        }}
+      >
+        {({ isHovered, isFocused, isPressed }) => {
+          return (
+            <Box style={theme.postShadow}>
               <Box
-                key={followedPostsIndex}
                 maxW="100%"
                 rounded="3xl"
                 overflow="hidden"
                 borderColor={
-                  onLongPressItemState === fP._id && onLongPressState
-                    ? "#E38E48"
-                    : theme.colors.forestGreen[400]
+                  isPressed ? "#E38E48" : theme.colors.forestGreen[400]
                 }
                 borderWidth="3.5"
               >
                 <AspectRatio w="100%" ratio={1 / 1}>
                   <Image
                     source={{
-                      uri: fP.picture,
+                      uri: getPostState[0].picture,
                     }}
                     alt="image"
-                    blurRadius={
-                      onLongPressItemState === fP._id && onLongPressState
-                        ? 50
-                        : 0
-                    }
+                    blurRadius={onLongPressState ? 50 : 0}
                   />
                 </AspectRatio>
-
-                {onLongPressItemState === fP._id && onLongPressState ? (
+                {onLongPressState ? (
                   <HStack
                     alignItems="center"
                     textAlign="center"
@@ -133,32 +127,8 @@ const MyFeedScreen = ({ navigation, route }) => {
                     >
                       <Pressable
                         mr={1}
-                        alignItems="center"
-                        textAlign="center"
-                        justifyContent="center"
-                        onPress={() =>
-                          navigation.navigate("Post", {
-                            post: fP,
-                          })
-                        }
+                        onPress={() => console.log("Pressed report button")}
                       >
-                        {({ isHovered, isFocused, isPressed }) => {
-                          return (
-                            <Center
-                              _text={{
-                                color: "black",
-                                fontWeight: "normal",
-                              }}
-                              style={{
-                                transform: [{ scale: isPressed ? 0.96 : 1 }],
-                              }}
-                            >
-                              {fP.petID.name ?? ""}
-                            </Center>
-                          );
-                        }}
-                      </Pressable>
-                      <Pressable mr={1}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
@@ -198,7 +168,14 @@ const MyFeedScreen = ({ navigation, route }) => {
                           );
                         }}
                       </Pressable> */}
-                      <Pressable>
+                      <Pressable
+                        onPress={() => {
+                          dispatch(
+                            archivePostAction({ postID: getPostState[0]._id })
+                          );
+                          setOnLongPressState(() => false);
+                        }}
+                      >
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
@@ -225,21 +202,10 @@ const MyFeedScreen = ({ navigation, route }) => {
                   <></>
                 )}
               </Box>
-            </Pressable>
-          </Box>
-        );
-      })}
-      <Box alignItems="center">
-        <Divider bg={theme.colors.sage[300]} mt="5" mb="5" w="60%" />
-      </Box>
-    </ScrollView>
-  ) : (
-    <ScrollView bg={theme.colors.sage[400]}>
-      <Stack safeArea>
-        <Text>You don't follow any cuties :(</Text>
-      </Stack>
-    </ScrollView>
+            </Box>
+          );
+        }}
+      </Pressable>
+    </Box>
   );
-};
-
-export default MyFeedScreen;
+}
