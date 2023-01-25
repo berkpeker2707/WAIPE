@@ -40,11 +40,11 @@ const MyFeedScreen = ({ navigation, route }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setOnLongPressState(false);
+    setOnLongPressState(() => false);
   }, [followedPosts]);
 
-  const [onLongPressState, setOnLongPressState] = useState(false);
-  const [onLongPressItemState, setOnLongPressItemState] = useState(null);
+  const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const [onLongPressItemState, setOnLongPressItemState] = useState(() => null);
 
   return followedPosts ? (
     <ScrollView bg={theme.colors.sage[400]}>
@@ -65,9 +65,10 @@ const MyFeedScreen = ({ navigation, route }) => {
               }}
               onLongPress={() => {
                 onLongPressState
-                  ? (setOnLongPressState(false), setOnLongPressItemState(null))
-                  : (setOnLongPressState(true),
-                    setOnLongPressItemState(fP._id));
+                  ? (setOnLongPressState(() => false),
+                    setOnLongPressItemState(() => null))
+                  : (setOnLongPressState(() => true),
+                    setOnLongPressItemState(() => fP._id));
               }}
             >
               <Box
@@ -220,7 +221,11 @@ const MyFeedScreen = ({ navigation, route }) => {
       </Box>
     </ScrollView>
   ) : (
-    <Text>You don't follow any cuties :(</Text>
+    <ScrollView bg={theme.colors.sage[400]}>
+      <Stack safeArea>
+        <Text>You don't follow any cuties :(</Text>
+      </Stack>
+    </ScrollView>
   );
 };
 
