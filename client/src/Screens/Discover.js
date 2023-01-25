@@ -31,6 +31,10 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(getAllPostsAction());
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch]);
 
   const safeAreaProps = useSafeArea({

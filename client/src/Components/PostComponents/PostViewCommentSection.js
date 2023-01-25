@@ -35,13 +35,26 @@ import { deletePostAction } from "../../Redux/Slices/postSlice";
 import { deleteCommentAction } from "../../Redux/Slices/commentSlice";
 
 export default function PostViewCommentSection(props) {
-  const { theme, getPostState, getCommentState, currentUserID } = props;
+  const { navigation, theme, getCommentState, currentUserID } = props;
 
   const dispatch = useDispatch();
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [selectedItemID, setSelectedItemID] = useState(() => null);
   const [selectedItemOwnerID, setSelectedItemOwnerID] = useState(() => null);
+
+  //check if screen is changed and reset booleans
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOnLongPressState(() => false);
+    });
+
+    // return the function to unsubscribe from the event so it gets removed on unmount
+    return () => {
+      //clean up function
+      unsubscribe;
+    };
+  }, []);
 
   return (
     <Stack

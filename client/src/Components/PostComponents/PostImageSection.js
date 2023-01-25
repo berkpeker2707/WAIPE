@@ -53,14 +53,26 @@ import {
 } from "../../Redux/Slices/likeSlice";
 
 export default function PostImageSection(props) {
-  const { theme, getPostState } = props;
+  const { navigation, theme, getPostState } = props;
 
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
-  const [commentOpenState, setCommentOpenState] = useState(() => false);
+
+  //check if screen is changed and reset booleans
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOnLongPressState(() => false);
+    });
+
+    // return the function to unsubscribe from the event so it gets removed on unmount
+    return () => {
+      //clean up function
+      unsubscribe;
+    };
+  }, []);
 
   return (
     <Box safeAreaTop ml={7} mr={7}>
@@ -114,6 +126,7 @@ export default function PostImageSection(props) {
                       bg={theme.colors.sage[300]}
                     >
                       <Pressable
+                        mr={1}
                         onPress={() => console.log("Pressed report button")}
                       >
                         {({ isHovered, isFocused, isPressed }) => {
@@ -134,27 +147,27 @@ export default function PostImageSection(props) {
                           );
                         }}
                       </Pressable>
-                      {/* <Pressable>
-                      {({ isHovered, isFocused, isPressed }) => {
-                        return (
-                          <Circle
-                            size="30px"
-                            bg={theme.colors.forestGreen[400]}
-                            style={{
-                              transform: [{ scale: isPressed ? 0.96 : 1 }],
-                            }}
-                          >
-                            <Icon
-                              as={
-                                <SendMessageIcon
-                                  color={theme.colors.sage[300]}
-                                />
-                              }
-                            />
-                          </Circle>
-                        );
-                      }}
-                    </Pressable> */}
+                      {/* <Pressable mr={1}>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <SendMessageIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable> */}
                       <Pressable
                         onPress={() => {
                           dispatch(

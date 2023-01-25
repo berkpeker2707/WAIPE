@@ -53,7 +53,7 @@ import {
 } from "../../Redux/Slices/likeSlice";
 
 export default function PostImageLikeSection(props) {
-  const { theme, getPostState } = props;
+  const { navigation, theme, getPostState } = props;
 
   const dispatch = useDispatch();
 
@@ -63,6 +63,10 @@ export default function PostImageLikeSection(props) {
 
   useEffect(() => {
     setLikeState(() => [getPostState[0].like.like]);
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, getPostState, isLikeUpdated]);
 
   function findOcc(arr, key) {

@@ -32,6 +32,10 @@ const MainProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getCurrentUserAction());
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, currentUser?._id, isUpdate]);
 
   return (
