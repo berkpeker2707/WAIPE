@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.1.43:5001/api";
+const SERVER_URL = "http://192.168.1.53:5001/api";
 
 const updatedComment = createAction("comment/update");
 
@@ -49,7 +49,6 @@ export const getCommentAction = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error?.reponse?.data);
     }
   }
@@ -57,7 +56,7 @@ export const getCommentAction = createAsyncThunk(
 
 export const deleteCommentAction = createAsyncThunk(
   "comment/deleteComment",
-  async (_, { rejectWithValue, getState, dispatch }) => {
+  async (deleteData, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -66,8 +65,9 @@ export const deleteCommentAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.post(
-        `${SERVER_URL}/comment/delete/comment`,
+      const { data } = await axios.put(
+        `${SERVER_URL}/comment/delete`,
+        deleteData,
         config
       );
 
