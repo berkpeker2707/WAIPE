@@ -59,10 +59,10 @@ export default function PostImageLikeSection(props) {
 
   const isLikeUpdated = useSelector(selectLikeUpdated);
 
-  const [likeState, setLikeState] = useState([getPostState]);
+  const [likeState, setLikeState] = useState(() => [getPostState]);
 
   useEffect(() => {
-    setLikeState([getPostState[0].like.like]);
+    setLikeState(() => [getPostState[0].like.like]);
   }, [dispatch, getPostState, isLikeUpdated]);
 
   function findOcc(arr, key) {

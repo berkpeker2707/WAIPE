@@ -59,16 +59,16 @@ export default function PostImageSection(props) {
 
   const isPostUpdated = useSelector(selectPostUpdated);
 
-  const [onLongPressState, setOnLongPressState] = useState(false);
-  const [commentOpenState, setCommentOpenState] = useState(false);
+  const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const [commentOpenState, setCommentOpenState] = useState(() => false);
 
   return (
     <Box safeAreaTop ml={7} mr={7}>
       <Pressable
         onLongPress={() => {
           onLongPressState
-            ? setOnLongPressState(false)
-            : setOnLongPressState(true);
+            ? setOnLongPressState(() => false)
+            : setOnLongPressState(() => true);
         }}
       >
         {({ isHovered, isFocused, isPressed }) => {
@@ -160,6 +160,7 @@ export default function PostImageSection(props) {
                           dispatch(
                             archivePostAction({ postID: getPostState[0]._id })
                           );
+                          setOnLongPressState(() => false);
                         }}
                       >
                         {({ isHovered, isFocused, isPressed }) => {

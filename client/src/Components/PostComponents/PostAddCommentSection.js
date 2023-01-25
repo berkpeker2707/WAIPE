@@ -58,14 +58,14 @@ export default function PostAddCommentSection(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setOnLongPressState(false);
-    setCommentOpenState(false);
+    setOnLongPressState(() => false);
+    setCommentOpenState(() => false);
   }, [getPostState[0]]);
 
-  const [commentTextState, setCommentTextState] = useState("");
+  const [commentTextState, setCommentTextState] = useState(() => "");
 
-  const [onLongPressState, setOnLongPressState] = useState(false);
-  const [commentOpenState, setCommentOpenState] = useState(false);
+  const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const [commentOpenState, setCommentOpenState] = useState(() => false);
 
   return (
     <>
@@ -75,8 +75,8 @@ export default function PostAddCommentSection(props) {
             <Pressable
               onPress={() =>
                 commentOpenState
-                  ? setCommentOpenState(false)
-                  : setCommentOpenState(true)
+                  ? setCommentOpenState(() => false)
+                  : setCommentOpenState(() => true)
               }
               rounded="8"
               overflow="hidden"
@@ -118,7 +118,7 @@ export default function PostAddCommentSection(props) {
             placeholder="Add a comment..."
             value={commentTextState}
             onChangeText={(commentTextState) =>
-              setCommentTextState(commentTextState)
+              setCommentTextState(() => commentTextState)
             }
           />
           <Pressable
@@ -129,6 +129,7 @@ export default function PostAddCommentSection(props) {
                   commentText: commentTextState,
                 })
               );
+              setCommentOpenState(() => false);
             }}
           >
             {({ isHovered, isFocused, isPressed }) => {
