@@ -44,16 +44,16 @@ import {
   selectGetComment,
   updateCommentAction,
 } from "../Redux/Slices/commentSlice";
-import {
-  selectLikeUpdated,
-  selectUpdatePostLike,
-  updatePostLikeAction,
-} from "../Redux/Slices/likeSlice";
+import { selectLikeUpdated } from "../Redux/Slices/likeSlice";
 
 import PostImageSection from "../Components/PostComponents/PostImageSection";
 import PostImageLikeSection from "../Components/PostComponents/PostImageLikeSection";
 import PostAddCommentSection from "../Components/PostComponents/PostAddCommentSection";
 import PostViewCommentSection from "../Components/PostComponents/PostViewCommentSection";
+import {
+  getCurrentUserAction,
+  selectCurrentUser,
+} from "../Redux/Slices/userSlice";
 
 const PostScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -61,34 +61,25 @@ const PostScreen = ({ navigation, route }) => {
 
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
-  // const updatePostLikeState = useSelector(selectUpdatePostLike);
-  const [likeState, setLikeState] = useState([getPostState]);
+
   const isLikeUpdated = useSelector(selectLikeUpdated);
-  const isPostUpdated = useSelector(selectPostUpdated);
   const isCommentUpdated = useSelector(selectCommentUpdated);
+
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
   }, [dispatch, route.params.post._id, isLikeUpdated]);
 
   useEffect(() => {
+    dispatch(getCurrentUserAction());
+  }, [dispatch, route.params.post._id]);
+
+  useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
   }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
 
-  // useEffect(() => {
-  //   setLikeState([getPostState[0].like.like]);
-  // }, [dispatch, route.params.post.comment._id, getPostState, isLikeUpdated]);
-
-  // useEffect(() => {
-  //   setOnLongPressState(false);
-  //   setCommentOpenState(false);
-  // }, [getPostState[0]]);
-
-  // const [commentTextState, setCommentTextState] = useState("");
-
-  // const [onLongPressState, setOnLongPressState] = useState(false);
-  // const [commentOpenState, setCommentOpenState] = useState(false);
-  return getPostState[0] ? (
+  return getPostState && getPostState[0] && currentUser && currentUser._id ? (
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
       <PostImageSection theme={theme} getPostState={getPostState} />
@@ -115,11 +106,16 @@ const PostScreen = ({ navigation, route }) => {
         theme={theme}
         getPostState={getPostState}
         getCommentState={getCommentState}
+        currentUserID={currentUser._id}
       />
       {/* comment section 2 ends */}
     </ScrollView>
   ) : (
-    <Text>Loading...</Text>
+    <ScrollView bg={theme.colors.sage[400]}>
+      <Stack safeArea>
+        <Text>Loading...</Text>
+      </Stack>
+    </ScrollView>
   );
 };
 
