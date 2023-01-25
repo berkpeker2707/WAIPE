@@ -60,6 +60,10 @@ export default function PostAddCommentSection(props) {
   useEffect(() => {
     setOnLongPressState(() => false);
     setCommentOpenState(() => false);
+
+    return () => {
+      //clean up function
+    };
   }, [getPostState[0]]);
 
   const [commentTextState, setCommentTextState] = useState(() => "");

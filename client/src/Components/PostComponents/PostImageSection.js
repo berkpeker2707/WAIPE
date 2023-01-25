@@ -53,7 +53,11 @@ import {
 } from "../../Redux/Slices/likeSlice";
 
 export default function PostImageSection(props) {
-  const { theme, getPostState } = props;
+  const { route, theme, getPostState } = props;
+
+  console.log("route.key");
+  console.log(route.key);
+  console.log("route.key");
 
   const dispatch = useDispatch();
 
@@ -61,6 +65,14 @@ export default function PostImageSection(props) {
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [commentOpenState, setCommentOpenState] = useState(() => false);
+
+  useEffect(() => {
+    setOnLongPressState(() => false);
+
+    return () => {
+      //clean up function
+    };
+  }, [route.key]);
 
   return (
     <Box safeAreaTop ml={7} mr={7}>
