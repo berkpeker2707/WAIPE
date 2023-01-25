@@ -69,24 +69,44 @@ const PostScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(getPostAction(route.params.post._id));
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, route.params.post._id, isLikeUpdated]);
 
   useEffect(() => {
     dispatch(getCurrentUserAction());
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, route.params.post._id]);
 
   useEffect(() => {
     dispatch(getCommentAction(route.params.post.comment._id));
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
 
   return getPostState && getPostState[0] && currentUser && currentUser._id ? (
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
-      <PostImageSection theme={theme} getPostState={getPostState} />
+      <PostImageSection
+        navigation={navigation}
+        theme={theme}
+        getPostState={getPostState}
+      />
       {/* image section ends */}
 
       {/* like section 1 starts */}
-      <PostImageLikeSection theme={theme} getPostState={getPostState} />
+      <PostImageLikeSection
+        navigation={navigation}
+        theme={theme}
+        getPostState={getPostState}
+      />
       {/* like section 1 ends */}
 
       <Box alignItems="center">
@@ -95,6 +115,7 @@ const PostScreen = ({ navigation, route }) => {
 
       {/* comment section 1 starts */}
       <PostAddCommentSection
+        navigation={navigation}
         theme={theme}
         getPostState={getPostState}
         getCommentState={getCommentState}
@@ -103,8 +124,8 @@ const PostScreen = ({ navigation, route }) => {
 
       {/* comment section 2 starts */}
       <PostViewCommentSection
+        navigation={navigation}
         theme={theme}
-        getPostState={getPostState}
         getCommentState={getCommentState}
         currentUserID={currentUser._id}
       />
