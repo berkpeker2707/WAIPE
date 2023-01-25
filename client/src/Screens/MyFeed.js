@@ -33,6 +33,10 @@ const MyFeedScreen = ({ navigation, route }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  console.log("route");
+  console.log(route);
+  console.log("route");
+
   const followedPosts = useSelector(selectGetFollowedPosts);
 
   useEffect(() => {
@@ -97,7 +101,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                   />
                 </AspectRatio>
 
-                {onLongPressItemState === fP._id ? (
+                {onLongPressItemState === fP._id && onLongPressState ? (
                   <HStack
                     alignItems="center"
                     textAlign="center"
