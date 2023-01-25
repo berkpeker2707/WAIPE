@@ -33,22 +33,31 @@ const MyFeedScreen = ({ navigation, route }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  console.log("route");
-  console.log(route);
-  console.log("route");
-
   const followedPosts = useSelector(selectGetFollowedPosts);
 
   useEffect(() => {
     dispatch(getFollowedPostsAction());
-  }, [dispatch]);
 
-  useEffect(() => {
-    setOnLongPressState(() => false);
-  }, [followedPosts]);
+    return () => {
+      //clean up function
+    };
+  }, [dispatch]);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [onLongPressItemState, setOnLongPressItemState] = useState(() => null);
+
+  //check if screen is changed and reset booleans
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOnLongPressState(() => false);
+    });
+
+    // return the function to unsubscribe from the event so it gets removed on unmount
+    return () => {
+      //clean up function
+      unsubscribe;
+    };
+  }, []);
 
   return followedPosts ? (
     <ScrollView bg={theme.colors.sage[400]}>

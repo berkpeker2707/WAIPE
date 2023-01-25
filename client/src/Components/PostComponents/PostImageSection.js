@@ -53,26 +53,26 @@ import {
 } from "../../Redux/Slices/likeSlice";
 
 export default function PostImageSection(props) {
-  const { route, theme, getPostState } = props;
-
-  console.log("route.key");
-  console.log(route.key);
-  console.log("route.key");
+  const { navigation, theme, getPostState } = props;
 
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
-  const [commentOpenState, setCommentOpenState] = useState(() => false);
 
+  //check if screen is changed and reset booleans
   useEffect(() => {
-    setOnLongPressState(() => false);
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOnLongPressState(() => false);
+    });
 
+    // return the function to unsubscribe from the event so it gets removed on unmount
     return () => {
       //clean up function
+      unsubscribe;
     };
-  }, [route.key]);
+  }, []);
 
   return (
     <Box safeAreaTop ml={7} mr={7}>

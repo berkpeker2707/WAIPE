@@ -53,23 +53,28 @@ import {
 } from "../../Redux/Slices/likeSlice";
 
 export default function PostAddCommentSection(props) {
-  const { theme, getPostState, getCommentState } = props;
+  const { navigation, theme, getPostState, getCommentState } = props;
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setOnLongPressState(() => false);
-    setCommentOpenState(() => false);
-
-    return () => {
-      //clean up function
-    };
-  }, [getPostState[0]]);
 
   const [commentTextState, setCommentTextState] = useState(() => "");
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [commentOpenState, setCommentOpenState] = useState(() => false);
+
+  //check if screen is changed and reset booleans
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setOnLongPressState(() => false);
+      setCommentOpenState(() => false);
+    });
+
+    // return the function to unsubscribe from the event so it gets removed on unmount
+    return () => {
+      //clean up function
+      unsubscribe;
+    };
+  }, []);
 
   return (
     <>
