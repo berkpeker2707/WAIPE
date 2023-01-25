@@ -29,20 +29,20 @@ import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
 import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
 import ReportIcon from "../Icons/ReportIcon";
-import BookmarkIcon from "../Icons/BookmarkIcon";
+import DeleteIcon from "../Icons/DeleteIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePostAction } from "../../Redux/Slices/postSlice";
+import { deleteCommentAction } from "../../Redux/Slices/commentSlice";
 
 export default function PostViewCommentSection(props) {
-  const { theme, getPostState, getCommentState } = props;
+  const { theme, getPostState, getCommentState, currentUserID } = props;
 
   const dispatch = useDispatch();
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [selectedItemID, setSelectedItemID] = useState(() => null);
+  const [selectedItemOwnerID, setSelectedItemOwnerID] = useState(() => null);
 
-  //   console.log(getCommentState.ownerID._id);
-  console.log(selectedItemID);
   return (
     <Stack
       alignItems="center"
@@ -68,16 +68,15 @@ export default function PostViewCommentSection(props) {
                   onLongPress={() => {
                     onLongPressState
                       ? (setOnLongPressState(() => false),
-                        setSelectedItemID(() => null))
+                        setSelectedItemID(() => null),
+                        setSelectedItemOwnerID(() => null))
                       : (setOnLongPressState(() => true),
+                        setSelectedItemOwnerID(
+                          () => getCommentStateInfo.ownerID._id
+                        ),
                         setSelectedItemID(() => getCommentStateInfo._id));
                   }}
-                  // dispatch(
-                  //   deletePostAction({
-                  //   parentCommentID: getCommentState[0]._id,
-                  //   commentText: commentTextState,
-                  //   })
-                  // );
+                  onPress={() => setOnLongPressState(() => false)}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
@@ -91,16 +90,29 @@ export default function PostViewCommentSection(props) {
                             size="30px"
                             bg={theme.colors.forestGreen[400]}
                           >
-                            <Avatar
-                              bg={theme.colors.forestGreen[400]}
-                              alignSelf="center"
-                              size="xs"
-                              source={{
-                                uri: getCommentStateInfo.ownerID.picture ?? "",
-                              }}
-                            >
-                              {getPostState[0].petID.name ?? ""}
-                            </Avatar>
+                            {getCommentStateInfo &&
+                            getCommentStateInfo.ownerID &&
+                            getCommentStateInfo.ownerID.picture &&
+                            getCommentStateInfo.ownerID.picture !== "" ? (
+                              <Avatar
+                                bg={theme.colors.forestGreen[400]}
+                                alignSelf="center"
+                                size="xs"
+                                source={{
+                                  uri: getCommentStateInfo.ownerID.picture,
+                                }}
+                              >
+                                {getCommentStateInfo?.ownerID?.firstname[0]}
+                              </Avatar>
+                            ) : (
+                              <Avatar
+                                bg={theme.colors.forestGreen[400]}
+                                alignSelf="center"
+                                size="xs"
+                              >
+                                {getCommentStateInfo?.ownerID?.firstname[0]}
+                              </Avatar>
+                            )}
                           </Circle>
                           <Center
                             _text={{
@@ -113,7 +125,7 @@ export default function PostViewCommentSection(props) {
                           </Center>
                         </HStack>
 
-                        {/* Report and Bookmark Starts */}
+                        {/* Report and Delete Starts */}
                         <Pressable
                           alignItems="center"
                           textAlign="center"
@@ -184,43 +196,56 @@ export default function PostViewCommentSection(props) {
                                     );
                                   }}
                                 </Pressable>
-                                <Pressable
-                                  m="1"
-                                  onPress={() => {
-                                    dispatch(
-                                      archivePostAction({
-                                        postID: getPostState[0]._id,
-                                      })
-                                    );
-                                  }}
-                                >
-                                  {({ isHovered, isFocused, isPressed }) => {
-                                    return (
-                                      <Circle
-                                        size="30px"
-                                        bg={theme.colors.forestGreen[400]}
-                                        style={{
-                                          transform: [
-                                            { scale: isPressed ? 0.96 : 1 },
-                                          ],
-                                        }}
-                                      >
-                                        <Icon
-                                          as={
-                                            <BookmarkIcon
-                                              color={theme.colors.sage[300]}
-                                            />
-                                          }
-                                        />
-                                      </Circle>
-                                    );
-                                  }}
-                                </Pressable>
+
+                                {selectedItemOwnerID &&
+                                currentUserID &&
+                                selectedItemOwnerID === currentUserID ? (
+                                  <Pressable
+                                    m="1"
+                                    onPress={() => {
+                                      dispatch(
+                                        deleteCommentAction({
+                                          parentCommentID:
+                                            getCommentState[0]._id,
+                                          childCommentID:
+                                            getCommentState[0].comment[
+                                              getCommentStateIndex
+                                            ]._id,
+                                        })
+                                      );
+                                      setOnLongPressState(() => false);
+                                    }}
+                                  >
+                                    {({ isHovered, isFocused, isPressed }) => {
+                                      return (
+                                        <Circle
+                                          size="30px"
+                                          bg={theme.colors.forestGreen[400]}
+                                          style={{
+                                            transform: [
+                                              { scale: isPressed ? 0.96 : 1 },
+                                            ],
+                                          }}
+                                        >
+                                          <Icon
+                                            as={
+                                              <DeleteIcon
+                                                color={theme.colors.sage[300]}
+                                              />
+                                            }
+                                          />
+                                        </Circle>
+                                      );
+                                    }}
+                                  </Pressable>
+                                ) : (
+                                  <></>
+                                )}
                               </HStack>
                             );
                           }}
                         </Pressable>
-                        {/* Report and Bookmark Ends */}
+                        {/* Report and Delete Ends */}
 
                         <HStack
                           ml={8}
