@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
 import {
   ScrollView,
   Box,
@@ -31,12 +31,18 @@ import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
+import { deletePostAction } from "../../Redux/Slices/postSlice";
 
 export default function PostViewCommentSection(props) {
   const { theme, getPostState, getCommentState } = props;
 
   const dispatch = useDispatch();
 
+  const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const [selectedItemID, setSelectedItemID] = useState(() => null);
+
+  //   console.log(getCommentState.ownerID._id);
+  console.log(selectedItemID);
   return (
     <Stack
       alignItems="center"
@@ -58,7 +64,21 @@ export default function PostViewCommentSection(props) {
                 safeAreaLeft
                 safeAreaRight
               >
-                <Pressable>
+                <Pressable
+                  onLongPress={() => {
+                    onLongPressState
+                      ? (setOnLongPressState(() => false),
+                        setSelectedItemID(() => null))
+                      : (setOnLongPressState(() => true),
+                        setSelectedItemID(() => getCommentStateInfo._id));
+                  }}
+                  // dispatch(
+                  //   deletePostAction({
+                  //   parentCommentID: getCommentState[0]._id,
+                  //   commentText: commentTextState,
+                  //   })
+                  // );
+                >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
@@ -93,6 +113,115 @@ export default function PostViewCommentSection(props) {
                           </Center>
                         </HStack>
 
+                        {/* Report and Bookmark Starts */}
+                        <Pressable
+                          alignItems="center"
+                          textAlign="center"
+                          justifyContent="center"
+                          style={{
+                            margin: "auto",
+                            position: "absolute",
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                          }}
+                          onLongPress={() => {
+                            onLongPressState
+                              ? setOnLongPressState(() => false)
+                              : setOnLongPressState(() => true);
+                          }}
+                        >
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <HStack
+                                // borderWidth="1"
+                                // borderRadius="lg"
+                                // borderColor={theme.colors.sage[300]}
+                                // p="2"
+                                // bg={theme.colors.sage[300]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                  opacity:
+                                    selectedItemID ===
+                                      getCommentStateInfo._id &&
+                                    onLongPressState
+                                      ? 1
+                                      : 0,
+                                  zIndex:
+                                    selectedItemID ===
+                                      getCommentStateInfo._id &&
+                                    onLongPressState
+                                      ? 1
+                                      : -1,
+                                }}
+                              >
+                                <Pressable
+                                  m="1"
+                                  onPress={() =>
+                                    console.log("Pressed report button")
+                                  }
+                                >
+                                  {({ isHovered, isFocused, isPressed }) => {
+                                    return (
+                                      <Circle
+                                        size="30px"
+                                        bg={theme.colors.forestGreen[400]}
+                                        style={{
+                                          transform: [
+                                            { scale: isPressed ? 0.96 : 1 },
+                                          ],
+                                        }}
+                                      >
+                                        <Icon
+                                          as={
+                                            <ReportIcon
+                                              color={theme.colors.sage[300]}
+                                            />
+                                          }
+                                        />
+                                      </Circle>
+                                    );
+                                  }}
+                                </Pressable>
+                                <Pressable
+                                  m="1"
+                                  onPress={() => {
+                                    dispatch(
+                                      archivePostAction({
+                                        postID: getPostState[0]._id,
+                                      })
+                                    );
+                                  }}
+                                >
+                                  {({ isHovered, isFocused, isPressed }) => {
+                                    return (
+                                      <Circle
+                                        size="30px"
+                                        bg={theme.colors.forestGreen[400]}
+                                        style={{
+                                          transform: [
+                                            { scale: isPressed ? 0.96 : 1 },
+                                          ],
+                                        }}
+                                      >
+                                        <Icon
+                                          as={
+                                            <BookmarkIcon
+                                              color={theme.colors.sage[300]}
+                                            />
+                                          }
+                                        />
+                                      </Circle>
+                                    );
+                                  }}
+                                </Pressable>
+                              </HStack>
+                            );
+                          }}
+                        </Pressable>
+                        {/* Report and Bookmark Ends */}
+
                         <HStack
                           ml={8}
                           pt={1}
@@ -103,6 +232,16 @@ export default function PostViewCommentSection(props) {
                           borderColor={theme.colors.sage[300]}
                           style={{
                             transform: [{ scale: isPressed ? 0.96 : 1 }],
+                            opacity:
+                              selectedItemID === getCommentStateInfo._id &&
+                              onLongPressState
+                                ? 0.4
+                                : 1,
+                            zIndex:
+                              selectedItemID === getCommentStateInfo._id &&
+                              onLongPressState
+                                ? -1
+                                : 1,
                           }}
                         >
                           <Text color={theme.colors.forestGreen[400]}>
