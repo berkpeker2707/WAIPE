@@ -50,7 +50,13 @@ const MyFeedScreen = ({ navigation, route }) => {
     <ScrollView bg={theme.colors.sage[400]}>
       {followedPosts.map((fP, followedPostsIndex) => {
         return (
-          <Box key={followedPostsIndex} safeAreaTop ml={7} mr={7}>
+          <Box
+            key={followedPostsIndex}
+            safeAreaTop
+            ml={7}
+            mr={7}
+            style={theme.postShadow}
+          >
             <Pressable
               onPress={() => {
                 navigation.navigate("Post", {
@@ -67,14 +73,14 @@ const MyFeedScreen = ({ navigation, route }) => {
               <Box
                 key={followedPostsIndex}
                 maxW="100%"
-                rounded="lg"
+                rounded="3xl"
                 overflow="hidden"
                 borderColor={
                   onLongPressItemState === fP._id && onLongPressState
                     ? "#E38E48"
                     : theme.colors.forestGreen[400]
                 }
-                borderWidth="1.5"
+                borderWidth="3.5"
               >
                 <AspectRatio w="100%" ratio={1 / 1}>
                   <Image
@@ -98,7 +104,9 @@ const MyFeedScreen = ({ navigation, route }) => {
                     style={{
                       margin: "auto",
                       position: "absolute",
+                      top: 0,
                       bottom: 0,
+                      left: 0,
                       right: 0,
                     }}
                   >
@@ -110,6 +118,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                       bg={theme.colors.sage[300]}
                     >
                       <Pressable
+                        mr={1}
                         alignItems="center"
                         textAlign="center"
                         justifyContent="center"
@@ -135,7 +144,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                           );
                         }}
                       </Pressable>
-                      <Pressable>
+                      <Pressable mr={1}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
@@ -154,7 +163,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                           );
                         }}
                       </Pressable>
-                      <Pressable>
+                      {/* <Pressable mr={1}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
@@ -174,7 +183,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                             </Circle>
                           );
                         }}
-                      </Pressable>
+                      </Pressable> */}
                       <Pressable>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (

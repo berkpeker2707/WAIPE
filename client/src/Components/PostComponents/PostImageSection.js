@@ -114,6 +114,7 @@ export default function PostImageSection(props) {
                       bg={theme.colors.sage[300]}
                     >
                       <Pressable
+                        mr={1}
                         onPress={() => console.log("Pressed report button")}
                       >
                         {({ isHovered, isFocused, isPressed }) => {
@@ -134,27 +135,27 @@ export default function PostImageSection(props) {
                           );
                         }}
                       </Pressable>
-                      {/* <Pressable>
-                      {({ isHovered, isFocused, isPressed }) => {
-                        return (
-                          <Circle
-                            size="30px"
-                            bg={theme.colors.forestGreen[400]}
-                            style={{
-                              transform: [{ scale: isPressed ? 0.96 : 1 }],
-                            }}
-                          >
-                            <Icon
-                              as={
-                                <SendMessageIcon
-                                  color={theme.colors.sage[300]}
-                                />
-                              }
-                            />
-                          </Circle>
-                        );
-                      }}
-                    </Pressable> */}
+                      {/* <Pressable mr={1}>
+                        {({ isHovered, isFocused, isPressed }) => {
+                          return (
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <SendMessageIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                          );
+                        }}
+                      </Pressable> */}
                       <Pressable
                         onPress={() => {
                           dispatch(
