@@ -12,6 +12,8 @@ import {
   Icon,
   useTheme,
 } from "native-base";
+import CrossIcon from "../Components/Icons/CrossIcon";
+
 const SettingsLine = (props) => {
   const theme = useTheme();
 
@@ -68,9 +70,17 @@ const SettingsScreen = ({ navigation }) => {
           <SettingsLine
             leftIcon="ban"
             text="See blocked users"
+            rightElement={<Icon as={<SimpleLineIcons />} />}
+          />
+        </PressableButton>
+        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
+        <PressableButton onPress={() => navigation.navigate("BlockedUsers")}>
+          <SettingsLine
+            leftIcon="ban"
+            text="Logout"
             rightElement={
               <Icon
-                as={SimpleLineIcons}
+                as={CrossIcon}
                 name="arrow-right"
                 size="md"
                 mr={3}
