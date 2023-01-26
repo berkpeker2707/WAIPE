@@ -51,24 +51,55 @@ import {
   selectUpdatePostLike,
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
+import * as ImagePicker from "expo-image-picker";
 
-const palet = require("../../../assets/palet.png");
+const palet = require("../../../assets/paletWhite.png");
 
 export default function NewPostImageSection(props) {
   const { navigation, theme } = props;
 
+  const [imageResult, setImageResult] = useState(() => null);
+  const [imageSource, setImageSource] = useState(() => palet);
+  const [imageSourceEdited, setImageSourceEdited] = useState(() => false);
+
   const dispatch = useDispatch();
 
-  const isPostUpdated = useSelector(selectPostUpdated);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    setImageResult(() =>
+      ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      })
+    );
+
+    if (imageResult && !imageResult.canceled) {
+      setImageSourceEdited(() => true);
+
+      console.log(imageResult.uri);
+      //   dispatch(pictureUploadAction(imageResult));
+      //   navigation.navigate("MainProfile");
+    }
+  };
 
   useEffect(() => {
-    // return the function to unsubscribe from the event so it gets removed on unmount
     return () => {
+      setImageSource(() => imageSourceEdited && imageResult && imageResult.uri);
+
       //clean up function
     };
-  }, []);
+  }, [imageResult]);
 
-  return (
+  //   useEffect(() => {
+  //     // return the function to unsubscribe from the event so it gets removed on unmount
+  //     return () => {
+  //       //clean up function
+  //     };
+  //   }, []);
+
+  return imageSource ? (
     <Box safeAreaTop ml={7} mr={7}>
       <Box style={theme.postShadow}>
         <Box
@@ -79,19 +110,15 @@ export default function NewPostImageSection(props) {
           borderWidth="3.5"
         >
           <AspectRatio w="100%" ratio={1 / 1}>
-            <Image size="100%" source={palet} alt="image" />
+            <Image
+              size="100%"
+              source={imageSource}
+              //   source={imageSourceEdited ? { uri: imageSource } : imageSource}
+              alt="image"
+            />
           </AspectRatio>
 
-          <Pressable
-            onPress={() => {
-              //   dispatch(
-              //     updateCommentAction({
-              //       parentCommentID: getCommentState[0]._id,
-              //       commentText: commentTextState,
-              //     })
-              //   );
-            }}
-          >
+          <Pressable onPress={pickImage}>
             {({ isHovered, isFocused, isPressed }) => {
               return (
                 <Circle
@@ -115,5 +142,11 @@ export default function NewPostImageSection(props) {
         </Box>
       </Box>
     </Box>
+  ) : (
+    <ScrollView bg={theme.colors.sage[400]}>
+      <Stack safeArea>
+        <Text>Loading...</Text>
+      </Stack>
+    </ScrollView>
   );
 }
