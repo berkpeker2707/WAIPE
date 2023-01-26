@@ -16,118 +16,100 @@ import {
   Pressable,
   TextArea,
   Avatar,
-  Badge,
-  Button,
   useTheme,
+  Button,
 } from "native-base";
 
+import uuid from "react-native-uuid";
 import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
+import AddCommentIcon from "../Components/Icons/AddCommentIcon";
 import SendMessageIcon from "../Components/Icons/SendMessageIcon";
+import CuteCatFeverCoffeeIcon from "../Components/Icons/CuteCatFeverCoffeeIcon";
+import CuteCowSurprisedIcon from "../Components/Icons/CuteCowSurprisedIcon";
+import CuteRabbitHoldingCarrotIcon from "../Components/Icons/CuteRabbitHoldingCarrotIcon";
+import CuteSadCatSittingIcon from "../Components/Icons/CuteSadCatSittingIcon";
 
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPostPost, postPostAction } from "../Redux/Slices/postSlice";
+
+import {
+  archivePostAction,
+  getPostAction,
+  selectGetPost,
+  selectPostUpdated,
+} from "../Redux/Slices/postSlice";
+import {
+  getCommentAction,
+  selectCommentUpdated,
+  selectGetComment,
+  updateCommentAction,
+} from "../Redux/Slices/commentSlice";
+import { selectLikeUpdated } from "../Redux/Slices/likeSlice";
+
+import PostImageSection from "../Components/PostComponents/PostImageSection";
+import PostImageLikeSection from "../Components/PostComponents/PostImageLikeSection";
+import PostViewCommentSection from "../Components/PostComponents/PostViewCommentSection";
+import {
+  getCurrentUserAction,
+  selectCurrentUser,
+} from "../Redux/Slices/userSlice";
+import PressableButton from "../Components/PressableButton";
+
+import NewPostTextSection from "../Components/NewPostComponents/NewPostTextSection";
+import NewPostImageSection from "../Components/NewPostComponents/NewPostImageSection";
 
 const NewPostScreen = ({ navigation, route }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const selectPostPostState = useSelector(selectPostPost);
+  const getPostState = useSelector(selectGetPost);
+  const getCommentState = useSelector(selectGetComment);
 
-  useEffect(() => {
-    dispatch(postPostAction());
-  }, [dispatch]);
+  const isLikeUpdated = useSelector(selectLikeUpdated);
+  const isCommentUpdated = useSelector(selectCommentUpdated);
 
-  return (
-    <ScrollView m="2" bg={theme.colors.sage[400]}>
+  const currentUser = useSelector(selectCurrentUser);
+
+  // useEffect(() => {
+  //   dispatch(getPostAction(route.params.post._id));
+
+  //   return () => {
+  //     //clean up function
+  //   };
+  // }, [dispatch, route.params.post._id, isLikeUpdated]);
+
+  // useEffect(() => {
+  //   dispatch(getCurrentUserAction());
+
+  //   return () => {
+  //     //clean up function
+  //   };
+  // }, [dispatch, route.params.post._id]);
+
+  // useEffect(() => {
+  //   dispatch(getCommentAction(route.params.post.comment._id));
+
+  //   return () => {
+  //     //clean up function
+  //   };
+  // }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
+
+  return getPostState && getPostState[0] && currentUser && currentUser._id ? (
+    <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
-      <Stack alignItems="center" safeAreaBottom safeAreaLeft safeAreaRight>
-        <Pressable
-          onPress={() => {
-            console.log("Pressed");
-          }}
-        >
-          {({ isHovered, isFocused, isPressed }) => {
-            return (
-              <Box style={theme.postShadow}>
-                <Box
-                  maxW="100%"
-                  rounded="3xl"
-                  overflow="hidden"
-                  borderColor={
-                    isPressed ? "#E38E48" : theme.colors.forestGreen[400]
-                  }
-                  borderWidth="3.5"
-                  mt="40%"
-                >
-                  <Pressable>
-                    {({ isHovered, isFocused, isPressed }) => {
-                      <AspectRatio w="100%" ratio={1 / 1}>
-                        <Circle
-                          size="300px"
-                          bg={theme.colors.forestGreen[400]}
-                          style={{
-                            transform: [{ scale: isPressed ? 0.96 : 1 }],
-                          }}
-                        >
-                          <LikeHeartIcon color={theme.colors.sage[300]} />
-                        </Circle>
-
-                        {/* <Image
-                      source={{
-                        uri: getPostState[0].picture,
-                      }}
-                      alt="image"
-                      blurRadius={onLongPressState ? 50 : 0}
-                    /> */}
-                      </AspectRatio>;
-                    }}
-                  </Pressable>
-                </Box>
-              </Box>
-            );
-          }}
-        </Pressable>
-      </Stack>
+      <NewPostImageSection navigation={navigation} theme={theme} />
       {/* image section ends */}
 
-      {/* post description starts */}
-      <Stack>
-        <HStack>
-          <HStack alignItems="center">
-            <Center
-              _text={{
-                color: "black",
-                fontWeight: "normal",
-              }}
-            >
-              Enter here
-            </Center>
-          </HStack>
-        </HStack>
-        <Box>
-          <VStack alignItems="center">
-            <Divider my={1} />
-            <Pressable
-              onPress={() => console.log("TEST")}
-              rounded="8"
-              overflow="hidden"
-              bg="coolGray.100"
-            >
-              <Circle size="30px">
-                <Icon as={<LikeHeartIcon color={theme.colors.sage[300]} />} />
-              </Circle>
-              <Box alignItems="center">
-                <Button onPress={() => console.log("hello world")}>
-                  Click Me
-                </Button>
-              </Box>
-            </Pressable>
-          </VStack>
-        </Box>
+      {/* post text section 1 starts */}
+      <NewPostTextSection navigation={navigation} theme={theme} />
+      {/* post text section 1 ends */}
+    </ScrollView>
+  ) : (
+    <ScrollView bg={theme.colors.sage[400]}>
+      <Stack safeArea>
+        <Text>Loading...</Text>
       </Stack>
-      {/* post description ends */}
     </ScrollView>
   );
 };
