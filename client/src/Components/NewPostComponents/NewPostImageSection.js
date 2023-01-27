@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
@@ -58,39 +58,44 @@ const palet = require("../../../assets/paletWhite.png");
 export default function NewPostImageSection(props) {
   const { navigation, theme } = props;
 
-  const [imageResult, setImageResult] = useState(() => null);
-  const [imageSource, setImageSource] = useState(() => palet);
-  const [imageSourceEdited, setImageSourceEdited] = useState(() => false);
+  const [imageSource, setImageSource] = useState(() => null);
+  const [imageSourceChanged, setImageSourceChanged] = useState(() => false);
 
   const dispatch = useDispatch();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    setImageResult(() =>
-      ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      })
-    );
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-    if (imageResult && !imageResult.canceled) {
-      setImageSourceEdited(() => true);
+    if (!result.canceled) {
+      var testVar = await result.uri;
 
-      console.log(imageResult.uri);
-      //   dispatch(pictureUploadAction(imageResult));
-      //   navigation.navigate("MainProfile");
+      if (
+        testVar &&
+        [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"].some((substring) =>
+          testVar.includes(substring)
+        )
+      ) {
+        setImageSource(() => testVar);
+
+        setImageSourceChanged(() => true);
+      }
+      // await setImageSourceChanged(() => true);
+      // dispatch(pictureUploadAction(result));
+      // navigation.navigate("MainProfile");
     }
   };
 
   useEffect(() => {
-    return () => {
-      setImageSource(() => imageSourceEdited && imageResult && imageResult.uri);
-
-      //clean up function
-    };
-  }, [imageResult]);
+    setImageSourceChanged(() => false);
+    // }
+    // }
+  }, [imageSource, imageSourceChanged]); // <-- here put the parameter to listen
 
   //   useEffect(() => {
   //     // return the function to unsubscribe from the event so it gets removed on unmount
@@ -99,7 +104,21 @@ export default function NewPostImageSection(props) {
   //     };
   //   }, []);
 
-  return imageSource ? (
+  // //check if screen is changed and reset booleans
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", () => {
+  //     setOnLongPressState(() => false);
+  //     setCommentOpenState(() => false);
+  //   });
+
+  //   // return the function to unsubscribe from the event so it gets removed on unmount
+  //   return () => {
+  //     //clean up function
+  //     unsubscribe;
+  //   };
+  // }, []);
+
+  return !imageSourceChanged ? (
     <Box safeAreaTop ml={7} mr={7}>
       <Box style={theme.postShadow}>
         <Box
@@ -112,9 +131,9 @@ export default function NewPostImageSection(props) {
           <AspectRatio w="100%" ratio={1 / 1}>
             <Image
               size="100%"
-              source={imageSource}
-              //   source={imageSourceEdited ? { uri: imageSource } : imageSource}
+              source={imageSource ? { uri: imageSource } : palet}
               alt="image"
+              key={uuid.v4()}
             />
           </AspectRatio>
 
