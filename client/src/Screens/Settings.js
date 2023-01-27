@@ -13,6 +13,9 @@ import {
   useTheme,
 } from "native-base";
 import CrossIcon from "../Components/Icons/CrossIcon";
+import { useDispatch } from "react-redux";
+
+import { revertAll } from "../Redux/Slices/authSlice";
 
 const SettingsLine = (props) => {
   const theme = useTheme();
@@ -36,6 +39,8 @@ const SettingsLine = (props) => {
 };
 
 const SettingsScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const theme = useTheme();
 
   return (
@@ -74,20 +79,12 @@ const SettingsScreen = ({ navigation }) => {
           />
         </PressableButton>
         <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
-        <PressableButton onPress={() => navigation.navigate("BlockedUsers")}>
-          <SettingsLine
-            leftIcon="ban"
-            text="Logout"
-            rightElement={
-              <Icon
-                as={CrossIcon}
-                name="arrow-right"
-                size="md"
-                mr={3}
-                color={theme.colors.coolGray[500].toString()}
-              />
-            }
-          />
+        <PressableButton
+          onPress={() => {
+            dispatch(revertAll());
+          }}
+        >
+          <SettingsLine leftIcon="close" text="Logout" />
         </PressableButton>
       </VStack>
     </View>
