@@ -93,30 +93,21 @@ export default function NewPostImageSection(props) {
 
   useEffect(() => {
     setImageSourceChanged(() => false);
-    // }
-    // }
-  }, [imageSource, imageSourceChanged]); // <-- here put the parameter to listen
+  }, [imageSource, imageSourceChanged]);
 
-  //   useEffect(() => {
-  //     // return the function to unsubscribe from the event so it gets removed on unmount
-  //     return () => {
-  //       //clean up function
-  //     };
-  //   }, []);
+  //check if screen is changed and reset booleans
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setImageSource(() => null);
+      setImageSourceChanged(() => false);
+    });
 
-  // //check if screen is changed and reset booleans
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener("focus", () => {
-  //     setOnLongPressState(() => false);
-  //     setCommentOpenState(() => false);
-  //   });
-
-  //   // return the function to unsubscribe from the event so it gets removed on unmount
-  //   return () => {
-  //     //clean up function
-  //     unsubscribe;
-  //   };
-  // }, []);
+    // return the function to unsubscribe from the event so it gets removed on unmount
+    return () => {
+      //clean up function
+      unsubscribe;
+    };
+  }, []);
 
   return !imageSourceChanged ? (
     <Box safeAreaTop ml={7} mr={7}>
