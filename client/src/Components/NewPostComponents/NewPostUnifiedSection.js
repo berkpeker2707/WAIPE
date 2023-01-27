@@ -18,6 +18,10 @@ import {
   Avatar,
   useTheme,
   Button,
+  Select,
+  FormControl,
+  CheckIcon,
+  WarningOutlineIcon,
 } from "native-base";
 
 import uuid from "react-native-uuid";
@@ -156,6 +160,31 @@ export default function NewPostUnifiedSection(props) {
         </Box>
       </Box>
       {/* new post image section ends*/}
+
+      {/* new post pet selection starts */}
+      <Box ml={7} mr={7} mt={2}>
+        <FormControl isRequired>
+          <Select
+            alignItems="center"
+            bg={theme.colors.sage[300]}
+            borderRadius="2xl"
+            minWidth="200"
+            accessibilityLabel="Choose Service"
+            placeholder="Choose Service"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size={5} />,
+            }}
+          >
+            <Select.Item label="UX Research" value="ux" />
+            <Select.Item label="Web Development" value="web" />
+            <Select.Item label="Cross Platform Development" value="cross" />
+            <Select.Item label="UI Designing" value="ui" />
+            <Select.Item label="Backend Development" value="backend" />
+          </Select>
+        </FormControl>
+      </Box>
+      {/* new post pet selection ends */}
 
       {/* new post text section starts*/}
       <Stack
