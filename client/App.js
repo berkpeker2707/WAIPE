@@ -3,6 +3,7 @@ import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
+// import NewPost from "./src/Screens/NewPost";
 import MainProfile from "./src/Screens/MainProfile";
 import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
@@ -88,7 +89,7 @@ export default function App() {
           name="Discover"
           component={Discover}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           options={{
             tabBarLabel: "Add",
             tabBarIcon: ({ color }) => (
@@ -105,9 +106,9 @@ export default function App() {
               fontWeight: "bold",
             },
           }}
-          name="Settings"
-          component={Settings}
-        />
+          name="NewPost"
+          component={NewPost}
+        /> */}
         <Tab.Screen
           options={{
             tabBarLabel: "Profile",
@@ -183,7 +184,7 @@ export default function App() {
           name="PetProfile"
           component={PetProfile}
         />
-         <Tab.Screen
+        <Tab.Screen
           options={{
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
@@ -200,6 +201,24 @@ export default function App() {
           }}
           name="BlockedUsers"
           component={BlockedUsersScreen}
+        />
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="Settings"
+          component={Settings}
         />
         <Tab.Screen
           options={{
