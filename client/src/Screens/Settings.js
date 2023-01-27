@@ -12,7 +12,6 @@ import {
   Icon,
   useTheme,
 } from "native-base";
-import CrossIcon from "../Components/Icons/CrossIcon";
 import { useDispatch } from "react-redux";
 
 import { revertAll } from "../Redux/Slices/authSlice";
