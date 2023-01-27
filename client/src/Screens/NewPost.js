@@ -54,10 +54,8 @@ import {
   getCurrentUserAction,
   selectCurrentUser,
 } from "../Redux/Slices/userSlice";
-import PressableButton from "../Components/PressableButton";
 
-import NewPostTextSection from "../Components/NewPostComponents/NewPostTextSection";
-import NewPostImageSection from "../Components/NewPostComponents/NewPostImageSection";
+import NewPostUnifiedSection from "../Components/NewPostComponents/NewPostUnifiedSection";
 
 const NewPostScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -97,13 +95,7 @@ const NewPostScreen = ({ navigation, route }) => {
 
   return getPostState && getPostState[0] && currentUser && currentUser._id ? (
     <ScrollView bg={theme.colors.sage[400]}>
-      {/* image section starts */}
-      <NewPostImageSection navigation={navigation} theme={theme} />
-      {/* image section ends */}
-
-      {/* post text section 1 starts */}
-      <NewPostTextSection navigation={navigation} theme={theme} />
-      {/* post text section 1 ends */}
+      <NewPostUnifiedSection navigation={navigation} theme={theme} />
     </ScrollView>
   ) : (
     <ScrollView bg={theme.colors.sage[400]}>
