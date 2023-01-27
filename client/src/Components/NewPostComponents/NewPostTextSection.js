@@ -85,7 +85,7 @@ export default function NewPostTextSection(props) {
               bg: theme.colors.singletons["white"],
               borderColor: theme.colors.sage[300],
             }}
-            placeholder="Add a comment..."
+            placeholder="Description"
             value={newPostTextState}
             onChangeText={(newPostTextState) =>
               setNewPostTextState(() => newPostTextState)
