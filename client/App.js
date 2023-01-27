@@ -217,8 +217,8 @@ export default function App() {
               fontWeight: "bold",
             },
           }}
-          name="EditPetProfile"
-          component={EditPetProfile}
+          name="Settings"
+          component={Settings}
         />
         <Tab.Screen
           options={{
@@ -235,8 +235,8 @@ export default function App() {
               fontWeight: "bold",
             },
           }}
-          name="Settings"
-          component={Settings}
+          name="EditPetProfile"
+          component={EditPetProfile}
         />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
