@@ -102,7 +102,6 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
       res.status(200).json(comment);
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });
