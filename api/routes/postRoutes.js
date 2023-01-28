@@ -16,7 +16,7 @@ const {
 const postRoutes = express.Router();
 
 postRoutes.post(
-  "/new",
+  "/newPost/newPetPost",
   verifyToken,
   photoUpload.single("image"),
   photoResize,
