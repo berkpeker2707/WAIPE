@@ -58,8 +58,8 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
       : imageFormats.includes(extension)
       ? "photos"
       : "Wrong type";
-
     if (type === "Wrong type") return "Wrong type";
+
     let promise = new Promise((resolve, reject) => {
       cloudinary.v2.uploader
         .upload(fileToUpload, {
@@ -87,9 +87,11 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
     });
 
     let result = await promise; // wait until the promise resolves (*)
+    console.log(result);
 
     return result;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };

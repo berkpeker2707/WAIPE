@@ -17,11 +17,10 @@ const postRoutes = express.Router();
 
 postRoutes.post(
   "/newPost/newPetPost",
-  [
-    verifyToken,
-    photoUpload.single("image"),
-    // photoResize
-  ],
+  verifyToken,
+  // photoUpload.single("image"),
+  photoResize,
+
   postPostController
 );
 postRoutes.get("/fetch/:postID", verifyToken, getPostController);

@@ -19,7 +19,7 @@ petRoutes.put("/update/:id", verifyToken, updatePetController);
 petRoutes.post(
   "/upload/photo/:id",
   verifyToken,
-  photoUpload.single("image"),
+  // photoUpload.single("image"),
   photoResize,
   uploadPetPhotoController
 );

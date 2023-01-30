@@ -13,42 +13,42 @@ const fs = require("fs");
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
   try {
-    // console.log("req.files");
-    // console.log(req.files);
-    // console.log("req.files");
-
     // const petID = req.files.image.petID;
     const petID = "62b470abd3d61b59074de889";
+    console.log("here");
     const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
-    // const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
-    // if (imgUploaded === "Wrong type") return res.json("Wrong type");
+    if (localPath) {
+      console.log("here2");
+      const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
+      console.log("here2.5");
+      if (imgUploaded === "Wrong type") return res.json("Wrong type");
+      console.log("here3");
 
-    // const post = await Post.create({
-    //   petID: petID,
-    //   picture: imgUploaded?.secure_url,
-    //   postDescription: req?.files?.image?.postDescription,
-    // });
+      // const post = await Post.create({
+      //   petID: petID,
+      //   picture: imgUploaded?.secure_url,
+      //   postDescription: req?.files?.image?.postDescription,
+      // });
 
-    // const like = await Like.create({
-    //   postID: post._id,
-    // });
-    // const comment = await Comment.create({
-    //   postID: post._id,
-    // });
+      // const like = await Like.create({
+      //   postID: post._id,
+      // });
+      // const comment = await Comment.create({
+      //   postID: post._id,
+      // });
 
-    // post.updateOne({ like: like._id, comment: comment._id }).exec();
+      // post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-    // const pet = await Pet.findByIdAndUpdate(
-    //   petID,
-    //   { $push: { petPost: [post._id] } },
-    //   { new: true, upsert: true }
-    // ).exec();
+      // const pet = await Pet.findByIdAndUpdate(
+      //   petID,
+      //   { $push: { petPost: [post._id] } },
+      //   { new: true, upsert: true }
+      // ).exec();
 
-    fs.unlinkSync(localPath);
-
-    res.status(200).json(post);
+      // fs.unlinkSync(localPath);
+      res.status(200).json("post");
+    }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });
