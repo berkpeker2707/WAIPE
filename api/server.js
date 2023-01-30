@@ -19,8 +19,8 @@ const userRoutes = require("./routes/userRoutes");
 const app = express();
 app.use(
   cors({
-    // origin: true,
-    // credentials: true,
+    origin: true,
+    credentials: true,
   })
 );
 app.use(express.json()); // Used to parse JSON bodies
