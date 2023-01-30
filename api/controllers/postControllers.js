@@ -15,14 +15,10 @@ const postPostController = expressHandler(async (req, res) => {
   try {
     // const petID = req.files.image.petID;
     const petID = "62b470abd3d61b59074de889";
-    console.log("here");
     const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
     if (localPath) {
-      console.log("here2");
       const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
-      console.log("here2.5");
       if (imgUploaded === "Wrong type") return res.json("Wrong type");
-      console.log("here3");
 
       // const post = await Post.create({
       //   petID: petID,
