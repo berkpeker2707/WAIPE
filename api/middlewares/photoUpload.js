@@ -1,19 +1,15 @@
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
-//storage
-const multerStorage = multer.diskStorage({
-  destination: path.resolve("./middlewares/photos"),
-  filename: function (req, file, callback) {
-    callback(null, `photo-${Date.now()}-${file.originalname}`);
-  },
-});
+
 //file type checking
 const multerFilter = (req, file, cb) => {
+  console.log("TEST HERE FILTER");
   //check file type
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
+    console.log("TEST");
     //rejected file
     cb(
       {
@@ -23,13 +19,24 @@ const multerFilter = (req, file, cb) => {
     );
   }
 };
+
+//storage
+const multerStorage = multer.memoryStorage();
+
 const photoUpload = multer({
   storage: multerStorage,
-  fileFilter: multerFilter,
-  limits: { fileSize: 1000000 },
+  // fileFilter: multerFilter,
+  // limits: { fileSize: 1000000 },
 });
+
 //Image Resizing
 const photoResize = async (req, res, next) => {
+  console.log("req.file");
+  console.log(req.file);
+  console.log("req.file");
+  console.log("req.files");
+  console.log(req.files);
+  console.log("req.files");
   //check if there is no file
   if (!req.files) return next();
   await sharp(req.files.image.path)

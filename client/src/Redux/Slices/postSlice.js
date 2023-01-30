@@ -1,28 +1,84 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.62:5001/api";
+const SERVER_URL = "http://192.168.100.79:5001/api";
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
   "post/postPost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
-    //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      //get employee token
+      const auth = getState()?.auth;
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: `Bearer ${auth?.token}`,
+      //     transformRequest: (data, headers) => {
+      //       return formData;
+      //     },
+      //   },
+      // };
+      // console.log("fetchPostsInfo");
+      // console.log(fetchPostsInfo);
+      // console.log("fetchPostsInfo");
+
+      console.log("TEST1");
+
+      const uri = fetchPostsInfo;
+
+      console.log("TEST2");
+
+      const FormData = global.FormData;
+      const formData = new FormData();
+
+      console.log("TEST3");
+
+      const trimmedURI =
+        Platform.OS === "android" ? uri : uri.replace("file://", "");
+      const fileName = trimmedURI.split("/").pop();
+
+      console.log("TEST4");
+
+      formData.append("image", {
+        name: fileName,
+        type: mime.getType(trimmedURI),
+        uri: trimmedURI,
+        // petID: fetchPostsInfo.selectedPetState,
+        postDescription: "fetchPostsInfo.newPostTextState",
+      });
+
+      formData.append("image", {
+        petID: "TEST",
+        postDescription: "TEST",
+      });
+
+      console.log("TEST5");
+
+      console.log("AFTER formData");
+      console.log(formData);
+      console.log("AFTER formData");
+
       const { data } = await axios.post(
-        `${SERVER_URL}/post/new/${petID}`,
-        config
+        `${SERVER_URL}/post/newPost/newPetPost`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+          transformRequest: (data, headers) => {
+            return formData;
+          },
+        }
       );
+
+      console.log("TEST6");
 
       return data;
     } catch (error) {
-      return rejectWithValue(error?.reponse?.data);
+      return rejectWithValue(error);
     }
   }
 );

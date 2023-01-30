@@ -62,13 +62,14 @@ import * as ImagePicker from "expo-image-picker";
 const palet = require("../../../assets/paletWhite.png");
 
 export default function NewPostUnifiedSection(props) {
-  const { navigation, theme } = props;
+  const { navigation, theme, currentUser } = props;
+
+  const dispatch = useDispatch();
 
   const [imageSource, setImageSource] = useState(() => null);
   const [imageSourceChanged, setImageSourceChanged] = useState(() => false);
   const [newPostTextState, setNewPostTextState] = useState(() => "");
-
-  const dispatch = useDispatch();
+  const [selectedPetState, setSelectedPetState] = useState(() => null);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -88,6 +89,9 @@ export default function NewPostUnifiedSection(props) {
           testVar.includes(substring)
         )
       ) {
+        console.log("testVar");
+        console.log(testVar);
+        console.log("testVar");
         setImageSource(() => testVar);
 
         setImageSourceChanged(() => true);
@@ -105,6 +109,7 @@ export default function NewPostUnifiedSection(props) {
       setImageSource(() => null);
       setImageSourceChanged(() => false);
       setNewPostTextState(() => "");
+      setSelectedPetState(() => null);
     });
 
     // return the function to unsubscribe from the event so it gets removed on unmount
@@ -175,12 +180,21 @@ export default function NewPostUnifiedSection(props) {
               bg: "teal.600",
               endIcon: <CheckIcon size={5} />,
             }}
+            onValueChange={(itemValue) => setSelectedPetState(() => itemValue)}
           >
-            <Select.Item label="UX Research" value="ux" />
-            <Select.Item label="Web Development" value="web" />
-            <Select.Item label="Cross Platform Development" value="cross" />
-            <Select.Item label="UI Designing" value="ui" />
-            <Select.Item label="Backend Development" value="backend" />
+            {currentUser && currentUser.pets ? (
+              currentUser.pets.map(
+                (selectedPetStateMap, selectedPetStateMapIndex) => (
+                  <Select.Item
+                    label={selectedPetStateMap.name}
+                    key={uuid.v4()}
+                    value={selectedPetStateMap._id}
+                  />
+                )
+              )
+            ) : (
+              <Select.Item label="Please First Add Pet" value="none" disabled />
+            )}
           </Select>
         </FormControl>
       </Box>
@@ -230,10 +244,11 @@ export default function NewPostUnifiedSection(props) {
           onPress={() => {
             console.log("I AM CLICKED... HELP ME!"),
               dispatch(
-                postPostAction({
-                  newPostTextState,
-                  imageSource,
-                })
+                postPostAction(
+                  // selectedPetState,
+                  // newPostTextState,
+                  imageSource
+                )
               );
             // navigation.navigate("MainProfile");
           }}

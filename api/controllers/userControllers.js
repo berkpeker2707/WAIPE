@@ -138,7 +138,6 @@ const blockPetController = expressHandler(async (req, res) => {
 // profile photo upload controller ***
 const pictureUploadController = expressHandler(async (req, res) => {
   try {
-    console.log(req.files);
     const id = req.user._id;
 
     const localPath = `middlewares/photos/${req.files.image.originalFilename}`;

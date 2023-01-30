@@ -13,41 +13,42 @@ const fs = require("fs");
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
   try {
-    const petID = req.body.petID;
+    // console.log("req.files");
+    // console.log(req.files);
+    // console.log("req.files");
 
-    const localPathRaw = `middlewares/photos/${req.file.filename}`;
-    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
-    const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
-    if (imgUploaded === "Wrong type") return res.json("Wrong type");
+    // const petID = req.files.image.petID;
+    const petID = "62b470abd3d61b59074de889";
+    const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    // const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
+    // if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
-    const post = await Post.create({
-      petID: petID,
-      picture: imgUploaded?.secure_url,
-      postDescription: req?.body?.postDescription,
-    });
+    // const post = await Post.create({
+    //   petID: petID,
+    //   picture: imgUploaded?.secure_url,
+    //   postDescription: req?.files?.image?.postDescription,
+    // });
 
-    const like = await Like.create({
-      postID: post._id,
-    });
-    const comment = await Comment.create({
-      postID: post._id,
-    });
+    // const like = await Like.create({
+    //   postID: post._id,
+    // });
+    // const comment = await Comment.create({
+    //   postID: post._id,
+    // });
 
-    post.updateOne({ like: like._id, comment: comment._id }).exec();
+    // post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-    const pet = await Pet.findById(petID);
-    pet
-      .updateOne(
-        { $push: { petPost: [post._id] } },
-        { new: true, upsert: true }
-      )
-      .exec();
+    // const pet = await Pet.findByIdAndUpdate(
+    //   petID,
+    //   { $push: { petPost: [post._id] } },
+    //   { new: true, upsert: true }
+    // ).exec();
 
-    fs.unlinkSync(localPathRaw);
     fs.unlinkSync(localPath);
 
     res.status(200).json(post);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
@@ -110,7 +111,6 @@ const getFollowedPostsController = expressHandler(async (req, res) => {
 
     res.status(200).json(posts);
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
