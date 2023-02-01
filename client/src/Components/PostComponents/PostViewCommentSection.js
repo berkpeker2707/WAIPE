@@ -1,37 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
-  ScrollView,
-  Box,
-  AspectRatio,
-  Image,
   Text,
-  VStack,
   HStack,
   Stack,
-  Divider,
   Circle,
   Icon,
   Center,
   Pressable,
-  TextArea,
   Avatar,
-  useTheme,
 } from "native-base";
 
 import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Icons/LikeHeartIcon";
-import AddCommentIcon from "../Icons/AddCommentIcon";
-import SendMessageIcon from "../Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
 import ReportIcon from "../Icons/ReportIcon";
 import DeleteIcon from "../Icons/DeleteIcon";
-import { useDispatch, useSelector } from "react-redux";
-import { deletePostAction } from "../../Redux/Slices/postSlice";
+import { useDispatch } from "react-redux";
 import { deleteCommentAction } from "../../Redux/Slices/commentSlice";
 
 export default function PostViewCommentSection(props) {
@@ -103,29 +86,18 @@ export default function PostViewCommentSection(props) {
                             size="30px"
                             bg={theme.colors.forestGreen[400]}
                           >
-                            {getCommentStateInfo &&
-                            getCommentStateInfo.ownerID &&
-                            getCommentStateInfo.ownerID.picture &&
-                            getCommentStateInfo.ownerID.picture !== "" ? (
-                              <Avatar
-                                bg={theme.colors.forestGreen[400]}
-                                alignSelf="center"
-                                size="xs"
-                                source={{
-                                  uri: getCommentStateInfo.ownerID.picture,
-                                }}
-                              >
-                                {getCommentStateInfo?.ownerID?.firstname[0]}
-                              </Avatar>
-                            ) : (
-                              <Avatar
-                                bg={theme.colors.forestGreen[400]}
-                                alignSelf="center"
-                                size="xs"
-                              >
-                                {getCommentStateInfo?.ownerID?.firstname[0]}
-                              </Avatar>
-                            )}
+                            <Avatar
+                              bg={theme.colors.forestGreen[400]}
+                              alignSelf="center"
+                              size="xs"
+                              source={{
+                                uri: getCommentStateInfo?.ownerID?.picture
+                                  ? getCommentStateInfo?.ownerID?.picture
+                                  : null,
+                              }}
+                            >
+                              {getCommentStateInfo?.ownerID?.firstname[0]}
+                            </Avatar>
                           </Circle>
                           <Center
                             _text={{
@@ -156,6 +128,7 @@ export default function PostViewCommentSection(props) {
                               ? setOnLongPressState(() => false)
                               : setOnLongPressState(() => true);
                           }}
+                          onPress={() => setOnLongPressState(() => false)}
                         >
                           {({ isHovered, isFocused, isPressed }) => {
                             return (
