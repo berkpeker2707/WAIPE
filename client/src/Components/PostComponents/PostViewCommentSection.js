@@ -61,6 +61,47 @@ export default function PostViewCommentSection(props) {
                 safeAreaRight
               >
                 <Pressable
+                  onPress={() =>
+                    navigation.navigate("UserProfileScreen", {
+                      userID: getCommentStateInfo?.ownerID?._id,
+                    })
+                  }
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <HStack
+                        style={{
+                          transform: [{ scale: isPressed ? 0.98 : 1 }],
+                        }}
+                      >
+                        <Circle size="30px" bg={theme.colors.forestGreen[400]}>
+                          <Avatar
+                            bg={theme.colors.forestGreen[400]}
+                            alignSelf="center"
+                            size="xs"
+                            source={{
+                              uri: getCommentStateInfo?.ownerID?.picture
+                                ? getCommentStateInfo?.ownerID?.picture
+                                : null,
+                            }}
+                          >
+                            {getCommentStateInfo?.ownerID?.firstname[0]}
+                          </Avatar>
+                        </Circle>
+                        <Center
+                          _text={{
+                            color: theme.colors.forestGreen[400],
+                            fontWeight: "bold",
+                          }}
+                          ml={1}
+                        >
+                          {getCommentStateInfo?.ownerID?.firstname}
+                        </Center>
+                      </HStack>
+                    );
+                  }}
+                </Pressable>
+                <Pressable
                   onLongPress={() => {
                     onLongPressState
                       ? (setOnLongPressState(() => false),
@@ -77,39 +118,6 @@ export default function PostViewCommentSection(props) {
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
-                        <HStack
-                          style={{
-                            transform: [{ scale: isPressed ? 0.96 : 1 }],
-                          }}
-                        >
-                          <Circle
-                            size="30px"
-                            bg={theme.colors.forestGreen[400]}
-                          >
-                            <Avatar
-                              bg={theme.colors.forestGreen[400]}
-                              alignSelf="center"
-                              size="xs"
-                              source={{
-                                uri: getCommentStateInfo?.ownerID?.picture
-                                  ? getCommentStateInfo?.ownerID?.picture
-                                  : null,
-                              }}
-                            >
-                              {getCommentStateInfo?.ownerID?.firstname[0]}
-                            </Avatar>
-                          </Circle>
-                          <Center
-                            _text={{
-                              color: theme.colors.forestGreen[400],
-                              fontWeight: "bold",
-                            }}
-                            ml={1}
-                          >
-                            {getCommentStateInfo?.ownerID?.firstname}
-                          </Center>
-                        </HStack>
-
                         {/* Report and Delete Starts */}
                         <Pressable
                           alignItems="center"
