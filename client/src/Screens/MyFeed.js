@@ -1,15 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Center,
   Text,
-  Button,
   Image,
   Box,
-  useSafeArea,
   Pressable,
-  VStack,
-  Input,
   Icon,
   useTheme,
   Stack,
@@ -23,8 +19,6 @@ import {
   selectGetFollowedPosts,
   getFollowedPostsAction,
 } from "../Redux/Slices/postSlice";
-
-import SendMessageIcon from "../Components/Icons/SendMessageIcon";
 
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";

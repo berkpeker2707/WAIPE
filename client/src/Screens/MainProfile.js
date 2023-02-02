@@ -1,19 +1,8 @@
 import React, { useEffect } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import PetCard from "../Components/PetCard";
+import { Icon, HStack, IconButton, useTheme } from "native-base";
 import {
-  Center,
-  Spinner,
-  Box,
-  Icon,
-  ScrollView,
-  HStack,
-  VStack,
-  IconButton,
-  useTheme,
-} from "native-base";
-import {
-  getUser,
   selectCurrentUser,
   selectUserLoading,
   selectUserUpdated,
@@ -58,6 +47,7 @@ const MainProfileScreen = ({ navigation }) => {
           : "Empty like my heart..."
       }
       editPage={"EditMainProfile"}
+      isCurrentUser={true}
     >
       <HStack pl="1" flex="1" flexWrap="wrap">
         {currentUser?.pets?.map((pet, index) => {
