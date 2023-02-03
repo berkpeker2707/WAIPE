@@ -15,6 +15,7 @@ const ProfilePage = (props) => {
     infoText,
     children,
     editPage,
+    isCurrentUser,
   } = props;
   return (
     <View style={style.container}>
@@ -23,7 +24,12 @@ const ProfilePage = (props) => {
           <Spinner color={"mustard.400"} size="lg" />
         ) : (
           <Stack safeAreaTop alignItems="center" justifyContent="center">
-            <SettingsButton onPress={() => navigation.navigate("Settings")} />
+            {isCurrentUser ? (
+              <SettingsButton onPress={() => navigation.navigate("Settings")} />
+            ) : (
+              <></>
+            )}
+
             <VStack space={4}>
               <NameAndNickname name={`${name}`} nickname={"@Nickname"} />
               <ProfileAvatar
@@ -31,6 +37,7 @@ const ProfilePage = (props) => {
                 letter={`${name[0]}`}
                 onPress={() => navigation.navigate(editPage)}
                 icon="pencil"
+                isCurrentUser={isCurrentUser}
               />
               <InfoCard infoText={infoText} />
             </VStack>

@@ -1,54 +1,26 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+
 import {
-  ScrollView,
-  Box,
-  AspectRatio,
-  Image,
-  Text,
-  VStack,
   HStack,
   Stack,
-  Divider,
   Circle,
   Icon,
   Center,
   Pressable,
-  TextArea,
   Avatar,
-  useTheme,
 } from "native-base";
 
 import uuid from "react-native-uuid";
 import LikeHeartIcon from "../Icons/LikeHeartIcon";
-import AddCommentIcon from "../Icons/AddCommentIcon";
-import SendMessageIcon from "../Icons/SendMessageIcon";
 import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
 import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
 import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
 import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
-import ReportIcon from "../Icons/ReportIcon";
-import BookmarkIcon from "../Icons/BookmarkIcon";
-
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  archivePostAction,
-  getPostAction,
-  selectGetPost,
-  selectPostUpdated,
-} from "../../Redux/Slices/postSlice";
-
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../../Redux/Slices/commentSlice";
-import {
   selectLikeUpdated,
-  selectUpdatePostLike,
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
 
@@ -498,7 +470,13 @@ export default function PostImageLikeSection(props) {
                 >
                   {getPostState[0].petID.name ?? ""}
                 </Center>
-                <Pressable>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("PetProfile", {
+                      petId: getPostState[0].petID._id,
+                    })
+                  }
+                >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <Circle

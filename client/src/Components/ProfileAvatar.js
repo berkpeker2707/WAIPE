@@ -3,7 +3,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Avatar, Box, Button, Icon, ZStack, Center } from "native-base";
 
 const ProfileAvatar = (props) => {
-  const { image, letter, onPress, icon } = props;
+  const { image, letter, onPress, icon, isCurrentUser } = props;
 
   return (
     <Center>
@@ -22,24 +22,28 @@ const ProfileAvatar = (props) => {
           >
             {letter}
           </Avatar>
-          <Button
-            borderRadius="25"
-            bg="white"
-            ml={175}
-            mt={175}
-            w={10}
-            h={10}
-            colorScheme="warning"
-            onPress={onPress}
-            leftIcon={
-              <Icon
-                as={SimpleLineIcons}
-                name={icon}
-                size="md"
-                color="coolGray.500"
-              />
-            }
-          />
+          {isCurrentUser ? (
+            <Button
+              borderRadius="25"
+              bg="white"
+              ml={175}
+              mt={175}
+              w={10}
+              h={10}
+              colorScheme="warning"
+              onPress={onPress}
+              leftIcon={
+                <Icon
+                  as={SimpleLineIcons}
+                  name={icon}
+                  size="md"
+                  color="coolGray.500"
+                />
+              }
+            />
+          ) : (
+            <></>
+          )}
         </ZStack>
       </Box>
     </Center>
