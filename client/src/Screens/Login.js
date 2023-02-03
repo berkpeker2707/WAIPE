@@ -24,6 +24,7 @@ import {
   Text,
   FormControl,
   useTheme,
+  Image,
 } from "native-base";
 
 const LoginScreen = ({ navigation }) => {
@@ -59,12 +60,18 @@ const LoginScreen = ({ navigation }) => {
       {({ handleChange, handleBlur, handleSubmit, values }) => (
         <View style={theme.container}>
           <SSRProvider>
-            <Center flex={1} px="3">
+            <Center justifyContent="flex-start" flex={1} px="3">
+              <Image
+                source={require("../../assets/Colorfull-waipe-logo-(green).png")}
+                alt="Waipe"
+                resizeMode="contain"
+                h="100"
+                w="300"
+                marginTop="20px"
+                marginBottom="70px"
+              />
               <VStack space={5} w="300">
                 <VStack space={6} alignItems="center">
-                  <Heading size="md" color={theme.colors.extraOrage[400]}>
-                    Log in to Waipe
-                  </Heading>
                   <Stack direction="column" w="300">
                     <Stack direction="column" space={5} alignItems="center">
                       <FormControl
