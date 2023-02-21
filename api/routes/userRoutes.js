@@ -24,9 +24,7 @@ userRoutes.put("/follow/pet", verifyToken, followPetController);
 userRoutes.put("/block/pet", verifyToken, blockPetController);
 userRoutes.post(
   "/upload/profile/image",
-  verifyToken,
-  // photoUpload.single("image"),
-  photoResize,
+  [verifyToken, photoResize],
   pictureUploadController
 );
 userRoutes.delete(
