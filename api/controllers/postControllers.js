@@ -13,36 +13,38 @@ const fs = require("fs");
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
   try {
-    // const petID = req.files.image.petID;
-    const petID = "62b470abd3d61b59074de889";
-    const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const petID = req?.body?.petID;
+    const localPath =
+      await `middlewares/photos/${req?.files?.image?.originalFilename}`;
     if (localPath) {
       const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
       if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
-      // const post = await Post.create({
-      //   petID: petID,
-      //   picture: imgUploaded?.secure_url,
-      //   postDescription: req?.files?.image?.postDescription,
-      // });
+      const post = await Post.create({
+        petID: petID,
+        picture: imgUploaded?.secure_url,
+        postDescription: req?.body?.postDescription,
+      });
 
-      // const like = await Like.create({
-      //   postID: post._id,
-      // });
-      // const comment = await Comment.create({
-      //   postID: post._id,
-      // });
+      const like = await Like.create({
+        postID: post._id,
+      });
+      const comment = await Comment.create({
+        postID: post._id,
+      });
 
-      // post.updateOne({ like: like._id, comment: comment._id }).exec();
+      post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-      // const pet = await Pet.findByIdAndUpdate(
-      //   petID,
-      //   { $push: { petPost: [post._id] } },
-      //   { new: true, upsert: true }
-      // ).exec();
+      const pet = await Pet.findByIdAndUpdate(
+        petID,
+        { $push: { petPost: [post._id] } },
+        { new: true, upsert: true }
+      ).exec();
 
-      // fs.unlinkSync(localPath);
-      res.status(200).json("post");
+      fs.unlinkSync(localPath);
+      res.status(200).json(post);
+    } else {
+      res.status(500).json("Soemthing went wrong.");
     }
   } catch (error) {
     res.status(500).json(error);

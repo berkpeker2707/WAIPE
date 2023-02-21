@@ -3,15 +3,12 @@ const path = require("path");
 
 //Image Resizing
 const photoResize = async (req, res, next) => {
-  console.log("req.files");
-  console.log(req.files.image.size);
-  console.log("req.files");
   //check if there is no file
   if (!req.files) {
     return next();
   } else {
     //allow 10mb file max
-    if (req.files.image.size < 1000000) {
+    if (req.files.image.size / 1024 / 1024 < 10) {
       console.log("dsfasfgsdbsfgmrj");
       // if (req.files.image)
       await sharp(req.files.image.path)
@@ -26,11 +23,9 @@ const photoResize = async (req, res, next) => {
       next();
     } else {
       res.status(500).json("File size cannot be larger than 10mb.");
-      // next();
     }
   }
 };
 module.exports = {
-  // photoUpload,
   photoResize,
 };
