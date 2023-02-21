@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.79:1000/api";
+const SERVER_URL = "http://192.168.1.52:1000/api";
 const updatedPet = createAction("pet/update");
 
 export const getPetAction = createAsyncThunk(
