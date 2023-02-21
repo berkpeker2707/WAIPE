@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
@@ -101,6 +101,8 @@ export const verifyPasswordAction = createAsyncThunk(
   }
 );
 
+export const revertAll = createAction("revertAll");
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -198,6 +200,17 @@ const authSlice = createSlice({
     builder.addCase(verifyPasswordAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
+    });
+    //logout
+    builder.addCase(revertAll, (initialState) => {
+      (initialState.loading = false),
+        (initialState.error = null),
+        (initialState.preSignupData = null),
+        (initialState.verifysignupData = null),
+        (initialState.signupData = null),
+        (initialState.token = null),
+        (initialState.forgotPasswordData = null),
+        (initialState.verifyPasswordData = null);
     });
   },
 });

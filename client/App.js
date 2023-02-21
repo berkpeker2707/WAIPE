@@ -24,6 +24,7 @@ import ProfileIcon from "./src/Components/Icons/ProfileIcon";
 import PetProfile from "./src/Screens/PetProfile";
 import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 import EditPetProfile from "./src/Screens/EditPetProfile";
+import UserProfileScreen from "./src/Screens/UserProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -237,6 +238,24 @@ export default function App() {
           }}
           name="EditPetProfile"
           component={EditPetProfile}
+        />
+        <Tab.Screen
+          options={{
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="UserProfileScreen"
+          component={UserProfileScreen}
         />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
