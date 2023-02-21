@@ -9,7 +9,6 @@ const photoResize = async (req, res, next) => {
   } else {
     //allow 10mb file max
     if (req.files.image.size / 1024 / 1024 < 10) {
-      console.log("dsfasfgsdbsfgmrj");
       // if (req.files.image)
       await sharp(req.files.image.path)
         .resize(1080, 1080)
