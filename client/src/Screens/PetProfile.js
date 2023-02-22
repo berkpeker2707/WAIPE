@@ -20,6 +20,10 @@ const PetProfile = ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(getPetAction(petId));
+
+    return () => {
+      //clean up function
+    };
   }, [dispatch, petId, isUpdate]);
 
   return (

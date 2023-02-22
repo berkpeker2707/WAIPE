@@ -75,7 +75,6 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
         )
       )
     ) {
-      console.log("TEST1");
       await comment[0].updateOne(
         {
           $pull: { likedBy: { ownerID: userID, likeType: likeType } },
@@ -85,7 +84,6 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
 
       res.status(200).json(comment);
     } else {
-      console.log("TEST2");
       await comment[0].updateOne(
         {
           // $push: {
@@ -102,7 +100,6 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
       res.status(200).json(comment);
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });

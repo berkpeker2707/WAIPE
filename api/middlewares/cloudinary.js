@@ -58,8 +58,8 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
       : imageFormats.includes(extension)
       ? "photos"
       : "Wrong type";
-
     if (type === "Wrong type") return "Wrong type";
+
     let promise = new Promise((resolve, reject) => {
       cloudinary.v2.uploader
         .upload(fileToUpload, {
@@ -73,9 +73,6 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
           end_offset: "15",
         })
         .then((result) => {
-          console.log(`result`);
-          console.log(result);
-          console.log(`result`);
           if (result && result.hasOwnProperty("secure_url")) {
             // if secure_url exists
             resolve(result);
@@ -90,6 +87,7 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
 
     return result;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
@@ -142,7 +140,7 @@ const cloudinaryDeleteUserImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        console.log(result);
+        // console.log(result);
       }
     );
 
@@ -164,7 +162,7 @@ const cloudinaryDeletePostImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        console.log(result);
+        // console.log(result);
       }
     );
 
@@ -185,7 +183,7 @@ const cloudinaryDeletePetImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        console.log(result);
+        // console.log(result);
       }
     );
 

@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
     likedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     postedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     archivedPosts: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "post", default: [] },
+      { type: mongoose.Schema.Types.ObjectId, ref: "Post", default: [] },
     ],
     followedPets: { type: Array, default: [] },
     blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

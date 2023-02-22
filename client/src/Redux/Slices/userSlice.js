@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
 const updatedUser = createAction("user/update");
 
 export const getCurrentUserAction = createAsyncThunk(
@@ -26,9 +26,10 @@ export const getCurrentUserAction = createAsyncThunk(
 
 export const getUserAction = createAsyncThunk(
   "user/getUserAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (userID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`${SERVER_URL}/user/${_id}}`, {
+      const token = getState()?.auth?.token;
+      const { data } = await axios.get(`${SERVER_URL}/user/${userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

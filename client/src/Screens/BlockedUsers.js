@@ -27,10 +27,6 @@ const BlockedUsersScreen = () => {
   const isUpdate = useSelector(selectUserUpdated);
   const blockedUsers = currentUser?.blockedUsers;
 
-  console.log("currentUser");
-  console.log(currentUser.blockedUsers);
-  console.log("currentUser");
-
   return (
     <View style={theme.settingsContainer}>
       {userLoading ? (

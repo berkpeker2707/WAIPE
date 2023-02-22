@@ -13,40 +13,39 @@ const fs = require("fs");
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
   try {
-    const petID = req.body.petID;
+    const petID = req?.body?.petID;
+    const localPath =
+      await `middlewares/photos/${req?.files?.image?.originalFilename}`;
+    if (localPath) {
+      const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
+      if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
-    const localPathRaw = `middlewares/photos/${req.file.filename}`;
-    const localPath = `middlewares/photos/${req.file.filename}-cropped.jpg`;
-    const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
-    if (imgUploaded === "Wrong type") return res.json("Wrong type");
+      const post = await Post.create({
+        petID: petID,
+        picture: imgUploaded?.secure_url,
+        postDescription: req?.body?.postDescription,
+      });
 
-    const post = await Post.create({
-      petID: petID,
-      picture: imgUploaded?.secure_url,
-      postDescription: req?.body?.postDescription,
-    });
+      const like = await Like.create({
+        postID: post._id,
+      });
+      const comment = await Comment.create({
+        postID: post._id,
+      });
 
-    const like = await Like.create({
-      postID: post._id,
-    });
-    const comment = await Comment.create({
-      postID: post._id,
-    });
+      post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-    post.updateOne({ like: like._id, comment: comment._id }).exec();
-
-    const pet = await Pet.findById(petID);
-    pet
-      .updateOne(
+      const pet = await Pet.findByIdAndUpdate(
+        petID,
         { $push: { petPost: [post._id] } },
         { new: true, upsert: true }
-      )
-      .exec();
+      ).exec();
 
-    fs.unlinkSync(localPathRaw);
-    fs.unlinkSync(localPath);
-
-    res.status(200).json(post);
+      fs.unlinkSync(localPath);
+      res.status(200).json(post);
+    } else {
+      res.status(500).json("Something went wrong.");
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -110,7 +109,6 @@ const getFollowedPostsController = expressHandler(async (req, res) => {
 
     res.status(200).json(posts);
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -141,7 +139,7 @@ const deletePostController = expressHandler(async (req, res) => {
   const id = req.params.postID;
   try {
     const foundPost = await Post.findById(id);
-    console.log(foundPost);
+
     if (foundPost) {
       const postPicture = await Post.find({ _id: id }).select("picture -_id");
 

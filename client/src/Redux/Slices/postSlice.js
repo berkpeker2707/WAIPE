@@ -1,28 +1,55 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AsyncStorege from "@react-native-async-storage/async-storage";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.21:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
+const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
   "post/postPost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
-    //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      //get employee token
+      const auth = getState()?.auth;
+
+      const uri = fetchPostsInfo.imageSource;
+      const selectedPet = fetchPostsInfo.selectedPetState;
+      const newPostText = fetchPostsInfo.newPostTextState;
+
+      const FormData = global.FormData;
+      const formData = new FormData();
+
+      const trimmedURI =
+        Platform.OS === "android" ? uri : uri.replace("file://", "");
+      const fileName = trimmedURI.split("/").pop();
+
+      formData.append("image", {
+        name: fileName,
+        type: mime.getType(uri),
+        uri: uri,
+      });
+
+      formData.append("petID", selectedPet);
+      formData.append("postDescription", newPostText);
+
       const { data } = await axios.post(
-        `${SERVER_URL}/post/new/${petID}`,
-        config
+        `${SERVER_URL}/post/newPost/newPetPost`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+
+          transformRequest: (formData) => {
+            return formData;
+          },
+        }
       );
 
       return data;
     } catch (error) {
-      return rejectWithValue(error?.reponse?.data);
+      return rejectWithValue(error);
     }
   }
 );
@@ -164,7 +191,7 @@ export const deletePostAction = createAsyncThunk(
 
 export const archivePostAction = createAsyncThunk(
   "post/archivePost",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  async (postID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -173,7 +200,13 @@ export const archivePostAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.put(`${SERVER_URL}/post/archive`, config);
+      const { data } = await axios.put(
+        `${SERVER_URL}/post/archive`,
+        postID,
+        config
+      );
+
+      dispatch(updatedPost());
 
       return data;
     } catch (error) {
@@ -187,6 +220,7 @@ const postSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
+    isUpdated: null,
     postPostData: null,
     getPostData: null,
     getPetPostsData: null,
@@ -196,6 +230,10 @@ const postSlice = createSlice({
     archivePostData: null,
   },
   extraReducers: (builder) => {
+    //updated check reducer
+    builder.addCase(updatedPost, (state) => {
+      state.isUpdated = true;
+    });
     //post post reducer
     builder.addCase(postPostAction.pending, (state) => {
       state.loading = true;
@@ -204,6 +242,7 @@ const postSlice = createSlice({
     builder.addCase(postPostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.postPostData = action?.payload;
     });
     builder.addCase(postPostAction.rejected, (state, action) => {
@@ -274,6 +313,7 @@ const postSlice = createSlice({
     builder.addCase(updatePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.updatePostData = action?.payload;
     });
     builder.addCase(updatePostAction.rejected, (state, action) => {
@@ -288,6 +328,7 @@ const postSlice = createSlice({
     builder.addCase(deletePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.deletePostData = action?.payload;
     });
     builder.addCase(deletePostAction.rejected, (state, action) => {
@@ -302,6 +343,7 @@ const postSlice = createSlice({
     builder.addCase(archivePostAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.isUpdated = false;
       state.archivePostData = action?.payload;
     });
     builder.addCase(archivePostAction.rejected, (state, action) => {
@@ -322,5 +364,8 @@ export const selectGetFollowedPosts = (state) =>
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
 export const selectArchivePost = (state) => state.post.archivePostData;
+export const selectPostUpdated = (state) => {
+  return state.post.isUpdated;
+};
 
 export default postSlice.reducer;

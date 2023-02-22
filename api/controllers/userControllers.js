@@ -23,11 +23,11 @@ const getCurrentUserController = expressHandler(async (req, res) => {
         model: "User",
         select: "firstname lastname picture",
       })
+      .populate({ path: "archivedPosts", model: "Post" })
       .exec();
 
     res.status(200).json(user);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });

@@ -6,7 +6,7 @@ const PetCard = (props) => {
   const { name, image, petId, navigation } = props;
 
   return (
-    <Box alignItems="center" justifyContent="center">
+    <Box alignItems="center" justifyContent="center" m="4px">
       <PressableButton
         onPress={() => navigation.navigate("PetProfile", { petId: petId })}
       >

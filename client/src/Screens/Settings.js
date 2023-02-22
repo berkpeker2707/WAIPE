@@ -12,6 +12,10 @@ import {
   Icon,
   useTheme,
 } from "native-base";
+import { useDispatch } from "react-redux";
+
+import { revertAll } from "../Redux/Slices/authSlice";
+
 const SettingsLine = (props) => {
   const theme = useTheme();
 
@@ -34,6 +38,8 @@ const SettingsLine = (props) => {
 };
 
 const SettingsScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const theme = useTheme();
 
   return (
@@ -68,16 +74,16 @@ const SettingsScreen = ({ navigation }) => {
           <SettingsLine
             leftIcon="ban"
             text="See blocked users"
-            rightElement={
-              <Icon
-                as={SimpleLineIcons}
-                name="arrow-right"
-                size="md"
-                mr={3}
-                color={theme.colors.coolGray[500].toString()}
-              />
-            }
+            rightElement={<Icon as={<SimpleLineIcons />} />}
           />
+        </PressableButton>
+        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
+        <PressableButton
+          onPress={() => {
+            dispatch(revertAll());
+          }}
+        >
+          <SettingsLine leftIcon="close" text="Logout" />
         </PressableButton>
       </VStack>
     </View>
