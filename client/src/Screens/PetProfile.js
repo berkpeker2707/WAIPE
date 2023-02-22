@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { HStack, Image } from "native-base";
+import { HStack, Image, ScrollView, useSafeArea } from "native-base";
 import {
   selectGetPet,
   selectPetLoading,
@@ -25,6 +25,11 @@ const PetProfile = ({ navigation, route }) => {
       //clean up function
     };
   }, [dispatch, petId, isUpdate]);
+
+  const safeAreaProps = useSafeArea({
+    safeArea: true,
+    pt: 2,
+  });
 
   return (
     <ProfilePage

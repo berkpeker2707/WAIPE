@@ -78,6 +78,14 @@ const SettingsScreen = ({ navigation }) => {
           />
         </PressableButton>
         <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
+        <PressableButton onPress={() => navigation.navigate("Bookmarks")}>
+          <SettingsLine
+            leftIcon="notebook"
+            text="Bookmarks"
+            rightElement={<Icon as={<SimpleLineIcons />} />}
+          />
+        </PressableButton>
+        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
         <PressableButton
           onPress={() => {
             dispatch(revertAll());
