@@ -10,6 +10,7 @@ const {
   getFollowedPostsController,
   updatePostController,
   deletePostController,
+  getArchivedPostsController,
   archivePostController,
 } = require("../controllers/postControllers");
 
@@ -37,6 +38,7 @@ postRoutes.get("/fetch", verifyToken, getAllPostsController);
 postRoutes.get("/fetch/all/followed", verifyToken, getFollowedPostsController);
 postRoutes.put("/update/:postID", verifyToken, updatePostController);
 postRoutes.delete("/delete/:postID", verifyToken, deletePostController);
+postRoutes.get("/fetch/all/archived", verifyToken, getArchivedPostsController);
 postRoutes.put("/archive", verifyToken, archivePostController);
 
 module.exports = postRoutes;
