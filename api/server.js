@@ -4,6 +4,7 @@ const session = require("express-session");
 const dbConnect = require("./config/db/dbConnect");
 const cors = require("cors");
 const formData = require("express-form-data");
+const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 require("./config/passport")(passport);
 
@@ -17,6 +18,9 @@ const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
+app.set("trust proxy", 1);
+app.get("/ip", (request, response) => response.send(request.ip));
+
 app.use(
   cors({
     origin: true,
@@ -26,6 +30,15 @@ app.use(
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 app.use(formData.parse());
+
+//rate limitter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+app.use(limiter);
 
 //database connection
 dbConnect();
