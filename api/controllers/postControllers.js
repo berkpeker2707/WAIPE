@@ -139,7 +139,7 @@ const deletePostController = expressHandler(async (req, res) => {
   const id = req.params.postID;
   try {
     const foundPost = await Post.findById(id);
-    console.log(foundPost);
+
     if (foundPost) {
       const postPicture = await Post.find({ _id: id }).select("picture -_id");
 
