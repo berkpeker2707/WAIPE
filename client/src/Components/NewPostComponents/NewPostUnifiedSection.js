@@ -81,18 +81,15 @@ export default function NewPostUnifiedSection(props) {
     });
 
     if (!result.canceled) {
-      var testVar = await result.uri;
+      var tempImgVar = await result.uri;
 
       if (
-        testVar &&
+        tempImgVar &&
         [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"].some((substring) =>
-          testVar.includes(substring)
+          tempImgVar.includes(substring)
         )
       ) {
-        console.log("testVar");
-        console.log(testVar);
-        console.log("testVar");
-        setImageSource(() => testVar);
+        setImageSource(() => tempImgVar);
 
         setImageSourceChanged(() => true);
       }
@@ -242,14 +239,13 @@ export default function NewPostUnifiedSection(props) {
         <Button
           colorScheme="danger"
           onPress={() => {
-            console.log("I AM CLICKED... HELP ME!"),
-              dispatch(
-                postPostAction(
-                  // selectedPetState,
-                  // newPostTextState,
-                  imageSource
-                )
-              );
+            dispatch(
+              postPostAction({
+                selectedPetState,
+                newPostTextState,
+                imageSource,
+              })
+            );
             // navigation.navigate("MainProfile");
           }}
           borderRadius="50"
