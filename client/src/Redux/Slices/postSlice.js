@@ -1,28 +1,55 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
+const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.23:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
   "post/postPost",
   async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
-    //get employee token
-    const auth = getState()?.auth;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth?.token}`,
-      },
-    };
     try {
+      //get employee token
+      const auth = getState()?.auth;
+
+      const uri = fetchPostsInfo.imageSource;
+      const selectedPet = fetchPostsInfo.selectedPetState;
+      const newPostText = fetchPostsInfo.newPostTextState;
+
+      const FormData = global.FormData;
+      const formData = new FormData();
+
+      const trimmedURI =
+        Platform.OS === "android" ? uri : uri.replace("file://", "");
+      const fileName = trimmedURI.split("/").pop();
+
+      formData.append("image", {
+        name: fileName,
+        type: mime.getType(uri),
+        uri: uri,
+      });
+
+      formData.append("petID", selectedPet);
+      formData.append("postDescription", newPostText);
+
       const { data } = await axios.post(
-        `${SERVER_URL}/post/new/${petID}`,
-        config
+        `${SERVER_URL}/post/newPost/newPetPost`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+
+          transformRequest: (formData) => {
+            return formData;
+          },
+        }
       );
 
       return data;
     } catch (error) {
-      return rejectWithValue(error?.reponse?.data);
+      return rejectWithValue(error);
     }
   }
 );

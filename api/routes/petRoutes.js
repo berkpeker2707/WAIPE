@@ -18,9 +18,7 @@ petRoutes.post("/new", verifyToken, postPetController);
 petRoutes.put("/update/:id", verifyToken, updatePetController);
 petRoutes.post(
   "/upload/photo/:id",
-  verifyToken,
-  photoUpload.single("image"),
-  photoResize,
+  [verifyToken, photoResize],
   uploadPetPhotoController
 );
 petRoutes.delete("/delete/photo/:id", verifyToken, deletePetPhotoController);

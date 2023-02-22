@@ -3,7 +3,7 @@ import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
 import Post from "./src/Screens/Post";
-// import NewPost from "./src/Screens/NewPost";
+import NewPost from "./src/Screens/NewPost";
 import MainProfile from "./src/Screens/MainProfile";
 import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
@@ -90,7 +90,7 @@ export default function App() {
           name="Discover"
           component={Discover}
         />
-        {/* <Tab.Screen
+        <Tab.Screen
           options={{
             tabBarLabel: "Add",
             tabBarIcon: ({ color }) => (
@@ -109,7 +109,7 @@ export default function App() {
           }}
           name="NewPost"
           component={NewPost}
-        /> */}
+        />
         <Tab.Screen
           options={{
             tabBarLabel: "Profile",

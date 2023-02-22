@@ -1,6 +1,6 @@
 const express = require("express");
 const { verifyToken } = require("../middlewares/auth");
-const { photoUpload, photoResize } = require("../middlewares/photoUpload");
+const { photoResize } = require("../middlewares/photoUpload");
 
 const {
   postPostController,
@@ -16,10 +16,8 @@ const {
 const postRoutes = express.Router();
 
 postRoutes.post(
-  "/new",
-  verifyToken,
-  photoUpload.single("image"),
-  photoResize,
+  "/newPost/newPetPost",
+  [verifyToken, photoResize],
   postPostController
 );
 postRoutes.get("/fetch/:postID", verifyToken, getPostController);

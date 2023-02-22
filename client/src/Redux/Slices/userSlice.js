@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.100.23:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
 const updatedUser = createAction("user/update");
 
 export const getCurrentUserAction = createAsyncThunk(
@@ -138,9 +138,6 @@ export const pictureUploadAction = createAsyncThunk(
   "user/pictureUploadAction",
   async (pictureInfo, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log("pictureInfo.text");
-      console.log(pictureInfo.text);
-      console.log("pictureInfo.text");
       const uri = pictureInfo.uri;
       const token = getState()?.auth?.token;
 
@@ -155,7 +152,6 @@ export const pictureUploadAction = createAsyncThunk(
         name: fileName,
         type: mime.getType(trimmedURI),
         uri: trimmedURI,
-        text: "PAPATYA",
       });
 
       const { data } = await axios.post(

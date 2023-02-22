@@ -2,7 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.23:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
 
 export const presignupAction = createAsyncThunk(
   "auth/presignupAction",

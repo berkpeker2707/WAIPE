@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.100.23:5001/api";
+const SERVER_URL = "http://192.168.1.52:5001/api";
 const updatedLike = createAction("like/update");
 
 export const updatePostLikeAction = createAsyncThunk(
