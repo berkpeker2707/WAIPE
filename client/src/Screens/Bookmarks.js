@@ -22,18 +22,14 @@ import {
 } from "../Redux/Slices/postSlice";
 
 const BookmarksScreen = ({ navigation, route }) => {
-  console.log("TEST1");
   const theme = useTheme();
 
   const dispatch = useDispatch();
 
   const archivedPosts = useSelector(selectGetArchivedPosts);
 
-  console.log(archivedPosts);
-
   useEffect(() => {
     dispatch(getArchivedPostsAction());
-    console.log("TEST2");
     return () => {
       //clean up function
     };
@@ -43,7 +39,7 @@ const BookmarksScreen = ({ navigation, route }) => {
     safeArea: true,
     pt: 2,
   });
-  console.log("TEST3");
+
   const renderItem = ({ item, i }) => {
     return (
       <Pressable
@@ -60,6 +56,7 @@ const BookmarksScreen = ({ navigation, route }) => {
               height: 150,
               alignSelf: "stretch",
               marginLeft: 12,
+              marginRight: 12,
             }}
             resizeMode="cover"
             alt="alt"
@@ -70,7 +67,7 @@ const BookmarksScreen = ({ navigation, route }) => {
   };
 
   return archivedPosts ? (
-    <ScrollView {...safeAreaProps}>
+    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
       <MasonryList
         style={{ alignSelf: "stretch" }}
         data={archivedPosts}
