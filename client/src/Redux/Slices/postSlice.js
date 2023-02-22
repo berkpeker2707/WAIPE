@@ -11,54 +11,26 @@ export const postPostAction = createAsyncThunk(
     try {
       //get employee token
       const auth = getState()?.auth;
-      // const config = {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //     Authorization: `Bearer ${auth?.token}`,
-      //     transformRequest: (data, headers) => {
-      //       return formData;
-      //     },
-      //   },
-      // };
-      // console.log("fetchPostsInfo");
-      // console.log(fetchPostsInfo);
-      // console.log("fetchPostsInfo");
 
-      console.log("TEST1");
-
-      const uri = fetchPostsInfo;
-
-      console.log("TEST2");
+      const uri = fetchPostsInfo.imageSource;
+      const selectedPet = fetchPostsInfo.selectedPetState;
+      const newPostText = fetchPostsInfo.newPostTextState;
 
       const FormData = global.FormData;
       const formData = new FormData();
-
-      console.log("TEST3");
 
       const trimmedURI =
         Platform.OS === "android" ? uri : uri.replace("file://", "");
       const fileName = trimmedURI.split("/").pop();
 
-      console.log("TEST4");
-
       formData.append("image", {
         name: fileName,
-        type: mime.getType(trimmedURI),
-        uri: trimmedURI,
-        // petID: fetchPostsInfo.selectedPetState,
-        postDescription: "fetchPostsInfo.newPostTextState",
+        type: mime.getType(uri),
+        uri: uri,
       });
 
-      formData.append("image", {
-        petID: "TEST",
-        postDescription: "TEST",
-      });
-
-      console.log("TEST5");
-
-      console.log("AFTER formData");
-      console.log(formData);
-      console.log("AFTER formData");
+      formData.append("petID", selectedPet);
+      formData.append("postDescription", newPostText);
 
       const { data } = await axios.post(
         `${SERVER_URL}/post/newPost/newPetPost`,
@@ -68,13 +40,12 @@ export const postPostAction = createAsyncThunk(
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${auth?.token}`,
           },
-          transformRequest: (data, headers) => {
+
+          transformRequest: (formData) => {
             return formData;
           },
         }
       );
-
-      console.log("TEST6");
 
       return data;
     } catch (error) {
