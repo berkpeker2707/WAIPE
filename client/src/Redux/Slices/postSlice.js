@@ -189,6 +189,30 @@ export const deletePostAction = createAsyncThunk(
   }
 );
 
+export const getArchivedPostsAction = createAsyncThunk(
+  "get/archivedPosts",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${SERVER_URL}/post/fetch/all/archived`,
+        _,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 export const archivePostAction = createAsyncThunk(
   "post/archivePost",
   async (postID, { rejectWithValue, getState, dispatch }) => {
@@ -227,6 +251,7 @@ const postSlice = createSlice({
     getAllPostsData: null,
     updatePostData: null,
     deletePostData: null,
+    getArchivedPostsData: null,
     archivePostData: null,
   },
   extraReducers: (builder) => {
@@ -335,6 +360,21 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    //get archived posts reducer
+    builder.addCase(getArchivedPostsAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getArchivedPostsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isUpdated = false;
+      state.getArchivedPostsData = action?.payload;
+    });
+    builder.addCase(getArchivedPostsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //archive post reducer
     builder.addCase(archivePostAction.pending, (state) => {
       state.loading = true;
@@ -363,6 +403,8 @@ export const selectGetFollowedPosts = (state) =>
   state.post.getFollowedPostsData;
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
+export const selectGetArchivedPosts = (state) =>
+  state.post.getArchivedPostsAction;
 export const selectArchivePost = (state) => state.post.archivePostData;
 export const selectPostUpdated = (state) => {
   return state.post.isUpdated;
