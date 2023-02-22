@@ -190,7 +190,7 @@ export const deletePostAction = createAsyncThunk(
 );
 
 export const getArchivedPostsAction = createAsyncThunk(
-  "get/archivedPosts",
+  "post/archivedPosts",
   async (_, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
@@ -202,7 +202,6 @@ export const getArchivedPostsAction = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `${SERVER_URL}/post/fetch/all/archived`,
-        _,
         config
       );
 
@@ -249,6 +248,7 @@ const postSlice = createSlice({
     getPostData: null,
     getPetPostsData: null,
     getAllPostsData: null,
+    getFollowedPostsData: null,
     updatePostData: null,
     deletePostData: null,
     getArchivedPostsData: null,
@@ -310,7 +310,7 @@ const postSlice = createSlice({
     builder.addCase(getAllPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getAllPostsData = action.payload;
+      state.getAllPostsData = action?.payload;
     });
     builder.addCase(getAllPostsAction.rejected, (state, action) => {
       state.loading = false;
@@ -324,7 +324,7 @@ const postSlice = createSlice({
     builder.addCase(getFollowedPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getFollowedPostsData = action.payload;
+      state.getFollowedPostsData = action?.payload;
     });
     builder.addCase(getFollowedPostsAction.rejected, (state, action) => {
       state.loading = false;
@@ -368,7 +368,6 @@ const postSlice = createSlice({
     builder.addCase(getArchivedPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.isUpdated = false;
       state.getArchivedPostsData = action?.payload;
     });
     builder.addCase(getArchivedPostsAction.rejected, (state, action) => {
@@ -404,10 +403,10 @@ export const selectGetFollowedPosts = (state) =>
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
 export const selectGetArchivedPosts = (state) =>
-  state.post.getArchivedPostsAction;
+  state.post.getArchivedPostsData;
 export const selectArchivePost = (state) => state.post.archivePostData;
 export const selectPostUpdated = (state) => {
-  return state.post.isUpdated;
+  state.post.isUpdated;
 };
 
 export default postSlice.reducer;
