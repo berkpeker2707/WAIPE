@@ -44,7 +44,7 @@ const postPostController = expressHandler(async (req, res) => {
       fs.unlinkSync(localPath);
       res.status(200).json(post);
     } else {
-      res.status(500).json("Soemthing went wrong.");
+      res.status(500).json("Something went wrong.");
     }
   } catch (error) {
     res.status(500).json(error);
