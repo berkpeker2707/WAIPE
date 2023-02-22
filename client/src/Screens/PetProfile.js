@@ -36,6 +36,7 @@ const PetProfile = ({ navigation, route }) => {
         pet?.interestedIn
       }${"\n"}${pet?.biography}`}
       editPage={"EditPetProfile"}
+      isCurrentUser={true}
     >
       <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
         {pet?.petPost?.map((post, index) => {
