@@ -32,43 +32,42 @@ const PetProfile = ({ navigation, route }) => {
   });
 
   return (
-    <ScrollView {...safeAreaProps}>
-      <ProfilePage
-        navigation={navigation}
-        loading={petLoading}
-        name={`${pet?.name}`}
-        pictureUrl={pet?.picture}
-        infoText={`${pet?.species}, ${pet?.age}${"\n"}${
-          pet?.interestedIn
-        }${"\n"}${pet?.biography}`}
-        editPage={"EditPetProfile"}
-      >
-        <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
-          {pet?.petPost?.map((post, index) => {
-            return (
-              <PressableButton
-                key={index}
-                onPress={() => navigation.navigate("Post", { post: post })}
-              >
-                <Image
-                  source={{
-                    uri: `${post.picture}`,
-                  }}
-                  alt="Alternate Text"
-                  size="xl"
-                  w={160}
-                  mr={(index + 1) % 2 === 0 ? "0" : "1"}
-                  ml={(index + 1) % 2 !== 0 ? "0" : "1"}
-                  mt="1"
-                  mb="1"
-                  borderRadius="xl"
-                />
-              </PressableButton>
-            );
-          })}
-        </HStack>
-      </ProfilePage>
-    </ScrollView>
+    <ProfilePage
+      navigation={navigation}
+      loading={petLoading}
+      name={`${pet?.name}`}
+      pictureUrl={pet?.picture}
+      infoText={`${pet?.species}, ${pet?.age}${"\n"}${
+        pet?.interestedIn
+      }${"\n"}${pet?.biography}`}
+      editPage={"EditPetProfile"}
+      isCurrentUser={true}
+    >
+      <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
+        {pet?.petPost?.map((post, index) => {
+          return (
+            <PressableButton
+              key={index}
+              onPress={() => navigation.navigate("Post", { post: post })}
+            >
+              <Image
+                source={{
+                  uri: `${post.picture}`,
+                }}
+                alt="Alternate Text"
+                size="xl"
+                w={160}
+                mr={(index + 1) % 2 === 0 ? "0" : "1"}
+                ml={(index + 1) % 2 !== 0 ? "0" : "1"}
+                mt="1"
+                mb="1"
+                borderRadius="xl"
+              />
+            </PressableButton>
+          );
+        })}
+      </HStack>
+    </ProfilePage>
   );
 };
 
