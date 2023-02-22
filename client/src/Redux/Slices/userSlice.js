@@ -138,9 +138,6 @@ export const pictureUploadAction = createAsyncThunk(
   "user/pictureUploadAction",
   async (pictureInfo, { rejectWithValue, getState, dispatch }) => {
     try {
-      console.log("pictureInfo.text");
-      console.log(pictureInfo.text);
-      console.log("pictureInfo.text");
       const uri = pictureInfo.uri;
       const token = getState()?.auth?.token;
 
@@ -155,7 +152,6 @@ export const pictureUploadAction = createAsyncThunk(
         name: fileName,
         type: mime.getType(trimmedURI),
         uri: trimmedURI,
-        text: "PAPATYA",
       });
 
       const { data } = await axios.post(
