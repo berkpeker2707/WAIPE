@@ -1,10 +1,15 @@
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
+
 const dbConnect = require("./config/db/dbConnect");
+
 const cors = require("cors");
 const formData = require("express-form-data");
+
+const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+
 require("dotenv").config();
 require("./config/passport")(passport);
 
@@ -20,6 +25,23 @@ const userRoutes = require("./routes/userRoutes");
 const app = express();
 app.set("trust proxy", 1);
 app.get("/ip", (request, response) => response.send(request.ip));
+
+//protection imports of helmet
+app.use(helmet.contentSecurityPolicy());
+app.use(helmet.crossOriginEmbedderPolicy());
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 
 app.use(
   cors({
