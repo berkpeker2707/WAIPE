@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.52:1000/api";
+const SERVER_URL = "http://192.168.1.2:5001/api";
 const updatedPet = createAction("pet/update");
 
 export const getPetAction = createAsyncThunk(
@@ -16,6 +16,8 @@ export const getPetAction = createAsyncThunk(
       },
     };
     try {
+      console.log("id");
+      console.log(id);
       const { data } = await axios.get(`${SERVER_URL}/pet/${id}`, config);
 
       return data;
