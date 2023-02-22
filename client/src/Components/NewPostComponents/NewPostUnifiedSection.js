@@ -246,7 +246,7 @@ export default function NewPostUnifiedSection(props) {
                 imageSource,
               })
             );
-            // navigation.navigate("MainProfile");
+            navigation.navigate("MainProfile");
           }}
           borderRadius="50"
           bg={theme.colors.forestGreen[400]}
