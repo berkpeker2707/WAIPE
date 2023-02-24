@@ -14,8 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - script: # script path or inline
+      - script: directoryChange
         workingDirectory: api/
+        displayName: List contents of a folder
       - uses: actions/checkout@v2
 
       - name: Set up Node.js version
