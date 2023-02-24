@@ -1,1 +1,2 @@
-project = /api
+[config]
+project = WAIPE/api
