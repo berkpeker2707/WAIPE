@@ -5,6 +5,9 @@ name: Build and deploy Node.js app to Azure Web App - waipe-api
 
 on:
   push:
+    paths-ignore:
+      - "client"
+      - "client/**"
     branches:
       - master
   workflow_dispatch:
