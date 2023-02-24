@@ -14,9 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - script: directoryChange
-        workingDirectory: api/
-        displayName: List contents of a folder
       - uses: actions/checkout@v2
 
       - name: Set up Node.js version
@@ -25,6 +22,7 @@ jobs:
           node-version: "14.x"
 
       - name: npm install, build, and test
+        working-directory: api
         run: |
           npm install
           npm run build --if-present
