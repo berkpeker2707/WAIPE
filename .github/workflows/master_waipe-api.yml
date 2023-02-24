@@ -18,7 +18,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        working-directory: api
       - name: Set up Node.js version
         working-directory: api
         uses: actions/setup-node@v1
