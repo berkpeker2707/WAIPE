@@ -54,4 +54,4 @@ jobs:
           app-name: "waipe-server"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1293B3EB86AE4832965FBC17210D2E3C }}
-          package: .
+          package: api
