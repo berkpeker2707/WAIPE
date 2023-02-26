@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 
+const path = require("path");
+
 const dbConnect = require("./config/db/dbConnect");
 
 const cors = require("cors");
@@ -82,5 +84,10 @@ app.use("/api/like", likeRoutes);
 app.use("/api/pet", petRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
+
+app.get("/privacy", function (req, res) {
+  res.sendFile(path.join(__dirname, "/privacy.html"));
+});
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, console.log(`Server running at PORT ${PORT}`));
