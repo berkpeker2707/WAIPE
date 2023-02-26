@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.1.52:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.70:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
+
 const updatedLike = createAction("like/update");
 
 export const updatePostLikeAction = createAsyncThunk(
@@ -16,7 +22,7 @@ export const updatePostLikeAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/like/update/post/${values.likeID}`,
+        `${api_url}/like/update/post/${values.likeID}`,
         { likeType: values.likeType },
         config
       );

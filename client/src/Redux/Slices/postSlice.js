@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.52:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.70:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
+
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
@@ -33,7 +39,7 @@ export const postPostAction = createAsyncThunk(
       formData.append("postDescription", newPostText);
 
       const { data } = await axios.post(
-        `${SERVER_URL}/post/newPost/newPetPost`,
+        `${api_url}/post/newPost/newPetPost`,
         formData,
         {
           headers: {
@@ -66,7 +72,7 @@ export const getPostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/${postID}`,
+        `${api_url}/post/fetch/${postID}`,
         config
       );
 
@@ -89,7 +95,7 @@ export const getPetPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/pet/${petID}}`,
+        `${api_url}/post/fetch/pet/${petID}}`,
         config
       );
 
@@ -111,7 +117,7 @@ export const getAllPostsAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
+      const { data } = await axios.get(`${api_url}/post/fetch`, config);
 
       return data;
     } catch (error) {
@@ -132,7 +138,7 @@ export const getFollowedPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/all/followed`,
+        `${api_url}/post/fetch/all/followed`,
         config
       );
 
@@ -155,7 +161,7 @@ export const updatePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/post/update/${postID}}`,
+        `${api_url}/post/update/${postID}}`,
         config
       );
 
@@ -178,7 +184,7 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.delete(
-        `${SERVER_URL}/post/delete/${postID}}`,
+        `${api_url}/post/delete/${postID}}`,
         config
       );
 
@@ -201,7 +207,7 @@ export const getArchivedPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/all/archived`,
+        `${api_url}/post/fetch/all/archived`,
         config
       );
 
@@ -224,7 +230,7 @@ export const archivePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/post/archive`,
+        `${api_url}/post/archive`,
         postID,
         config
       );

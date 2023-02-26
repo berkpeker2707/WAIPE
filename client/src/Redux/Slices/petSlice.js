@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.52:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.70:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
+
 const updatedPet = createAction("pet/update");
 
 export const getPetAction = createAsyncThunk(
@@ -16,7 +22,7 @@ export const getPetAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${SERVER_URL}/pet/${id}`, config);
+      const { data } = await axios.get(`${api_url}/pet/${id}`, config);
 
       return data;
     } catch (error) {
@@ -36,7 +42,7 @@ export const postPetAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.post(`${SERVER_URL}/pet/new`, config);
+      const { data } = await axios.post(`${api_url}/pet/new`, config);
 
       return data;
     } catch (error) {
@@ -53,7 +59,7 @@ export const updatePetAction = createAsyncThunk(
       const petID = updateInfo.petID;
       const token = getState()?.auth?.token;
       const { data } = await axios.put(
-        `${SERVER_URL}/pet/update/${petID}`,
+        `${api_url}/pet/update/${petID}`,
         updateInfo,
         {
           headers: {
@@ -79,7 +85,7 @@ export const deletePetPhotoAction = createAsyncThunk(
       const token = getState()?.auth?.token;
 
       const { data } = await axios.delete(
-        `${SERVER_URL}/pet/delete/photo/${petID}`,
+        `${api_url}/pet/delete/photo/${petID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -110,7 +116,7 @@ export const deletePetAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.delete(
-        `${SERVER_URL}/pet/delete/photo/${id}}`,
+        `${api_url}/pet/delete/photo/${id}}`,
         config
       );
 
@@ -143,7 +149,7 @@ export const uploadPetPhotoAction = createAsyncThunk(
       });
 
       const { data } = await axios.post(
-        `${SERVER_URL}/pet/upload/photo/${petID}`,
+        `${api_url}/pet/upload/photo/${petID}`,
         formData,
         {
           headers: {
