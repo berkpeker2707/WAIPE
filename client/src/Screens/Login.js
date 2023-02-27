@@ -25,6 +25,8 @@ import {
   FormControl,
   useTheme,
   Image,
+  ScrollView,
+  useSafeArea,
 } from "native-base";
 
 const LoginScreen = ({ navigation }) => {
@@ -52,13 +54,18 @@ const LoginScreen = ({ navigation }) => {
     return navigation.navigate("Discover");
   }
 
+  const safeAreaProps = useSafeArea({
+    safeArea: true,
+    pt: 2,
+  });
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       onSubmit={(values) => dispatch(signinAction(values))}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={theme.container}>
+        <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
           <SSRProvider>
             <Center justifyContent="flex-start" flex={1} px="3">
               <Image
@@ -200,7 +207,7 @@ const LoginScreen = ({ navigation }) => {
               </VStack>
             </Center>
           </SSRProvider>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );
