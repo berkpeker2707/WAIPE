@@ -26,7 +26,7 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 app.set("trust proxy", 1);
-app.get("/ip", (request, response) => response.send(request.ip));
+// app.get("/ip", (request, response) => response.send(request.ip));
 
 //protection imports of helmet
 app.use(helmet.contentSecurityPolicy());
