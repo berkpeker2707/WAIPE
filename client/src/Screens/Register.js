@@ -20,6 +20,8 @@ import {
   FormControl,
   AlertDialog,
   useTheme,
+  ScrollView,
+  useSafeArea,
 } from "native-base";
 
 const RegisterScreen = ({ navigation }) => {
@@ -32,7 +34,12 @@ const RegisterScreen = ({ navigation }) => {
   const Alert = () => {
     return (
       <AlertDialog isOpen={isOpen && !authLoading}>
-        <AlertDialog.Content flex={0.25} alignItems="center" bg="white">
+        <AlertDialog.Content
+          flex={0.25}
+          alignItems="center"
+          bg="white"
+          width="100%"
+        >
           <Text
             textAlign="center"
             color={theme.colors.muted[600]}
@@ -46,7 +53,9 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
           <Button
             colorScheme="danger"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => {
+              setIsOpen(() => false), navigation.navigate("Login");
+            }}
             w="60"
             m="6"
             borderRadius="50"
@@ -58,6 +67,11 @@ const RegisterScreen = ({ navigation }) => {
       </AlertDialog>
     );
   };
+
+  const safeAreaProps = useSafeArea({
+    safeArea: true,
+    pt: 2,
+  });
 
   return (
     <Formik
@@ -78,7 +92,7 @@ const RegisterScreen = ({ navigation }) => {
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
-        <View style={theme.container}>
+        <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
           <Center flex={1} px="3">
             <VStack space={5} w="300">
               <VStack space={6} alignItems="center">
@@ -274,7 +288,7 @@ const RegisterScreen = ({ navigation }) => {
             </VStack>
             <Alert></Alert>
           </Center>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

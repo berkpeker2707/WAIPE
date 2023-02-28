@@ -26,7 +26,7 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 app.set("trust proxy", 1);
-app.get("/ip", (request, response) => response.send(request.ip));
+// app.get("/ip", (request, response) => response.send(request.ip));
 
 //protection imports of helmet
 app.use(helmet.contentSecurityPolicy());
@@ -86,7 +86,7 @@ app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
 
 app.get("/privacy", function (req, res) {
-  res.sendFile(path.join(__dirname, "/privacy.html"));
+  res.sendFile(path.join(__dirname, "/view/privacy.html"));
 });
 
 const PORT = process.env.PORT || 5001;

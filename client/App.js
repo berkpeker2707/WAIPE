@@ -133,6 +133,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -152,6 +153,7 @@ export default function App() {
         {/* screens that are not displayed in tab starts */}
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -170,6 +172,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -188,6 +191,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -206,6 +210,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -224,6 +229,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -242,6 +248,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -260,6 +267,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -282,8 +290,10 @@ export default function App() {
       <Tab.Navigator>
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
             tabBarLabelStyle: {
               fontWeight: "bold",
             },
@@ -300,8 +310,10 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
             tabBarLabelStyle: {
               fontWeight: "bold",
             },
