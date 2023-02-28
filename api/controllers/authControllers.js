@@ -9,6 +9,7 @@ const {
   smtpAccountCreationFunc,
   smtpForgotPasswordFunc,
 } = require("../helpers/smtp");
+const path = require("path");
 
 //first step of sign in with email verification ***
 const preSignupController = expressHandler(async (req, res) => {
@@ -66,7 +67,8 @@ const verifySignupController = expressHandler(async (req, res) => {
 
     if (!userFound) {
       // throw new Error("Token expired, try again later");
-      res.status(500).json("Token is wrong or expired, try again later");
+      res.status(500).sendFile(path.join(__dirname, "../view/error.html"));
+      // res.status(500).json("Token is wrong or expired, try again later");
     } else {
       //update isAccountVerified to true
       userFound.accountVerified = true;
@@ -76,8 +78,8 @@ const verifySignupController = expressHandler(async (req, res) => {
 
       await userFound.updateOne({ $unset: { expireAt: 1 } });
       // await userFound.updateOne({ accountVerified: true });
-
-      res.status(200).json(userFound);
+      res.status(200).sendFile(path.join(__dirname, "../view/verify.html"));
+      // res.status(200).json(userFound);
     }
   } catch (error) {
     res.status(500).json(error);
