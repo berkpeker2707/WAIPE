@@ -86,7 +86,7 @@ app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
 
 app.get("/privacy", function (req, res) {
-  res.sendFile(path.join(__dirname, "/privacy.html"));
+  res.sendFile(path.join(__dirname, "/view/privacy.html"));
 });
 
 const PORT = process.env.PORT || 5001;
