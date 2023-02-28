@@ -14,7 +14,7 @@ const smtpAccountCreationFunc = async (
       sender: { email: "sendinblue@sendinblue.com", name: "WAIPE" },
       subject: "Account Creation Verification",
       htmlContent: `<h2>Please click the link to activate your account within a day.</h2>
- <a href=${process.env.CLIENT_URL}/verify-signup/${verificationToken}>Click to Verify</a>`,
+ <a href=${process.env.PRODUCTION_URL}/auth/verify-signup/${verificationToken}>Click to Verify</a>`,
       messageVersions: [
         {
           to: [
@@ -50,7 +50,7 @@ const smtpForgotPasswordFunc = async (
       sender: { email: "sendinblue@sendinblue.com", name: "WAIPE" },
       subject: "Account Creation Verification",
       htmlContent: `<h2>Please click the link to activate your account within a day.</h2>
- <a href=${process.env.CLIENT_URL}/verify-signup/${verificationToken}>Click to Verify</a>`,
+ <a href=${process.env.PRODUCTION_URL}/verify-signup/${verificationToken}>Click to Verify</a>`,
       messageVersions: [
         {
           to: [
