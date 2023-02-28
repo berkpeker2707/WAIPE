@@ -25,7 +25,11 @@ const createAccountLimiter = rateLimit({
 const authRoutes = express.Router();
 
 authRoutes.post("/presignup", createAccountLimiter, preSignupController);
-authRoutes.post("/verify-signup", verifySignupController);
+authRoutes.get(
+  "/verify-signup/*",
+  createAccountLimiter,
+  verifySignupController
+);
 authRoutes.post("/signup", createAccountLimiter, signupController);
 authRoutes.post("/signin", signinController);
 authRoutes.get(

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "client",
+    "name": "WAIPE",
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,12 +14,10 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.berkolatto.client"
+      "bundleIdentifier": "com.waipe.client"
     },
     "android": {
       "adaptiveIcon": {
