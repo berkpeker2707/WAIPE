@@ -242,19 +242,19 @@ const MyFeedScreen = ({ navigation, route }) => {
         </Box>
       </ScrollView>
     ) : (
-      <ScrollView
-        bg={theme.colors.sage[400]}
-        {...safeAreaProps}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <Spinner color={"mustard.400"} size="lg" />
+      <ScrollView bg={theme.colors.sage[400]}>
+        <Stack safeArea>
+          <Text>You don't follow any cuties :(</Text>
+        </Stack>
       </ScrollView>
     )
   ) : (
-    <ScrollView bg={theme.colors.sage[400]}>
-      <Stack safeArea>
-        <Text>You don't follow any cuties :(</Text>
-      </Stack>
+    <ScrollView
+      bg={theme.colors.sage[400]}
+      {...safeAreaProps}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+    >
+      <Spinner color={"mustard.400"} size="lg" />
     </ScrollView>
   );
 };
