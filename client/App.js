@@ -26,6 +26,7 @@ import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 import EditPetProfile from "./src/Screens/EditPetProfile";
 import UserProfileScreen from "./src/Screens/UserProfile";
 import Bookmarks from "./src/Screens/Bookmarks";
+import Splash from "./src/Screens/Splash";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ export default function App() {
 
     return token ? (
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="Splash"
         activeColor="#E38E48"
         barStyle={{ backgroundColor: theme.colors.forestGreen[400] }}
         backBehavior="history"
@@ -51,6 +52,28 @@ export default function App() {
           tabBarInactiveTintColor: "#F8FFE3",
         }}
       >
+        <Tab.Screen
+          options={{
+            animationEnabled: false,
+            header: () => null,
+            headerShown: false,
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="Splash"
+          component={Splash}
+        />
         <Tab.Screen
           options={{
             tabBarLabel: "Feed",
@@ -68,7 +91,7 @@ export default function App() {
               fontWeight: "bold",
             },
           }}
-          name="My Feed"
+          name="Feed"
           component={MyFeed}
         />
         <Tab.Screen
@@ -287,7 +310,43 @@ export default function App() {
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
     ) : (
-      <Tab.Navigator>
+      <Tab.Navigator
+        initialRouteName="Splash"
+        activeColor="#E38E48"
+        barStyle={{ backgroundColor: theme.colors.forestGreen[400] }}
+        backBehavior="history"
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: "#CBD18F",
+          },
+          tabActiveIcon: { fontWeight: "bold" },
+          tabBarActiveTintColor: "#E38E48",
+          tabBarInactiveTintColor: "#F8FFE3",
+        }}
+      >
+        <Tab.Screen
+          options={{
+            animationEnabled: false,
+            header: () => null,
+            headerShown: false,
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="Splash"
+          component={Splash}
+        />
         <Tab.Screen
           options={{
             headerShown: false,
