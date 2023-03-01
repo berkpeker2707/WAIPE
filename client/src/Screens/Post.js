@@ -74,7 +74,7 @@ const PostScreen = ({ navigation, route }) => {
       {/* like section 1 ends */}
 
       <Box alignItems="center">
-        <Divider bg={theme.colors.forestGreen[400]} mt="5" mb="5" w="60%" />
+        <Divider bg={theme.colors.forestGreen[400]} mt="5" w="60%" />
       </Box>
 
       {/* comment section 1 starts */}
