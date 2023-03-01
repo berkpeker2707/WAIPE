@@ -75,7 +75,7 @@ export default function PostImageSection(props) {
   }, []);
 
   return (
-    <Box safeAreaTop ml={7} mr={7}>
+    <Box safeAreaTop mt={3} ml={7} mr={7}>
       <Pressable
         onLongPress={() => {
           onLongPressState

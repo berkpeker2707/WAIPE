@@ -158,41 +158,41 @@ const EditMainProfileScreen = ({ navigation }) => {
                           value={values.locations.city}
                         />
                       </HStack>
-                      <TextArea
-                        bg="white"
-                        _focus={style.input}
-                        borderRadius="20%"
-                        borderColor="extraOrage.400"
-                        h={20}
-                        placeholder="Biography"
-                        onChangeText={handleChange("biography")}
-                        onBlur={handleBlur("biography")}
-                        value={values.biography}
-                      />
-                    </VStack>
-                    <VStack>
-                      <Button
-                        isLoading={userLoading}
-                        w="50%"
-                        size="md"
-                        borderRadius="50"
-                        bg="extraOrage.400"
-                        colorScheme="warning"
-                        _text={{ fontSize: "md" }}
-                        alignSelf="center"
-                        onPress={handleSubmit}
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="link"
-                        _text={{ color: "forestGreen.400" }}
-                        onPress={() => navigation.navigate("MainProfile")}
-                      >
-                        Cancel
-                      </Button>
-                    </VStack>
+                    </HStack>
+                    <TextArea
+                      bg="white"
+                      _focus={style.input}
+                      borderRadius={20}
+                      borderColor="extraOrage.400"
+                      h={20}
+                      placeholder="Biography"
+                      onChangeText={handleChange("biography")}
+                      onBlur={handleBlur("biography")}
+                      value={values.biography}
+                    />
+                  </VStack>
+                  <VStack>
+                    <Button
+                      isLoading={userLoading}
+                      w="50%"
+                      size="md"
+                      borderRadius="50"
+                      bg="extraOrage.400"
+                      colorScheme="warning"
+                      _text={{ fontSize: "md" }}
+                      alignSelf="center"
+                      onPress={handleSubmit}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      _text={{ color: "forestGreen.400" }}
+                      onPress={() => navigation.navigate("MainProfile")}
+                    >
+                      Cancel
+                    </Button>
                   </VStack>
                 )}
               </Formik>

@@ -136,7 +136,7 @@ const EditPetProfile = ({ navigation, route }) => {
                   <TextArea
                     bg="white"
                     _focus={style.input}
-                    borderRadius="20%"
+                    borderRadius={20}
                     borderColor="extraOrage.400"
                     h={20}
                     placeholder="Biography"

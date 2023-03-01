@@ -67,6 +67,7 @@ export default function PostAddCommentSection(props) {
     const unsubscribe = navigation.addListener("focus", () => {
       setOnLongPressState(() => false);
       setCommentOpenState(() => false);
+      setCommentTextState(() => "");
     });
 
     // return the function to unsubscribe from the event so it gets removed on unmount
@@ -132,13 +133,16 @@ export default function PostAddCommentSection(props) {
           />
           <Pressable
             onPress={() => {
-              dispatch(
-                updateCommentAction({
-                  parentCommentID: getCommentState[0]._id,
-                  commentText: commentTextState,
-                })
-              );
-              setCommentOpenState(() => false);
+              if (commentTextState) {
+                dispatch(
+                  updateCommentAction({
+                    parentCommentID: getCommentState[0]._id,
+                    commentText: commentTextState,
+                  })
+                );
+                setCommentOpenState(() => false);
+                setCommentTextState(() => "");
+              }
             }}
           >
             {({ isHovered, isFocused, isPressed }) => {
