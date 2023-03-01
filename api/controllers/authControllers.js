@@ -9,6 +9,7 @@ const {
   smtpAccountCreationFunc,
   smtpForgotPasswordFunc,
 } = require("../helpers/smtp");
+const path = require("path");
 
 //first step of sign in with email verification ***
 const preSignupController = expressHandler(async (req, res) => {
@@ -56,7 +57,7 @@ const preSignupController = expressHandler(async (req, res) => {
 //second step of sign in with email verification ***
 const verifySignupController = expressHandler(async (req, res) => {
   try {
-    const token = req.body.token;
+    const token = req.params["0"];
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     //find this user by token
     const userFound = await User.findOne({
@@ -64,17 +65,22 @@ const verifySignupController = expressHandler(async (req, res) => {
       accountVerificationTokenExpires: { $gt: new Date() },
     });
 
-    if (!userFound) throw new Error("Token expired, try again later");
-    //update isAccountVerified to true
-    userFound.accountVerified = true;
-    userFound.accountVerificationToken = undefined;
-    userFound.accountVerificationTokenExpires = undefined;
-    await userFound.save();
+    if (!userFound) {
+      // throw new Error("Token expired, try again later");
+      res.status(500).sendFile(path.join(__dirname, "../view/error.html"));
+      // res.status(500).json("Token is wrong or expired, try again later");
+    } else {
+      //update isAccountVerified to true
+      userFound.accountVerified = true;
+      userFound.accountVerificationToken = undefined;
+      userFound.accountVerificationTokenExpires = undefined;
+      await userFound.save();
 
-    await userFound.updateOne({ $unset: { expireAt: 1 } });
-    // await userFound.updateOne({ accountVerified: true });
-
-    res.status(200).json(userFound);
+      await userFound.updateOne({ $unset: { expireAt: 1 } });
+      // await userFound.updateOne({ accountVerified: true });
+      res.status(200).sendFile(path.join(__dirname, "../view/verify.html"));
+      // res.status(200).json(userFound);
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -161,20 +167,21 @@ const forgotPasswordController = expressHandler(async (req, res) => {
   const emailExists = await User.findOne({ email: req.body.userEmail });
   const recievedEmail = req.body.userEmail;
   if (!emailExists) {
-    throw new Error("Wrong email.");
-  }
+    // throw new Error("Wrong email.");
+    res.status(500).json("Wrong email.");
+  } else {
+    try {
+      //generate token
+      const verificationToken =
+        await emailExists.createAccountVerificationToken();
 
-  try {
-    //generate token
-    const verificationToken =
-      await emailExists.createAccountVerificationToken();
+      //save the user
+      await emailExists.save();
 
-    //save the user
-    await emailExists.save();
-
-    await smtpForgotPasswordFunc(verificationToken, recievedEmail, res);
-  } catch (error) {
-    res.status(500).json(error);
+      await smtpForgotPasswordFunc(verificationToken, recievedEmail, res);
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 });
 
@@ -194,20 +201,24 @@ const verifyPasswordController = expressHandler(async (req, res) => {
     userFound.password = newPassword;
     await userFound.save();
   } else {
-    res.status(401);
-    throw new Error("Invalid Entry!");
+    res.status(401).json("Invalid Entry!");
+    // throw new Error("Invalid Entry!");
   }
 
-  if (!userFound) throw new Error("Token expired, try again later");
-  //update isAccountVerified to true
-  userFound.accountVerified = true;
-  userFound.accountVerificationToken = undefined;
-  userFound.accountVerificationTokenExpires = undefined;
+  if (!userFound) {
+    // throw new Error("Token expired, try again later");
+    res.status(500).json("Token is wrong or expired, try again later");
+  } else {
+    //update isAccountVerified to true
+    userFound.accountVerified = true;
+    userFound.accountVerificationToken = undefined;
+    userFound.accountVerificationTokenExpires = undefined;
 
-  await userFound.updateOne({ $unset: { expireAt: 1 } });
+    await userFound.updateOne({ $unset: { expireAt: 1 } });
 
-  await userFound.save();
-  res.json(userFound);
+    await userFound.save();
+    res.status(200).json(userFound);
+  }
 });
 
 module.exports = {

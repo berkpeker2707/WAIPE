@@ -1,8 +1,19 @@
-import React, { useEffect } from "react";
-import { ScrollView, Box, Text, Stack, Divider, useTheme } from "native-base";
+import React, { useEffect, useState } from "react";
+import {
+  ScrollView,
+  Box,
+  Divider,
+  useTheme,
+  Spinner,
+  useSafeArea,
+} from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getPostAction, selectGetPost } from "../Redux/Slices/postSlice";
+import {
+  getPostAction,
+  selectGetPost,
+  selectPostLoading,
+} from "../Redux/Slices/postSlice";
 import {
   getCommentAction,
   selectCommentUpdated,
@@ -31,31 +42,49 @@ const PostScreen = ({ navigation, route }) => {
 
   const currentUser = useSelector(selectCurrentUser);
 
+  const postLoading = useSelector(selectPostLoading);
+
   useEffect(() => {
+    const controller = new AbortController();
+
     dispatch(getPostAction(route.params.post._id));
 
     return () => {
-      //clean up function
+      controller.abort();
     };
   }, [dispatch, route.params.post._id, isLikeUpdated]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     dispatch(getCurrentUserAction());
 
     return () => {
-      //clean up function
+      controller.abort();
     };
   }, [dispatch, route.params.post._id]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     dispatch(getCommentAction(route.params.post.comment._id));
 
     return () => {
-      //clean up function
+      controller.abort();
     };
   }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
 
-  return getPostState && getPostState[0] && currentUser && currentUser._id ? (
+  const safeAreaProps = useSafeArea({
+    safeArea: true,
+    pt: 2,
+  });
+
+  return getPostState &&
+    getPostState[0] &&
+    currentUser &&
+    currentUser._id &&
+    getCommentState &&
+    !postLoading ? (
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
       <PostImageSection
@@ -96,10 +125,12 @@ const PostScreen = ({ navigation, route }) => {
       {/* comment section 2 ends */}
     </ScrollView>
   ) : (
-    <ScrollView bg={theme.colors.sage[400]}>
-      <Stack safeArea>
-        <Text>Loading...</Text>
-      </Stack>
+    <ScrollView
+      bg={theme.colors.sage[400]}
+      {...safeAreaProps}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+    >
+      <Spinner color={"mustard.400"} size="lg" />
     </ScrollView>
   );
 };

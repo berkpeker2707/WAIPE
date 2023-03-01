@@ -25,6 +25,7 @@ import PetProfile from "./src/Screens/PetProfile";
 import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 import EditPetProfile from "./src/Screens/EditPetProfile";
 import UserProfileScreen from "./src/Screens/UserProfile";
+import Bookmarks from "./src/Screens/Bookmarks";
 
 const Tab = createBottomTabNavigator();
 
@@ -132,6 +133,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -151,6 +153,7 @@ export default function App() {
         {/* screens that are not displayed in tab starts */}
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -169,6 +172,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -187,6 +191,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -205,6 +210,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -223,6 +229,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -241,6 +248,7 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
             tabBarLabelStyle: {
@@ -257,14 +265,35 @@ export default function App() {
           name="UserProfileScreen"
           component={UserProfileScreen}
         />
+        <Tab.Screen
+          options={{
+            headerShown: false,
+            tabBarButton: () => null,
+            tabBarIcon: ({ color }) => <></>,
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+            headerStyle: {
+              backgroundColor: "#CBD18F",
+            },
+            headerTintColor: "#CBD18F",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="Bookmarks"
+          component={Bookmarks}
+        />
         {/* screens that are not displayed in tab ends */}
       </Tab.Navigator>
     ) : (
       <Tab.Navigator>
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
             tabBarLabelStyle: {
               fontWeight: "bold",
             },
@@ -281,8 +310,10 @@ export default function App() {
         />
         <Tab.Screen
           options={{
+            headerShown: false,
             tabBarButton: () => null,
             tabBarIcon: ({ color }) => <></>,
+            tabBarStyle: { display: "none" },
             tabBarLabelStyle: {
               fontWeight: "bold",
             },

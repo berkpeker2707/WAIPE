@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "client",
+    "name": "WAIPE",
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,16 +17,22 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.berkolatto.client"
+      "bundleIdentifier": "com.waipe.client"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F8FFE3"
-      }
+      },
+      "package": "com.waipe.client"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "953cb4da-4332-4a25-9f99-fae7c03c1ff8"
+      }
     }
   }
 }

@@ -44,7 +44,7 @@ const postPostController = expressHandler(async (req, res) => {
       fs.unlinkSync(localPath);
       res.status(200).json(post);
     } else {
-      res.status(500).json("Soemthing went wrong.");
+      res.status(500).json("Something went wrong.");
     }
   } catch (error) {
     res.status(500).json(error);
@@ -174,7 +174,27 @@ const deletePostController = expressHandler(async (req, res) => {
   }
 });
 
-// archieve and remove from archieve post controller ***
+// get all archived posts ***
+const getArchivedPostsController = expressHandler(async (req, res) => {
+  try {
+    const { id } = req?.user;
+
+    const user = await User.findById(id);
+
+    const posts = await Post.find({
+      _id: { $in: user.archivedPosts },
+    })
+      .populate({ path: "comment" })
+      .populate({ path: "like" })
+      .populate({ path: "petID" })
+      .exec();
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// archive and remove from archive post controller ***
 const archivePostController = expressHandler(async (req, res) => {
   const { id } = req?.user;
   const { postID } = req?.body;
@@ -207,5 +227,6 @@ module.exports = {
   getFollowedPostsController,
   updatePostController,
   deletePostController,
+  getArchivedPostsController,
   archivePostController,
 };

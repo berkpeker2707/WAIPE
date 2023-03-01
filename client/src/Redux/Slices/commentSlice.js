@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.1.4:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.76:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
 
 const updatedComment = createAction("comment/update");
 
@@ -17,7 +22,7 @@ export const updateCommentAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/comment/update/${commentData.parentCommentID}`,
+        `${api_url}/comment/update/${commentData.parentCommentID}`,
         { commentText: commentData.commentText },
         config
       );
@@ -43,7 +48,7 @@ export const getCommentAction = createAsyncThunk(
 
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/comment/fetch/${id}`,
+        `${api_url}/comment/fetch/${id}`,
         config
       );
 
@@ -66,7 +71,7 @@ export const deleteCommentAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/comment/delete`,
+        `${api_url}/comment/delete`,
         deleteData,
         config
       );

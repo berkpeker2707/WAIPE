@@ -2,7 +2,12 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.4:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.76:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
@@ -33,7 +38,7 @@ export const postPostAction = createAsyncThunk(
       formData.append("postDescription", newPostText);
 
       const { data } = await axios.post(
-        `${SERVER_URL}/post/newPost/newPetPost`,
+        `${api_url}/post/newPost/newPetPost`,
         formData,
         {
           headers: {
@@ -66,7 +71,7 @@ export const getPostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/${postID}`,
+        `${api_url}/post/fetch/${postID}`,
         config
       );
 
@@ -89,7 +94,7 @@ export const getPetPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/pet/${petID}}`,
+        `${api_url}/post/fetch/pet/${petID}}`,
         config
       );
 
@@ -111,7 +116,7 @@ export const getAllPostsAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(`${SERVER_URL}/post/fetch`, config);
+      const { data } = await axios.get(`${api_url}/post/fetch`, config);
 
       return data;
     } catch (error) {
@@ -132,7 +137,7 @@ export const getFollowedPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${SERVER_URL}/post/fetch/all/followed`,
+        `${api_url}/post/fetch/all/followed`,
         config
       );
 
@@ -155,7 +160,7 @@ export const updatePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/post/update/${postID}}`,
+        `${api_url}/post/update/${postID}}`,
         config
       );
 
@@ -178,7 +183,30 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.delete(
-        `${SERVER_URL}/post/delete/${postID}}`,
+        `${api_url}/post/delete/${postID}}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
+export const getArchivedPostsAction = createAsyncThunk(
+  "post/archivedPosts",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${api_url}/post/fetch/all/archived`,
         config
       );
 
@@ -201,7 +229,7 @@ export const archivePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${SERVER_URL}/post/archive`,
+        `${api_url}/post/archive`,
         postID,
         config
       );
@@ -225,8 +253,10 @@ const postSlice = createSlice({
     getPostData: null,
     getPetPostsData: null,
     getAllPostsData: null,
+    getFollowedPostsData: null,
     updatePostData: null,
     deletePostData: null,
+    getArchivedPostsData: null,
     archivePostData: null,
   },
   extraReducers: (builder) => {
@@ -285,7 +315,7 @@ const postSlice = createSlice({
     builder.addCase(getAllPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getAllPostsData = action.payload;
+      state.getAllPostsData = action?.payload;
     });
     builder.addCase(getAllPostsAction.rejected, (state, action) => {
       state.loading = false;
@@ -299,7 +329,7 @@ const postSlice = createSlice({
     builder.addCase(getFollowedPostsAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getFollowedPostsData = action.payload;
+      state.getFollowedPostsData = action?.payload;
     });
     builder.addCase(getFollowedPostsAction.rejected, (state, action) => {
       state.loading = false;
@@ -335,6 +365,20 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    //get archived posts reducer
+    builder.addCase(getArchivedPostsAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getArchivedPostsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.getArchivedPostsData = action?.payload;
+    });
+    builder.addCase(getArchivedPostsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //archive post reducer
     builder.addCase(archivePostAction.pending, (state) => {
       state.loading = true;
@@ -363,9 +407,11 @@ export const selectGetFollowedPosts = (state) =>
   state.post.getFollowedPostsData;
 export const selectUpdatePost = (state) => state.post.updatePostData;
 export const selectDeletePost = (state) => state.post.deletePostData;
+export const selectGetArchivedPosts = (state) =>
+  state.post.getArchivedPostsData;
 export const selectArchivePost = (state) => state.post.archivePostData;
 export const selectPostUpdated = (state) => {
-  return state.post.isUpdated;
+  state.post.isUpdated;
 };
 
 export default postSlice.reducer;

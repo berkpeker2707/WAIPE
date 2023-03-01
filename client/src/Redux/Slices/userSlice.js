@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 const mime = require("mime");
 
-const SERVER_URL = "http://192.168.1.4:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.76:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
+
 const updatedUser = createAction("user/update");
 
 export const getCurrentUserAction = createAsyncThunk(
@@ -11,7 +17,7 @@ export const getCurrentUserAction = createAsyncThunk(
     try {
       const token = getState()?.auth?.token;
 
-      const { data } = await axios.get(`${SERVER_URL}/user/me`, {
+      const { data } = await axios.get(`${api_url}/user/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,7 +35,7 @@ export const getUserAction = createAsyncThunk(
   async (userID, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState()?.auth?.token;
-      const { data } = await axios.get(`${SERVER_URL}/user/${userID}`, {
+      const { data } = await axios.get(`${api_url}/user/${userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +52,7 @@ export const blockUserAction = createAsyncThunk(
   "user/blockUserAction",
   async (token, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${SERVER_URL}/user/block/user`, {
+      const { data } = await axios.put(`${api_url}/user/block/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +69,7 @@ export const followPetAction = createAsyncThunk(
   "user/followPetAction",
   async (token, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${SERVER_URL}/user/follow/pet`, {
+      const { data } = await axios.put(`${api_url}/user/follow/pet`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -80,7 +86,7 @@ export const blockPetAction = createAsyncThunk(
   "user/blockPetAction",
   async (token, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${SERVER_URL}/user/block/pet`, {
+      const { data } = await axios.put(`${api_url}/user/block/pet`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +103,7 @@ export const userDeleteAction = createAsyncThunk(
   "user/userDeleteAction",
   async (token, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.delete(`${SERVER_URL}/user/delete`, {
+      const { data } = await axios.delete(`${api_url}/user/delete`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -117,7 +123,7 @@ export const updateUserAction = createAsyncThunk(
       const token = getState()?.auth?.token;
 
       const { data } = await axios.put(
-        `${SERVER_URL}/user/update`,
+        `${api_url}/user/update`,
         userUpdateInfo,
         {
           headers: {
@@ -155,7 +161,7 @@ export const pictureUploadAction = createAsyncThunk(
       });
 
       const { data } = await axios.post(
-        `${SERVER_URL}/user/upload/profile/image`,
+        `${api_url}/user/upload/profile/image`,
         formData,
         {
           headers: {
@@ -183,7 +189,7 @@ export const pictureDeleteAction = createAsyncThunk(
       const token = getState()?.auth?.token;
 
       const { data } = await axios.delete(
-        `${SERVER_URL}/user/delete/profile/image`,
+        `${api_url}/user/delete/profile/image`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

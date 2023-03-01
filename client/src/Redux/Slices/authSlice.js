@@ -2,14 +2,19 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorege from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const SERVER_URL = "http://192.168.1.4:5001/api";
+var api_url;
+if (__DEV__) {
+  api_url = "http://192.168.1.76:5001/api";
+} else {
+  api_url = "https://waipe-server.azurewebsites.net/api";
+}
 
 export const presignupAction = createAsyncThunk(
   "auth/presignupAction",
   async (preSignupData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
-        `${SERVER_URL}/auth/presignup`,
+        `${api_url}/auth/presignup`,
         preSignupData
       );
 
@@ -25,7 +30,7 @@ export const verifysignupAction = createAsyncThunk(
   async (verifySignupData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
-        `${SERVER_URL}/auth/verify-signup`,
+        `${api_url}/auth/verify-signup`,
         verifySignupData
       );
 
@@ -40,10 +45,7 @@ export const signupAction = createAsyncThunk(
   "auth/signupAction",
   async (signupData, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.post(
-        `${SERVER_URL}/auth/signup`,
-        signupData
-      );
+      const { data } = await axios.post(`${api_url}/auth/signup`, signupData);
 
       return data;
     } catch (error) {
@@ -56,10 +58,7 @@ export const signinAction = createAsyncThunk(
   "auth/signinAction",
   async (signinData, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.post(
-        `${SERVER_URL}/auth/signin`,
-        signinData
-      );
+      const { data } = await axios.post(`${api_url}/auth/signin`, signinData);
 
       await AsyncStorege.setItem("Token", JSON.stringify(data));
       return data;
@@ -74,7 +73,7 @@ export const forgotPasswordAction = createAsyncThunk(
   async (forgotPasswordData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
-        `${SERVER_URL}/auth/forgot-password`,
+        `${api_url}/auth/forgot-password`,
         forgotPasswordData
       );
 
@@ -90,7 +89,7 @@ export const verifyPasswordAction = createAsyncThunk(
   async (verifyPasswordData, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
-        `${SERVER_URL}/auth/verify-password`,
+        `${api_url}/auth/verify-password`,
         verifyPasswordData
       );
 
