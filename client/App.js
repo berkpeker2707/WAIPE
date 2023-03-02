@@ -30,6 +30,8 @@ import Bookmarks from "./src/Screens/Bookmarks";
 import Splash1 from "./src/Screens/Splash1";
 import Splash2 from "./src/Screens/Splash2";
 
+import { ViewPropTypes } from "deprecated-react-native-prop-types";
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {

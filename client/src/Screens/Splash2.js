@@ -8,6 +8,8 @@ import {
   useTheme,
   View,
 } from "native-base";
+import { ViewPropTypes } from "deprecated-react-native-prop-types";
+
 import React, { useRef, useState, useEffect } from "react";
 
 import LottieView from "lottie-react-native";
