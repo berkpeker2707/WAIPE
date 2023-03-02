@@ -8,7 +8,6 @@ if (__DEV__) {
 } else {
   api_url = "https://waipe-server.azurewebsites.net/api";
 }
-
 const updatedPost = createAction("post/update");
 
 export const postPostAction = createAsyncThunk(
