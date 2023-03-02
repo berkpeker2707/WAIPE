@@ -65,7 +65,6 @@ export default function App() {
           <>
             <Tab.Screen
               options={{
-                animationEnabled: false,
                 header: () => null,
                 headerShown: false,
                 tabBarButton: () => null,
@@ -324,7 +323,6 @@ export default function App() {
           <>
             <Tab.Screen
               options={{
-                animationEnabled: false,
                 header: () => null,
                 headerShown: false,
                 tabBarButton: () => null,
