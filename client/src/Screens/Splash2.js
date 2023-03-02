@@ -38,26 +38,6 @@ const Splash1 = ({ navigation }) => {
     safeArea: true,
   });
 
-  //   const routes = navigation.getState()?.routes;
-  //   const prevRoute = routes[routes.length - 2]; // -2 because -1 is the current route
-
-  //   console.log("prevRoute.name");
-  //   console.log(prevRoute.name);
-  //   console.log("prevRoute.name");
-  //   console.log("##############");
-  //   if (prevRoute.name === "Settings") {
-  //     // navigation.navigate("<Some Routing Key>", params);
-  //     console.log("YOU ARE LEAVING");
-  //   } else {
-  //     console.log("YOU ARE BACK");
-  //   }
-
-  //   console.log("matest");
-  //   console.log(
-  //     navigation?.getState()?.history[navigation?.getState()?.history?.length - 2]
-  //   );
-  //   console.log("matest");
-
   return (
     <Stack
       {...safeAreaProps}
