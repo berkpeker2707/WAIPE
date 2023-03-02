@@ -23,9 +23,12 @@ import {
   selectLikeUpdated,
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
+import LottieHeart from "../AnimationComponents/LottieHeart";
 
 export default function PostImageLikeSection(props) {
   const { navigation, theme, getPostState } = props;
+
+  const [showAnimation, setShowAnimation] = useState(() => false);
 
   const dispatch = useDispatch();
 
@@ -107,6 +110,7 @@ export default function PostImageLikeSection(props) {
                         likeType: "heart",
                       })
                     );
+                    setShowAnimation(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -131,6 +135,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart />
                             </Circle>
                             <Center
                               _text={{
