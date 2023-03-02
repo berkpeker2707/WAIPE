@@ -56,7 +56,7 @@ const Splash1 = ({ navigation }) => {
           width: 400,
           height: 400,
         }}
-        source={require("../../assets/wiggly-carrot.json")}
+        source={require("../../assets/animations/wiggly-carrot.json")}
         autoPlay
         loop={false}
         resizeMode="cover"
