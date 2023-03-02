@@ -14,7 +14,7 @@ import LottieView from "lottie-react-native";
 import { useSelector } from "react-redux";
 import { selectToken } from "../Redux/Slices/authSlice";
 import { store } from "../Redux/store";
-const Splash = ({ navigation }) => {
+const Splash1 = ({ navigation }) => {
   const theme = useTheme();
 
   const token = useSelector(selectToken);
@@ -29,9 +29,7 @@ const Splash = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (token && animationLoaded) {
-      navigation.navigate("Feed");
-    } else {
+    if (!token && animationLoaded) {
       navigation.navigate("Login");
     }
   }, [authLoaded, animationLoaded, navigation]);
@@ -39,6 +37,26 @@ const Splash = ({ navigation }) => {
   const safeAreaProps = useSafeArea({
     safeArea: true,
   });
+
+  //   const routes = navigation.getState()?.routes;
+  //   const prevRoute = routes[routes.length - 2]; // -2 because -1 is the current route
+
+  //   console.log("prevRoute.name");
+  //   console.log(prevRoute.name);
+  //   console.log("prevRoute.name");
+  //   console.log("##############");
+  //   if (prevRoute.name === "Settings") {
+  //     // navigation.navigate("<Some Routing Key>", params);
+  //     console.log("YOU ARE LEAVING");
+  //   } else {
+  //     console.log("YOU ARE BACK");
+  //   }
+
+  //   console.log("matest");
+  //   console.log(
+  //     navigation?.getState()?.history[navigation?.getState()?.history?.length - 2]
+  //   );
+  //   console.log("matest");
 
   return (
     <Stack
@@ -68,4 +86,4 @@ const Splash = ({ navigation }) => {
   );
 };
 
-export default Splash;
+export default Splash1;
