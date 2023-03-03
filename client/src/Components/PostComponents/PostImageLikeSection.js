@@ -110,7 +110,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "heart",
                       })
                     );
-                    // if(getPostState[0].like._id.contains())
                     setAnimationStart(() => true);
                   }}
                 >
@@ -194,6 +193,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCatFeverCoffeeIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -223,6 +223,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -276,6 +277,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCowSurprisedIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -305,6 +307,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -358,6 +361,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteRabbitHoldingCarrotIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -387,6 +391,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -440,6 +445,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteSadCatSittingIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -469,6 +475,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
