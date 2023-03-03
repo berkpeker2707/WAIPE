@@ -1,8 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ViewPropTypes } from "deprecated-react-native-prop-types";
+import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
-import Lottie from "lottie-react-native";
 
-export default function LottieHeart() {
+export default function LottieHeart(props) {
+  const { animationStart } = props;
+
+  const [animationLoaded, setAnimationLoaded] = useState(() => false);
+
+  useEffect(() => {
+    setAnimationLoaded(() => true);
+  }, [animationStart]);
+
+  const ref = useRef(null);
+
+  const onAnimationFinish = () => {
+    setAnimationLoaded(() => false);
+  };
+
   const animationProgress = useRef(new Animated.Value(0));
 
   useEffect(() => {
@@ -14,25 +29,18 @@ export default function LottieHeart() {
     }).start();
   }, []);
 
-  return (
-    <Lottie
+  return animationLoaded ? (
+    <LottieView
+      ref={(animation) => {
+        ref.current = animation;
+      }}
       source={require("../../../assets/animations/popping-heart.json")}
-      progress={animationProgress.current}
+      autoPlay
+      loop={false}
+      resizeMode="cover"
+      onAnimationFinish={onAnimationFinish}
     />
+  ) : (
+    <></>
   );
 }
-
-// <LottieView
-// ref={(animation) => {
-//   ref.current = animation;
-// }}
-// style={{
-//   width: 400,
-//   height: 400,
-// }}
-// source={require("../../assets/animations/wiggly-carrot.json")}
-// autoPlay
-// loop={false}
-// resizeMode="cover"
-// onAnimationFinish={onAnimationFinish}
-// />
