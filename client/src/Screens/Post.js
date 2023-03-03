@@ -79,27 +79,33 @@ const PostScreen = ({ navigation, route }) => {
     pt: 2,
   });
 
-  return getPostState &&
-    getPostState[0] &&
-    currentUser &&
-    currentUser._id &&
-    getCommentState &&
-    !postLoading ? (
+  return (
+    // && !postLoading
     <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
-      <PostImageSection
-        navigation={navigation}
-        theme={theme}
-        getPostState={getPostState}
-      />
+      {getPostState && getPostState[0] ? (
+        <PostImageSection
+          navigation={navigation}
+          theme={theme}
+          getPostState={getPostState}
+        />
+      ) : (
+        <></>
+      )}
+
       {/* image section ends */}
 
       {/* like section 1 starts */}
-      <PostImageLikeSection
-        navigation={navigation}
-        theme={theme}
-        getPostState={getPostState}
-      />
+      {getPostState && getPostState[0] && currentUser && currentUser._id ? (
+        <PostImageLikeSection
+          navigation={navigation}
+          theme={theme}
+          getPostState={getPostState}
+          currentUser={currentUser}
+        />
+      ) : (
+        <></>
+      )}
       {/* like section 1 ends */}
 
       <Box alignItems="center">
@@ -107,32 +113,39 @@ const PostScreen = ({ navigation, route }) => {
       </Box>
 
       {/* comment section 1 starts */}
-      <PostAddCommentSection
-        navigation={navigation}
-        theme={theme}
-        getPostState={getPostState}
-        getCommentState={getCommentState}
-      />
+      {getPostState && getPostState[0] && getCommentState ? (
+        <PostAddCommentSection
+          navigation={navigation}
+          theme={theme}
+          getPostState={getPostState}
+          getCommentState={getCommentState}
+        />
+      ) : (
+        <></>
+      )}
       {/* comment section 1 ends */}
 
       {/* comment section 2 starts */}
-      <PostViewCommentSection
-        navigation={navigation}
-        theme={theme}
-        getCommentState={getCommentState}
-        currentUserID={currentUser._id}
-      />
+      {currentUser && currentUser._id && getCommentState ? (
+        <PostViewCommentSection
+          navigation={navigation}
+          theme={theme}
+          getCommentState={getCommentState}
+          currentUserID={currentUser._id}
+        />
+      ) : (
+        <></>
+      )}
       {/* comment section 2 ends */}
     </ScrollView>
-  ) : (
-    <ScrollView
-      bg={theme.colors.sage[400]}
-      {...safeAreaProps}
-      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-    >
-      <Spinner color={"mustard.400"} size="lg" />
-    </ScrollView>
   );
+  // <ScrollView
+  //   bg={theme.colors.sage[400]}
+  //   {...safeAreaProps}
+  //   contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+  // >
+  //   <Spinner color={"mustard.400"} size="lg" />
+  // </ScrollView>
 };
 
 export default PostScreen;
