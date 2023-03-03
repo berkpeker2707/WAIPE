@@ -1,13 +1,4 @@
-import {
-  Box,
-  Center,
-  ScrollView,
-  Stack,
-  Text,
-  useSafeArea,
-  useTheme,
-  View,
-} from "native-base";
+import { Stack, Text, useSafeArea, useTheme } from "native-base";
 import { ViewPropTypes } from "deprecated-react-native-prop-types";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -15,7 +6,6 @@ import React, { useRef, useState, useEffect } from "react";
 import LottieView from "lottie-react-native";
 import { useSelector } from "react-redux";
 import { selectToken } from "../Redux/Slices/authSlice";
-import { store } from "../Redux/store";
 const Splash1 = ({ navigation }) => {
   const theme = useTheme();
 

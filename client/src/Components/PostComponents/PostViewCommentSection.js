@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import {
   Text,
   HStack,
@@ -17,7 +17,7 @@ import DeleteIcon from "../Icons/DeleteIcon";
 import { useDispatch } from "react-redux";
 import { deleteCommentAction } from "../../Redux/Slices/commentSlice";
 
-export default function PostViewCommentSection(props) {
+const PostViewCommentSection = memo(function PostViewCommentSection(props) {
   const { navigation, theme, getCommentState, currentUserID } = props;
 
   const dispatch = useDispatch();
@@ -277,4 +277,6 @@ export default function PostViewCommentSection(props) {
         )}
     </Stack>
   );
-}
+});
+
+export default PostViewCommentSection;

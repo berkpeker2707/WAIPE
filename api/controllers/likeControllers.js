@@ -20,8 +20,13 @@ const updatePostLikeController = expressHandler(async (req, res) => {
       .exec();
 
     if (
-      like.like.find((element) => element.likeType === likeType) &&
-      like.like.find((element) => element.ownerID._id.toString() === userID)
+      like.like.find(
+        (element) => element.ownerID && element.likeType === likeType
+      ) &&
+      like.like.find(
+        (element) =>
+          element.ownerID && element.ownerID._id.toString() === userID
+      )
     ) {
       await like.updateOne(
         {

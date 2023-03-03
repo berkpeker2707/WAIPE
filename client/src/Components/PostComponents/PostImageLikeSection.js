@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 
 import {
   HStack,
@@ -23,9 +23,12 @@ import {
   selectLikeUpdated,
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
+import LottieHeart from "../AnimationComponents/LottieHeart";
 
-export default function PostImageLikeSection(props) {
-  const { navigation, theme, getPostState } = props;
+const PostImageLikeSection = memo(function PostImageLikeSection(props) {
+  const { navigation, theme, getPostState, currentUser } = props;
+
+  const [animationStart, setAnimationStart] = useState(() => false);
 
   const dispatch = useDispatch();
 
@@ -107,14 +110,19 @@ export default function PostImageLikeSection(props) {
                         likeType: "heart",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
                         {!isLikeUpdated &&
+                        currentUser &&
                         likeStateInfo.some((likeStateSingle) => {
-                          return likeStateSingle["likeType"] === "heart";
+                          return (
+                            likeStateSingle["likeType"] === "heart" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
                         }) ? (
                           <>
                             <Circle
@@ -131,6 +139,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -159,6 +168,15 @@ export default function PostImageLikeSection(props) {
                                 }
                               />
                             </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {numOfHeart ?? ""}
+                            </Center>
                           </>
                         )}
                       </>
@@ -175,16 +193,19 @@ export default function PostImageLikeSection(props) {
                         likeType: "cuteCatFeverCoffeeIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
                         {!isLikeUpdated &&
+                        currentUser &&
                         likeStateInfo.some((likeStateSingle) => {
                           return (
                             likeStateSingle["likeType"] ===
-                            "cuteCatFeverCoffeeIcon"
+                              "cuteCatFeverCoffeeIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
                           );
                         }) ? (
                           <>
@@ -202,6 +223,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -230,6 +252,15 @@ export default function PostImageLikeSection(props) {
                                 }
                               />
                             </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {numOfCuteCatFeverCoffeeIcon ?? ""}
+                            </Center>
                           </>
                         )}
                       </>
@@ -246,16 +277,19 @@ export default function PostImageLikeSection(props) {
                         likeType: "cuteCowSurprisedIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
                         {!isLikeUpdated &&
+                        currentUser &&
                         likeStateInfo.some((likeStateSingle) => {
                           return (
                             likeStateSingle["likeType"] ===
-                            "cuteCowSurprisedIcon"
+                              "cuteCowSurprisedIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
                           );
                         }) ? (
                           <>
@@ -273,6 +307,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -301,6 +336,15 @@ export default function PostImageLikeSection(props) {
                                 }
                               />
                             </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {numOfCuteCowSurprisedIcon ?? ""}
+                            </Center>
                           </>
                         )}
                       </>
@@ -317,16 +361,19 @@ export default function PostImageLikeSection(props) {
                         likeType: "cuteRabbitHoldingCarrotIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
                         {!isLikeUpdated &&
+                        currentUser &&
                         likeStateInfo.some((likeStateSingle) => {
                           return (
                             likeStateSingle["likeType"] ===
-                            "cuteRabbitHoldingCarrotIcon"
+                              "cuteRabbitHoldingCarrotIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
                           );
                         }) ? (
                           <>
@@ -344,6 +391,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -372,6 +420,15 @@ export default function PostImageLikeSection(props) {
                                 }
                               />
                             </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {numOfCuteRabbitHoldingCarrotIcon ?? ""}
+                            </Center>
                           </>
                         )}
                       </>
@@ -388,16 +445,19 @@ export default function PostImageLikeSection(props) {
                         likeType: "cuteSadCatSittingIcon",
                       })
                     );
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
                         {!isLikeUpdated &&
+                        currentUser &&
                         likeStateInfo.some((likeStateSingle) => {
                           return (
                             likeStateSingle["likeType"] ===
-                            "cuteSadCatSittingIcon"
+                              "cuteSadCatSittingIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
                           );
                         }) ? (
                           <>
@@ -415,6 +475,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
@@ -443,6 +504,15 @@ export default function PostImageLikeSection(props) {
                                 }
                               />
                             </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {numOfCuteSadCatSittingIcon ?? ""}
+                            </Center>
                           </>
                         )}
                       </>
@@ -519,4 +589,6 @@ export default function PostImageLikeSection(props) {
       </HStack>
     </Stack>
   );
-}
+});
+
+export default PostImageLikeSection;
