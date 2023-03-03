@@ -140,7 +140,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              {animationStart ? <LottieHeart /> : <></>}
+                              <LottieHeart animationStart={animationStart} />
                             </Circle>
                             <Center
                               _text={{
