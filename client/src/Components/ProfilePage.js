@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Center,
   Spinner,
@@ -14,7 +14,7 @@ import NameAndNickname from "../Components/NameAndNickname";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
 
-const ProfilePage = (props) => {
+const ProfilePage = memo((props) => {
   const theme = useTheme();
 
   const {
@@ -72,6 +72,6 @@ const ProfilePage = (props) => {
       </Box>
     </Stack>
   );
-};
+});
 
 export default ProfilePage;

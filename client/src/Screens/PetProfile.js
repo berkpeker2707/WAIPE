@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { HStack, Image, ScrollView, useSafeArea } from "native-base";
 import {
   selectGetPet,
@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PressableButton from "../Components/PressableButton";
 import ProfilePage from "../Components/ProfilePage";
 
-const PetProfile = ({ navigation, route }) => {
+const PetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
   const dispatch = useDispatch();
 
@@ -69,6 +69,6 @@ const PetProfile = ({ navigation, route }) => {
       </HStack>
     </ProfilePage>
   );
-};
+});
 
 export default PetProfile;
