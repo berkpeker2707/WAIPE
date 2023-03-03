@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
@@ -52,7 +52,7 @@ import {
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
 
-export default function PostAddCommentSection(props) {
+const PostAddCommentSection = memo(function PostAddCommentSection(props) {
   const { navigation, theme, getPostState, getCommentState } = props;
 
   const dispatch = useDispatch();
@@ -174,4 +174,6 @@ export default function PostAddCommentSection(props) {
       </Stack>
     </>
   );
-}
+});
+
+export default PostAddCommentSection;

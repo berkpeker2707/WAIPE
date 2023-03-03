@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
@@ -52,7 +52,7 @@ import {
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
 
-export default function PostImageSection(props) {
+const PostImageSection = memo(function PostImageSection(props) {
   const { navigation, theme, getPostState } = props;
 
   const dispatch = useDispatch();
@@ -208,4 +208,6 @@ export default function PostImageSection(props) {
       </Pressable>
     </Box>
   );
-}
+});
+
+export default PostImageSection;

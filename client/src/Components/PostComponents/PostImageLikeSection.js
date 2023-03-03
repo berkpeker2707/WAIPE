@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 
 import {
   HStack,
@@ -25,7 +25,7 @@ import {
 } from "../../Redux/Slices/likeSlice";
 import LottieHeart from "../AnimationComponents/LottieHeart";
 
-export default function PostImageLikeSection(props) {
+const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   const { navigation, theme, getPostState, currentUser } = props;
 
   const [animationStart, setAnimationStart] = useState(() => false);
@@ -111,8 +111,7 @@ export default function PostImageLikeSection(props) {
                       })
                     );
                     // if(getPostState[0].like._id.contains())
-                    // setAnimationStart(() => true);
-                    // setAnimationStart(() => false);
+                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -141,7 +140,7 @@ export default function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              {/* {animationStart ? <LottieHeart /> : <></>} */}
+                              {animationStart ? <LottieHeart /> : <></>}
                             </Circle>
                             <Center
                               _text={{
@@ -583,4 +582,6 @@ export default function PostImageLikeSection(props) {
       </HStack>
     </Stack>
   );
-}
+});
+
+export default PostImageLikeSection;
