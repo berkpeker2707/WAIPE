@@ -139,13 +139,6 @@ const PostScreen = ({ navigation, route }) => {
       {/* comment section 2 ends */}
     </ScrollView>
   );
-  // <ScrollView
-  //   bg={theme.colors.sage[400]}
-  //   {...safeAreaProps}
-  //   contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-  // >
-  //   <Spinner color={"mustard.400"} size="lg" />
-  // </ScrollView>
 };
 
 export default PostScreen;
