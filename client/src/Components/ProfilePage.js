@@ -8,9 +8,10 @@ import {
   Stack,
   useSafeArea,
   useTheme,
+  Heading,
+  Button,
 } from "native-base";
 import SettingsButton from "../Components/SettingsButton";
-import NameAndNickname from "../Components/NameAndNickname";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
 
@@ -26,6 +27,7 @@ const ProfilePage = memo((props) => {
     children,
     editPage,
     isCurrentUser,
+    user,
   } = props;
 
   const safeAreaProps = useSafeArea({
@@ -55,7 +57,23 @@ const ProfilePage = memo((props) => {
       )}
 
       <VStack space={4}>
-        <NameAndNickname name={`${name}`} nickname={"@Nickname"} />
+        <Center>
+          <Heading>{name}</Heading>
+          {user ? (
+            <Button
+              onPress={() =>
+                navigation.navigate("UserProfileScreen", {
+                  userID: user._id,
+                })
+              }
+              variant="link"
+            >
+              {`${user?.firstname} ${user?.lastname}`}
+            </Button>
+          ) : (
+            <></>
+          )}
+        </Center>
         <ProfileAvatar
           image={pictureUrl}
           letter={`${name[0]}`}

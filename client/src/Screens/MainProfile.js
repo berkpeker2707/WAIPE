@@ -48,9 +48,10 @@ const MainProfileScreen = ({ navigation }) => {
   });
   return (
     <ScrollView
-      {...safeAreaProps}
       bg={theme.colors.sage[400]}
-      contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      contentContainerStyle={{
+        flexGrow: 1,
+      }}
     >
       <ProfilePage
         navigation={navigation}

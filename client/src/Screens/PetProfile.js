@@ -17,6 +17,9 @@ const PetProfile = memo(({ navigation, route }) => {
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
   const isUpdate = useSelector(selectPetUpdated);
+  console.log("pet");
+  console.log(pet?.ownerID.firstname);
+  console.log("pet");
 
   useEffect(() => {
     dispatch(getPetAction(petId));
@@ -25,11 +28,6 @@ const PetProfile = memo(({ navigation, route }) => {
       //clean up function
     };
   }, [dispatch, petId, isUpdate]);
-
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
 
   return (
     <ProfilePage
@@ -42,6 +40,7 @@ const PetProfile = memo(({ navigation, route }) => {
       }${"\n"}${pet?.biography}`}
       editPage={"EditPetProfile"}
       isCurrentUser={true}
+      user={pet?.ownerID}
     >
       <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
         {pet?.petPost?.map((post, index) => {
