@@ -50,14 +50,21 @@ export const getUserAction = createAsyncThunk(
 
 export const blockUserAction = createAsyncThunk(
   "user/blockUserAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (userID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
 
+      const { data } = await axios.put(
+        `${api_url}/user/block/user`,
+        { blockedUsers: userID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -270,6 +277,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.blockUserData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(blockUserAction.rejected, (state, action) => {
       state.loading = false;
