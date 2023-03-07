@@ -49,17 +49,6 @@ const SettingsScreen = ({ navigation }) => {
       </Heading>
       <VStack w={"80%"} space={4}>
         <SettingsLine
-          leftIcon="shuffle"
-          text="Hand option"
-          rightElement={
-            <Switch
-              size="sm"
-              onTrackColor={theme.colors.forestGreen[400].toString()}
-            />
-          }
-        />
-        <Divider bg={theme.colors.extraOrage[400].toString()} thickness="2" />
-        <SettingsLine
           leftIcon="lock"
           text="Private account"
           rightElement={

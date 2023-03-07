@@ -8,7 +8,7 @@ const PetCard = (props) => {
   return (
     <Box alignItems="center" justifyContent="center" m="4px">
       <PressableButton
-        onPress={() => navigation.navigate("PetProfile", { petId: petId })}
+        onPress={() => navigation.navigate("MyPetProfile", { petId: petId })}
       >
         <Avatar
           bg="purple.600"

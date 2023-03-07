@@ -542,7 +542,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                 </Center>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate("PetProfile", {
+                    navigation.navigate("MyPetProfile", {
                       petId: getPostState[0].petID._id,
                     })
                   }
