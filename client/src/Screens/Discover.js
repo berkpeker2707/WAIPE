@@ -13,6 +13,7 @@ import {
   Input,
   Icon,
   useTheme,
+  Divider,
 } from "native-base";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +37,99 @@ const DiscoverScreen = ({ navigation, route }) => {
       //clean up function
     };
   }, [dispatch]);
+
+  //search section starts
+
+  const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState(() => allPosts);
+  const [searchedPosts, setSearchedPosts] = useState();
+
+  // exclude column list from filter
+  const excludeColumns = ["_id", "like"];
+
+  // handle change event of search input
+  const handleChange = (value) => {
+    setSearchText(value);
+  };
+
+  const onSubmitEditingD = (value) => {
+    // var a = filterData(value);
+
+    var lowercasedValue = value.toString().toLowerCase().trim();
+    // if (lowercasedValue === "") setData(allPosts);
+    if (lowercasedValue === "") {
+      setData(allPosts);
+    } else {
+      setData(filterData(value));
+    }
+    // console.log("data");
+    // console.log(data);
+    // console.log("data");
+  };
+
+  // filter records by search text
+  const filterData = (value) => {
+    var searchedBool = allPosts.map((filteredDataParent) => {
+      return filteredDataParent.petID.name
+        .toLowerCase()
+        .includes("Perry".toLowerCase());
+    });
+    var filteredData = allPosts
+      .map((mamped) => {
+        return mamped;
+      })
+      .filter((filt, filtIN) => {
+        return filt && searchedBool[filtIN] === true;
+      });
+    // .filter((item) => {
+    //   return Object.keys(item).some((key) =>
+    //     excludeColumns.includes(key)
+    //       ? false
+    //       : item[key].toString().toLowerCase().includes(lowercasedValue)
+    //   );
+    // });
+
+    // .map((d, i) => {
+    //   return (
+    //     //   <Text key={i} className="box" style={{ backgroundColor: d.color }}>
+    //     //     <Text>Name: </Text>
+    //     d.name
+    //     //     <Divider />
+    //     //   </Text>
+    //   );
+    // });
+    // setData(filteredData);
+    // console.log(filteredData);
+    return filteredData;
+  };
+
+  // console.log(
+  //   allPosts
+  //     .map((filteredDataParent) => {
+  //       return filteredDataParent.petID.name;
+  //     })
+  //     .sort()
+  //     .filter(function (item, pos, ary) {
+  //       return !pos || item != ary[pos - 1];
+  //     })
+  // );
+
+  // return setSearchedPosts(() => setSearchedPosts(sorted));
+
+  // .filter((el) => {
+  //   return el.toLowerCase().includes("Perry".toLowerCase());
+  // })
+  // console.log(
+  //   allPosts
+  //     .map((mamped) => {
+  //       return mamped;
+  //     })
+  //     .filter((filt, filtIN) => {
+  //       return filt && searchedBool[filtIN] === true;
+  //     })
+  // );
+
+  //search section ends
 
   const safeAreaProps = useSafeArea({
     safeArea: true,
@@ -86,19 +180,27 @@ const DiscoverScreen = ({ navigation, route }) => {
             bg: theme.colors.forestGreen[400],
             borderColor: theme.colors.forestGreen[400],
           }}
+          onChangeText={handleChange}
+          value={searchText}
+          onSubmitEditing={onSubmitEditingD}
         />
       </VStack>
-      <MasonryList
-        style={{ alignSelf: "stretch" }}
-        data={allPosts}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        renderItem={(allPosts) => renderItem(allPosts)}
-        // onRefresh={() => refetch({ first: ITEM_CNT })}
-        // onEndReachedThreshold={0.1}
-        // onEndReached={() => loadNext(ITEM_CNT)}
-      />
+
+      {data && data.length > 1 ? (
+        <MasonryList
+          style={{ alignSelf: "stretch" }}
+          data={data}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={(data) => renderItem(data)}
+          // onRefresh={() => refetch({ first: ITEM_CNT })}
+          // onEndReachedThreshold={0.1}
+          // onEndReached={() => loadNext(ITEM_CNT)}
+        />
+      ) : (
+        data.length === 0 && <Text>No records found to display!</Text>
+      )}
     </ScrollView>
   ) : (
     <Text>Loading...</Text>
