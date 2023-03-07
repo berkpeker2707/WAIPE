@@ -4,12 +4,13 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieRain(props) {
-  const { animationStart } = props;
+  const { animationStart, setAnimationStart } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
     setAnimationLoaded(() => true);
+    setAnimationStart(() => false);
   }, [animationStart]);
 
   const ref = useRef(null);

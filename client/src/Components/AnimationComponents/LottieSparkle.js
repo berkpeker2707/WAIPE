@@ -4,7 +4,7 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieSparkle(props) {
-  const { animationStart } = props;
+  const { animationStart, setAnimationStart } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
@@ -16,6 +16,7 @@ export default function LottieSparkle(props) {
 
   const onAnimationFinish = () => {
     setAnimationLoaded(() => false);
+    setAnimationStart(() => false);
   };
 
   const animationProgress = useRef(new Animated.Value(0));

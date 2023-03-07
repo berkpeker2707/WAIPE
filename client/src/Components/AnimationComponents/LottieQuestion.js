@@ -4,12 +4,13 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieQuestion(props) {
-  const { animationStart } = props;
+  const { animationStart, setAnimationStart } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
     setAnimationLoaded(() => true);
+    setAnimationStart(() => false);
   }, [animationStart]);
 
   const ref = useRef(null);
@@ -34,7 +35,7 @@ export default function LottieQuestion(props) {
       ref={(animation) => {
         ref.current = animation;
       }}
-      source={require("../../../assets/animations/question-mark-animation.json")}
+      source={require("../../../assets/animations/confeti.json")}
       autoPlay
       loop={false}
       resizeMode="cover"
