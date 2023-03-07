@@ -98,7 +98,9 @@ const PostImageSection = memo(function PostImageSection(props) {
                 <AspectRatio w="100%" ratio={1 / 1}>
                   <Image
                     source={{
-                      uri: getPostState[0].picture,
+                      uri: getPostState[0].picture
+                        ? getPostState[0].picture
+                        : null,
                     }}
                     alt="image"
                     blurRadius={onLongPressState ? 50 : 0}
