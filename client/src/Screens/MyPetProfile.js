@@ -9,7 +9,13 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import PressableButton from "../Components/PressableButton";
 import ProfilePage from "../Components/ProfilePage";
-import { selectCurrentUser } from "../Redux/Slices/userSlice";
+import {
+  getCurrentUserAction,
+  selectCurrentUser,
+  selectUserUpdated,
+} from "../Redux/Slices/userSlice";
+import SettingsButton from "../Components/SettingsButton";
+import FollowButton from "../Components/FollowButton";
 
 const MyPetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
@@ -18,16 +24,18 @@ const MyPetProfile = memo(({ navigation, route }) => {
 
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
-  const isUpdate = useSelector(selectPetUpdated);
+  const petIsUpdate = useSelector(selectPetUpdated);
+  const userIsUpdate = useSelector(selectUserUpdated);
   const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(getPetAction(petId));
+    dispatch(getCurrentUserAction());
 
     return () => {
       //clean up function
     };
-  }, [dispatch, petId, isUpdate]);
+  }, [dispatch, petId, petIsUpdate, userIsUpdate]);
 
   return (
     <ScrollView
@@ -47,6 +55,13 @@ const MyPetProfile = memo(({ navigation, route }) => {
         editPage={"EditPetProfile"}
         isCurrentUser={pet?.ownerID?._id === currentUser._id}
         user={pet?.ownerID}
+        rightTopElement={
+          pet?.ownerID?._id === currentUser._id ? (
+            <SettingsButton onPress={() => navigation.navigate("Settings")} />
+          ) : (
+            <FollowButton currentUser={currentUser} petID={petId} />
+          )
+        }
       >
         <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
           {pet?.petPost?.map((post, index) => {
