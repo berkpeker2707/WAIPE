@@ -67,14 +67,20 @@ export const blockUserAction = createAsyncThunk(
 
 export const followPetAction = createAsyncThunk(
   "user/followPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/follow/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/follow/pet`,
+        { followedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -278,6 +284,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.followPetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(followPetAction.rejected, (state, action) => {
       state.loading = false;
