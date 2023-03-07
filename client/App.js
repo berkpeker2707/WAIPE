@@ -22,7 +22,7 @@ import MainProfile from "./src/Screens/MainProfile";
 import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
 import EditMainProfile from "./src/Screens/EditMainProfile";
-import PetProfile from "./src/Screens/PetProfile";
+import MyPetProfile from "./src/Screens/MyPetProfile";
 import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 import EditPetProfile from "./src/Screens/EditPetProfile";
 import UserProfileScreen from "./src/Screens/UserProfile";
@@ -221,8 +221,8 @@ export default function App() {
                   fontWeight: "bold",
                 },
               }}
-              name="PetProfile"
-              component={PetProfile}
+              name="MyPetProfile"
+              component={MyPetProfile}
             />
             <Tab.Screen
               options={{

@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PressableButton from "../Components/PressableButton";
 import ProfilePage from "../Components/ProfilePage";
 
-const PetProfile = memo(({ navigation, route }) => {
+const MyPetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
   const dispatch = useDispatch();
 
@@ -70,4 +70,4 @@ const PetProfile = memo(({ navigation, route }) => {
   );
 });
 
-export default PetProfile;
+export default MyPetProfile;
