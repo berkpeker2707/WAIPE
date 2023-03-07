@@ -11,7 +11,6 @@ import {
   Heading,
   Button,
 } from "native-base";
-import SettingsButton from "../Components/SettingsButton";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
 
@@ -28,6 +27,7 @@ const ProfilePage = memo((props) => {
     editPage,
     isCurrentUser,
     user,
+    rightTopElement,
   } = props;
 
   const safeAreaProps = useSafeArea({
@@ -50,12 +50,7 @@ const ProfilePage = memo((props) => {
       justifyContent="center"
       bg={theme.colors.sage[400]}
     >
-      {isCurrentUser ? (
-        <SettingsButton onPress={() => navigation.navigate("Settings")} />
-      ) : (
-        <></>
-      )}
-
+      {rightTopElement}
       <VStack space={4}>
         <Center>
           <Heading>{name}</Heading>
