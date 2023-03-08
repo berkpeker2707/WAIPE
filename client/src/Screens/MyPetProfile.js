@@ -16,6 +16,7 @@ import {
 } from "../Redux/Slices/userSlice";
 import SettingsButton from "../Components/SettingsButton";
 import FollowButton from "../Components/FollowButton";
+import MenuButton from "../Components/MenuButton";
 
 const MyPetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
@@ -55,6 +56,13 @@ const MyPetProfile = memo(({ navigation, route }) => {
         editPage={"EditPetProfile"}
         isCurrentUser={pet?.ownerID?._id === currentUser._id}
         user={pet?.ownerID}
+        leftTopElement={
+          pet?.ownerID?._id === currentUser._id ? (
+            <></>
+          ) : (
+            <MenuButton profileType="pet" id={petId} navigation={navigation} />
+          )
+        }
         rightTopElement={
           pet?.ownerID?._id === currentUser._id ? (
             <SettingsButton onPress={() => navigation.navigate("Settings")} />

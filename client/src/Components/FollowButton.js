@@ -11,7 +11,7 @@ const FollowButton = (props) => {
   const userIsUpdate = useSelector(selectUserUpdated);
 
   return (
-    <Box w={360} mt={5}>
+    <Box>
       <IconButton
         onPress={() => {
           dispatch(followPetAction(petID));

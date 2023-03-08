@@ -10,6 +10,7 @@ import {
   useTheme,
   Heading,
   Button,
+  HStack,
 } from "native-base";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
@@ -28,6 +29,7 @@ const ProfilePage = memo((props) => {
     isCurrentUser,
     user,
     rightTopElement,
+    leftTopElement,
   } = props;
 
   const safeAreaProps = useSafeArea({
@@ -50,7 +52,10 @@ const ProfilePage = memo((props) => {
       justifyContent="center"
       bg={theme.colors.sage[400]}
     >
-      {rightTopElement}
+      <HStack w={360} justifyContent="space-between">
+        <Stack w={10}>{leftTopElement}</Stack>
+        <Stack w={10}>{rightTopElement}</Stack>
+      </HStack>
       <VStack space={4}>
         <Center>
           <Heading>{name}</Heading>

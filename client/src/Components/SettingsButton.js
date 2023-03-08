@@ -6,7 +6,7 @@ const SettingsButton = (props) => {
   const { onPress } = props;
 
   return (
-    <Box w={360} mt={5}>
+    <Box>
       <IconButton
         onPress={onPress}
         borderRadius="25"

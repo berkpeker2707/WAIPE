@@ -9,6 +9,7 @@ import {
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePage from "../Components/ProfilePage";
+import MenuButton from "../Components/MenuButton";
 
 const UserProfileScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -55,6 +56,13 @@ const UserProfileScreen = ({ navigation, route }) => {
         }
         editPage={"EditMainProfile"}
         isCurrentUser={false}
+        leftTopElement={
+          <MenuButton
+            profileType="user"
+            id={user?._id}
+            navigation={navigation}
+          />
+        }
       >
         <HStack pl="1" flex="1" flexWrap="wrap">
           {user?.pets?.map((pet, index) => {
