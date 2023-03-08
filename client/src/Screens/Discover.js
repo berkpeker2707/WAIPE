@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -42,7 +41,6 @@ const DiscoverScreen = ({ navigation, route }) => {
   }, [dispatch]);
 
   //search section starts
-
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState(() => allPosts);
 
@@ -124,7 +122,6 @@ const DiscoverScreen = ({ navigation, route }) => {
     return filteredData;
   };
   // filter posts by search text ends
-
   //search section ends
 
   const safeAreaProps = useSafeArea({
@@ -136,7 +133,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     <ScrollView {...safeAreaProps}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
-          placeholder="Search"
+          placeholder="Type pet name or type '@' to search user"
           variant="filled"
           width="100%"
           borderRadius="10"
