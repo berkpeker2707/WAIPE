@@ -57,6 +57,22 @@ const getUserController = expressHandler(async (req, res) => {
   }
 });
 
+// get all users controller ***
+const getAllUserController = expressHandler(async (req, res) => {
+  try {
+    const user = await User.find({})
+      .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
+      .exec();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // update current user controller ***
 const updateUserController = expressHandler(async (req, res) => {
   const { _id } = req.user;
@@ -225,6 +241,7 @@ const userDeleteController = expressHandler(async (req, res) => {
 module.exports = {
   getCurrentUserController,
   getUserController,
+  getAllUserController,
   blockUserController,
   followPetController,
   blockPetController,
