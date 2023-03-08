@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import {
@@ -14,6 +14,7 @@ import {
   Icon,
 } from "native-base";
 import {
+  blockPetAction,
   blockUserAction,
   getCurrentUserAction,
   selectCurrentUser,
@@ -25,20 +26,25 @@ import { useDispatch, useSelector } from "react-redux";
 const BlockedUsersScreen = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [blockedProfiles, setBlockedProfiles] = useState([]);
 
   const currentUser = useSelector(selectCurrentUser);
   const userLoading = useSelector(selectUserLoading);
   const isUpdate = useSelector(selectUserUpdated);
   const blockedUsers = currentUser?.blockedUsers;
+  const blockedPets = currentUser?.blockedPets;
 
-  // console.log("blockedUsers");
-  // console.log(blockedUsers);
-  // console.log(isUpdate);
-  // console.log("blockedUsers");
+  console.log("blockedPets");
+  console.log(blockedProfiles);
+  console.log("blockedPets");
 
   useEffect(() => {
     dispatch(getCurrentUserAction());
   }, [isUpdate]);
+
+  useEffect(() => {
+    setBlockedProfiles([...blockedUsers, ...blockedPets]);
+  }, [blockedUsers?.length, blockedPets?.length]);
 
   return (
     <View style={theme.settingsContainer}>
@@ -47,16 +53,16 @@ const BlockedUsersScreen = () => {
       ) : (
         <ScrollView w="70%">
           <Heading mt={50} mb={30} size="xl" alignSelf="center">
-            Blocked Users
+            Blocked Profiles
           </Heading>
           <VStack space={4}>
-            {blockedUsers?.map((blockedUser) => {
+            {blockedProfiles?.map((blockedProfile) => {
               return (
                 <HStack
                   space={3}
                   alignItems="center"
                   justifyContent="space-between"
-                  key={blockedUser._id}
+                  key={blockedProfile._id}
                 >
                   <HStack space={3} alignItems="center">
                     <Avatar
@@ -64,18 +70,29 @@ const BlockedUsersScreen = () => {
                       size="lg"
                       shadow={1}
                       source={{
-                        uri: blockedUser.picture ? blockedUser.picture : null,
+                        uri: blockedProfile.picture
+                          ? blockedProfile.picture
+                          : null,
                       }}
                     >
-                      {`${blockedUser.firstname[0]}`}
+                      {blockedProfile.ownerID
+                        ? `${blockedProfile.name[0]}`
+                        : `${blockedProfile.firstname[0]}`}
                     </Avatar>
-                    <Text
-                      fontSize="lg"
-                      bold
-                    >{`${blockedUser.firstname} ${blockedUser.lastname}`}</Text>
+                    <Text fontSize="lg" bold>
+                      {blockedProfile.ownerID
+                        ? `${blockedProfile.name}`
+                        : `${blockedProfile.firstname} ${blockedProfile.lastname}`}
+                    </Text>
                   </HStack>
                   <IconButton
-                    onPress={() => dispatch(blockUserAction(blockedUser._id))}
+                    onPress={() => {
+                      if (blockedProfile.ownerID) {
+                        dispatch(blockPetAction(blockedProfile._id));
+                      } else {
+                        dispatch(blockUserAction(blockedProfile._id));
+                      }
+                    }}
                     borderRadius="25"
                     variant="ghost"
                     colorScheme="warning"
