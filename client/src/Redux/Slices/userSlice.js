@@ -97,14 +97,20 @@ export const followPetAction = createAsyncThunk(
 
 export const blockPetAction = createAsyncThunk(
   "user/blockPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/block/pet`,
+        { blockedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
