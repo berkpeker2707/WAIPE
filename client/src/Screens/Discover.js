@@ -22,6 +22,7 @@ import {
   getAllPostsAction,
 } from "../Redux/Slices/postSlice";
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
+import DiscoverMasonryListComponent from "../Components/DiscoverMasonryListComponent";
 
 const DiscoverScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -42,7 +43,6 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState(() => allPosts);
-  const [searchedPosts, setSearchedPosts] = useState();
 
   // exclude column list from filter
   const excludeColumns = ["_id", "like"];
@@ -50,30 +50,38 @@ const DiscoverScreen = ({ navigation, route }) => {
   // handle change event of search input
   const handleChange = (value) => {
     setSearchText(value);
-  };
-
-  const onSubmitEditingD = (value) => {
+    var searchedBool = allPosts.map((filteredDataParent) => {
+      return filteredDataParent.petID.name
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+    });
     // var a = filterData(value);
 
     var lowercasedValue = value.toString().toLowerCase().trim();
-    // if (lowercasedValue === "") setData(allPosts);
     if (lowercasedValue === "") {
       setData(allPosts);
     } else {
-      setData(filterData(value));
+      setData(filterData(searchedBool));
     }
-    // console.log("data");
-    // console.log(data);
-    // console.log("data");
   };
 
-  // filter records by search text
-  const filterData = (value) => {
+  const onSubmitEditingD = (value) => {
     var searchedBool = allPosts.map((filteredDataParent) => {
       return filteredDataParent.petID.name
         .toLowerCase()
         .includes("Perry".toLowerCase());
     });
+
+    var lowercasedValue = value.toString().toLowerCase().trim();
+    if (lowercasedValue === "") {
+      setData(filterData(searchedBool));
+    } else {
+      setData(filterData(searchedBool));
+    }
+  };
+
+  // filter records by search text
+  const filterData = (searchedBool) => {
     var filteredData = allPosts
       .map((mamped) => {
         return mamped;
@@ -81,6 +89,8 @@ const DiscoverScreen = ({ navigation, route }) => {
       .filter((filt, filtIN) => {
         return filt && searchedBool[filtIN] === true;
       });
+
+    return filteredData;
     // .filter((item) => {
     //   return Object.keys(item).some((key) =>
     //     excludeColumns.includes(key)
@@ -100,7 +110,6 @@ const DiscoverScreen = ({ navigation, route }) => {
     // });
     // setData(filteredData);
     // console.log(filteredData);
-    return filteredData;
   };
 
   // console.log(
@@ -136,32 +145,31 @@ const DiscoverScreen = ({ navigation, route }) => {
     pt: 2,
   });
 
-  const renderItem = ({ item, i }) => {
-    const randomBool = useMemo(() => Math.random() < 0.5, []);
+  // const renderItem = (item, i) => {
+  //   const randomBool = useMemo(() => Math.random() < 0.5, []);
 
-    return (
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Post", {
-            post: item,
-          });
-        }}
-      >
-        <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
-          <Image
-            source={{ uri: item.picture }}
-            style={{
-              height: randomBool ? 150 : 280,
-              alignSelf: "stretch",
-              marginLeft: i % 2 === 0 ? 0 : 12,
-            }}
-            resizeMode="cover"
-            alt="alt"
-          />
-        </View>
-      </Pressable>
-    );
-  };
+  //   return (
+  //     <Pressable
+  //       onPress={() => {
+  //         navigation.navigate("Post", {
+  //           post: item,
+  //         });
+  //       }}
+  //     >
+  //       <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
+  //         <Image
+  //           source={{ uri: item.picture }}
+  //           style={{
+  //             height: randomBool ? 150 : 280,
+  //             alignSelf: "stretch",
+  //             marginLeft: i % 2 === 0 ? 0 : 12,
+  //           }}
+  //           resizeMode="cover"
+  //           alt="alt"
+  //         />
+  //       </View>
+  //     </Pressable>
+  //   );
 
   return allPosts ? (
     <ScrollView {...safeAreaProps}>
@@ -186,27 +194,15 @@ const DiscoverScreen = ({ navigation, route }) => {
         />
       </VStack>
 
-      {data && data.length > 1 ? (
-        <MasonryList
-          style={{ alignSelf: "stretch" }}
-          data={data}
-          keyExtractor={(item) => item._id}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={(data) => renderItem(data)}
-          // onRefresh={() => refetch({ first: ITEM_CNT })}
-          // onEndReachedThreshold={0.1}
-          // onEndReached={() => loadNext(ITEM_CNT)}
-        />
+      {data && data.length && data.length > 1 ? (
+        <DiscoverMasonryListComponent data={data} navigation={navigation} />
       ) : (
-        data.length === 0 && <Text>No records found to display!</Text>
+        <Text>No records found to display!</Text>
       )}
     </ScrollView>
   ) : (
     <Text>Loading...</Text>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default DiscoverScreen;
