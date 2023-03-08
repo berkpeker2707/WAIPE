@@ -5,6 +5,7 @@ const { photoUpload, photoResize } = require("../middlewares/photoUpload");
 const {
   getCurrentUserController,
   getUserController,
+  getAllUserController,
   blockUserController,
   followPetController,
   blockPetController,
@@ -18,6 +19,7 @@ const userRoutes = express.Router();
 
 userRoutes.get("/me", verifyToken, getCurrentUserController);
 userRoutes.get("/:id", verifyToken, getUserController);
+userRoutes.get("/fetch/all", verifyToken, getAllUserController);
 userRoutes.put("/update", verifyToken, updateUserController);
 userRoutes.put("/block/user", verifyToken, blockUserController);
 userRoutes.put("/follow/pet", verifyToken, followPetController);

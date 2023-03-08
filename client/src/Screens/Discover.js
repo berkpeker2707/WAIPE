@@ -1,26 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
-  Center,
   Text,
-  Button,
-  Image,
-  Box,
   useSafeArea,
-  Pressable,
   VStack,
   Input,
   Icon,
   useTheme,
 } from "native-base";
-import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectGetAllPosts,
   getAllPostsAction,
 } from "../Redux/Slices/postSlice";
+import { selectAllUsers, getAllUsersAction } from "../Redux/Slices/userSlice";
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
+import DiscoverMasonryListComponent from "../Components/DiscoverMasonryListComponent";
 
 const DiscoverScreen = ({ navigation, route }) => {
   const theme = useTheme();
@@ -28,6 +23,7 @@ const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const allPosts = useSelector(selectGetAllPosts);
+  const allUsers = useSelector(selectAllUsers);
 
   useEffect(() => {
     dispatch(getAllPostsAction());
@@ -36,44 +32,108 @@ const DiscoverScreen = ({ navigation, route }) => {
       //clean up function
     };
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllUsersAction());
+
+    return () => {
+      //clean up function
+    };
+  }, [dispatch]);
+
+  //search section starts
+  const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState(() => allPosts);
+
+  // handle change event of search input
+  const handleChange = (value) => {
+    setSearchText(value);
+    if (searchText.includes("@")) {
+      // by user name search starts
+      var searchedBool = allUsers.map((filteredDataParent) => {
+        return filteredDataParent.firstname
+          .toLowerCase()
+          .includes(searchText.replace("@", "").toLowerCase().trim());
+      });
+
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterUserData(searchedBool));
+      }
+      // by user name search ends
+    } else {
+      // by pet name search starts
+      var searchedBool = allPosts.map((filteredDataParent) => {
+        return filteredDataParent.petID.name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      });
+
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterPostData(searchedBool));
+      }
+      // by pet name search ends
+    }
+  };
+
+  const onSubmitEditingD = (value) => {
+    var searchedBool = allPosts.map((filteredDataParent) => {
+      return filteredDataParent.petID.name
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+    });
+
+    var lowercasedValue = value.toString().toLowerCase().trim();
+    if (lowercasedValue === "") {
+      setData(allPosts);
+    } else {
+      setData(filterPostData(searchedBool));
+    }
+  };
+
+  // filter posts by search text starts
+  const filterPostData = (searchedBool) => {
+    var filteredData = allPosts
+      .map((mamped) => {
+        return mamped;
+      })
+      .filter((filt, filtIN) => {
+        return filt && searchedBool[filtIN] === true;
+      });
+
+    return filteredData;
+  };
+  // filter posts by search text ends
+
+  // filter posts by search text starts
+  const filterUserData = (searchedBool) => {
+    var filteredData = allUsers
+      .map((mamped) => {
+        return mamped;
+      })
+      .filter((filt, filtIN) => {
+        return filt && searchedBool[filtIN] === true;
+      });
+
+    return filteredData;
+  };
+  // filter posts by search text ends
+  //search section ends
 
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
   });
 
-  const renderItem = ({ item, i }) => {
-    const randomBool = useMemo(() => Math.random() < 0.5, []);
-
-    return (
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Post", {
-            post: item,
-          });
-        }}
-      >
-        <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
-          <Image
-            source={{ uri: item.picture }}
-            style={{
-              height: randomBool ? 150 : 280,
-              alignSelf: "stretch",
-              marginLeft: i % 2 === 0 ? 0 : 12,
-            }}
-            resizeMode="cover"
-            alt="alt"
-          />
-        </View>
-      </Pressable>
-    );
-  };
-
-  return allPosts ? (
-    <ScrollView {...safeAreaProps}>
+  return allUsers && allPosts ? (
+    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
-          placeholder="Search"
+          placeholder="Type pet name or type '@' to search user"
           variant="filled"
           width="100%"
           borderRadius="10"
@@ -86,25 +146,20 @@ const DiscoverScreen = ({ navigation, route }) => {
             bg: theme.colors.forestGreen[400],
             borderColor: theme.colors.forestGreen[400],
           }}
+          onChangeText={handleChange}
+          value={searchText}
+          onSubmitEditing={onSubmitEditingD}
         />
       </VStack>
-      <MasonryList
-        style={{ alignSelf: "stretch" }}
-        data={allPosts}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        renderItem={(allPosts) => renderItem(allPosts)}
-        // onRefresh={() => refetch({ first: ITEM_CNT })}
-        // onEndReachedThreshold={0.1}
-        // onEndReached={() => loadNext(ITEM_CNT)}
-      />
+      {data && data.length && data.length > 0 ? (
+        <DiscoverMasonryListComponent data={data} navigation={navigation} />
+      ) : (
+        <Text>No records found to display!</Text>
+      )}
     </ScrollView>
   ) : (
     <Text>Loading...</Text>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default DiscoverScreen;

@@ -34,10 +34,6 @@ const BlockedUsersScreen = () => {
   const blockedUsers = currentUser?.blockedUsers;
   const blockedPets = currentUser?.blockedPets;
 
-  console.log("blockedPets");
-  console.log(blockedProfiles);
-  console.log("blockedPets");
-
   useEffect(() => {
     dispatch(getCurrentUserAction());
   }, [isUpdate]);
