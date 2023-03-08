@@ -48,6 +48,24 @@ export const getUserAction = createAsyncThunk(
   }
 );
 
+export const getAllUsersAction = createAsyncThunk(
+  "user/getAllUsersAction",
+  async (userID, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.auth?.token;
+      const { data } = await axios.get(`${api_url}/user/fetch/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const blockUserAction = createAsyncThunk(
   "user/blockUserAction",
   async (token, { rejectWithValue, getState, dispatch }) => {
@@ -255,6 +273,20 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    //get all users reducer
+    builder.addCase(getAllUsersAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllUsersAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.allUsersData = action?.payload;
+    });
+    builder.addCase(getAllUsersAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //block user reducer
     builder.addCase(blockUserAction.pending, (state) => {
       state.loading = true;
@@ -366,6 +398,9 @@ export const selectCurrentUser = (state) => {
 };
 export const selectUser = (state) => {
   return state.user.userData;
+};
+export const selectAllUsers = (state) => {
+  return state.user.allUsersData;
 };
 export const selectUpdateUser = (state) => {
   return state.user.updateUserData;
