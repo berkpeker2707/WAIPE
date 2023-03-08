@@ -9,22 +9,39 @@ const DiscoverMasonryListRenderedComponent = (props) => {
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Post", {
-          post: item,
-        });
+        item.email
+          ? navigation.navigate("UserProfileScreen", {
+              userID: item?._id,
+            })
+          : navigation.navigate("Post", {
+              post: item,
+            });
       }}
     >
       <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
-        <Image
-          source={{ uri: item.picture }}
-          style={{
-            height: randomBool ? 150 : 280,
-            alignSelf: "stretch",
-            marginLeft: i % 2 === 0 ? 0 : 12,
-          }}
-          resizeMode="cover"
-          alt="alt"
-        />
+        {item && item.picture ? (
+          <Image
+            source={{ uri: item.picture }}
+            style={{
+              height: randomBool ? 150 : 280,
+              alignSelf: "stretch",
+              marginLeft: i % 2 === 0 ? 0 : 12,
+            }}
+            resizeMode="cover"
+            alt="alt"
+          />
+        ) : (
+          <Image
+            source={require("../../assets/icon.png")}
+            style={{
+              height: randomBool ? 150 : 280,
+              alignSelf: "stretch",
+              marginLeft: i % 2 === 0 ? 0 : 12,
+            }}
+            resizeMode="cover"
+            alt="alt"
+          />
+        )}
       </View>
     </Pressable>
   );
