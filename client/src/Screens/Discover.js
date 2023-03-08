@@ -2,20 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import {
   ScrollView,
-  Center,
   Text,
-  Button,
-  Image,
-  Box,
   useSafeArea,
-  Pressable,
   VStack,
   Input,
   Icon,
   useTheme,
-  Divider,
 } from "native-base";
-import MasonryList from "@react-native-seoul/masonry-list";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectGetAllPosts,
@@ -43,9 +36,6 @@ const DiscoverScreen = ({ navigation, route }) => {
 
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState(() => allPosts);
-
-  // exclude column list from filter
-  const excludeColumns = ["_id", "like"];
 
   // handle change event of search input
   const handleChange = (value) => {
@@ -90,25 +80,6 @@ const DiscoverScreen = ({ navigation, route }) => {
       });
 
     return filteredData;
-    // .filter((item) => {
-    //   return Object.keys(item).some((key) =>
-    //     excludeColumns.includes(key)
-    //       ? false
-    //       : item[key].toString().toLowerCase().includes(lowercasedValue)
-    //   );
-    // });
-
-    // .map((d, i) => {
-    //   return (
-    //     //   <Text key={i} className="box" style={{ backgroundColor: d.color }}>
-    //     //     <Text>Name: </Text>
-    //     d.name
-    //     //     <Divider />
-    //     //   </Text>
-    //   );
-    // });
-    // setData(filteredData);
-    // console.log(filteredData);
   };
 
   //search section ends
