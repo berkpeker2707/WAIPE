@@ -14,6 +14,7 @@ import {
   selectGetAllPosts,
   getAllPostsAction,
 } from "../Redux/Slices/postSlice";
+import { selectAllUsers, getAllUsersAction } from "../Redux/Slices/userSlice";
 import SearchBarIcon from "../Components/Icons/SearchBarIcon";
 import DiscoverMasonryListComponent from "../Components/DiscoverMasonryListComponent";
 
@@ -23,9 +24,17 @@ const DiscoverScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const allPosts = useSelector(selectGetAllPosts);
+  const allUsers = useSelector(selectAllUsers);
 
   useEffect(() => {
     dispatch(getAllPostsAction());
+
+    return () => {
+      //clean up function
+    };
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllUsersAction());
 
     return () => {
       //clean up function
@@ -40,17 +49,36 @@ const DiscoverScreen = ({ navigation, route }) => {
   // handle change event of search input
   const handleChange = (value) => {
     setSearchText(value);
-    var searchedBool = allPosts.map((filteredDataParent) => {
-      return filteredDataParent.petID.name
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-    });
+    if (searchText.includes("@")) {
+      // by user name search starts
+      var searchedBool = allUsers.map((filteredDataParent) => {
+        return filteredDataParent.firstname
+          .toLowerCase()
+          .includes(searchText.replace("@", "").toLowerCase().trim());
+      });
 
-    var lowercasedValue = value.toString().toLowerCase().trim();
-    if (lowercasedValue === "") {
-      setData(allPosts);
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterUserData(searchedBool));
+      }
+      // by user name search ends
     } else {
-      setData(filterData(searchedBool));
+      // by pet name search starts
+      var searchedBool = allPosts.map((filteredDataParent) => {
+        return filteredDataParent.petID.name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      });
+
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterPostData(searchedBool));
+      }
+      // by pet name search ends
     }
   };
 
@@ -65,12 +93,12 @@ const DiscoverScreen = ({ navigation, route }) => {
     if (lowercasedValue === "") {
       setData(allPosts);
     } else {
-      setData(filterData(searchedBool));
+      setData(filterPostData(searchedBool));
     }
   };
 
-  // filter records by search text
-  const filterData = (searchedBool) => {
+  // filter posts by search text starts
+  const filterPostData = (searchedBool) => {
     var filteredData = allPosts
       .map((mamped) => {
         return mamped;
@@ -81,6 +109,21 @@ const DiscoverScreen = ({ navigation, route }) => {
 
     return filteredData;
   };
+  // filter posts by search text ends
+
+  // filter posts by search text starts
+  const filterUserData = (searchedBool) => {
+    var filteredData = allUsers
+      .map((mamped) => {
+        return mamped;
+      })
+      .filter((filt, filtIN) => {
+        return filt && searchedBool[filtIN] === true;
+      });
+
+    return filteredData;
+  };
+  // filter posts by search text ends
 
   //search section ends
 
@@ -89,7 +132,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     pt: 2,
   });
 
-  return allPosts ? (
+  return allUsers && allPosts ? (
     <ScrollView {...safeAreaProps}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
@@ -111,8 +154,7 @@ const DiscoverScreen = ({ navigation, route }) => {
           onSubmitEditing={onSubmitEditingD}
         />
       </VStack>
-
-      {data && data.length && data.length > 1 ? (
+      {data && data.length && data.length > 0 ? (
         <DiscoverMasonryListComponent data={data} navigation={navigation} />
       ) : (
         <Text>No records found to display!</Text>
