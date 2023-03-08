@@ -55,7 +55,6 @@ const DiscoverScreen = ({ navigation, route }) => {
         .toLowerCase()
         .includes(searchText.toLowerCase());
     });
-    // var a = filterData(value);
 
     var lowercasedValue = value.toString().toLowerCase().trim();
     if (lowercasedValue === "") {
@@ -69,12 +68,12 @@ const DiscoverScreen = ({ navigation, route }) => {
     var searchedBool = allPosts.map((filteredDataParent) => {
       return filteredDataParent.petID.name
         .toLowerCase()
-        .includes("Perry".toLowerCase());
+        .includes(searchText.toLowerCase());
     });
 
     var lowercasedValue = value.toString().toLowerCase().trim();
     if (lowercasedValue === "") {
-      setData(filterData(searchedBool));
+      setData(allPosts);
     } else {
       setData(filterData(searchedBool));
     }
@@ -112,64 +111,12 @@ const DiscoverScreen = ({ navigation, route }) => {
     // console.log(filteredData);
   };
 
-  // console.log(
-  //   allPosts
-  //     .map((filteredDataParent) => {
-  //       return filteredDataParent.petID.name;
-  //     })
-  //     .sort()
-  //     .filter(function (item, pos, ary) {
-  //       return !pos || item != ary[pos - 1];
-  //     })
-  // );
-
-  // return setSearchedPosts(() => setSearchedPosts(sorted));
-
-  // .filter((el) => {
-  //   return el.toLowerCase().includes("Perry".toLowerCase());
-  // })
-  // console.log(
-  //   allPosts
-  //     .map((mamped) => {
-  //       return mamped;
-  //     })
-  //     .filter((filt, filtIN) => {
-  //       return filt && searchedBool[filtIN] === true;
-  //     })
-  // );
-
   //search section ends
 
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
   });
-
-  // const renderItem = (item, i) => {
-  //   const randomBool = useMemo(() => Math.random() < 0.5, []);
-
-  //   return (
-  //     <Pressable
-  //       onPress={() => {
-  //         navigation.navigate("Post", {
-  //           post: item,
-  //         });
-  //       }}
-  //     >
-  //       <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
-  //         <Image
-  //           source={{ uri: item.picture }}
-  //           style={{
-  //             height: randomBool ? 150 : 280,
-  //             alignSelf: "stretch",
-  //             marginLeft: i % 2 === 0 ? 0 : 12,
-  //           }}
-  //           resizeMode="cover"
-  //           alt="alt"
-  //         />
-  //       </View>
-  //     </Pressable>
-  //   );
 
   return allPosts ? (
     <ScrollView {...safeAreaProps}>
