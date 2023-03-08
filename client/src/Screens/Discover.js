@@ -130,7 +130,7 @@ const DiscoverScreen = ({ navigation, route }) => {
   });
 
   return allUsers && allPosts ? (
-    <ScrollView {...safeAreaProps}>
+    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
           placeholder="Type pet name or type '@' to search user"
