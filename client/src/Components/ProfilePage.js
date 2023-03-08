@@ -61,11 +61,15 @@ const ProfilePage = memo((props) => {
           <Heading>{name}</Heading>
           {user ? (
             <Button
-              onPress={() =>
-                navigation.navigate("UserProfileScreen", {
-                  userID: user._id,
-                })
-              }
+              onPress={() => {
+                if (isCurrentUser) {
+                  navigation.navigate("MainProfile");
+                } else {
+                  navigation.navigate("UserProfileScreen", {
+                    userID: user._id,
+                  });
+                }
+              }}
               variant="link"
             >
               {`${user?.firstname} ${user?.lastname}`}
