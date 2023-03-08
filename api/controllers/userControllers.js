@@ -23,6 +23,11 @@ const getCurrentUserController = expressHandler(async (req, res) => {
         model: "User",
         select: "firstname lastname picture",
       })
+      .populate({
+        path: "blockedPets",
+        model: "Pet",
+        select: "name picture ownerID",
+      })
       .populate({ path: "archivedPosts", model: "Post" })
       .exec();
 

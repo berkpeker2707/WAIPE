@@ -39,7 +39,7 @@ const EditPetProfile = ({ navigation, route }) => {
     if (!result.canceled) {
       result["petID"] = pet._id;
       dispatch(uploadPetPhotoAction(result));
-      navigation.navigate("PetProfile", { petId: pet._id });
+      navigation.navigate("MyPetProfile", { petId: pet._id });
     }
   };
 
@@ -60,7 +60,7 @@ const EditPetProfile = ({ navigation, route }) => {
             onSubmit={(values) => {
               values["petID"] = pet._id;
               dispatch(updatePetAction(values));
-              navigation.navigate("PetProfile", { petId: pet._id });
+              navigation.navigate("MyPetProfile", { petId: pet._id });
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -76,7 +76,7 @@ const EditPetProfile = ({ navigation, route }) => {
                           petID: pet._id,
                         })
                       );
-                      navigation.navigate("PetProfile", { petId: pet._id });
+                      navigation.navigate("MyPetProfile", { petId: pet._id });
                     }}
                     icon="trash"
                   />
@@ -164,7 +164,7 @@ const EditPetProfile = ({ navigation, route }) => {
                     variant="link"
                     _text={{ color: "forestGreen.400" }}
                     onPress={() =>
-                      navigation.navigate("PetProfile", { petId: pet._id })
+                      navigation.navigate("MyPetProfile", { petId: pet._id })
                     }
                   >
                     Cancel

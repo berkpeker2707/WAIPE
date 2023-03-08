@@ -68,14 +68,21 @@ export const getAllUsersAction = createAsyncThunk(
 
 export const blockUserAction = createAsyncThunk(
   "user/blockUserAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (userID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
 
+      const { data } = await axios.put(
+        `${api_url}/user/block/user`,
+        { blockedUsers: userID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -85,14 +92,20 @@ export const blockUserAction = createAsyncThunk(
 
 export const followPetAction = createAsyncThunk(
   "user/followPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/follow/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/follow/pet`,
+        { followedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -102,14 +115,20 @@ export const followPetAction = createAsyncThunk(
 
 export const blockPetAction = createAsyncThunk(
   "user/blockPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/block/pet`,
+        { blockedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -296,6 +315,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.blockUserData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(blockUserAction.rejected, (state, action) => {
       state.loading = false;
@@ -310,6 +330,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.followPetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(followPetAction.rejected, (state, action) => {
       state.loading = false;
@@ -324,6 +345,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.blockPetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(blockPetAction.rejected, (state, action) => {
       state.loading = false;
