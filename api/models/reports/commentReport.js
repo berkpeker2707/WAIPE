@@ -25,7 +25,7 @@ const CommentReportSchema = mongoose.Schema({
   },
 });
 
-module.exports = CommentReport = mongoose.modelNames(
+module.exports = CommentReport = mongoose.model(
   "CommentReport",
   CommentReportSchema
 );
