@@ -10,6 +10,11 @@ const PostReportSchema = mongoose.Schema({
   petID: { type: mongoose.Schema.Types.ObjectId, ref: "Pet", required: true },
   picture: { type: String, required: true },
   postDescription: { type: String, required: true },
+  reporter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 module.exports = PostReport = mongoose.model("PostReport", PostReportSchema);

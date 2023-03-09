@@ -18,6 +18,11 @@ const CommentReportSchema = mongoose.Schema({
     ref: "Comment",
     require: true,
   },
+  reporter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 module.exports = CommentReport = mongoose.modelNames(

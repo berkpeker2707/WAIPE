@@ -7,6 +7,11 @@ const PetReportSchema = mongoose.Schema({
   picture: { type: String, required: true },
   ownerID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   biography: { type: String, ref: "User" },
+  reporter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 module.exports = PetReport = mongoose.model("PetReport", PetReportSchema);

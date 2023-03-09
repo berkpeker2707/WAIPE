@@ -7,6 +7,11 @@ const UserReportSchema = mongoose.Schema({
     ref: "User",
     require: true,
   },
+  reporter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 module.exports = UserReport = mongoose.model("UserReport", UserReportSchema);
