@@ -51,7 +51,7 @@ const BookmarksScreen = ({ navigation, route }) => {
       >
         <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
           <Image
-            source={{ uri: item.picture }}
+            source={{ uri: item.picture ? item.picture : null }}
             style={{
               height: 150,
               alignSelf: "stretch",
