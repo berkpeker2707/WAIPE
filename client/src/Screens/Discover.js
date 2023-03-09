@@ -80,7 +80,7 @@ const DiscoverScreen = ({ navigation, route }) => {
     }
   };
 
-  const onSubmitEditingD = (value) => {
+  const onSubmitEditingFunc = (value) => {
     setSearchText(value);
     if (searchText.includes("@")) {
       // by user name search starts
@@ -168,7 +168,7 @@ const DiscoverScreen = ({ navigation, route }) => {
           }}
           onChangeText={handleChange}
           value={searchText}
-          onSubmitEditing={onSubmitEditingD}
+          onSubmitEditing={onSubmitEditingFunc}
         />
       </VStack>
       {data && data.length && data.length > 0 ? (
