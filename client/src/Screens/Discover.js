@@ -81,17 +81,37 @@ const DiscoverScreen = ({ navigation, route }) => {
   };
 
   const onSubmitEditingD = (value) => {
-    var searchedBool = allPosts.map((filteredDataParent) => {
-      return filteredDataParent.petID.name
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-    });
+    setSearchText(value);
+    if (searchText.includes("@")) {
+      // by user name search starts
+      var searchedBool = allUsers.map((filteredDataParent) => {
+        return filteredDataParent.firstname
+          .toLowerCase()
+          .includes(searchText.replace("@", "").toLowerCase().trim());
+      });
 
-    var lowercasedValue = value.toString().toLowerCase().trim();
-    if (lowercasedValue === "") {
-      setData(allPosts);
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterUserData(searchedBool));
+      }
+      // by user name search ends
     } else {
-      setData(filterPostData(searchedBool));
+      // by pet name search starts
+      var searchedBool = allPosts.map((filteredDataParent) => {
+        return filteredDataParent.petID.name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      });
+
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterPostData(searchedBool));
+      }
+      // by pet name search ends
     }
   };
 
