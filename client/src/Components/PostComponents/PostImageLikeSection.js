@@ -561,7 +561,9 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           alignSelf="center"
                           size="xs"
                           source={{
-                            uri: getPostState[0].petID.picture ?? "",
+                            uri: getPostState[0].petID.picture
+                              ? getPostState[0].petID.picture
+                              : null,
                           }}
                         >
                           {getPostState[0].petID.name ?? ""}

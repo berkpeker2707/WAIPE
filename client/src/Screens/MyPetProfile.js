@@ -1,5 +1,7 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useRef, useState } from "react";
 import { HStack, Image, ScrollView, useTheme } from "native-base";
+import { Video, AVPlaybackStatus } from "expo-av";
+
 import {
   selectGetPet,
   selectPetLoading,
@@ -22,6 +24,9 @@ const MyPetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
 
   const pet = useSelector(selectGetPet);
   const petLoading = useSelector(selectPetLoading);
@@ -78,19 +83,42 @@ const MyPetProfile = memo(({ navigation, route }) => {
                 key={index}
                 onPress={() => navigation.navigate("Post", { post: post })}
               >
-                <Image
-                  source={{
-                    uri: `${post.picture}`,
-                  }}
-                  alt="Alternate Text"
-                  size="xl"
-                  w={160}
-                  mr={(index + 1) % 2 === 0 ? "0" : "1"}
-                  ml={(index + 1) % 2 !== 0 ? "0" : "1"}
-                  mt="1"
-                  mb="1"
-                  borderRadius="xl"
-                />
+                {post.picture.includes("video") ? (
+                  <Video
+                    ref={video}
+                    source={{
+                      uri: `${post.picture ? post.picture : null}`,
+                    }}
+                    useNativeControls
+                    resizeMode="contain"
+                    isLooping
+                    onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                    style={{
+                      width: 160,
+                      height: 120,
+                      marginTop: 1,
+                      marginBottom: 1,
+                      marginRight: (index + 1) % 2 === 0 ? 0 : 1,
+                      marginLeft: (index + 1) % 2 === 0 ? 0 : 1,
+                      borderRadius: 10,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: `${post.picture ? post.picture : null}`,
+                    }}
+                    alt="Alternate Text"
+                    size="xl"
+                    w={160}
+                    h={120}
+                    mr={(index + 1) % 2 === 0 ? "0" : "1"}
+                    ml={(index + 1) % 2 !== 0 ? "0" : "1"}
+                    mt="1"
+                    mb="1"
+                    borderRadius="xl"
+                  />
+                )}
               </PressableButton>
             );
           })}

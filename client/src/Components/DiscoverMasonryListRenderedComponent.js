@@ -21,7 +21,7 @@ const DiscoverMasonryListRenderedComponent = (props) => {
       <View key={item._id} style={[{ marginTop: 12, flex: 1 }]}>
         {item && item.picture ? (
           <Image
-            source={{ uri: item.picture }}
+            source={{ uri: item.picture ? item.picture : null }}
             style={{
               height: randomBool ? 150 : 280,
               alignSelf: "stretch",

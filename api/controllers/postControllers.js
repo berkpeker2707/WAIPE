@@ -17,32 +17,63 @@ const postPostController = expressHandler(async (req, res) => {
     const localPath =
       await `middlewares/photos/${req?.files?.image?.originalFilename}`;
     if (localPath) {
-      const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
-      if (imgUploaded === "Wrong type") return res.json("Wrong type");
+      if (req.files.image.type === "video/quicktime") {
+        const imgUploaded = await cloudinaryUploadPostImg(
+          req.files.image.path,
+          petID
+        );
+        if (imgUploaded === "Wrong type") return res.json("Wrong type");
 
-      const post = await Post.create({
-        petID: petID,
-        picture: imgUploaded?.secure_url,
-        postDescription: req?.body?.postDescription,
-      });
+        const post = await Post.create({
+          petID: petID,
+          picture: imgUploaded?.secure_url,
+          postDescription: req?.body?.postDescription,
+        });
 
-      const like = await Like.create({
-        postID: post._id,
-      });
-      const comment = await Comment.create({
-        postID: post._id,
-      });
+        const like = await Like.create({
+          postID: post._id,
+        });
+        const comment = await Comment.create({
+          postID: post._id,
+        });
 
-      post.updateOne({ like: like._id, comment: comment._id }).exec();
+        post.updateOne({ like: like._id, comment: comment._id }).exec();
 
-      const pet = await Pet.findByIdAndUpdate(
-        petID,
-        { $push: { petPost: [post._id] } },
-        { new: true, upsert: true }
-      ).exec();
+        const pet = await Pet.findByIdAndUpdate(
+          petID,
+          { $push: { petPost: [post._id] } },
+          { new: true, upsert: true }
+        ).exec();
 
-      fs.unlinkSync(localPath);
-      res.status(200).json(post);
+        res.status(200).json(post);
+      } else {
+        const imgUploaded = await cloudinaryUploadPostImg(localPath, petID);
+        if (imgUploaded === "Wrong type") return res.json("Wrong type");
+
+        const post = await Post.create({
+          petID: petID,
+          picture: imgUploaded?.secure_url,
+          postDescription: req?.body?.postDescription,
+        });
+
+        const like = await Like.create({
+          postID: post._id,
+        });
+        const comment = await Comment.create({
+          postID: post._id,
+        });
+
+        post.updateOne({ like: like._id, comment: comment._id }).exec();
+
+        const pet = await Pet.findByIdAndUpdate(
+          petID,
+          { $push: { petPost: [post._id] } },
+          { new: true, upsert: true }
+        ).exec();
+
+        fs.unlinkSync(localPath);
+        res.status(200).json(post);
+      }
     } else {
       res.status(500).json("Something went wrong.");
     }
