@@ -65,9 +65,15 @@ const DiscoverScreen = ({ navigation, route }) => {
     } else {
       // by pet name search starts
       var searchedBool = allPosts.map((filteredDataParent) => {
-        return filteredDataParent.petID.name
-          .toLowerCase()
-          .includes(searchText.toLowerCase());
+        return (
+          filteredDataParent.petID.name
+            .toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          // or check pet description
+          filteredDataParent.petID.biography
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        );
       });
 
       var lowercasedValue = value.toString().toLowerCase().trim();
@@ -80,18 +86,38 @@ const DiscoverScreen = ({ navigation, route }) => {
     }
   };
 
-  const onSubmitEditingD = (value) => {
-    var searchedBool = allPosts.map((filteredDataParent) => {
-      return filteredDataParent.petID.name
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-    });
+  const onSubmitEditingFunc = (value) => {
+    setSearchText(value);
+    if (searchText.includes("@")) {
+      // by user name search starts
+      var searchedBool = allUsers.map((filteredDataParent) => {
+        return filteredDataParent.firstname
+          .toLowerCase()
+          .includes(searchText.replace("@", "").toLowerCase().trim());
+      });
 
-    var lowercasedValue = value.toString().toLowerCase().trim();
-    if (lowercasedValue === "") {
-      setData(allPosts);
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterUserData(searchedBool));
+      }
+      // by user name search ends
     } else {
-      setData(filterPostData(searchedBool));
+      // by pet name search starts
+      var searchedBool = allPosts.map((filteredDataParent) => {
+        return filteredDataParent.petID.name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      });
+
+      var lowercasedValue = value.toString().toLowerCase().trim();
+      if (lowercasedValue === "") {
+        setData(allPosts);
+      } else {
+        setData(filterPostData(searchedBool));
+      }
+      // by pet name search ends
     }
   };
 
@@ -148,7 +174,7 @@ const DiscoverScreen = ({ navigation, route }) => {
           }}
           onChangeText={handleChange}
           value={searchText}
-          onSubmitEditing={onSubmitEditingD}
+          onSubmitEditing={onSubmitEditingFunc}
         />
       </VStack>
       {data && data.length && data.length > 0 ? (
