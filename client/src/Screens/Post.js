@@ -81,7 +81,7 @@ const PostScreen = ({ navigation, route }) => {
 
   return (
     // && !postLoading
-    <ScrollView bg={theme.colors.sage[400]}>
+    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
       {/* image section starts */}
       {getPostState && getPostState[0] ? (
         <PostImageSection
