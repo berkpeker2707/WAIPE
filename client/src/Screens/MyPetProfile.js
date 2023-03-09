@@ -87,7 +87,7 @@ const MyPetProfile = memo(({ navigation, route }) => {
                   <Video
                     ref={video}
                     source={{
-                      uri: `${post.picture}`,
+                      uri: `${post.picture ? post.picture : null}`,
                     }}
                     useNativeControls
                     resizeMode="contain"
@@ -106,7 +106,7 @@ const MyPetProfile = memo(({ navigation, route }) => {
                 ) : (
                   <Image
                     source={{
-                      uri: `${post.picture}`,
+                      uri: `${post.picture ? post.picture : null}`,
                     }}
                     alt="Alternate Text"
                     size="xl"
