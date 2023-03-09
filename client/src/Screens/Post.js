@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Box,
-  Divider,
-  useTheme,
-  Spinner,
-  useSafeArea,
-} from "native-base";
+import { ScrollView, Box, Divider, useTheme, useSafeArea } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -19,16 +12,17 @@ import {
   selectCommentUpdated,
   selectGetComment,
 } from "../Redux/Slices/commentSlice";
+import {
+  getCurrentUserAction,
+  selectCurrentUser,
+} from "../Redux/Slices/userSlice";
+
 import { selectLikeUpdated } from "../Redux/Slices/likeSlice";
 
 import PostImageSection from "../Components/PostComponents/PostImageSection";
 import PostImageLikeSection from "../Components/PostComponents/PostImageLikeSection";
 import PostAddCommentSection from "../Components/PostComponents/PostAddCommentSection";
 import PostViewCommentSection from "../Components/PostComponents/PostViewCommentSection";
-import {
-  getCurrentUserAction,
-  selectCurrentUser,
-} from "../Redux/Slices/userSlice";
 
 const PostScreen = ({ navigation, route }) => {
   const theme = useTheme();
