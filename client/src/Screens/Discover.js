@@ -65,9 +65,15 @@ const DiscoverScreen = ({ navigation, route }) => {
     } else {
       // by pet name search starts
       var searchedBool = allPosts.map((filteredDataParent) => {
-        return filteredDataParent.petID.name
-          .toLowerCase()
-          .includes(searchText.toLowerCase());
+        return (
+          filteredDataParent.petID.name
+            .toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          // or check pet description
+          filteredDataParent.petID.biography
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        );
       });
 
       var lowercasedValue = value.toString().toLowerCase().trim();
