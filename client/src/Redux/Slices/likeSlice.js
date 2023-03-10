@@ -3,7 +3,7 @@ import axios from "axios";
 
 var api_url;
 if (__DEV__) {
-  api_url = "http://192.168.100.70:5001/api";
+  api_url = "http://192.168.100.84:5001/api";
 } else {
   api_url = "https://waipe-server.azurewebsites.net/api";
 }
