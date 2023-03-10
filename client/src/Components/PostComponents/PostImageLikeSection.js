@@ -36,6 +36,20 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
 
   const [likeState, setLikeState] = useState(() => [getPostState]);
 
+  const [numOfHeartState, setNumOfHeartState] = useState(0);
+  const [
+    numOfCuteCatFeverCoffeeIconState,
+    setNumOfCuteCatFeverCoffeeIconState,
+  ] = useState(0);
+  const [numOfCuteCowSurprisedIconState, setNumOfCuteCowSurprisedIconState] =
+    useState(0);
+  const [
+    numOfCuteRabbitHoldingCarrotIconState,
+    setNumOfCuteRabbitHoldingCarrotIconState,
+  ] = useState(0);
+  const [numOfCuteSadCatSittingIconState, setNumOfCuteSadCatSittingIconState] =
+    useState(0);
+
   useEffect(() => {
     setLikeState(() => [getPostState[0].like.like]);
 
@@ -77,22 +91,44 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
 
   var likeNumbers = findOcc(likeState[0], "likeType");
 
-  var numOfHeart = likeNumbers.find(
-    (occur) => occur.likeType === "heart"
-  )?.occurrence;
+  useEffect(() => {
+    setNumOfHeartState(
+      likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
+    );
+    setNumOfCuteCatFeverCoffeeIconState(
+      likeNumbers?.find((occur) => occur?.likeType === "cuteCatFeverCoffeeIcon")
+        ?.occurrence
+    );
+    setNumOfCuteCowSurprisedIconState(
+      likeNumbers?.find((occur) => occur?.likeType === "cuteCowSurprisedIcon")
+        ?.occurrence
+    );
+    setNumOfCuteRabbitHoldingCarrotIconState(
+      likeNumbers?.find(
+        (occur) => occur?.likeType === "cuteRabbitHoldingCarrotIcon"
+      )?.occurrence
+    );
+    setNumOfCuteSadCatSittingIconState(
+      likeNumbers?.find((occur) => occur?.likeType === "cuteSadCatSittingIcon")
+        ?.occurrence
+    );
+  }, [likeNumbers]);
 
-  var numOfCuteCatFeverCoffeeIcon = likeNumbers.find(
-    (occur) => occur.likeType === "cuteCatFeverCoffeeIcon"
-  )?.occurrence;
-  var numOfCuteCowSurprisedIcon = likeNumbers.find(
-    (occur) => occur.likeType === "cuteCowSurprisedIcon"
-  )?.occurrence;
-  var numOfCuteRabbitHoldingCarrotIcon = likeNumbers.find(
-    (occur) => occur.likeType === "cuteRabbitHoldingCarrotIcon"
-  )?.occurrence;
-  var numOfCuteSadCatSittingIcon = likeNumbers.find(
-    (occur) => occur.likeType === "cuteSadCatSittingIcon"
-  )?.occurrence;
+  // var numOfHeart = likeNumbers.find(
+  //   (occur) => occur.likeType === "heart"
+  // )?.occurrence;
+  // var numOfCuteCatFeverCoffeeIcon = likeNumbers.find(
+  //   (occur) => occur.likeType === "cuteCatFeverCoffeeIcon"
+  // )?.occurrence;
+  // var numOfCuteCowSurprisedIcon = likeNumbers.find(
+  //   (occur) => occur.likeType === "cuteCowSurprisedIcon"
+  // )?.occurrence;
+  // var numOfCuteRabbitHoldingCarrotIcon = likeNumbers.find(
+  //   (occur) => occur.likeType === "cuteRabbitHoldingCarrotIcon"
+  // )?.occurrence;
+  // var numOfCuteSadCatSittingIcon = likeNumbers.find(
+  //   (occur) => occur.likeType === "cuteSadCatSittingIcon"
+  // )?.occurrence;
 
   return (
     <Stack alignItems="center" p="3">
@@ -148,7 +184,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfHeart ?? ""}
+                              {numOfHeartState ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -175,7 +211,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfHeart ?? ""}
+                              {numOfHeartState ?? ""}
                             </Center>
                           </>
                         )}
@@ -232,7 +268,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteCatFeverCoffeeIcon ?? ""}
+                              {numOfCuteCatFeverCoffeeIconState ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -259,7 +295,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteCatFeverCoffeeIcon ?? ""}
+                              {numOfCuteCatFeverCoffeeIconState ?? ""}
                             </Center>
                           </>
                         )}
@@ -316,7 +352,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteCowSurprisedIcon ?? ""}
+                              {numOfCuteCowSurprisedIconState ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -343,7 +379,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteCowSurprisedIcon ?? ""}
+                              {numOfCuteCowSurprisedIconState ?? ""}
                             </Center>
                           </>
                         )}
@@ -400,7 +436,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteRabbitHoldingCarrotIcon ?? ""}
+                              {numOfCuteRabbitHoldingCarrotIconState ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -427,7 +463,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteRabbitHoldingCarrotIcon ?? ""}
+                              {numOfCuteRabbitHoldingCarrotIconState ?? ""}
                             </Center>
                           </>
                         )}
@@ -484,7 +520,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteSadCatSittingIcon ?? ""}
+                              {numOfCuteSadCatSittingIconState ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -511,7 +547,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {numOfCuteSadCatSittingIcon ?? ""}
+                              {numOfCuteSadCatSittingIconState ?? ""}
                             </Center>
                           </>
                         )}
