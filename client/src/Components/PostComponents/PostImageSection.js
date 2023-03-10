@@ -73,9 +73,10 @@ const PostImageSection = memo(function PostImageSection(props) {
                     <Video
                       ref={video}
                       source={{
-                        uri: getPostState[0].picture
-                          ? getPostState[0].picture
-                          : null,
+                        uri:
+                          getPostState[0] && getPostState[0].picture
+                            ? getPostState[0].picture
+                            : null,
                       }}
                       useNativeControls
                       resizeMode="contain"
