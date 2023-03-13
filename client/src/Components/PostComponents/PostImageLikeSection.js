@@ -32,12 +32,6 @@ import LottieSparkle from "../AnimationComponents/LottieSparkle";
 const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   const { navigation, theme, getPostState, currentUser } = props;
 
-  const [heartAnimation, setHeartAnimation] = useState(() => false);
-  const [sparkleAnimation, setSparkleAnimation] = useState(() => false);
-  const [rainAnimation, setRainAnimation] = useState(() => false);
-  const [steamAnimation, setSteamAnimation] = useState(() => false);
-  const [questionAnimation, setQuestionAnimation] = useState(() => false);
-
   const dispatch = useDispatch();
 
   const isLikeUpdated = useSelector(selectLikeUpdated);
@@ -182,10 +176,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart
-                                animationStart={heartAnimation}
-                                setAnimationStart={setHeartAnimation}
-                              />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -239,7 +230,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCatFeverCoffeeIcon",
                       })
                     );
-                    setSteamAnimation(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -269,10 +259,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieSteam
-                                animationStart={steamAnimation}
-                                setAnimationStart={setSteamAnimation}
-                              />
+                              <LottieSteam isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -326,7 +313,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCowSurprisedIcon",
                       })
                     );
-                    setQuestionAnimation(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -356,10 +342,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieQuestion
-                                animationStart={questionAnimation}
-                                setAnimationStart={setQuestionAnimation}
-                              />
+                              <LottieQuestion isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -413,7 +396,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteRabbitHoldingCarrotIcon",
                       })
                     );
-                    setSparkleAnimation(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -443,10 +425,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieSparkle
-                                animationStart={sparkleAnimation}
-                                setAnimationStart={setQuestionAnimation}
-                              />
+                              <LottieSparkle isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -500,7 +479,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteSadCatSittingIcon",
                       })
                     );
-                    setRainAnimation(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -530,10 +508,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieRain
-                                animationStart={rainAnimation}
-                                setAnimationStart={setRainAnimation}
-                              />
+                              <LottieRain isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
