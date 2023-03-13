@@ -268,14 +268,14 @@ const likeSlice = createSlice({
 
 export const selectLikeLoading = (state) => state.like.loading;
 export const selectLikeError = (state) => state.like.error;
+export const selectLikeUpdated = (state) => {
+  return state.like.isUpdated;
+};
 export const selectUpdatePostLike = (state) => state.like.updatePostLikeData;
 export const selectUpdatePostLike1 = (state) => state.like.updatePostLikeData1;
 export const selectUpdatePostLike2 = (state) => state.like.updatePostLikeData2;
 export const selectUpdatePostLike3 = (state) => state.like.updatePostLikeData3;
 export const selectUpdatePostLike4 = (state) => state.like.updatePostLikeData4;
 export const selectUpdatePostLike5 = (state) => state.like.updatePostLikeData5;
-export const selectLikeUpdated = (state) => {
-  return state.like.isUpdated;
-};
 
 export default likeSlice.reducer;
