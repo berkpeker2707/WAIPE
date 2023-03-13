@@ -21,6 +21,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectLikeUpdated,
+  selectUpdatePostLike,
+  selectUpdatePostLike1,
+  selectUpdatePostLike2,
+  selectUpdatePostLike3,
+  selectUpdatePostLike4,
+  selectUpdatePostLike5,
   updatePostLikeAction,
 } from "../../Redux/Slices/likeSlice";
 import LottieHeart from "../AnimationComponents/LottieHeart";
@@ -35,6 +41,13 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   const dispatch = useDispatch();
 
   const isLikeUpdated = useSelector(selectLikeUpdated);
+
+  const updatePostLike = useSelector(selectUpdatePostLike);
+  const updatePostLike1 = useSelector(selectUpdatePostLike1);
+  const updatePostLike2 = useSelector(selectUpdatePostLike2);
+  const updatePostLike3 = useSelector(selectUpdatePostLike3);
+  const updatePostLike4 = useSelector(selectUpdatePostLike4);
+  const updatePostLike5 = useSelector(selectUpdatePostLike5);
 
   const [likeState, setLikeState] = useState(() => [getPostState]);
 
