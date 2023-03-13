@@ -8,9 +8,10 @@ import {
   Stack,
   useSafeArea,
   useTheme,
+  Heading,
+  Button,
+  HStack,
 } from "native-base";
-import SettingsButton from "../Components/SettingsButton";
-import NameAndNickname from "../Components/NameAndNickname";
 import ProfileAvatar from "../Components/ProfileAvatar";
 import InfoCard from "../Components/InfoCard";
 
@@ -26,6 +27,9 @@ const ProfilePage = memo((props) => {
     children,
     editPage,
     isCurrentUser,
+    user,
+    rightTopElement,
+    leftTopElement,
   } = props;
 
   const safeAreaProps = useSafeArea({
@@ -48,14 +52,32 @@ const ProfilePage = memo((props) => {
       justifyContent="center"
       bg={theme.colors.sage[400]}
     >
-      {isCurrentUser ? (
-        <SettingsButton onPress={() => navigation.navigate("Settings")} />
-      ) : (
-        <></>
-      )}
-
+      <HStack w={360} justifyContent="space-between">
+        <Stack w={10}>{leftTopElement}</Stack>
+        <Stack w={10}>{rightTopElement}</Stack>
+      </HStack>
       <VStack space={4}>
-        <NameAndNickname name={`${name}`} nickname={"@Nickname"} />
+        <Center>
+          <Heading>{name}</Heading>
+          {user ? (
+            <Button
+              onPress={() => {
+                if (isCurrentUser) {
+                  navigation.navigate("MainProfile");
+                } else {
+                  navigation.navigate("UserProfileScreen", {
+                    userID: user._id,
+                  });
+                }
+              }}
+              variant="link"
+            >
+              {`${user?.firstname} ${user?.lastname}`}
+            </Button>
+          ) : (
+            <></>
+          )}
+        </Center>
         <ProfileAvatar
           image={pictureUrl}
           letter={`${name[0]}`}

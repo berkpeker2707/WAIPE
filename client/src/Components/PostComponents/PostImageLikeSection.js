@@ -565,7 +565,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                 </Center>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate("PetProfile", {
+                    navigation.navigate("MyPetProfile", {
                       petId: getPostState[0].petID._id,
                     })
                   }
@@ -584,7 +584,9 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           alignSelf="center"
                           size="xs"
                           source={{
-                            uri: getPostState[0].petID.picture ?? "",
+                            uri: getPostState[0].petID.picture
+                              ? getPostState[0].petID.picture
+                              : null,
                           }}
                         >
                           {getPostState[0].petID.name ?? ""}

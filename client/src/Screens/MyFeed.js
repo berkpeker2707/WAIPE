@@ -105,7 +105,7 @@ const MyFeedScreen = ({ navigation, route }) => {
                   <AspectRatio w="100%" ratio={1 / 1}>
                     <Image
                       source={{
-                        uri: fP.picture,
+                        uri: fP.picture ? fP.picture : null,
                       }}
                       alt="image"
                       blurRadius={

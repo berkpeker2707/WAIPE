@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PetCard from "../Components/PetCard";
-import { HStack } from "native-base";
+import { HStack, ScrollView, useTheme } from "native-base";
 import {
   selectUserLoading,
   selectUserUpdated,
@@ -9,9 +9,11 @@ import {
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePage from "../Components/ProfilePage";
+import MenuButton from "../Components/MenuButton";
 
 const UserProfileScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const userID = route.params.userID;
 
   const user = useSelector(selectUser);
@@ -34,33 +36,49 @@ const UserProfileScreen = ({ navigation, route }) => {
   }, [dispatch, user?._id, isUpdate]);
 
   return (
-    <ProfilePage
-      navigation={navigation}
-      loading={userLoading}
-      name={`${user?.firstname} ${user?.lastname}`}
-      pictureUrl={user?.picture}
-      infoText={
-        (infoText && infoText.country) || infoText.city || infoText.biography
-          ? `${infoText.country}, ${infoText.city}${"\n"}${infoText.biography}`
-          : "Empty like my heart..."
-      }
-      editPage={"EditMainProfile"}
-      isCurrentUser={false}
+    <ScrollView
+      bg={theme.colors.sage[400]}
+      contentContainerStyle={{
+        flexGrow: 1,
+      }}
     >
-      <HStack pl="1" flex="1" flexWrap="wrap">
-        {user?.pets?.map((pet, index) => {
-          return (
-            <PetCard
-              key={index}
-              name={pet.name}
-              image={pet.picture}
-              petId={pet._id}
-              navigation={navigation}
-            />
-          );
-        })}
-      </HStack>
-    </ProfilePage>
+      <ProfilePage
+        navigation={navigation}
+        loading={userLoading}
+        name={`${user?.firstname} ${user?.lastname}`}
+        pictureUrl={user?.picture}
+        infoText={
+          (infoText && infoText.country) || infoText.city || infoText.biography
+            ? `${infoText.country}, ${infoText.city}${"\n"}${
+                infoText.biography
+              }`
+            : "Empty like my heart..."
+        }
+        editPage={"EditMainProfile"}
+        isCurrentUser={false}
+        leftTopElement={
+          <MenuButton
+            profileType="user"
+            id={user?._id}
+            navigation={navigation}
+          />
+        }
+      >
+        <HStack pl="1" flex="1" flexWrap="wrap">
+          {user?.pets?.map((pet, index) => {
+            return (
+              <PetCard
+                key={index}
+                name={pet.name}
+                image={pet.picture}
+                petId={pet._id}
+                navigation={navigation}
+              />
+            );
+          })}
+        </HStack>
+      </ProfilePage>
+    </ScrollView>
   );
 };
 

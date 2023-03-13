@@ -4,7 +4,7 @@ const mime = require("mime");
 
 var api_url;
 if (__DEV__) {
-  api_url = "http://192.168.1.4:5001/api";
+  api_url = "http://192.168.100.78:5001/api";
 } else {
   api_url = "https://waipe-server.azurewebsites.net/api";
 }
@@ -48,16 +48,41 @@ export const getUserAction = createAsyncThunk(
   }
 );
 
-export const blockUserAction = createAsyncThunk(
-  "user/blockUserAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+export const getAllUsersAction = createAsyncThunk(
+  "user/getAllUsersAction",
+  async (userID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/user`, {
+      const token = getState()?.auth?.token;
+      const { data } = await axios.get(`${api_url}/user/fetch/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const blockUserAction = createAsyncThunk(
+  "user/blockUserAction",
+  async (userID, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.auth?.token;
+
+      const { data } = await axios.put(
+        `${api_url}/user/block/user`,
+        { blockedUsers: userID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -67,14 +92,20 @@ export const blockUserAction = createAsyncThunk(
 
 export const followPetAction = createAsyncThunk(
   "user/followPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/follow/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/follow/pet`,
+        { followedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -84,14 +115,20 @@ export const followPetAction = createAsyncThunk(
 
 export const blockPetAction = createAsyncThunk(
   "user/blockPetAction",
-  async (token, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.put(`${api_url}/user/block/pet`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = getState()?.auth?.token;
+      const { data } = await axios.put(
+        `${api_url}/user/block/pet`,
+        { blockedPets: petID },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      dispatch(updatedUser());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -255,6 +292,20 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action?.error;
     });
+    //get all users reducer
+    builder.addCase(getAllUsersAction.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllUsersAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.allUsersData = action?.payload;
+    });
+    builder.addCase(getAllUsersAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
     //block user reducer
     builder.addCase(blockUserAction.pending, (state) => {
       state.loading = true;
@@ -264,6 +315,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.blockUserData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(blockUserAction.rejected, (state, action) => {
       state.loading = false;
@@ -278,6 +330,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.followPetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(followPetAction.rejected, (state, action) => {
       state.loading = false;
@@ -292,6 +345,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.blockPetData = action?.payload;
+      state.isUpdated = false;
     });
     builder.addCase(blockPetAction.rejected, (state, action) => {
       state.loading = false;
@@ -366,6 +420,9 @@ export const selectCurrentUser = (state) => {
 };
 export const selectUser = (state) => {
   return state.user.userData;
+};
+export const selectAllUsers = (state) => {
+  return state.user.allUsersData;
 };
 export const selectUpdateUser = (state) => {
   return state.user.updateUserData;

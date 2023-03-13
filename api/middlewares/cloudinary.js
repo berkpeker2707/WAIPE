@@ -49,7 +49,7 @@ const cloudinaryUploadUserImg = async (fileToUpload, id) => {
 
 const cloudinaryUploadPostImg = async (fileToUpload, id) => {
   try {
-    const videoFormats = [".mp4", ".avi"];
+    const videoFormats = [".mp4", ".avi", ".mov"];
     const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
     const extension = path.extname(fileToUpload);
 
