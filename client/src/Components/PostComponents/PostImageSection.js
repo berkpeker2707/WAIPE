@@ -1,56 +1,27 @@
 import React, { useEffect, useState, memo } from "react";
-import { View, StyleSheet } from "react-native";
 import {
-  ScrollView,
   Box,
   AspectRatio,
   Image,
-  Text,
-  VStack,
   HStack,
-  Stack,
-  Divider,
   Circle,
   Icon,
-  Center,
   Pressable,
-  TextArea,
-  Avatar,
-  useTheme,
+  useDisclose,
 } from "native-base";
-
-import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Icons/LikeHeartIcon";
-import AddCommentIcon from "../Icons/AddCommentIcon";
-import SendMessageIcon from "../Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
+import ReportActionsheet from "../ReportActionsheet";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   archivePostAction,
-  getPostAction,
-  selectGetPost,
   selectPostUpdated,
 } from "../../Redux/Slices/postSlice";
-
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../../Redux/Slices/commentSlice";
-import {
-  selectLikeUpdated,
-  selectUpdatePostLike,
-  updatePostLikeAction,
-} from "../../Redux/Slices/likeSlice";
+import { postPostReportAction } from "../../Redux/Slices/reportSlice";
+import { selectCurrentUser } from "../../Redux/Slices/userSlice";
 
 const PostImageSection = memo(function PostImageSection(props) {
   const { navigation, theme, getPostState } = props;
@@ -58,8 +29,24 @@ const PostImageSection = memo(function PostImageSection(props) {
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
+  const currentUser = useSelector(selectCurrentUser);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, post) => {
+    dispatch(
+      postPostReportAction({
+        reportSubject: reportSubject,
+        postID: post._id,
+        petID: post.petID._id,
+        picture: post.picture,
+        postDescription: post.postDescription,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
+  };
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -76,6 +63,12 @@ const PostImageSection = memo(function PostImageSection(props) {
 
   return (
     <Box safeAreaTop mt={3} ml={7} mr={7}>
+      <ReportActionsheet
+        isOpen={isOpen}
+        onClose={onClose}
+        handleReport={handleReport}
+        post={getPostState[0]}
+      />
       <Pressable
         onLongPress={() => {
           onLongPressState
@@ -127,10 +120,7 @@ const PostImageSection = memo(function PostImageSection(props) {
                       p="2"
                       bg={theme.colors.sage[300]}
                     >
-                      <Pressable
-                        mr={1}
-                        onPress={() => console.log("Pressed report button")}
-                      >
+                      <Pressable mr={1} onPress={() => onOpen()}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
