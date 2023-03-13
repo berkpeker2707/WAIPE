@@ -12,6 +12,6 @@ const reportRoutes = express.Router();
 reportRoutes.post("/post/create", verifyToken, postPostReportController);
 reportRoutes.post("/user/create", verifyToken, postUserReportController);
 reportRoutes.post("/comment/create", verifyToken, postCommentReportController);
-reportRoutes.post("/PET/create", verifyToken, postPetReportController);
+reportRoutes.post("/pet/create", verifyToken, postPetReportController);
 
 module.exports = reportRoutes;
