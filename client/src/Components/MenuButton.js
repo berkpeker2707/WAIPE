@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { blockPetAction, blockUserAction } from "../Redux/Slices/userSlice";
 
 const MenuButton = (props) => {
-  const { profileType, id, navigation } = props;
+  const { profileType, id, navigation, openReport } = props;
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
 
@@ -17,6 +17,11 @@ const MenuButton = (props) => {
       dispatch(blockPetAction(id));
     }
     navigation.navigate("Feed");
+    setVisible(false);
+  };
+
+  const handleReport = () => {
+    openReport();
     setVisible(false);
   };
 
@@ -53,7 +58,7 @@ const MenuButton = (props) => {
         }
         onRequestClose={() => setVisible(false)}
       >
-        <MenuItem onPress={() => setVisible(false)}>
+        <MenuItem onPress={handleReport}>
           <Icon
             as={MaterialIcons}
             name="report"
