@@ -28,8 +28,6 @@ import LottieHeart from "../AnimationComponents/LottieHeart";
 const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   const { navigation, theme, getPostState, currentUser } = props;
 
-  const [animationStart, setAnimationStart] = useState(() => false);
-
   const dispatch = useDispatch();
 
   const isLikeUpdated = useSelector(selectLikeUpdated);
@@ -146,7 +144,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "heart",
                       })
                     );
-                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -175,7 +172,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart animationStart={animationStart} />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -229,7 +226,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCatFeverCoffeeIcon",
                       })
                     );
-                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -259,7 +255,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart animationStart={animationStart} />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -313,7 +309,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteCowSurprisedIcon",
                       })
                     );
-                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -343,7 +338,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart animationStart={animationStart} />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -397,7 +392,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteRabbitHoldingCarrotIcon",
                       })
                     );
-                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -427,7 +421,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart animationStart={animationStart} />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
@@ -481,7 +475,6 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                         likeType: "cuteSadCatSittingIcon",
                       })
                     );
-                    setAnimationStart(() => true);
                   }}
                 >
                   {({ isHovered, isFocused, isPressed }) => {
@@ -511,7 +504,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   />
                                 }
                               />
-                              <LottieHeart animationStart={animationStart} />
+                              <LottieHeart isLikeUpdated={isLikeUpdated} />
                             </Circle>
                             <Center
                               _text={{
