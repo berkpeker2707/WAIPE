@@ -4,3 +4,4 @@ api/.env
 .devcontainer/devcontainer.json
 .devcontainer
 .azure
+api/Dockerfile
