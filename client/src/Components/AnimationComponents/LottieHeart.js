@@ -10,7 +10,7 @@ export default function LottieHeart(props) {
 
   useEffect(() => {
     setAnimationLoaded(() => true);
-  }, [animationLoaded]);
+  }, [!isLikeUpdated]);
 
   const ref = useRef(null);
 
@@ -29,17 +29,7 @@ export default function LottieHeart(props) {
   //   }).start();
   // }, []);
 
-  console.log("animationLoaded");
-  console.log(animationLoaded);
-  console.log("animationLoaded");
-  console.log("#################################################");
-  console.log("#################################################");
-  console.log("#################################################");
-  console.log("isLikeUpdated");
-  console.log(isLikeUpdated);
-  console.log("isLikeUpdated");
-
-  return !isLikeUpdated ? (
+  return animationLoaded ? (
     <LottieView
       ref={(animation) => {
         ref.current = animation;

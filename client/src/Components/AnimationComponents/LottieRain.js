@@ -4,14 +4,13 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieRain(props) {
-  const { animationStart, setAnimationStart } = props;
+  const { isLikeUpdated } = props;
 
-  const [animationLoaded, setAnimationLoaded] = useState(() => false);
+  const [animationLoaded, setAnimationLoaded] = useState(() => isLikeUpdated);
 
   useEffect(() => {
     setAnimationLoaded(() => true);
-    setAnimationStart(() => false);
-  }, [animationStart]);
+  }, [!isLikeUpdated]);
 
   const ref = useRef(null);
 
@@ -19,16 +18,16 @@ export default function LottieRain(props) {
     setAnimationLoaded(() => false);
   };
 
-  const animationProgress = useRef(new Animated.Value(0));
+  // const animationProgress = useRef(new Animated.Value(0));
 
-  useEffect(() => {
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+  // useEffect(() => {
+  //   Animated.timing(animationProgress.current, {
+  //     toValue: 1,
+  //     duration: 5000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, []);
 
   return animationLoaded ? (
     <LottieView
