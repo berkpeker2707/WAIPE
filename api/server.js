@@ -23,6 +23,7 @@ const likeRoutes = require("./routes/likeRoutes");
 const petRoutes = require("./routes/petRoutes");
 const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -84,6 +85,7 @@ app.use("/api/like", likeRoutes);
 app.use("/api/pet", petRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/report", reportRoutes);
 
 app.get("/privacy", function (req, res) {
   res.sendFile(path.join(__dirname, "/view/privacy.html"));

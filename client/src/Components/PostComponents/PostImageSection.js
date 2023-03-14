@@ -8,12 +8,14 @@ import {
   Circle,
   Icon,
   Pressable,
+  useDisclose,
 } from "native-base";
 
 import { Video, AVPlaybackStatus } from "expo-av";
 
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
+import ReportActionsheet from "../ReportActionsheet";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,6 +23,8 @@ import {
   archivePostAction,
   selectPostUpdated,
 } from "../../Redux/Slices/postSlice";
+import { postPostReportAction } from "../../Redux/Slices/reportSlice";
+import { selectCurrentUser } from "../../Redux/Slices/userSlice";
 
 const PostImageSection = memo(function PostImageSection(props) {
   const { navigation, theme, getPostState } = props;
@@ -28,8 +32,24 @@ const PostImageSection = memo(function PostImageSection(props) {
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
+  const currentUser = useSelector(selectCurrentUser);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, post) => {
+    dispatch(
+      postPostReportAction({
+        reportSubject: reportSubject,
+        postID: post._id,
+        petID: post.petID._id,
+        picture: post.picture,
+        postDescription: post.postDescription,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
+  };
 
   const video = useRef(null);
   const [status, setStatus] = useState({});
@@ -49,6 +69,12 @@ const PostImageSection = memo(function PostImageSection(props) {
 
   return (
     <Box safeAreaTop mt={3} ml={7} mr={7}>
+      <ReportActionsheet
+        isOpen={isOpen}
+        onClose={onClose}
+        handleReport={handleReport}
+        post={getPostState[0]}
+      />
       <Pressable
         onLongPress={() => {
           onLongPressState
@@ -117,10 +143,7 @@ const PostImageSection = memo(function PostImageSection(props) {
                       p="2"
                       bg={theme.colors.sage[300]}
                     >
-                      <Pressable
-                        mr={1}
-                        onPress={() => console.log("Pressed report button")}
-                      >
+                      <Pressable mr={1} onPress={() => onOpen()}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle

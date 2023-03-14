@@ -1,7 +1,6 @@
 import React, { useEffect, memo, useRef, useState } from "react";
-import { HStack, Image, ScrollView, useTheme } from "native-base";
+import { HStack, Image, ScrollView, useDisclose, useTheme } from "native-base";
 import { Video, AVPlaybackStatus } from "expo-av";
-
 import {
   selectGetPet,
   selectPetLoading,
@@ -19,6 +18,8 @@ import {
 import SettingsButton from "../Components/SettingsButton";
 import FollowButton from "../Components/FollowButton";
 import MenuButton from "../Components/MenuButton";
+import { postPetReportAction } from "../Redux/Slices/reportSlice";
+import ReportActionsheet from "../Components/ReportActionsheet";
 
 const MyPetProfile = memo(({ navigation, route }) => {
   const { petId } = route.params;
@@ -33,6 +34,19 @@ const MyPetProfile = memo(({ navigation, route }) => {
   const petIsUpdate = useSelector(selectPetUpdated);
   const userIsUpdate = useSelector(selectUserUpdated);
   const currentUser = useSelector(selectCurrentUser);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, pet) => {
+    dispatch(
+      postPetReportAction({
+        reportSubject: reportSubject,
+        petID: pet._id,
+        ownerID: pet.ownerID._id,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
+  };
 
   useEffect(() => {
     dispatch(getPetAction(petId));
@@ -50,6 +64,12 @@ const MyPetProfile = memo(({ navigation, route }) => {
         flexGrow: 1,
       }}
     >
+      <ReportActionsheet
+        isOpen={isOpen}
+        onClose={onClose}
+        handleReport={handleReport}
+        post={pet}
+      />
       <ProfilePage
         navigation={navigation}
         loading={petLoading}
@@ -65,7 +85,12 @@ const MyPetProfile = memo(({ navigation, route }) => {
           pet?.ownerID?._id === currentUser._id ? (
             <></>
           ) : (
-            <MenuButton profileType="pet" id={petId} navigation={navigation} />
+            <MenuButton
+              profileType="pet"
+              id={petId}
+              navigation={navigation}
+              openReport={onOpen}
+            />
           )
         }
         rightTopElement={

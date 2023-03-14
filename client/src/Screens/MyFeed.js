@@ -15,6 +15,7 @@ import {
   Divider,
   Spinner,
   useSafeArea,
+  useDisclose,
 } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,11 +27,15 @@ import uuid from "react-native-uuid";
 
 import ReportIcon from "../Components/Icons/ReportIcon";
 import BookmarkIcon from "../Components/Icons/BookmarkIcon";
+import { postPostReportAction } from "../Redux/Slices/reportSlice";
+import { selectCurrentUser } from "../Redux/Slices/userSlice";
+import ReportActionsheet from "../Components/ReportActionsheet";
 
 const MyFeedScreen = ({ navigation, route }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const currentUser = useSelector(selectCurrentUser);
   const followedPosts = useSelector(selectGetFollowedPosts);
   const postLoading = useSelector(selectPostLoading);
 
@@ -46,6 +51,21 @@ const MyFeedScreen = ({ navigation, route }) => {
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [onLongPressItemState, setOnLongPressItemState] = useState(() => null);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, post) => {
+    dispatch(
+      postPostReportAction({
+        reportSubject: reportSubject,
+        postID: post._id,
+        petID: post.petID._id,
+        picture: post.picture,
+        postDescription: post.postDescription,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
+  };
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -77,6 +97,13 @@ const MyFeedScreen = ({ navigation, route }) => {
               mr={7}
               style={theme.postShadow}
             >
+              <ReportActionsheet
+                isOpen={isOpen}
+                onClose={onClose}
+                handleReport={handleReport}
+                post={fP}
+              />
+
               <Pressable
                 onPress={() => {
                   navigation.navigate("Post", {
@@ -164,7 +191,14 @@ const MyFeedScreen = ({ navigation, route }) => {
                             );
                           }}
                         </Pressable>
-                        <Pressable mr={1}>
+                        <Pressable
+                          mr={1}
+                          onPress={() => {
+                            console.log(fP);
+                            onOpen();
+                            // dispatch(postPostReportAction())
+                          }}
+                        >
                           {({ isHovered, isFocused, isPressed }) => {
                             return (
                               <Circle

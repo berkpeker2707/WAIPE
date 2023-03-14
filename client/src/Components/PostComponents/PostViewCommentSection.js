@@ -8,6 +8,7 @@ import {
   Center,
   Pressable,
   Avatar,
+  useDisclose,
 } from "native-base";
 
 import uuid from "react-native-uuid";
@@ -16,6 +17,8 @@ import ReportIcon from "../Icons/ReportIcon";
 import DeleteIcon from "../Icons/DeleteIcon";
 import { useDispatch } from "react-redux";
 import { deleteCommentAction } from "../../Redux/Slices/commentSlice";
+import ReportActionsheet from "../ReportActionsheet";
+import { postCommentReportAction } from "../../Redux/Slices/reportSlice";
 
 const PostViewCommentSection = memo(function PostViewCommentSection(props) {
   const { navigation, theme, getCommentState, currentUserID } = props;
@@ -25,6 +28,21 @@ const PostViewCommentSection = memo(function PostViewCommentSection(props) {
   const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [selectedItemID, setSelectedItemID] = useState(() => null);
   const [selectedItemOwnerID, setSelectedItemOwnerID] = useState(() => null);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, comment) => {
+    dispatch(
+      postCommentReportAction({
+        reportSubject: reportSubject,
+        postID: getCommentState[0].postID,
+        ownerID: comment.ownerID._id,
+        commentText: comment.commentText,
+        commentID: comment._id,
+        reporter: currentUserID,
+      })
+    );
+    onClose();
+  };
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -48,7 +66,7 @@ const PostViewCommentSection = memo(function PostViewCommentSection(props) {
       borderRadius="2xl"
     >
       {getCommentState &&
-        getCommentState[0].comment.map(
+        getCommentState[0]?.comment?.map(
           (getCommentStateInfo, getCommentStateIndex) => {
             return (
               <Stack
@@ -60,6 +78,12 @@ const PostViewCommentSection = memo(function PostViewCommentSection(props) {
                 safeAreaLeft
                 safeAreaRight
               >
+                <ReportActionsheet
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  handleReport={handleReport}
+                  post={getCommentStateInfo}
+                />
                 <Pressable
                   onPress={() =>
                     navigation.navigate("UserProfileScreen", {
@@ -162,12 +186,7 @@ const PostViewCommentSection = memo(function PostViewCommentSection(props) {
                                       : -1,
                                 }}
                               >
-                                <Pressable
-                                  m="1"
-                                  onPress={() =>
-                                    console.log("Pressed report button")
-                                  }
-                                >
+                                <Pressable m="1" onPress={() => onOpen()}>
                                   {({ isHovered, isFocused, isPressed }) => {
                                     return (
                                       <Circle

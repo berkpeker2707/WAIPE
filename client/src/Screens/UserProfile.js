@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import PetCard from "../Components/PetCard";
-import { HStack, ScrollView, useTheme } from "native-base";
+import { HStack, ScrollView, useDisclose, useTheme } from "native-base";
 import {
   selectUserLoading,
   selectUserUpdated,
   selectUser,
   getUserAction,
+  selectCurrentUser,
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePage from "../Components/ProfilePage";
 import MenuButton from "../Components/MenuButton";
+import { postUserReportAction } from "../Redux/Slices/reportSlice";
+import ReportActionsheet from "../Components/ReportActionsheet";
 
 const UserProfileScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -20,11 +23,24 @@ const UserProfileScreen = ({ navigation, route }) => {
 
   const userLoading = useSelector(selectUserLoading);
   const isUpdate = useSelector(selectUserUpdated);
+  const currentUser = useSelector(selectCurrentUser);
+  const { isOpen, onOpen, onClose } = useDisclose();
 
   const infoText = {
     country: user?.locations?.country ? user?.locations?.country : "",
     city: user?.locations?.city ? user?.locations?.city : "",
     biography: user?.biography ? user?.biography : "",
+  };
+
+  const handleReport = (reportSubject, userID) => {
+    dispatch(
+      postUserReportAction({
+        reportSubject: reportSubject,
+        userID: userID,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
   };
 
   useEffect(() => {
@@ -42,6 +58,12 @@ const UserProfileScreen = ({ navigation, route }) => {
         flexGrow: 1,
       }}
     >
+      <ReportActionsheet
+        isOpen={isOpen}
+        onClose={onClose}
+        handleReport={handleReport}
+        post={userID}
+      />
       <ProfilePage
         navigation={navigation}
         loading={userLoading}
@@ -61,6 +83,7 @@ const UserProfileScreen = ({ navigation, route }) => {
             profileType="user"
             id={user?._id}
             navigation={navigation}
+            openReport={onOpen}
           />
         }
       >
