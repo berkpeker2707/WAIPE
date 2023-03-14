@@ -40,6 +40,8 @@ export default function NewPostUnifiedSection(props) {
   const [selectedPetState, setSelectedPetState] = useState(() => "");
 
   console.log(selectedPetState);
+  console.log(imageSource);
+  console.log(imageSourceChanged);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -209,6 +211,7 @@ export default function NewPostUnifiedSection(props) {
       >
         <Button
           colorScheme="danger"
+          disabled={!imageSource || !selectedPetState}
           onPress={() => {
             dispatch(
               postPostAction({
