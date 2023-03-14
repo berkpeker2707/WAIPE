@@ -17,7 +17,7 @@ import {
   selectCurrentUser,
 } from "../Redux/Slices/userSlice";
 
-import { selectLikeUpdated } from "../Redux/Slices/likeSlice";
+import { selectLikeUpdatedBool } from "../Redux/Slices/likeSlice";
 
 import PostImageSection from "../Components/PostComponents/PostImageSection";
 import PostImageLikeSection from "../Components/PostComponents/PostImageLikeSection";
@@ -31,7 +31,7 @@ const PostScreen = ({ navigation, route }) => {
   const getPostState = useSelector(selectGetPost);
   const getCommentState = useSelector(selectGetComment);
 
-  const isLikeUpdated = useSelector(selectLikeUpdated);
+  const isLikeUpdatedBool = useSelector(selectLikeUpdatedBool);
   const isCommentUpdated = useSelector(selectCommentUpdated);
 
   const currentUser = useSelector(selectCurrentUser);
@@ -46,7 +46,7 @@ const PostScreen = ({ navigation, route }) => {
     return () => {
       controller.abort();
     };
-  }, [dispatch, route.params.post._id, isLikeUpdated]);
+  }, [dispatch, route.params.post._id, isLikeUpdatedBool]);
 
   useEffect(() => {
     const controller = new AbortController();
