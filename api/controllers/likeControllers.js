@@ -5,6 +5,24 @@ const User = require("../models/user");
 const expressHandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
 
+// get post like controller ***
+const getPostLikeController = expressHandler(async (req, res) => {
+  try {
+    const postID = req.params.postID;
+    const like = await Like.find({ postID: postID });
+
+    var likeCounts = like[0].like.reduce(function (obj, v) {
+      obj[v.likeType] = (obj[v.likeType] || 0) + 1;
+      return obj;
+    }, {});
+
+    res.status(200).json(likeCounts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 // like unline post controller ***
 const updatePostLikeController = expressHandler(async (req, res) => {
   try {
@@ -109,6 +127,7 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
 });
 
 module.exports = {
+  getPostLikeController,
   updatePostLikeController,
   updateCommentLikeController,
 };
