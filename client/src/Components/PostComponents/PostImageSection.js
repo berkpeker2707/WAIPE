@@ -1,4 +1,5 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, useRef } from "react";
+import { View, StyleSheet } from "react-native";
 import {
   Box,
   AspectRatio,
@@ -9,6 +10,8 @@ import {
   Pressable,
   useDisclose,
 } from "native-base";
+
+import { Video, AVPlaybackStatus } from "expo-av";
 
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
@@ -47,6 +50,9 @@ const PostImageSection = memo(function PostImageSection(props) {
     );
     onClose();
   };
+
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -89,15 +95,32 @@ const PostImageSection = memo(function PostImageSection(props) {
                 borderWidth="3.5"
               >
                 <AspectRatio w="100%" ratio={1 / 1}>
-                  <Image
-                    source={{
-                      uri: getPostState[0].picture
-                        ? getPostState[0].picture
-                        : null,
-                    }}
-                    alt="image"
-                    blurRadius={onLongPressState ? 50 : 0}
-                  />
+                  {getPostState[0].picture.includes("video") ? (
+                    <Video
+                      ref={video}
+                      source={{
+                        uri: getPostState[0].picture
+                          ? getPostState[0].picture
+                          : null,
+                      }}
+                      useNativeControls
+                      resizeMode="contain"
+                      isLooping
+                      onPlaybackStatusUpdate={(status) =>
+                        setStatus(() => status)
+                      }
+                    />
+                  ) : (
+                    <Image
+                      source={{
+                        uri: getPostState[0].picture
+                          ? getPostState[0].picture
+                          : null,
+                      }}
+                      alt="image"
+                      blurRadius={onLongPressState ? 50 : 0}
+                    />
+                  )}
                 </AspectRatio>
                 {onLongPressState ? (
                   <HStack
@@ -200,6 +223,16 @@ const PostImageSection = memo(function PostImageSection(props) {
       </Pressable>
     </Box>
   );
+});
+
+var styles = StyleSheet.create({
+  backgroundVideo: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
 });
 
 export default PostImageSection;

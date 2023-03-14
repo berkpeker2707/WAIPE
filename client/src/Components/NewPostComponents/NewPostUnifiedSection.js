@@ -85,8 +85,8 @@ export default function NewPostUnifiedSection(props) {
 
       if (
         tempImgVar &&
-        [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"].some((substring) =>
-          tempImgVar.includes(substring)
+        [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png", ".mp4", ".mov"].some(
+          (substring) => tempImgVar.includes(substring)
         )
       ) {
         setImageSource(() => tempImgVar);
