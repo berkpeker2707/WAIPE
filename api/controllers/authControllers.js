@@ -146,7 +146,7 @@ const signinController = expressHandler(async (req, res) => {
 
     res.status(200).json({
       accessToken: token,
-      message: null,
+      message: "Login Successful",
     });
   } catch (error) {
     res.status(500).json(error);
