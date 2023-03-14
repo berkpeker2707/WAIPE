@@ -15,6 +15,29 @@ const updatedLike3 = createAction("like3/update");
 const updatedLike4 = createAction("like4/update");
 const updatedLike5 = createAction("like5/update");
 
+export const getPostLikeAction = createAsyncThunk(
+  "like/getPostLike",
+  async (postID, { rejectWithValue, getState, dispatch }) => {
+    //get employee token
+    const auth = getState()?.auth;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${api_url}/like/fetch/post/${postID}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.reponse?.data);
+    }
+  }
+);
+
 export const updatePostLikeAction = createAsyncThunk(
   "like/updatePostLike",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -39,6 +62,7 @@ export const updatePostLikeAction = createAsyncThunk(
     }
   }
 );
+
 export const updatePostLike1Action = createAsyncThunk(
   "like/updatePostLike1",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -63,6 +87,7 @@ export const updatePostLike1Action = createAsyncThunk(
     }
   }
 );
+
 export const updatePostLike2Action = createAsyncThunk(
   "like/updatePostLike2",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -87,6 +112,7 @@ export const updatePostLike2Action = createAsyncThunk(
     }
   }
 );
+
 export const updatePostLike3Action = createAsyncThunk(
   "like/updatePostLike3",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -111,6 +137,7 @@ export const updatePostLike3Action = createAsyncThunk(
     }
   }
 );
+
 export const updatePostLike4Action = createAsyncThunk(
   "like/updatePostLike4",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -135,6 +162,7 @@ export const updatePostLike4Action = createAsyncThunk(
     }
   }
 );
+
 export const updatePostLike5Action = createAsyncThunk(
   "like/updatePostLike5",
   async (values, { rejectWithValue, getState, dispatch }) => {
@@ -165,6 +193,7 @@ const likeSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
+    getPostLikeData: null,
     isUpdated: null,
     isUpdated1: null,
     isUpdated2: null,
@@ -210,6 +239,20 @@ const likeSlice = createSlice({
       state.isUpdated = false;
     });
     builder.addCase(updatePostLikeAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action?.error;
+    });
+    //get post like reducer
+    builder.addCase(getPostLikeAction.pending, (state, action) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getPostLikeAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.getPostLikeData = action?.payload;
+    });
+    builder.addCase(getPostLikeAction.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.error;
     });
@@ -311,6 +354,7 @@ export const selectLike4UpdatedBool = (state) => {
 export const selectLike5UpdatedBool = (state) => {
   return state.like.isUpdated5;
 };
+export const selectGetPostLike = (state) => state.like.getPostLikeData;
 export const selectUpdatePostLike = (state) => state.like.updatePostLikeData;
 export const selectUpdatePostLike1 = (state) => state.like.updatePostLike1Data;
 export const selectUpdatePostLike2 = (state) => state.like.updatePostLike2Data;
