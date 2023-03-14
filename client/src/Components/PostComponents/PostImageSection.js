@@ -14,13 +14,16 @@ import { Video, AVPlaybackStatus } from "expo-av";
 
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   archivePostAction,
+  deletePostAction,
   selectPostUpdated,
 } from "../../Redux/Slices/postSlice";
+import { selectCurrentUser } from "../../Redux/Slices/userSlice";
 
 const PostImageSection = memo(function PostImageSection(props) {
   const { navigation, theme, getPostState } = props;
@@ -28,11 +31,16 @@ const PostImageSection = memo(function PostImageSection(props) {
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
+  const currentUser = useSelector(selectCurrentUser);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
 
   const video = useRef(null);
   const [status, setStatus] = useState({});
+
+  console.log(getPostState[0].petID.ownerID);
+  console.log(currentUser._id);
+  console.log(getPostState[0]._id);
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -188,6 +196,37 @@ const PostImageSection = memo(function PostImageSection(props) {
                           );
                         }}
                       </Pressable>
+                      {getPostState[0].petID.ownerID === currentUser._id ? (
+                        <Pressable
+                          ml={1}
+                          onPress={() => {
+                            dispatch(deletePostAction(getPostState[0]._id));
+                            navigation.navigate("MyPetProfile", {
+                              petId: getPostState[0].petID._id,
+                            });
+                          }}
+                        >
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={SimpleLineIcons}
+                                  name="trash"
+                                  color="white"
+                                />
+                              </Circle>
+                            );
+                          }}
+                        </Pressable>
+                      ) : (
+                        <></>
+                      )}
                     </HStack>
                   </HStack>
                 ) : (

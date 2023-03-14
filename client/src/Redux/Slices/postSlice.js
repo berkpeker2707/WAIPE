@@ -4,7 +4,7 @@ const mime = require("mime");
 
 var api_url;
 if (__DEV__) {
-  api_url = "http://192.168.100.78:5001/api";
+  api_url = "http://192.168.100.88:5001/api";
 } else {
   api_url = "https://waipe-server.azurewebsites.net/api";
 }
@@ -173,7 +173,7 @@ export const updatePostAction = createAsyncThunk(
 
 export const deletePostAction = createAsyncThunk(
   "post/deletePost",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  async (postID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -183,7 +183,7 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.delete(
-        `${api_url}/post/delete/${postID}}`,
+        `${api_url}/post/delete/${postID}`,
         config
       );
 
