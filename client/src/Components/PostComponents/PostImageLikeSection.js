@@ -39,7 +39,12 @@ import LottieQuestion from "../AnimationComponents/LottieQuestion";
 import LottieSparkle from "../AnimationComponents/LottieSparkle";
 
 const PostImageLikeSection = memo(function PostImageLikeSection(props) {
-  const { navigation, theme, getPostState, currentUser } = props;
+  const { navigation, theme, getPostState, getPostLikeState, currentUser } =
+    props;
+
+  console.log("getPostLikeState");
+  console.log(getPostLikeState);
+  console.log("getPostLikeState");
 
   const dispatch = useDispatch();
 
@@ -63,55 +68,55 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
 
   const [likeState, setLikeState] = useState(() => [getPostState]);
 
-  function findOcc(arr, key) {
-    let arr2 = [];
+  // function findOcc(arr, key) {
+  //   let arr2 = [];
 
-    arr.forEach((x) => {
-      // Checking if there is any object in arr2
-      // which contains the key value
-      if (
-        arr2.some((val) => {
-          return val[key] == x[key];
-        })
-      ) {
-        // If yes! then increase the occurrence by 1
-        arr2.forEach((k) => {
-          if (k[key] === x[key]) {
-            k["occurrence"]++;
-          }
-        });
-      } else {
-        // If not! Then create a new object initialize
-        // it with the present iteration key's value and
-        // set the occurrence to 1
-        let a = {};
-        a[key] = x[key];
-        a["occurrence"] = 1;
-        arr2.push(a);
-      }
-    });
+  //   arr.forEach((x) => {
+  //     // Checking if there is any object in arr2
+  //     // which contains the key value
+  //     if (
+  //       arr2.some((val) => {
+  //         return val[key] == x[key];
+  //       })
+  //     ) {
+  //       // If yes! then increase the occurrence by 1
+  //       arr2.forEach((k) => {
+  //         if (k[key] === x[key]) {
+  //           k["occurrence"]++;
+  //         }
+  //       });
+  //     } else {
+  //       // If not! Then create a new object initialize
+  //       // it with the present iteration key's value and
+  //       // set the occurrence to 1
+  //       let a = {};
+  //       a[key] = x[key];
+  //       a["occurrence"] = 1;
+  //       arr2.push(a);
+  //     }
+  //   });
 
-    return arr2;
-  }
+  //   return arr2;
+  // }
 
-  var likeNumbers = findOcc(likeState[0], "likeType");
+  // var likeNumbers = findOcc(likeState[0], "likeType");
 
-  const [numOfHeartState, setNumOfHeartState] = useState(
-    likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
-  );
+  // const [numOfHeartState, setNumOfHeartState] = useState(
+  //   likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
+  // );
 
-  const [
-    numOfCuteCatFeverCoffeeIconState,
-    setNumOfCuteCatFeverCoffeeIconState,
-  ] = useState(0);
-  const [numOfCuteCowSurprisedIconState, setNumOfCuteCowSurprisedIconState] =
-    useState(0);
-  const [
-    numOfCuteRabbitHoldingCarrotIconState,
-    setNumOfCuteRabbitHoldingCarrotIconState,
-  ] = useState(0);
-  const [numOfCuteSadCatSittingIconState, setNumOfCuteSadCatSittingIconState] =
-    useState(0);
+  // const [
+  //   numOfCuteCatFeverCoffeeIconState,
+  //   setNumOfCuteCatFeverCoffeeIconState,
+  // ] = useState(0);
+  // const [numOfCuteCowSurprisedIconState, setNumOfCuteCowSurprisedIconState] =
+  //   useState(0);
+  // const [
+  //   numOfCuteRabbitHoldingCarrotIconState,
+  //   setNumOfCuteRabbitHoldingCarrotIconState,
+  // ] = useState(0);
+  // const [numOfCuteSadCatSittingIconState, setNumOfCuteSadCatSittingIconState] =
+  //   useState(0);
 
   // useEffect(() => {
   //   setLikeState(() => [getPostState[0].like.like]);
@@ -121,458 +126,465 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   //   };
   // }, [dispatch, getPostState, isLikeUpdatedBool]);
 
-  useEffect(() => {
-    // setNumOfHeartState(
-    //   likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
-    // );
-    setNumOfCuteCatFeverCoffeeIconState(
-      likeNumbers?.find((occur) => occur?.likeType === "cuteCatFeverCoffeeIcon")
-        ?.occurrence
-    );
-    setNumOfCuteCowSurprisedIconState(
-      likeNumbers?.find((occur) => occur?.likeType === "cuteCowSurprisedIcon")
-        ?.occurrence
-    );
-    setNumOfCuteRabbitHoldingCarrotIconState(
-      likeNumbers?.find(
-        (occur) => occur?.likeType === "cuteRabbitHoldingCarrotIcon"
-      )?.occurrence
-    );
-    setNumOfCuteSadCatSittingIconState(
-      likeNumbers?.find((occur) => occur?.likeType === "cuteSadCatSittingIcon")
-        ?.occurrence
-    );
-  }, []);
+  // useEffect(() => {
+  //   // setNumOfHeartState(
+  //   //   likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
+  //   // );
+  //   setNumOfCuteCatFeverCoffeeIconState(
+  //     likeNumbers?.find((occur) => occur?.likeType === "cuteCatFeverCoffeeIcon")
+  //       ?.occurrence
+  //   );
+  //   setNumOfCuteCowSurprisedIconState(
+  //     likeNumbers?.find((occur) => occur?.likeType === "cuteCowSurprisedIcon")
+  //       ?.occurrence
+  //   );
+  //   setNumOfCuteRabbitHoldingCarrotIconState(
+  //     likeNumbers?.find(
+  //       (occur) => occur?.likeType === "cuteRabbitHoldingCarrotIcon"
+  //     )?.occurrence
+  //   );
+  //   setNumOfCuteSadCatSittingIconState(
+  //     likeNumbers?.find((occur) => occur?.likeType === "cuteSadCatSittingIcon")
+  //       ?.occurrence
+  //   );
+  // }, []);
 
-  return (
+  return currentUser ? (
     <Stack alignItems="center" p="3">
       <HStack space={12} justifyContent="space-between">
         <HStack alignItems="center">
-          {currentUser &&
-            likeState.map((likeStateInfo, likeStateIndex) => {
-              return (
-                <HStack key={uuid.v4()}>
-                  <Pressable
-                    mr={1}
-                    onPress={() => {
-                      dispatch(
-                        updatePostLike1Action({
-                          likeID: getPostState[0].like._id,
-                          likeType: "heart",
-                        })
-                      );
-                    }}
-                  >
-                    {({ isHovered, isFocused, isPressed }) => {
-                      return (
-                        <>
-                          {!isLike1UpdatedBool &&
-                          likeStateInfo.some((likeStateSingle) => {
-                            return (
-                              likeStateSingle["likeType"] === "heart" &&
-                              likeStateSingle.ownerID === currentUser._id
-                            );
-                          }) ? (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <LikeHeartIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                                <LottieHeart
-                                  isLike1UpdatedBool={isLike1UpdatedBool}
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfHeartState ?? ""}
-                              </Center>
-                            </>
-                          ) : (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.muted[600]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <LikeHeartIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfHeartState ?? ""}
-                              </Center>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Pressable>
+          {likeState.map((likeStateInfo, likeStateIndex) => {
+            return (
+              <HStack key={uuid.v4()}>
+                <Pressable
+                  mr={1}
+                  onPress={() => {
+                    dispatch(
+                      updatePostLike1Action({
+                        likeID: getPostState[0].like._id,
+                        likeType: "heart",
+                      })
+                    );
+                  }}
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <>
+                        {!isLike1UpdatedBool &&
+                        likeStateInfo.some((likeStateSingle) => {
+                          return (
+                            likeStateSingle["likeType"] === "heart" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
+                        }) ? (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <LikeHeartIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                              <LottieHeart
+                                isLike1UpdatedBool={isLike1UpdatedBool}
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState && getPostLikeState.heart}
+                            </Center>
+                          </>
+                        ) : (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.muted[600]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <LikeHeartIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState && getPostLikeState.heart}
+                            </Center>
+                          </>
+                        )}
+                      </>
+                    );
+                  }}
+                </Pressable>
 
-                  <Pressable
-                    mr={1}
-                    onPress={() => {
-                      dispatch(
-                        updatePostLike2Action({
-                          likeID: getPostState[0].like._id,
-                          likeType: "cuteCatFeverCoffeeIcon",
-                        })
-                      );
-                    }}
-                  >
-                    {({ isHovered, isFocused, isPressed }) => {
-                      return (
-                        <>
-                          {!isLike2UpdatedBool &&
-                          likeStateInfo.some((likeStateSingle) => {
-                            return (
-                              likeStateSingle["likeType"] ===
-                                "cuteCatFeverCoffeeIcon" &&
-                              likeStateSingle.ownerID === currentUser._id
-                            );
-                          }) ? (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteCatFeverCoffeeIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                                <LottieSteam
-                                  isLike2UpdatedBool={isLike2UpdatedBool}
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteCatFeverCoffeeIconState ?? ""}
-                              </Center>
-                            </>
-                          ) : (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.muted[600]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteCatFeverCoffeeIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteCatFeverCoffeeIconState ?? ""}
-                              </Center>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Pressable>
+                <Pressable
+                  mr={1}
+                  onPress={() => {
+                    dispatch(
+                      updatePostLike2Action({
+                        likeID: getPostState[0].like._id,
+                        likeType: "cuteCatFeverCoffeeIcon",
+                      })
+                    );
+                  }}
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <>
+                        {!isLike2UpdatedBool &&
+                        likeStateInfo.some((likeStateSingle) => {
+                          return (
+                            likeStateSingle["likeType"] ===
+                              "cuteCatFeverCoffeeIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
+                        }) ? (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteCatFeverCoffeeIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                              <LottieSteam
+                                isLike2UpdatedBool={isLike2UpdatedBool}
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteCatFeverCoffeeIcon}
+                            </Center>
+                          </>
+                        ) : (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.muted[600]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteCatFeverCoffeeIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteCatFeverCoffeeIcon}
+                            </Center>
+                          </>
+                        )}
+                      </>
+                    );
+                  }}
+                </Pressable>
 
-                  <Pressable
-                    mr={1}
-                    onPress={() => {
-                      dispatch(
-                        updatePostLike3Action({
-                          likeID: getPostState[0].like._id,
-                          likeType: "cuteCowSurprisedIcon",
-                        })
-                      );
-                    }}
-                  >
-                    {({ isHovered, isFocused, isPressed }) => {
-                      return (
-                        <>
-                          {!isLike3UpdatedBool &&
-                          likeStateInfo.some((likeStateSingle) => {
-                            return (
-                              likeStateSingle["likeType"] ===
-                                "cuteCowSurprisedIcon" &&
-                              likeStateSingle.ownerID === currentUser._id
-                            );
-                          }) ? (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteCowSurprisedIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                                <LottieQuestion
-                                  isLike3UpdatedBool={isLike3UpdatedBool}
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteCowSurprisedIconState ?? ""}
-                              </Center>
-                            </>
-                          ) : (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.muted[600]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteCowSurprisedIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteCowSurprisedIconState ?? ""}
-                              </Center>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Pressable>
+                <Pressable
+                  mr={1}
+                  onPress={() => {
+                    dispatch(
+                      updatePostLike3Action({
+                        likeID: getPostState[0].like._id,
+                        likeType: "cuteCowSurprisedIcon",
+                      })
+                    );
+                  }}
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <>
+                        {!isLike3UpdatedBool &&
+                        likeStateInfo.some((likeStateSingle) => {
+                          return (
+                            likeStateSingle["likeType"] ===
+                              "cuteCowSurprisedIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
+                        }) ? (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteCowSurprisedIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                              <LottieQuestion
+                                isLike3UpdatedBool={isLike3UpdatedBool}
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteCowSurprisedIcon}
+                            </Center>
+                          </>
+                        ) : (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.muted[600]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteCowSurprisedIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteCowSurprisedIcon}
+                            </Center>
+                          </>
+                        )}
+                      </>
+                    );
+                  }}
+                </Pressable>
 
-                  <Pressable
-                    mr={1}
-                    onPress={() => {
-                      dispatch(
-                        updatePostLike4Action({
-                          likeID: getPostState[0].like._id,
-                          likeType: "cuteRabbitHoldingCarrotIcon",
-                        })
-                      );
-                    }}
-                  >
-                    {({ isHovered, isFocused, isPressed }) => {
-                      return (
-                        <>
-                          {!isLike4UpdatedBool &&
-                          likeStateInfo.some((likeStateSingle) => {
-                            return (
-                              likeStateSingle["likeType"] ===
-                                "cuteRabbitHoldingCarrotIcon" &&
-                              likeStateSingle.ownerID === currentUser._id
-                            );
-                          }) ? (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteRabbitHoldingCarrotIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                                <LottieSparkle
-                                  isLike4UpdatedBool={isLike4UpdatedBool}
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteRabbitHoldingCarrotIconState ?? ""}
-                              </Center>
-                            </>
-                          ) : (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.muted[600]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteRabbitHoldingCarrotIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteRabbitHoldingCarrotIconState ?? ""}
-                              </Center>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Pressable>
+                <Pressable
+                  mr={1}
+                  onPress={() => {
+                    dispatch(
+                      updatePostLike4Action({
+                        likeID: getPostState[0].like._id,
+                        likeType: "cuteRabbitHoldingCarrotIcon",
+                      })
+                    );
+                  }}
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <>
+                        {!isLike4UpdatedBool &&
+                        likeStateInfo.some((likeStateSingle) => {
+                          return (
+                            likeStateSingle["likeType"] ===
+                              "cuteRabbitHoldingCarrotIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
+                        }) ? (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteRabbitHoldingCarrotIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                              <LottieSparkle
+                                isLike4UpdatedBool={isLike4UpdatedBool}
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteRabbitHoldingCarrotIcon}
+                            </Center>
+                          </>
+                        ) : (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.muted[600]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteRabbitHoldingCarrotIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteRabbitHoldingCarrotIcon}
+                            </Center>
+                          </>
+                        )}
+                      </>
+                    );
+                  }}
+                </Pressable>
 
-                  <Pressable
-                    mr={1}
-                    onPress={() => {
-                      dispatch(
-                        updatePostLike5Action({
-                          likeID: getPostState[0].like._id,
-                          likeType: "cuteSadCatSittingIcon",
-                        })
-                      );
-                    }}
-                  >
-                    {({ isHovered, isFocused, isPressed }) => {
-                      return (
-                        <>
-                          {!isLike5UpdatedBool &&
-                          likeStateInfo.some((likeStateSingle) => {
-                            return (
-                              likeStateSingle["likeType"] ===
-                                "cuteSadCatSittingIcon" &&
-                              likeStateSingle.ownerID === currentUser._id
-                            );
-                          }) ? (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.forestGreen[400]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteSadCatSittingIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                                <LottieRain
-                                  isLike5UpdatedBool={isLike5UpdatedBool}
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteSadCatSittingIconState ?? ""}
-                              </Center>
-                            </>
-                          ) : (
-                            <>
-                              <Circle
-                                size="30px"
-                                bg={theme.colors.muted[600]}
-                                style={{
-                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                                }}
-                              >
-                                <Icon
-                                  as={
-                                    <CuteSadCatSittingIcon
-                                      color={theme.colors.sage[300]}
-                                    />
-                                  }
-                                />
-                              </Circle>
-                              <Center
-                                _text={{
-                                  color: theme.colors.extraOrage[400],
-                                  fontWeight: "bold",
-                                }}
-                                mr={1}
-                              >
-                                {numOfCuteSadCatSittingIconState ?? ""}
-                              </Center>
-                            </>
-                          )}
-                        </>
-                      );
-                    }}
-                  </Pressable>
-                </HStack>
-              );
-            })}
+                <Pressable
+                  mr={1}
+                  onPress={() => {
+                    dispatch(
+                      updatePostLike5Action({
+                        likeID: getPostState[0].like._id,
+                        likeType: "cuteSadCatSittingIcon",
+                      })
+                    );
+                  }}
+                >
+                  {({ isHovered, isFocused, isPressed }) => {
+                    return (
+                      <>
+                        {!isLike5UpdatedBool &&
+                        likeStateInfo.some((likeStateSingle) => {
+                          return (
+                            likeStateSingle["likeType"] ===
+                              "cuteSadCatSittingIcon" &&
+                            likeStateSingle.ownerID === currentUser._id
+                          );
+                        }) ? (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.forestGreen[400]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteSadCatSittingIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                              <LottieRain
+                                isLike5UpdatedBool={isLike5UpdatedBool}
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteSadCatSittingIcon}
+                            </Center>
+                          </>
+                        ) : (
+                          <>
+                            <Circle
+                              size="30px"
+                              bg={theme.colors.muted[600]}
+                              style={{
+                                transform: [{ scale: isPressed ? 0.96 : 1 }],
+                              }}
+                            >
+                              <Icon
+                                as={
+                                  <CuteSadCatSittingIcon
+                                    color={theme.colors.sage[300]}
+                                  />
+                                }
+                              />
+                            </Circle>
+                            <Center
+                              _text={{
+                                color: theme.colors.extraOrage[400],
+                                fontWeight: "bold",
+                              }}
+                              mr={1}
+                            >
+                              {getPostLikeState &&
+                                getPostLikeState.cuteSadCatSittingIcon}
+                            </Center>
+                          </>
+                        )}
+                      </>
+                    );
+                  }}
+                </Pressable>
+              </HStack>
+            );
+          })}
         </HStack>
         <Pressable>
           {({ isHovered, isFocused, isPressed }) => {
@@ -641,6 +653,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
         </HStack>
       </HStack>
     </Stack>
+  ) : (
+    <></>
   );
 });
 
