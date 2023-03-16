@@ -11,14 +11,14 @@ const getPostLikeController = expressHandler(async (req, res) => {
     const postID = req.params.postID;
     const like = await Like.find({ postID: postID });
 
-    var likeCounts = like[0].like.reduce(function (obj, v) {
+    var likeCounts = like[0].like.reduce((obj, v) => {
+      //like type numbers
       obj[v.likeType] = (obj[v.likeType] || 0) + 1;
       return obj;
     }, {});
 
     res.status(200).json(likeCounts);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });
