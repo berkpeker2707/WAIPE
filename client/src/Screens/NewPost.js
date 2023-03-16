@@ -1,55 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  ScrollView,
-  Box,
-  AspectRatio,
-  Image,
-  Text,
-  VStack,
-  HStack,
-  Stack,
-  Divider,
-  Circle,
-  Icon,
-  Center,
-  Pressable,
-  TextArea,
-  Avatar,
-  useTheme,
-  Button,
-} from "native-base";
+import React, { useEffect } from "react";
+import { ScrollView, Text, Stack, useTheme } from "native-base";
 
-import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Components/Icons/LikeHeartIcon";
-import AddCommentIcon from "../Components/Icons/AddCommentIcon";
-import SendMessageIcon from "../Components/Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Components/Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Components/Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Components/Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Components/Icons/CuteSadCatSittingIcon";
-
-import ReportIcon from "../Components/Icons/ReportIcon";
-import BookmarkIcon from "../Components/Icons/BookmarkIcon";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  archivePostAction,
-  getPostAction,
-  selectGetPost,
-  selectPostUpdated,
-} from "../Redux/Slices/postSlice";
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../Redux/Slices/commentSlice";
-import { selectLikeUpdated } from "../Redux/Slices/likeSlice";
-
-import PostImageSection from "../Components/PostComponents/PostImageSection";
-import PostImageLikeSection from "../Components/PostComponents/PostImageLikeSection";
-import PostViewCommentSection from "../Components/PostComponents/PostViewCommentSection";
 import {
   getCurrentUserAction,
   selectCurrentUser,

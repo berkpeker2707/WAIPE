@@ -85,6 +85,7 @@ const EditMainProfileScreen = ({ navigation }) => {
                         navigation.navigate("MainProfile");
                       }}
                       icon="trash"
+                      isCurrentUser={true}
                     />
                     <Button size="md" variant="ghost" onPress={pickImage}>
                       Change Profile Picture

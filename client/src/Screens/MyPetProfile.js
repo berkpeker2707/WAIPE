@@ -18,6 +18,11 @@ import {
 import SettingsButton from "../Components/SettingsButton";
 import FollowButton from "../Components/FollowButton";
 import MenuButton from "../Components/MenuButton";
+import {
+  getPetPostsAction,
+  selectGetPetPosts,
+  selectPostUpdated,
+} from "../Redux/Slices/postSlice";
 import { postPetReportAction } from "../Redux/Slices/reportSlice";
 import ReportActionsheet from "../Components/ReportActionsheet";
 
@@ -34,6 +39,8 @@ const MyPetProfile = memo(({ navigation, route }) => {
   const petIsUpdate = useSelector(selectPetUpdated);
   const userIsUpdate = useSelector(selectUserUpdated);
   const currentUser = useSelector(selectCurrentUser);
+  const petPost = useSelector(selectGetPetPosts);
+  const postIsUpdate = useSelector(selectPostUpdated);
   const { isOpen, onOpen, onClose } = useDisclose();
 
   const handleReport = (reportSubject, pet) => {
@@ -51,11 +58,12 @@ const MyPetProfile = memo(({ navigation, route }) => {
   useEffect(() => {
     dispatch(getPetAction(petId));
     dispatch(getCurrentUserAction());
+    dispatch(getPetPostsAction(petId));
 
     return () => {
       //clean up function
     };
-  }, [dispatch, petId, petIsUpdate, userIsUpdate]);
+  }, [dispatch, petId, petIsUpdate, userIsUpdate, postIsUpdate]);
 
   return (
     <ScrollView
@@ -102,7 +110,7 @@ const MyPetProfile = memo(({ navigation, route }) => {
         }
       >
         <HStack flex="1" flexWrap="wrap" justifyContent="space-between">
-          {pet?.petPost?.map((post, index) => {
+          {petPost?.map((post, index) => {
             return (
               <PressableButton
                 key={index}

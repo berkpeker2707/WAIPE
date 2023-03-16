@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Box,
@@ -9,54 +8,23 @@ import {
   VStack,
   HStack,
   Stack,
-  Divider,
   Circle,
   Icon,
-  Center,
   Pressable,
   TextArea,
-  Avatar,
-  useTheme,
   Button,
   Select,
   FormControl,
   CheckIcon,
-  WarningOutlineIcon,
 } from "native-base";
 
 import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Icons/LikeHeartIcon";
 import AddCommentIcon from "../Icons/AddCommentIcon";
-import SendMessageIcon from "../Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
-import ReportIcon from "../Icons/ReportIcon";
-import BookmarkIcon from "../Icons/BookmarkIcon";
+import { useDispatch } from "react-redux";
 
-import { useDispatch, useSelector } from "react-redux";
+import { postPostAction } from "../../Redux/Slices/postSlice";
 
-import {
-  archivePostAction,
-  getPostAction,
-  postPostAction,
-  selectGetPost,
-  selectPostUpdated,
-} from "../../Redux/Slices/postSlice";
-
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../../Redux/Slices/commentSlice";
-import {
-  selectLikeUpdated,
-  selectUpdatePostLike,
-  updatePostLikeAction,
-} from "../../Redux/Slices/likeSlice";
 import * as ImagePicker from "expo-image-picker";
 
 const palet = require("../../../assets/paletWhite.png");
@@ -69,7 +37,11 @@ export default function NewPostUnifiedSection(props) {
   const [imageSource, setImageSource] = useState(() => null);
   const [imageSourceChanged, setImageSourceChanged] = useState(() => false);
   const [newPostTextState, setNewPostTextState] = useState(() => "");
-  const [selectedPetState, setSelectedPetState] = useState(() => null);
+  const [selectedPetState, setSelectedPetState] = useState(() => "");
+
+  console.log(selectedPetState);
+  console.log(imageSource);
+  console.log(imageSourceChanged);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -106,7 +78,7 @@ export default function NewPostUnifiedSection(props) {
       setImageSource(() => null);
       setImageSourceChanged(() => false);
       setNewPostTextState(() => "");
-      setSelectedPetState(() => null);
+      setSelectedPetState(() => "");
     });
 
     // return the function to unsubscribe from the event so it gets removed on unmount
@@ -168,11 +140,12 @@ export default function NewPostUnifiedSection(props) {
         <FormControl isRequired>
           <Select
             alignItems="center"
+            selectedValue={selectedPetState}
             bg={theme.colors.sage[300]}
             borderRadius="2xl"
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Choose Service"
+            accessibilityLabel="Choose Pet"
+            placeholder="Choose Pet"
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size={5} />,
@@ -238,6 +211,7 @@ export default function NewPostUnifiedSection(props) {
       >
         <Button
           colorScheme="danger"
+          disabled={!imageSource || !selectedPetState}
           onPress={() => {
             dispatch(
               postPostAction({
