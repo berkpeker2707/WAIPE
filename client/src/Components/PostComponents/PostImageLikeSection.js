@@ -48,9 +48,19 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
 
   useEffect(() => {
     setLikeState(() => [getPostLikeState]);
+    setLike1State(() => isLike1UpdatedBool);
+    setLike2State(() => isLike2UpdatedBool);
+    setLike3State(() => isLike3UpdatedBool);
+    setLike4State(() => isLike4UpdatedBool);
+    setLike5State(() => isLike5UpdatedBool);
   }, [getPostLikeState, isLike1UpdatedBool, isLike2UpdatedBool, isLike3UpdatedBool, isLike4UpdatedBool, isLike5UpdatedBool]);
 
   const [likeState, setLikeState] = useState();
+  const [like1State, setLike1State] = useState();
+  const [like2State, setLike2State] = useState();
+  const [like3State, setLike3State] = useState();
+  const [like4State, setLike4State] = useState();
+  const [like5State, setLike5State] = useState();
 
   const dispatch = useDispatch();
 
@@ -96,9 +106,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                     />
                                   }
                                 />
-                                <LottieHeart
-                                  isLike1UpdatedBool={isLike1UpdatedBool}
-                                />
+                                <LottieHeart isLike1UpdatedBool={like1State} />
                               </Circle>
                               <Center
                                 _text={{
@@ -181,9 +189,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                     />
                                   }
                                 />
-                                <LottieSteam
-                                  isLike2UpdatedBool={isLike2UpdatedBool}
-                                />
+                                <LottieSteam isLike2UpdatedBool={like2State} />
                               </Circle>
                               <Center
                                 _text={{
@@ -269,7 +275,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   }
                                 />
                                 <LottieQuestion
-                                  isLike3UpdatedBool={isLike3UpdatedBool}
+                                  isLike3UpdatedBool={like3State}
                                 />
                               </Circle>
                               <Center
@@ -354,7 +360,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                   }
                                 />
                                 <LottieSparkle
-                                  isLike4UpdatedBool={isLike4UpdatedBool}
+                                  isLike4UpdatedBool={like4State}
                                 />
                               </Circle>
                               <Center
@@ -440,9 +446,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                                     />
                                   }
                                 />
-                                <LottieRain
-                                  isLike5UpdatedBool={isLike5UpdatedBool}
-                                />
+                                <LottieRain isLike5UpdatedBool={like5State} />
                               </Circle>
                               <Center
                                 _text={{

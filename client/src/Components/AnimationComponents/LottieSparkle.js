@@ -4,17 +4,15 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieSparkle(props) {
-  const { isLike5UpdatedBool } = props;
+  const { isLike4UpdatedBool } = props;
 
-  const [animationLoaded, setAnimationLoaded] = useState(
-    () => isLike5UpdatedBool
-  );
+  const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    if (isLike5UpdatedBool) {
+    if (isLike4UpdatedBool) {
       setAnimationLoaded(() => true);
     }
-  }, [isLike5UpdatedBool]);
+  }, [isLike4UpdatedBool]);
 
   const ref = useRef(null);
 

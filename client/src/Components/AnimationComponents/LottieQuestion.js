@@ -4,15 +4,15 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieQuestion(props) {
-  const { isLike2UpdatedBool } = props;
+  const { isLike3UpdatedBool } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    if (isLike2UpdatedBool) {
+    if (isLike3UpdatedBool) {
       setAnimationLoaded(() => true);
     }
-  }, [isLike2UpdatedBool]);
+  }, [isLike3UpdatedBool]);
 
   const ref = useRef(null);
 
