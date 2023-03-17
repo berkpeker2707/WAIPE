@@ -42,15 +42,11 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   const { navigation, theme, getPostState, getPostLikeState, currentUser } =
     props;
 
-  console.log("getPostLikeState");
-  console.log(getPostLikeState);
-  console.log("getPostLikeState");
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLikeState(() => [getPostState[0].like.like]);
-  }, [dispatch, getPostState]);
+    setLikeState(() => [getPostLikeState]);
+  }, [dispatch, getPostLikeState]);
 
   const isLikeUpdatedBool = useSelector(selectLikeUpdatedBool);
   const isLike1UpdatedBool = useSelector(selectLike1UpdatedBool);
@@ -66,88 +62,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
   // const updatePostLike4 = useSelector(selectUpdatePostLike4);
   // const updatePostLike5 = useSelector(selectUpdatePostLike5);
 
-  const [likeState, setLikeState] = useState(() => [getPostState]);
-
-  // function findOcc(arr, key) {
-  //   let arr2 = [];
-
-  //   arr.forEach((x) => {
-  //     // Checking if there is any object in arr2
-  //     // which contains the key value
-  //     if (
-  //       arr2.some((val) => {
-  //         return val[key] == x[key];
-  //       })
-  //     ) {
-  //       // If yes! then increase the occurrence by 1
-  //       arr2.forEach((k) => {
-  //         if (k[key] === x[key]) {
-  //           k["occurrence"]++;
-  //         }
-  //       });
-  //     } else {
-  //       // If not! Then create a new object initialize
-  //       // it with the present iteration key's value and
-  //       // set the occurrence to 1
-  //       let a = {};
-  //       a[key] = x[key];
-  //       a["occurrence"] = 1;
-  //       arr2.push(a);
-  //     }
-  //   });
-
-  //   return arr2;
-  // }
-
-  // var likeNumbers = findOcc(likeState[0], "likeType");
-
-  // const [numOfHeartState, setNumOfHeartState] = useState(
-  //   likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
-  // );
-
-  // const [
-  //   numOfCuteCatFeverCoffeeIconState,
-  //   setNumOfCuteCatFeverCoffeeIconState,
-  // ] = useState(0);
-  // const [numOfCuteCowSurprisedIconState, setNumOfCuteCowSurprisedIconState] =
-  //   useState(0);
-  // const [
-  //   numOfCuteRabbitHoldingCarrotIconState,
-  //   setNumOfCuteRabbitHoldingCarrotIconState,
-  // ] = useState(0);
-  // const [numOfCuteSadCatSittingIconState, setNumOfCuteSadCatSittingIconState] =
-  //   useState(0);
-
-  // useEffect(() => {
-  //   setLikeState(() => [getPostState[0].like.like]);
-
-  //   return () => {
-  //     //clean up function
-  //   };
-  // }, [dispatch, getPostState, isLikeUpdatedBool]);
-
-  // useEffect(() => {
-  //   // setNumOfHeartState(
-  //   //   likeNumbers?.find((occur) => occur?.likeType === "heart")?.occurrence
-  //   // );
-  //   setNumOfCuteCatFeverCoffeeIconState(
-  //     likeNumbers?.find((occur) => occur?.likeType === "cuteCatFeverCoffeeIcon")
-  //       ?.occurrence
-  //   );
-  //   setNumOfCuteCowSurprisedIconState(
-  //     likeNumbers?.find((occur) => occur?.likeType === "cuteCowSurprisedIcon")
-  //       ?.occurrence
-  //   );
-  //   setNumOfCuteRabbitHoldingCarrotIconState(
-  //     likeNumbers?.find(
-  //       (occur) => occur?.likeType === "cuteRabbitHoldingCarrotIcon"
-  //     )?.occurrence
-  //   );
-  //   setNumOfCuteSadCatSittingIconState(
-  //     likeNumbers?.find((occur) => occur?.likeType === "cuteSadCatSittingIcon")
-  //       ?.occurrence
-  //   );
-  // }, []);
+  const [likeState, setLikeState] = useState(() => [getPostLikeState]);
 
   return currentUser ? (
     <Stack alignItems="center" p="3">
@@ -171,11 +86,9 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                     return (
                       <>
                         {!isLike1UpdatedBool &&
-                        likeStateInfo.some((likeStateSingle) => {
-                          return (
-                            likeStateSingle["likeType"] === "heart" &&
-                            likeStateSingle.ownerID === currentUser._id
-                          );
+                        likeStateInfo &&
+                        likeStateInfo["heart"].some((likeobj) => {
+                          return likeobj.ownerID === currentUser._id;
                         }) ? (
                           <>
                             <Circle
@@ -203,7 +116,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState && getPostLikeState.heart}
+                              {likeStateInfo["heart"].length ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -230,7 +143,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState && getPostLikeState.heart}
+                              {likeStateInfo["heart"].length ?? ""}
                             </Center>
                           </>
                         )}
@@ -254,13 +167,12 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                     return (
                       <>
                         {!isLike2UpdatedBool &&
-                        likeStateInfo.some((likeStateSingle) => {
-                          return (
-                            likeStateSingle["likeType"] ===
-                              "cuteCatFeverCoffeeIcon" &&
-                            likeStateSingle.ownerID === currentUser._id
-                          );
-                        }) ? (
+                        likeStateInfo &&
+                        likeStateInfo["cuteCatFeverCoffeeIcon"].some(
+                          (likeobj) => {
+                            return likeobj.ownerID === currentUser._id;
+                          }
+                        ) ? (
                           <>
                             <Circle
                               size="30px"
@@ -287,8 +199,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteCatFeverCoffeeIcon}
+                              {likeStateInfo["cuteCatFeverCoffeeIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         ) : (
@@ -315,8 +227,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteCatFeverCoffeeIcon}
+                              {likeStateInfo["cuteCatFeverCoffeeIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         )}
@@ -340,13 +252,12 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                     return (
                       <>
                         {!isLike3UpdatedBool &&
-                        likeStateInfo.some((likeStateSingle) => {
-                          return (
-                            likeStateSingle["likeType"] ===
-                              "cuteCowSurprisedIcon" &&
-                            likeStateSingle.ownerID === currentUser._id
-                          );
-                        }) ? (
+                        likeStateInfo &&
+                        likeStateInfo["cuteCowSurprisedIcon"].some(
+                          (likeobj) => {
+                            return likeobj.ownerID === currentUser._id;
+                          }
+                        ) ? (
                           <>
                             <Circle
                               size="30px"
@@ -373,8 +284,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteCowSurprisedIcon}
+                              {likeStateInfo["cuteCowSurprisedIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         ) : (
@@ -401,8 +312,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteCowSurprisedIcon}
+                              {likeStateInfo["cuteCowSurprisedIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         )}
@@ -426,13 +337,12 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                     return (
                       <>
                         {!isLike4UpdatedBool &&
-                        likeStateInfo.some((likeStateSingle) => {
-                          return (
-                            likeStateSingle["likeType"] ===
-                              "cuteRabbitHoldingCarrotIcon" &&
-                            likeStateSingle.ownerID === currentUser._id
-                          );
-                        }) ? (
+                        likeStateInfo &&
+                        likeStateInfo["cuteRabbitHoldingCarrotIcon"].some(
+                          (likeobj) => {
+                            return likeobj.ownerID === currentUser._id;
+                          }
+                        ) ? (
                           <>
                             <Circle
                               size="30px"
@@ -459,8 +369,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteRabbitHoldingCarrotIcon}
+                              {likeStateInfo["cuteRabbitHoldingCarrotIcon"]
+                                .length ?? ""}
                             </Center>
                           </>
                         ) : (
@@ -487,8 +397,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteRabbitHoldingCarrotIcon}
+                              {likeStateInfo["cuteRabbitHoldingCarrotIcon"]
+                                .length ?? ""}
                             </Center>
                           </>
                         )}
@@ -511,14 +421,13 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                   {({ isHovered, isFocused, isPressed }) => {
                     return (
                       <>
-                        {!isLike5UpdatedBool &&
-                        likeStateInfo.some((likeStateSingle) => {
-                          return (
-                            likeStateSingle["likeType"] ===
-                              "cuteSadCatSittingIcon" &&
-                            likeStateSingle.ownerID === currentUser._id
-                          );
-                        }) ? (
+                        {!isLike4UpdatedBool &&
+                        likeStateInfo &&
+                        likeStateInfo["cuteSadCatSittingIcon"].some(
+                          (likeobj) => {
+                            return likeobj.ownerID === currentUser._id;
+                          }
+                        ) ? (
                           <>
                             <Circle
                               size="30px"
@@ -545,8 +454,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteSadCatSittingIcon}
+                              {likeStateInfo["cuteSadCatSittingIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         ) : (
@@ -573,8 +482,8 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                               }}
                               mr={1}
                             >
-                              {getPostLikeState &&
-                                getPostLikeState.cuteSadCatSittingIcon}
+                              {likeStateInfo["cuteSadCatSittingIcon"].length ??
+                                ""}
                             </Center>
                           </>
                         )}
