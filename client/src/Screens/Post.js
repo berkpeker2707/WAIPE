@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPostAction,
   selectGetPost,
-  selectPostLoading,
+  // selectPostLoading,
 } from "../Redux/Slices/postSlice";
 import {
   getCommentAction,
@@ -20,7 +20,13 @@ import {
 import {
   getPostLikeAction,
   selectGetPostLike,
-  selectLikeUpdatedBool,
+  // selectLikeUpdatedBool,
+  selectLike1UpdatedBool,
+  selectLike2UpdatedBool,
+  selectLike3UpdatedBool,
+  selectLike4UpdatedBool,
+  selectLike5UpdatedBool,
+  // selectLikeLoading,
 } from "../Redux/Slices/likeSlice";
 
 import PostImageSection from "../Components/PostComponents/PostImageSection";
@@ -37,12 +43,19 @@ const PostScreen = ({ navigation, route }) => {
 
   const getCommentState = useSelector(selectGetComment);
 
-  const isLikeUpdatedBool = useSelector(selectLikeUpdatedBool);
+  // const isLikeUpdatedBool = useSelector(selectLikeUpdatedBool);
+  const isLike1UpdatedBool = useSelector(selectLike1UpdatedBool);
+  const isLike2UpdatedBool = useSelector(selectLike2UpdatedBool);
+  const isLike3UpdatedBool = useSelector(selectLike3UpdatedBool);
+  const isLike4UpdatedBool = useSelector(selectLike4UpdatedBool);
+  const isLike5UpdatedBool = useSelector(selectLike5UpdatedBool);
+
   const isCommentUpdated = useSelector(selectCommentUpdated);
 
   const currentUser = useSelector(selectCurrentUser);
 
-  const postLoading = useSelector(selectPostLoading);
+  // const postLoading = useSelector(selectPostLoading);
+  // const likeLoading = useSelector(selectLikeLoading);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,7 +65,15 @@ const PostScreen = ({ navigation, route }) => {
     return () => {
       controller.abort();
     };
-  }, [dispatch, route.params.post._id, isLikeUpdatedBool]);
+  }, [
+    dispatch,
+    route.params.post._id,
+    isLike1UpdatedBool,
+    isLike2UpdatedBool,
+    isLike3UpdatedBool,
+    isLike4UpdatedBool,
+    isLike5UpdatedBool,
+  ]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -96,13 +117,22 @@ const PostScreen = ({ navigation, route }) => {
       {/* image section ends */}
 
       {/* like section 1 starts */}
-      {getPostState && getPostState[0] && currentUser && currentUser._id ? (
+      {getPostState &&
+      getPostState[0] &&
+      getPostLikeState &&
+      currentUser &&
+      currentUser._id ? (
         <PostImageLikeSection
           navigation={navigation}
           theme={theme}
           getPostState={getPostState}
           getPostLikeState={getPostLikeState}
           currentUser={currentUser}
+          isLike1UpdatedBool={isLike1UpdatedBool}
+          isLike2UpdatedBool={isLike2UpdatedBool}
+          isLike3UpdatedBool={isLike3UpdatedBool}
+          isLike4UpdatedBool={isLike4UpdatedBool}
+          isLike5UpdatedBool={isLike5UpdatedBool}
         />
       ) : (
         <></>
