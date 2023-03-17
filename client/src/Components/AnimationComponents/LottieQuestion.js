@@ -6,13 +6,13 @@ import { Animated, Easing } from "react-native";
 export default function LottieQuestion(props) {
   const { isLike2UpdatedBool } = props;
 
-  const [animationLoaded, setAnimationLoaded] = useState(
-    () => isLike2UpdatedBool
-  );
+  const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [!isLike2UpdatedBool]);
+    if (isLike2UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike2UpdatedBool]);
 
   const ref = useRef(null);
 

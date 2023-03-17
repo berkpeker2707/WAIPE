@@ -11,8 +11,10 @@ export default function LottieSparkle(props) {
   );
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [!isLike5UpdatedBool]);
+    if (isLike5UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike5UpdatedBool]);
 
   const ref = useRef(null);
 

@@ -9,10 +9,11 @@ export default function LottieRain(props) {
   const [animationLoaded, setAnimationLoaded] = useState(
     () => isLike3UpdatedBool
   );
-
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [!isLike3UpdatedBool]);
+    if (isLike3UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike3UpdatedBool]);
 
   const ref = useRef(null);
 

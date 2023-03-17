@@ -6,13 +6,13 @@ import { Animated, Easing } from "react-native";
 export default function LottieHeart(props) {
   const { isLike1UpdatedBool } = props;
 
-  const [animationLoaded, setAnimationLoaded] = useState(
-    () => isLike1UpdatedBool
-  );
+  const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [!isLike1UpdatedBool]);
+    if (isLike1UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike1UpdatedBool]);
 
   const ref = useRef(null);
 

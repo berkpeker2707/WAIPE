@@ -11,8 +11,10 @@ export default function LottieSteam(props) {
   );
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [!isLike4UpdatedBool]);
+    if (isLike4UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike4UpdatedBool]);
 
   const ref = useRef(null);
 
