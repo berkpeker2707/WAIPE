@@ -8,17 +8,30 @@ const { default: mongoose } = require("mongoose");
 // get post like controller ***
 const getPostLikeController = expressHandler(async (req, res) => {
   try {
+    const currentUserID = req.user.id;
+
     const postID = req.params.postID;
-    const like = await Like.find({ postID: postID });
+    const like = await Like.find({ postID: postID }).lean();
 
-    var likeCounts = like[0].like.reduce((obj, v) => {
-      //like type numbers
-      obj[v.likeType] = (obj[v.likeType] || 0) + 1;
-      return obj;
-    }, {});
+    var result = like[0].like.reduce(function (r, a) {
+      r[a.likeType] = r[a.likeType] || [];
+      r[a.likeType].push(a);
+      return r;
+    }, Object.create(null));
 
-    res.status(200).json(likeCounts);
+    Object.keys(result).forEach((likeElement) =>
+      result[likeElement].some((value, ind) => {
+        if (value.ownerID == currentUserID) {
+          Object.assign(value, { isLikedByCurrentUser: true });
+        } else {
+          Object.assign(value, { isLikedByCurrentUser: false });
+        }
+      })
+    );
+
+    res.status(200).json(result);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
