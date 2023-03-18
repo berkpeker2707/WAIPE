@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { ScrollView, Text, Stack, useTheme } from "native-base";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   getCurrentUserAction,
   selectCurrentUser,

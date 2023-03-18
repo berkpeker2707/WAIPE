@@ -19,7 +19,6 @@ import {
 } from "native-base";
 
 import uuid from "react-native-uuid";
-
 import AddCommentIcon from "../Icons/AddCommentIcon";
 
 import { useDispatch } from "react-redux";
@@ -38,7 +37,11 @@ export default function NewPostUnifiedSection(props) {
   const [imageSource, setImageSource] = useState(() => null);
   const [imageSourceChanged, setImageSourceChanged] = useState(() => false);
   const [newPostTextState, setNewPostTextState] = useState(() => "");
-  const [selectedPetState, setSelectedPetState] = useState(() => null);
+  const [selectedPetState, setSelectedPetState] = useState(() => "");
+
+  console.log(selectedPetState);
+  console.log(imageSource);
+  console.log(imageSourceChanged);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -75,7 +78,7 @@ export default function NewPostUnifiedSection(props) {
       setImageSource(() => null);
       setImageSourceChanged(() => false);
       setNewPostTextState(() => "");
-      setSelectedPetState(() => null);
+      setSelectedPetState(() => "");
     });
 
     // return the function to unsubscribe from the event so it gets removed on unmount
@@ -137,11 +140,12 @@ export default function NewPostUnifiedSection(props) {
         <FormControl isRequired>
           <Select
             alignItems="center"
+            selectedValue={selectedPetState}
             bg={theme.colors.sage[300]}
             borderRadius="2xl"
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Choose Service"
+            accessibilityLabel="Choose Pet"
+            placeholder="Choose Pet"
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size={5} />,
@@ -207,6 +211,7 @@ export default function NewPostUnifiedSection(props) {
       >
         <Button
           colorScheme="danger"
+          disabled={!imageSource || !selectedPetState}
           onPress={() => {
             dispatch(
               postPostAction({

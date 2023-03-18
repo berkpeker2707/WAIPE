@@ -78,6 +78,7 @@ const EditPetProfile = ({ navigation, route }) => {
                       );
                       navigation.navigate("MyPetProfile", { petId: pet._id });
                     }}
+                    isCurrentUser={true}
                     icon="trash"
                   />
                   <Button size="md" variant="ghost" onPress={pickImage}>

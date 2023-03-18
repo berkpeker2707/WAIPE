@@ -52,6 +52,7 @@ export const postPostAction = createAsyncThunk(
         }
       );
 
+      dispatch(updatedPost());
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -84,7 +85,7 @@ export const getPostAction = createAsyncThunk(
 
 export const getPetPostsAction = createAsyncThunk(
   "post/getPetPosts",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  async (petID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -94,7 +95,7 @@ export const getPetPostsAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${api_url}/post/fetch/pet/${petID}}`,
+        `${api_url}/post/fetch/pet/${petID}`,
         config
       );
 
@@ -173,7 +174,7 @@ export const updatePostAction = createAsyncThunk(
 
 export const deletePostAction = createAsyncThunk(
   "post/deletePost",
-  async (fetchPostsInfo, { rejectWithValue, getState, dispatch }) => {
+  async (postID, { rejectWithValue, getState, dispatch }) => {
     //get employee token
     const auth = getState()?.auth;
     const config = {
@@ -183,10 +184,11 @@ export const deletePostAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.delete(
-        `${api_url}/post/delete/${postID}}`,
+        `${api_url}/post/delete/${postID}`,
         config
       );
 
+      dispatch(updatedPost());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -401,7 +403,9 @@ export const selectPostLoading = (state) => state.post.loading;
 export const selectPostError = (state) => state.post.error;
 export const selectPostPost = (state) => state.post.postPostData;
 export const selectGetPost = (state) => state.post.getPostData;
-export const selectGetPetPosts = (state) => state.post.getPetPostsData;
+export const selectGetPetPosts = (state) => {
+  return state.post.getPetPostsData;
+};
 export const selectGetAllPosts = (state) => state.post.getAllPostsData;
 export const selectGetFollowedPosts = (state) =>
   state.post.getFollowedPostsData;
@@ -411,7 +415,7 @@ export const selectGetArchivedPosts = (state) =>
   state.post.getArchivedPostsData;
 export const selectArchivePost = (state) => state.post.archivePostData;
 export const selectPostUpdated = (state) => {
-  state.post.isUpdated;
+  return state.post.isUpdated;
 };
 
 export default postSlice.reducer;
