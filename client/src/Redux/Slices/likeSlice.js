@@ -3,7 +3,7 @@ import axios from "axios";
 
 var api_url;
 if (__DEV__) {
-  api_url = "http://192.168.100.79:5001/api";
+  api_url = "http://192.168.1.33:5001/api";
 } else {
   api_url = "https://waipe-server.azurewebsites.net/api";
 }
@@ -55,7 +55,7 @@ export const updatePostLikeAction = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike());
+      await dispatch(updatedLike());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -80,7 +80,7 @@ export const updatePostLike1Action = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike1());
+      await dispatch(updatedLike1());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -105,7 +105,7 @@ export const updatePostLike2Action = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike2());
+      await dispatch(updatedLike2());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -130,7 +130,7 @@ export const updatePostLike3Action = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike3());
+      await dispatch(updatedLike3());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -155,7 +155,7 @@ export const updatePostLike4Action = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike4());
+      await dispatch(updatedLike4());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -180,7 +180,7 @@ export const updatePostLike5Action = createAsyncThunk(
         config
       );
 
-      dispatch(updatedLike5());
+      await dispatch(updatedLike5());
       return data;
     } catch (error) {
       return rejectWithValue(error?.reponse?.data);
@@ -193,39 +193,39 @@ const likeSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    getPostLikeData: null,
+    postLikeData: null,
     isUpdated: null,
     isUpdated1: null,
     isUpdated2: null,
     isUpdated3: null,
     isUpdated4: null,
     isUpdated5: null,
-    updatePostLikeData: null,
-    updatePostLike1Data: null,
-    updatePostLike2Data: null,
-    updatePostLike3Data: null,
-    updatePostLike4Data: null,
-    updatePostLike5Data: null,
+    // updatePostLikeData: null,
+    // updatePostLike1Data: null,
+    // updatePostLike2Data: null,
+    // updatePostLike3Data: null,
+    // updatePostLike4Data: null,
+    // updatePostLike5Data: null,
   },
   extraReducers: (builder) => {
     //updated check reducer
     builder.addCase(updatedLike, (state) => {
-      state.isUpdated = true;
+      state.isUpdated = false;
     });
     builder.addCase(updatedLike1, (state) => {
-      state.isUpdated1 = true;
+      state.isUpdated1 = false;
     });
     builder.addCase(updatedLike2, (state) => {
-      state.isUpdated2 = true;
+      state.isUpdated2 = false;
     });
     builder.addCase(updatedLike3, (state) => {
-      state.isUpdated3 = true;
+      state.isUpdated3 = false;
     });
     builder.addCase(updatedLike4, (state) => {
-      state.isUpdated4 = true;
+      state.isUpdated4 = false;
     });
     builder.addCase(updatedLike5, (state) => {
-      state.isUpdated5 = true;
+      state.isUpdated5 = false;
     });
     //update post like reducer
     builder.addCase(updatePostLikeAction.pending, (state, action) => {
@@ -235,8 +235,8 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLikeAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLikeData = action?.payload;
-      state.isUpdated = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated = true;
     });
     builder.addCase(updatePostLikeAction.rejected, (state, action) => {
       state.loading = false;
@@ -250,7 +250,7 @@ const likeSlice = createSlice({
     builder.addCase(getPostLikeAction.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.getPostLikeData = action?.payload;
+      state.postLikeData = action?.payload;
     });
     builder.addCase(getPostLikeAction.rejected, (state, action) => {
       state.loading = false;
@@ -260,12 +260,22 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLike1Action.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      state.isUpdated = false;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike1Action.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLike1Data = action?.payload;
-      state.isUpdated1 = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated1 = true;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike1Action.rejected, (state, action) => {
       state.loading = false;
@@ -275,12 +285,22 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLike2Action.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      state.isUpdated = false;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike2Action.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLike2Data = action?.payload;
-      state.isUpdated2 = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated1 = false;
+      state.isUpdated2 = true;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike2Action.rejected, (state, action) => {
       state.loading = false;
@@ -290,12 +310,22 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLike3Action.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      state.isUpdated = false;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike3Action.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLike3Data = action?.payload;
-      state.isUpdated3 = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = true;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike3Action.rejected, (state, action) => {
       state.loading = false;
@@ -305,12 +335,22 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLike4Action.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      state.isUpdated = false;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike4Action.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLike4Data = action?.payload;
-      state.isUpdated4 = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = true;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike4Action.rejected, (state, action) => {
       state.loading = false;
@@ -320,12 +360,22 @@ const likeSlice = createSlice({
     builder.addCase(updatePostLike5Action.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      state.isUpdated = false;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = false;
     });
     builder.addCase(updatePostLike5Action.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.updatePostLike5Data = action?.payload;
-      state.isUpdated5 = false;
+      state.postLikeData = action?.payload;
+      state.isUpdated1 = false;
+      state.isUpdated2 = false;
+      state.isUpdated3 = false;
+      state.isUpdated4 = false;
+      state.isUpdated5 = true;
     });
     builder.addCase(updatePostLike5Action.rejected, (state, action) => {
       state.loading = false;
@@ -354,12 +404,12 @@ export const selectLike4UpdatedBool = (state) => {
 export const selectLike5UpdatedBool = (state) => {
   return state.like.isUpdated5;
 };
-export const selectGetPostLike = (state) => state.like.getPostLikeData;
-export const selectUpdatePostLike = (state) => state.like.updatePostLikeData;
-export const selectUpdatePostLike1 = (state) => state.like.updatePostLike1Data;
-export const selectUpdatePostLike2 = (state) => state.like.updatePostLike2Data;
-export const selectUpdatePostLike3 = (state) => state.like.updatePostLike3Data;
-export const selectUpdatePostLike4 = (state) => state.like.updatePostLike4Data;
-export const selectUpdatePostLike5 = (state) => state.like.updatePostLike5Data;
+export const selectGetPostLike = (state) => state.like.postLikeData;
+export const selectUpdatePostLike = (state) => state.like.postLikeData;
+export const selectUpdatePostLike1 = (state) => state.like.postLikeData;
+export const selectUpdatePostLike2 = (state) => state.like.postLikeData;
+export const selectUpdatePostLike3 = (state) => state.like.postLikeData;
+export const selectUpdatePostLike4 = (state) => state.like.postLikeData;
+export const selectUpdatePostLike5 = (state) => state.like.postLikeData;
 
 export default likeSlice.reducer;
