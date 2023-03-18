@@ -23,11 +23,9 @@ export const postPostReportAction = createAsyncThunk(
           },
         }
       );
-      console.log(data);
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -48,11 +46,9 @@ export const postUserReportAction = createAsyncThunk(
           },
         }
       );
-      console.log(data);
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -73,11 +69,9 @@ export const postCommentReportAction = createAsyncThunk(
           },
         }
       );
-      console.log(data);
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -98,11 +92,9 @@ export const postPetReportAction = createAsyncThunk(
           },
         }
       );
-      console.log(data);
 
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }

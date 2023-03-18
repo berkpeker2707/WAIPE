@@ -56,10 +56,6 @@ const PostImageSection = memo(function PostImageSection(props) {
   const video = useRef(null);
   const [status, setStatus] = useState({});
 
-  console.log(getPostState[0].petID.ownerID);
-  console.log(currentUser._id);
-  console.log(getPostState[0]._id);
-
   //check if screen is changed and reset booleans
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {

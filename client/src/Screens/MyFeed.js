@@ -194,7 +194,6 @@ const MyFeedScreen = ({ navigation, route }) => {
                         <Pressable
                           mr={1}
                           onPress={() => {
-                            console.log(fP);
                             onOpen();
                             // dispatch(postPostReportAction())
                           }}

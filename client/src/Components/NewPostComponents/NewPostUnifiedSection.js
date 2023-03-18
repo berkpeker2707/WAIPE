@@ -39,10 +39,6 @@ export default function NewPostUnifiedSection(props) {
   const [newPostTextState, setNewPostTextState] = useState(() => "");
   const [selectedPetState, setSelectedPetState] = useState(() => "");
 
-  console.log(selectedPetState);
-  console.log(imageSource);
-  console.log(imageSourceChanged);
-
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
