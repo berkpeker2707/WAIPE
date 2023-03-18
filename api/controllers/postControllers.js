@@ -200,7 +200,6 @@ const deletePostController = expressHandler(async (req, res) => {
       res.status(200).json("Post already deleted.");
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });
