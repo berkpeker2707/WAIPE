@@ -17,6 +17,7 @@ import {
   useSafeArea,
   useDisclose,
 } from "native-base";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectGetFollowedPosts,
@@ -103,7 +104,6 @@ const MyFeedScreen = ({ navigation, route }) => {
                 handleReport={handleReport}
                 post={fP}
               />
-
               <Pressable
                 onPress={() => {
                   navigation.navigate("Post", {
@@ -130,17 +130,38 @@ const MyFeedScreen = ({ navigation, route }) => {
                   borderWidth="3.5"
                 >
                   <AspectRatio w="100%" ratio={1 / 1}>
-                    <Image
-                      source={{
-                        uri: fP.picture ? fP.picture : null,
-                      }}
-                      alt="image"
-                      blurRadius={
-                        onLongPressItemState === fP._id && onLongPressState
-                          ? 50
-                          : 0
-                      }
-                    />
+                    {fP.picture.includes(".mp4") ||
+                    fP.picture.includes(".avi") ||
+                    fP.picture.includes(".mov") ? (
+                      <Image
+                        source={{
+                          uri: fP.picture
+                            ? fP.picture
+                                .replace(/.mp4/g, ".jpg")
+                                .replace(/.avi/g, ".jpg")
+                                .replace(/.mov/g, ".jpg")
+                            : null,
+                        }}
+                        alt="image"
+                        blurRadius={
+                          onLongPressItemState === fP._id && onLongPressState
+                            ? 50
+                            : 0
+                        }
+                      />
+                    ) : (
+                      <Image
+                        source={{
+                          uri: fP.picture ? fP.picture : null,
+                        }}
+                        alt="image"
+                        blurRadius={
+                          onLongPressItemState === fP._id && onLongPressState
+                            ? 50
+                            : 0
+                        }
+                      />
+                    )}
                   </AspectRatio>
 
                   {onLongPressItemState === fP._id && onLongPressState ? (
