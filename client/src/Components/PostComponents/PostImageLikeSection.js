@@ -93,7 +93,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           }) ? (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.forestGreen[400]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -122,7 +122,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) : (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -176,7 +176,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) ? (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.forestGreen[400]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -206,7 +206,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) : (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -261,7 +261,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) ? (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.forestGreen[400]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -292,7 +292,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) : (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -346,7 +346,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) ? (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.forestGreen[400]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -378,7 +378,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) : (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -433,7 +433,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) ? (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.forestGreen[400]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -462,7 +462,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
                           ) : (
                             <>
                               <Circle
-                                size="30px"
+                                size="35px"
                                 bg={theme.colors.muted[600]}
                                 style={{
                                   transform: [{ scale: isPressed ? 0.96 : 1 }],
@@ -496,60 +496,66 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
               );
             })}
         </HStack>
-        <Pressable>
-          {({ isHovered, isFocused, isPressed }) => {
-            return (
-              <HStack
-                style={{
-                  transform: [{ scale: isPressed ? 0.96 : 1 }],
-                }}
-              >
-                <Center
-                  _text={{
-                    color: "black",
-                    fontWeight: "bold",
+      </HStack>
+
+      <HStack>
+        <HStack alignItems="center">
+          <Pressable mt={1}>
+            {({ isHovered, isFocused, isPressed }) => {
+              return (
+                <HStack
+                  style={{
+                    transform: [{ scale: isPressed ? 0.96 : 1 }],
                   }}
-                  mr={1}
                 >
-                  {getPostState[0].petID.name ?? ""}
-                </Center>
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate("MyPetProfile", {
-                      petId: getPostState[0].petID._id,
-                    })
-                  }
-                >
-                  {({ isHovered, isFocused, isPressed }) => {
-                    return (
-                      <Circle
-                        size="30px"
-                        bg={theme.colors.forestGreen[400]}
-                        style={{
-                          transform: [{ scale: isPressed ? 0.96 : 1 }],
-                        }}
-                      >
-                        <Avatar
-                          bg="green.500"
-                          alignSelf="center"
-                          size="xs"
-                          source={{
-                            uri: getPostState[0].petID.picture
-                              ? getPostState[0].petID.picture
-                              : null,
+                  <Center
+                    _text={{
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                    mr={1}
+                  >
+                    {getPostState[0].petID.name ?? ""}
+                  </Center>
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate("MyPetProfile", {
+                        petId: getPostState[0].petID._id,
+                      })
+                    }
+                  >
+                    {({ isHovered, isFocused, isPressed }) => {
+                      return (
+                        <Circle
+                          size="35px"
+                          bg={theme.colors.forestGreen[400]}
+                          style={{
+                            transform: [{ scale: isPressed ? 0.96 : 1 }],
                           }}
                         >
-                          {getPostState[0].petID.name ?? ""}
-                        </Avatar>
-                      </Circle>
-                    );
-                  }}
-                </Pressable>
-              </HStack>
-            );
-          }}
-        </Pressable>
+                          <Avatar
+                            bg="green.500"
+                            alignSelf="center"
+                            size="sm"
+                            source={{
+                              uri: getPostState[0].petID.picture
+                                ? getPostState[0].petID.picture
+                                : null,
+                            }}
+                          >
+                            {getPostState[0].petID.name ?? ""}
+                          </Avatar>
+                        </Circle>
+                      );
+                    }}
+                  </Pressable>
+                </HStack>
+              );
+            }}
+          </Pressable>
+        </HStack>
       </HStack>
+
       <HStack>
         <HStack alignItems="center">
           <Center
@@ -558,7 +564,7 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
               fontWeight: "normal",
             }}
           >
-            {getPostState[0].postDescription ?? ""}
+            “{getPostState[0].postDescription ?? ""}”
           </Center>
         </HStack>
       </HStack>
