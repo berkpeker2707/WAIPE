@@ -1,71 +1,33 @@
 import React, { useEffect, useState, memo } from "react";
-import { View, StyleSheet } from "react-native";
 import {
-  ScrollView,
   Box,
-  AspectRatio,
-  Image,
-  Text,
   VStack,
-  HStack,
   Stack,
-  Divider,
   Circle,
   Icon,
-  Center,
   Pressable,
   TextArea,
-  Avatar,
-  useTheme,
 } from "native-base";
 
-import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Icons/LikeHeartIcon";
 import AddCommentIcon from "../Icons/AddCommentIcon";
 import SendMessageIcon from "../Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
 
-import ReportIcon from "../Icons/ReportIcon";
-import BookmarkIcon from "../Icons/BookmarkIcon";
+import { useDispatch } from "react-redux";
 
-import { useDispatch, useSelector } from "react-redux";
-
-import {
-  archivePostAction,
-  getPostAction,
-  selectGetPost,
-  selectPostUpdated,
-} from "../../Redux/Slices/postSlice";
-
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../../Redux/Slices/commentSlice";
-import {
-  selectLikeUpdated,
-  selectUpdatePostLike,
-  updatePostLikeAction,
-} from "../../Redux/Slices/likeSlice";
+import { updateCommentAction } from "../../Redux/Slices/commentSlice";
 
 const PostAddCommentSection = memo(function PostAddCommentSection(props) {
-  const { navigation, theme, getPostState, getCommentState } = props;
+  const { navigation, theme, getCommentState } = props;
 
   const dispatch = useDispatch();
 
   const [commentTextState, setCommentTextState] = useState(() => "");
 
-  const [onLongPressState, setOnLongPressState] = useState(() => false);
   const [commentOpenState, setCommentOpenState] = useState(() => false);
 
   //check if screen is changed and reset booleans
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      setOnLongPressState(() => false);
       setCommentOpenState(() => false);
       setCommentTextState(() => "");
     });

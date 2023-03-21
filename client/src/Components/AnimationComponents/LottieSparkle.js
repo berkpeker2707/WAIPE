@@ -4,31 +4,32 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieSparkle(props) {
-  const { animationStart, setAnimationStart } = props;
+  const { isLike4UpdatedBool } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-  }, [animationStart]);
+    if (isLike4UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike4UpdatedBool]);
 
   const ref = useRef(null);
 
   const onAnimationFinish = () => {
     setAnimationLoaded(() => false);
-    setAnimationStart(() => false);
   };
 
-  const animationProgress = useRef(new Animated.Value(0));
+  // const animationProgress = useRef(new Animated.Value(0));
 
-  useEffect(() => {
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+  // useEffect(() => {
+  //   Animated.timing(animationProgress.current, {
+  //     toValue: 1,
+  //     duration: 5000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, []);
 
   return animationLoaded ? (
     <LottieView

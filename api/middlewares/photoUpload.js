@@ -10,7 +10,8 @@ const photoResize = async (req, res, next) => {
     //allow 10mb file max
     if (
       req.files.image.size / 1024 / 1024 < 10 &&
-      req.files.image.type !== "video/quicktime"
+      req.files.image.type !== "video/quicktime" &&
+      req.files.image.type !== "video/mp4"
     ) {
       // if (req.files.image)
       await sharp(req.files.image.path)
@@ -25,7 +26,8 @@ const photoResize = async (req, res, next) => {
       next();
     } else if (
       req.files.image.size / 1024 / 1024 < 10 &&
-      req.files.image.type === "video/quicktime"
+      (req.files.image.type === "video/quicktime" ||
+        req.files.image.type === "video/mp4")
     ) {
       next();
     } else {

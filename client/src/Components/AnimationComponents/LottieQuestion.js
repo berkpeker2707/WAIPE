@@ -4,14 +4,15 @@ import LottieView from "lottie-react-native";
 import { Animated, Easing } from "react-native";
 
 export default function LottieQuestion(props) {
-  const { animationStart, setAnimationStart } = props;
+  const { isLike3UpdatedBool } = props;
 
   const [animationLoaded, setAnimationLoaded] = useState(() => false);
 
   useEffect(() => {
-    setAnimationLoaded(() => true);
-    setAnimationStart(() => false);
-  }, [animationStart]);
+    if (isLike3UpdatedBool) {
+      setAnimationLoaded(() => true);
+    }
+  }, [isLike3UpdatedBool]);
 
   const ref = useRef(null);
 
@@ -19,16 +20,16 @@ export default function LottieQuestion(props) {
     setAnimationLoaded(() => false);
   };
 
-  const animationProgress = useRef(new Animated.Value(0));
+  // const animationProgress = useRef(new Animated.Value(0));
 
-  useEffect(() => {
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+  // useEffect(() => {
+  //   Animated.timing(animationProgress.current, {
+  //     toValue: 1,
+  //     duration: 5000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, []);
 
   return animationLoaded ? (
     <LottieView

@@ -56,10 +56,6 @@ const PostImageSection = memo(function PostImageSection(props) {
   const video = useRef(null);
   const [status, setStatus] = useState({});
 
-  console.log(getPostState[0].petID.ownerID);
-  console.log(currentUser._id);
-  console.log(getPostState[0]._id);
-
   //check if screen is changed and reset booleans
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -105,9 +101,10 @@ const PostImageSection = memo(function PostImageSection(props) {
                     <Video
                       ref={video}
                       source={{
-                        uri: getPostState[0].picture
-                          ? getPostState[0].picture
-                          : null,
+                        uri:
+                          getPostState[0] && getPostState[0].picture
+                            ? getPostState[0].picture
+                            : null,
                       }}
                       useNativeControls
                       resizeMode="contain"
@@ -260,16 +257,6 @@ const PostImageSection = memo(function PostImageSection(props) {
       </Pressable>
     </Box>
   );
-});
-
-var styles = StyleSheet.create({
-  backgroundVideo: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
 });
 
 export default PostImageSection;
