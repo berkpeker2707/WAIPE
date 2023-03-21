@@ -15,6 +15,7 @@ import postSlice from "./Slices/postSlice";
 import petSlice from "./Slices/petSlice";
 import commentSlice from "./Slices/commentSlice";
 import likeSlice from "./Slices/likeSlice";
+import reportSlice from "./Slices/reportSlice";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   pet: petSlice,
   comment: commentSlice,
   like: likeSlice,
+  report: reportSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

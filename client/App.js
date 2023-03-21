@@ -1,4 +1,18 @@
 import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import { store } from "./src/Redux/store";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import { NavigationContainer } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { selectToken } from "./src/Redux/Slices/authSlice";
+import { NativeBaseProvider, extendTheme } from "native-base";
+import { useFonts } from "expo-font";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeIcon from "./src/Components/Icons/HomeIcon";
+import SearchIcon from "./src/Components/Icons/SearchIcon";
+import AddIcon from "./src/Components/Icons/AddIcon";
+import ProfileIcon from "./src/Components/Icons/ProfileIcon";
 import Login from "./src/Screens/Login";
 import Register from "./src/Screens/Register";
 import Discover from "./src/Screens/Discover";
@@ -8,36 +22,34 @@ import MainProfile from "./src/Screens/MainProfile";
 import MyFeed from "./src/Screens/MyFeed";
 import Settings from "./src/Screens/Settings";
 import EditMainProfile from "./src/Screens/EditMainProfile";
-import { Provider } from "react-redux";
-import { store } from "./src/Redux/store";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import { NavigationContainer } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { selectToken } from "./src/Redux/Slices/authSlice";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeIcon from "./src/Components/Icons/HomeIcon";
-import SearchIcon from "./src/Components/Icons/SearchIcon";
-import AddIcon from "./src/Components/Icons/AddIcon";
-import ProfileIcon from "./src/Components/Icons/ProfileIcon";
-import PetProfile from "./src/Screens/PetProfile";
+import MyPetProfile from "./src/Screens/MyPetProfile";
 import BlockedUsersScreen from "./src/Screens/BlockedUsers";
 import EditPetProfile from "./src/Screens/EditPetProfile";
 import UserProfileScreen from "./src/Screens/UserProfile";
 import Bookmarks from "./src/Screens/Bookmarks";
+import Splash1 from "./src/Screens/Splash1";
+import Splash2 from "./src/Screens/Splash2";
+
+import { ViewPropTypes } from "deprecated-react-native-prop-types";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   let persistor = persistStore(store);
 
+  const [loaded] = useFonts({
+    OrientalCatsLight: require("./assets/fonts/OrientalCatsLight-2OzB8.otf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   const Navigator = () => {
     const token = useSelector(selectToken);
 
-    return token ? (
+    return (
       <Tab.Navigator
-        initialRouteName="Home"
         activeColor="#E38E48"
         barStyle={{ backgroundColor: theme.colors.forestGreen[400] }}
         backBehavior="history"
@@ -51,283 +63,329 @@ export default function App() {
           tabBarInactiveTintColor: "#F8FFE3",
         }}
       >
-        <Tab.Screen
-          options={{
-            tabBarLabel: "Feed",
-            tabBarIcon: ({ color }) => (
-              <HomeIcon name="myfeed" color={color} size={26} />
-            ),
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="My Feed"
-          component={MyFeed}
-        />
-        <Tab.Screen
-          options={{
-            tabBarLabel: "Discover",
-            tabBarIcon: ({ color }) => (
-              <SearchIcon name="discover" color={color} size={26} />
-            ),
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Discover"
-          component={Discover}
-        />
-        <Tab.Screen
-          options={{
-            tabBarLabel: "Add",
-            tabBarIcon: ({ color }) => (
-              <AddIcon name="add" color={color} size={26} />
-            ),
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="NewPost"
-          component={NewPost}
-        />
-        <Tab.Screen
-          options={{
-            tabBarLabel: "Profile",
-            tabBarIcon: ({ color }) => (
-              <ProfileIcon name="Profile" color={color} size={26} />
-            ),
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="MainProfile"
-          component={MainProfile}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="EditMainProfile"
-          component={EditMainProfile}
-        />
-        {/* screens that are not displayed in tab starts */}
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Post"
-          component={Post}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="PetProfile"
-          component={PetProfile}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="BlockedUsers"
-          component={BlockedUsersScreen}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Settings"
-          component={Settings}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="EditPetProfile"
-          component={EditPetProfile}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="UserProfileScreen"
-          component={UserProfileScreen}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Bookmarks"
-          component={Bookmarks}
-        />
-        {/* screens that are not displayed in tab ends */}
-      </Tab.Navigator>
-    ) : (
-      <Tab.Navigator>
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarStyle: { display: "none" },
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Login"
-          component={Login}
-        />
-        <Tab.Screen
-          options={{
-            headerShown: false,
-            tabBarButton: () => null,
-            tabBarIcon: ({ color }) => <></>,
-            tabBarStyle: { display: "none" },
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-            },
-            headerStyle: {
-              backgroundColor: "#CBD18F",
-            },
-            headerTintColor: "#CBD18F",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-          name="Register"
-          component={Register}
-        />
+        {token ? (
+          <>
+            <Tab.Screen
+              options={{
+                header: () => null,
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarStyle: { display: "none" },
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Splash1"
+              component={Splash1}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Feed",
+                tabBarIcon: ({ color }) => (
+                  <HomeIcon name="myfeed" color={color} size={26} />
+                ),
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Feed"
+              component={MyFeed}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Discover",
+                tabBarIcon: ({ color }) => (
+                  <SearchIcon name="discover" color={color} size={26} />
+                ),
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Discover"
+              component={Discover}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Add",
+                tabBarIcon: ({ color }) => (
+                  <AddIcon name="add" color={color} size={26} />
+                ),
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="NewPost"
+              component={NewPost}
+            />
+            <Tab.Screen
+              options={{
+                tabBarLabel: "Profile",
+                tabBarIcon: ({ color }) => (
+                  <ProfileIcon name="Profile" color={color} size={26} />
+                ),
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="MainProfile"
+              component={MainProfile}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="EditMainProfile"
+              component={EditMainProfile}
+            />
+            {/* screens that are not displayed in tab starts */}
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Post"
+              component={Post}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="MyPetProfile"
+              component={MyPetProfile}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="BlockedUsers"
+              component={BlockedUsersScreen}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Settings"
+              component={Settings}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="EditPetProfile"
+              component={EditPetProfile}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="UserProfileScreen"
+              component={UserProfileScreen}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Bookmarks"
+              component={Bookmarks}
+            />
+            {/* screens that are not displayed in tab ends */}
+          </>
+        ) : (
+          <>
+            <Tab.Screen
+              options={{
+                header: () => null,
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarStyle: { display: "none" },
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Splash2"
+              component={Splash2}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarStyle: { display: "none" },
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Login"
+              component={Login}
+            />
+            <Tab.Screen
+              options={{
+                headerShown: false,
+                tabBarButton: () => null,
+                tabBarIcon: ({ color }) => <></>,
+                tabBarStyle: { display: "none" },
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+                headerStyle: {
+                  backgroundColor: "#CBD18F",
+                },
+                headerTintColor: "#CBD18F",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Register"
+              component={Register}
+            />
+          </>
+        )}
       </Tab.Navigator>
     );
   };

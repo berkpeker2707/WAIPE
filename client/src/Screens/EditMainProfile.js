@@ -52,155 +52,144 @@ const EditMainProfileScreen = ({ navigation }) => {
   });
 
   return (
-    <ScrollView {...safeAreaProps}>
-      <View style={style.container}>
-        <NativeBaseProvider theme={theme}>
-          <Center flex={1} px="3">
-            {userLoading ? (
-              <Spinner color={"mustard.400"} size="lg" />
-            ) : (
-              <Formik
-                initialValues={{
-                  firstname: `${currentUser?.firstname}`,
-                  lastname: `${currentUser?.lastname}`,
-                  nickname: "",
-                  locations: {
-                    country: `${currentUser?.locations?.country}`,
-                    city: `${currentUser?.locations?.city}`,
-                  },
-                  biography: `${currentUser?.biography}`,
-                }}
-                onSubmit={(values) => {
-                  dispatch(updateUserAction(values));
-                  navigation.navigate("MainProfile");
-                }}
-              >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
-                  <VStack space={7}>
-                    <VStack>
-                      <ProfileAvatar
-                        image={currentUser.picture}
-                        letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
-                        onPress={() => {
-                          dispatch(pictureDeleteAction(currentUser?.picture));
-                          navigation.navigate("MainProfile");
-                        }}
-                        icon="trash"
-                      />
-                      <Button size="md" variant="ghost" onPress={pickImage}>
-                        Change Profile Picture
-                      </Button>
-                    </VStack>
-                    <VStack space={3} w="90%">
-                      <HStack
-                        space={3}
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Input
-                          bg="white"
-                          _focus={style.input}
-                          w="48%"
-                          borderColor="extraOrage.400"
-                          variant="rounded"
-                          placeholder="Firstname"
-                          onChangeText={handleChange("firstname")}
-                          onBlur={handleBlur("firstname")}
-                          value={values.firstname}
-                        />
-                        <Input
-                          bg="white"
-                          _focus={style.input}
-                          w="48%"
-                          borderColor="extraOrage.400"
-                          variant="rounded"
-                          placeholder="Lastname"
-                          onChangeText={handleChange("lastname")}
-                          onBlur={handleBlur("lastname")}
-                          value={values.lastname}
-                        />
-                      </HStack>
+    <View style={style.container}>
+      <NativeBaseProvider theme={theme}>
+        <Center flex={1} px="3">
+          {userLoading ? (
+            <Spinner color={"mustard.400"} size="lg" />
+          ) : (
+            <Formik
+              initialValues={{
+                firstname: `${currentUser?.firstname}`,
+                lastname: `${currentUser?.lastname}`,
+                nickname: "",
+                locations: {
+                  country: `${currentUser?.locations?.country}`,
+                  city: `${currentUser?.locations?.city}`,
+                },
+                biography: `${currentUser?.biography}`,
+              }}
+              onSubmit={(values) => {
+                dispatch(updateUserAction(values));
+                navigation.navigate("MainProfile");
+              }}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values }) => (
+                <VStack space={7}>
+                  <VStack>
+                    <ProfileAvatar
+                      image={currentUser.picture}
+                      letter={`${currentUser?.firstname[0]}${currentUser?.lastname[0]}`}
+                      onPress={() => {
+                        dispatch(pictureDeleteAction(currentUser?.picture));
+                        navigation.navigate("MainProfile");
+                      }}
+                      icon="trash"
+                      isCurrentUser={true}
+                    />
+                    <Button size="md" variant="ghost" onPress={pickImage}>
+                      Change Profile Picture
+                    </Button>
+                  </VStack>
+                  <VStack space={3} w="90%">
+                    <HStack
+                      space={3}
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
                       <Input
                         bg="white"
                         _focus={style.input}
+                        w="48%"
                         borderColor="extraOrage.400"
                         variant="rounded"
-                        placeholder="Nickname"
-                        onChangeText={handleChange("nickname")}
-                        onBlur={handleBlur("nickname")}
-                        value={values.nickname}
+                        placeholder="Firstname"
+                        onChangeText={handleChange("firstname")}
+                        onBlur={handleBlur("firstname")}
+                        value={values.firstname}
                       />
-                      <HStack
-                        space={3}
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Input
-                          bg="white"
-                          _focus={style.input}
-                          w="48%"
-                          borderColor="extraOrage.400"
-                          variant="rounded"
-                          placeholder="Country"
-                          onChangeText={handleChange("locations.country")}
-                          onBlur={handleBlur("locations.country")}
-                          value={values.locations.country}
-                        />
-                        <Input
-                          bg="white"
-                          _focus={style.input}
-                          w="48%"
-                          borderColor="extraOrage.400"
-                          variant="rounded"
-                          placeholder="City"
-                          onChangeText={handleChange("locations.city")}
-                          onBlur={handleBlur("locations.city")}
-                          value={values.locations.city}
-                        />
-                      </HStack>
-                      <TextArea
+                      <Input
                         bg="white"
                         _focus={style.input}
-                        borderRadius="20%"
+                        w="48%"
                         borderColor="extraOrage.400"
-                        h={20}
-                        placeholder="Biography"
-                        onChangeText={handleChange("biography")}
-                        onBlur={handleBlur("biography")}
-                        value={values.biography}
+                        variant="rounded"
+                        placeholder="Lastname"
+                        onChangeText={handleChange("lastname")}
+                        onBlur={handleBlur("lastname")}
+                        value={values.lastname}
                       />
-                    </VStack>
-                    <VStack>
-                      <Button
-                        isLoading={userLoading}
-                        w="50%"
-                        size="md"
-                        borderRadius="50"
-                        bg="extraOrage.400"
-                        colorScheme="warning"
-                        _text={{ fontSize: "md" }}
-                        alignSelf="center"
-                        onPress={handleSubmit}
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="link"
-                        _text={{ color: "forestGreen.400" }}
-                        onPress={() => navigation.navigate("MainProfile")}
-                      >
-                        Cancel
-                      </Button>
-                    </VStack>
+                    </HStack>
+                    <HStack
+                      space={3}
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Input
+                        bg="white"
+                        _focus={style.input}
+                        w="48%"
+                        borderColor="extraOrage.400"
+                        variant="rounded"
+                        placeholder="Country"
+                        onChangeText={handleChange("locations.country")}
+                        onBlur={handleBlur("locations.country")}
+                        value={values.locations.country}
+                      />
+                      <Input
+                        bg="white"
+                        _focus={style.input}
+                        w="48%"
+                        borderColor="extraOrage.400"
+                        variant="rounded"
+                        placeholder="City"
+                        onChangeText={handleChange("locations.city")}
+                        onBlur={handleBlur("locations.city")}
+                        value={values.locations.city}
+                      />
+                    </HStack>
+                    <TextArea
+                      bg="white"
+                      _focus={style.input}
+                      borderRadius={20}
+                      borderColor="extraOrage.400"
+                      h={20}
+                      placeholder="Biography"
+                      onChangeText={handleChange("biography")}
+                      onBlur={handleBlur("biography")}
+                      value={values.biography}
+                    />
                   </VStack>
-                )}
-              </Formik>
-            )}
-          </Center>
-        </NativeBaseProvider>
-      </View>
-    </ScrollView>
+                  <VStack>
+                    <Button
+                      isLoading={userLoading}
+                      w="50%"
+                      size="md"
+                      borderRadius="50"
+                      bg="extraOrage.400"
+                      colorScheme="warning"
+                      _text={{ fontSize: "md" }}
+                      alignSelf="center"
+                      onPress={handleSubmit}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      _text={{ color: "forestGreen.400" }}
+                      onPress={() => navigation.navigate("MainProfile")}
+                    >
+                      Cancel
+                    </Button>
+                  </VStack>
+                </VStack>
+              )}
+            </Formik>
+          )}
+        </Center>
+      </NativeBaseProvider>
+    </View>
   );
 };
 

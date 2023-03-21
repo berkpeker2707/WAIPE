@@ -23,6 +23,11 @@ const getCurrentUserController = expressHandler(async (req, res) => {
         model: "User",
         select: "firstname lastname picture",
       })
+      .populate({
+        path: "blockedPets",
+        model: "Pet",
+        select: "name picture ownerID",
+      })
       .populate({ path: "archivedPosts", model: "Post" })
       .exec();
 
@@ -50,6 +55,22 @@ const getUserController = expressHandler(async (req, res) => {
     //   const pet = await Pet.findById(user.pets[i]);
     //   pets.push({ _id: pet._id, name: pet.name, picture: pet.picture });
     // }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// get all users controller ***
+const getAllUserController = expressHandler(async (req, res) => {
+  try {
+    const user = await User.find({})
+      .populate({ path: "pets", model: "Pet" })
+      .populate({ path: "likedPosts", model: "Post" })
+      .populate({ path: "likedComments", model: "Like" })
+      .populate({ path: "postedComments", model: "Comment" })
+      .exec();
 
     res.status(200).json(user);
   } catch (error) {
@@ -225,6 +246,7 @@ const userDeleteController = expressHandler(async (req, res) => {
 module.exports = {
   getCurrentUserController,
   getUserController,
+  getAllUserController,
   blockUserController,
   followPetController,
   blockPetController,

@@ -5,6 +5,36 @@ const User = require("../models/user");
 const expressHandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
 
+// get post like controller ***
+const getPostLikeController = expressHandler(async (req, res) => {
+  try {
+    const currentUserID = req.user.id;
+
+    const postID = req.params.postID;
+    const like = await Like.find({ postID: postID }).lean();
+
+    var result = like[0].like.reduce(function (r, a) {
+      r[a.likeType] = r[a.likeType] || [];
+      r[a.likeType].push(a);
+      return r;
+    }, Object.create(null));
+
+    Object.keys(result).forEach((likeElement) =>
+      result[likeElement].some((value, ind) => {
+        if (value.ownerID == currentUserID) {
+          Object.assign(value, { isLikedByCurrentUser: true });
+        } else {
+          Object.assign(value, { isLikedByCurrentUser: false });
+        }
+      })
+    );
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 // like unline post controller ***
 const updatePostLikeController = expressHandler(async (req, res) => {
   try {
@@ -20,8 +50,12 @@ const updatePostLikeController = expressHandler(async (req, res) => {
       .exec();
 
     if (
-      like.like.find((element) => element.likeType === likeType) &&
-      like.like.find((element) => element.ownerID._id.toString() === userID)
+      like.like.find(
+        (element) =>
+          element.ownerID &&
+          element.likeType === likeType &&
+          element.ownerID._id.toString() === userID
+      )
     ) {
       await like.updateOne(
         {
@@ -105,6 +139,7 @@ const updateCommentLikeController = expressHandler(async (req, res) => {
 });
 
 module.exports = {
+  getPostLikeController,
   updatePostLikeController,
   updateCommentLikeController,
 };

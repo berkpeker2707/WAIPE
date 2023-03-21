@@ -31,6 +31,7 @@ const cloudinaryUploadUserImg = async (fileToUpload, id) => {
         .then((result) => {
           if (result && result.hasOwnProperty("secure_url")) {
             // if secure_url exists
+            console.log(result);
             resolve(result);
           }
         })
@@ -49,7 +50,7 @@ const cloudinaryUploadUserImg = async (fileToUpload, id) => {
 
 const cloudinaryUploadPostImg = async (fileToUpload, id) => {
   try {
-    const videoFormats = [".mp4", ".avi"];
+    const videoFormats = [".mp4", ".avi", ".mov"];
     const imageFormats = [".jpg", ".jpeg", ".jpe", ".tiff", ".tif", ".png"];
     const extension = path.extname(fileToUpload);
 
@@ -75,6 +76,7 @@ const cloudinaryUploadPostImg = async (fileToUpload, id) => {
         .then((result) => {
           if (result && result.hasOwnProperty("secure_url")) {
             // if secure_url exists
+            console.log(result);
             resolve(result);
           }
         })
@@ -116,6 +118,7 @@ const cloudinaryUploadPetImg = async (fileToUpload, id) => {
         .then((result) => {
           if (result && result.hasOwnProperty("secure_url")) {
             // if secure_url exists
+            console.log(result);
             resolve(result);
           }
         })
@@ -140,7 +143,7 @@ const cloudinaryDeleteUserImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        // console.log(result);
+        console.log(result);
       }
     );
 
@@ -162,7 +165,7 @@ const cloudinaryDeletePostImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        // console.log(result);
+        console.log(result);
       }
     );
 
@@ -183,7 +186,7 @@ const cloudinaryDeletePetImg = async (public_id) => {
     const data = await cloudinary.v2.uploader.destroy(
       imagePath,
       (error, result) => {
-        // console.log(result);
+        console.log(result);
       }
     );
 

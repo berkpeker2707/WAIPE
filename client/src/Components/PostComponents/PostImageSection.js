@@ -1,65 +1,60 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState, memo, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import {
-  ScrollView,
   Box,
   AspectRatio,
   Image,
-  Text,
-  VStack,
   HStack,
-  Stack,
-  Divider,
   Circle,
   Icon,
-  Center,
   Pressable,
-  TextArea,
-  Avatar,
-  useTheme,
+  useDisclose,
 } from "native-base";
 
-import uuid from "react-native-uuid";
-import LikeHeartIcon from "../Icons/LikeHeartIcon";
-import AddCommentIcon from "../Icons/AddCommentIcon";
-import SendMessageIcon from "../Icons/SendMessageIcon";
-import CuteCatFeverCoffeeIcon from "../Icons/CuteCatFeverCoffeeIcon";
-import CuteCowSurprisedIcon from "../Icons/CuteCowSurprisedIcon";
-import CuteRabbitHoldingCarrotIcon from "../Icons/CuteRabbitHoldingCarrotIcon";
-import CuteSadCatSittingIcon from "../Icons/CuteSadCatSittingIcon";
+import { Video, AVPlaybackStatus } from "expo-av";
 
 import ReportIcon from "../Icons/ReportIcon";
 import BookmarkIcon from "../Icons/BookmarkIcon";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import ReportActionsheet from "../ReportActionsheet";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   archivePostAction,
-  getPostAction,
-  selectGetPost,
+  deletePostAction,
   selectPostUpdated,
 } from "../../Redux/Slices/postSlice";
+import { postPostReportAction } from "../../Redux/Slices/reportSlice";
+import { selectCurrentUser } from "../../Redux/Slices/userSlice";
 
-import {
-  getCommentAction,
-  selectCommentUpdated,
-  selectGetComment,
-  updateCommentAction,
-} from "../../Redux/Slices/commentSlice";
-import {
-  selectLikeUpdated,
-  selectUpdatePostLike,
-  updatePostLikeAction,
-} from "../../Redux/Slices/likeSlice";
-
-export default function PostImageSection(props) {
+const PostImageSection = memo(function PostImageSection(props) {
   const { navigation, theme, getPostState } = props;
 
   const dispatch = useDispatch();
 
   const isPostUpdated = useSelector(selectPostUpdated);
+  const currentUser = useSelector(selectCurrentUser);
 
   const [onLongPressState, setOnLongPressState] = useState(() => false);
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const handleReport = (reportSubject, post) => {
+    dispatch(
+      postPostReportAction({
+        reportSubject: reportSubject,
+        postID: post._id,
+        petID: post.petID._id,
+        picture: post.picture,
+        postDescription: post.postDescription,
+        reporter: currentUser._id,
+      })
+    );
+    onClose();
+  };
+
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
 
   //check if screen is changed and reset booleans
   useEffect(() => {
@@ -75,7 +70,13 @@ export default function PostImageSection(props) {
   }, []);
 
   return (
-    <Box safeAreaTop ml={7} mr={7}>
+    <Box safeAreaTop mt={3} ml={7} mr={7}>
+      <ReportActionsheet
+        isOpen={isOpen}
+        onClose={onClose}
+        handleReport={handleReport}
+        post={getPostState[0]}
+      />
       <Pressable
         onLongPress={() => {
           onLongPressState
@@ -96,13 +97,33 @@ export default function PostImageSection(props) {
                 borderWidth="3.5"
               >
                 <AspectRatio w="100%" ratio={1 / 1}>
-                  <Image
-                    source={{
-                      uri: getPostState[0].picture,
-                    }}
-                    alt="image"
-                    blurRadius={onLongPressState ? 50 : 0}
-                  />
+                  {getPostState[0].picture.includes("video") ? (
+                    <Video
+                      ref={video}
+                      source={{
+                        uri:
+                          getPostState[0] && getPostState[0].picture
+                            ? getPostState[0].picture
+                            : null,
+                      }}
+                      useNativeControls
+                      resizeMode="contain"
+                      isLooping
+                      onPlaybackStatusUpdate={(status) =>
+                        setStatus(() => status)
+                      }
+                    />
+                  ) : (
+                    <Image
+                      source={{
+                        uri: getPostState[0].picture
+                          ? getPostState[0].picture
+                          : null,
+                      }}
+                      alt="image"
+                      blurRadius={onLongPressState ? 50 : 0}
+                    />
+                  )}
                 </AspectRatio>
                 {onLongPressState ? (
                   <HStack
@@ -125,10 +146,7 @@ export default function PostImageSection(props) {
                       p="2"
                       bg={theme.colors.sage[300]}
                     >
-                      <Pressable
-                        mr={1}
-                        onPress={() => console.log("Pressed report button")}
-                      >
+                      <Pressable mr={1} onPress={() => onOpen()}>
                         {({ isHovered, isFocused, isPressed }) => {
                           return (
                             <Circle
@@ -196,6 +214,37 @@ export default function PostImageSection(props) {
                           );
                         }}
                       </Pressable>
+                      {getPostState[0].petID.ownerID === currentUser._id ? (
+                        <Pressable
+                          ml={1}
+                          onPress={() => {
+                            dispatch(deletePostAction(getPostState[0]._id));
+                            navigation.navigate("MyPetProfile", {
+                              petId: getPostState[0].petID._id,
+                            });
+                          }}
+                        >
+                          {({ isHovered, isFocused, isPressed }) => {
+                            return (
+                              <Circle
+                                size="30px"
+                                bg={theme.colors.forestGreen[400]}
+                                style={{
+                                  transform: [{ scale: isPressed ? 0.96 : 1 }],
+                                }}
+                              >
+                                <Icon
+                                  as={SimpleLineIcons}
+                                  name="trash"
+                                  color="white"
+                                />
+                              </Circle>
+                            );
+                          }}
+                        </Pressable>
+                      ) : (
+                        <></>
+                      )}
                     </HStack>
                   </HStack>
                 ) : (
@@ -208,4 +257,6 @@ export default function PostImageSection(props) {
       </Pressable>
     </Box>
   );
-}
+});
+
+export default PostImageSection;

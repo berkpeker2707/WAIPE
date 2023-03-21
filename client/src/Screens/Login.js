@@ -29,7 +29,7 @@ import {
   useSafeArea,
 } from "native-base";
 
-const LoginScreen = ({ navigation }) => {
+const Login = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
@@ -213,4 +213,4 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default Login;

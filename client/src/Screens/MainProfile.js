@@ -17,6 +17,7 @@ import {
 } from "../Redux/Slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePage from "../Components/ProfilePage";
+import SettingsButton from "../Components/SettingsButton";
 
 const MainProfileScreen = ({ navigation }) => {
   const theme = useTheme();
@@ -47,7 +48,12 @@ const MainProfileScreen = ({ navigation }) => {
     pt: 2,
   });
   return (
-    <ScrollView {...safeAreaProps}>
+    <ScrollView
+      bg={theme.colors.sage[400]}
+      contentContainerStyle={{
+        flexGrow: 1,
+      }}
+    >
       <ProfilePage
         navigation={navigation}
         loading={userLoading}
@@ -62,6 +68,9 @@ const MainProfileScreen = ({ navigation }) => {
         }
         editPage={"EditMainProfile"}
         isCurrentUser={true}
+        rightTopElement={
+          <SettingsButton onPress={() => navigation.navigate("Settings")} />
+        }
       >
         <HStack pl="1" flex="1" flexWrap="wrap">
           {currentUser?.pets?.map((pet, index) => {
