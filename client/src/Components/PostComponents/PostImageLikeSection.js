@@ -564,7 +564,9 @@ const PostImageLikeSection = memo(function PostImageLikeSection(props) {
               fontWeight: "normal",
             }}
           >
-            “{getPostState[0].postDescription ?? ""}”
+            {getPostState[0] &&
+              getPostState[0].postDescription &&
+              "“" + getPostState[0].postDescription + "”"}
           </Center>
         </HStack>
       </HStack>
