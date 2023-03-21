@@ -17,7 +17,10 @@ const postPostController = expressHandler(async (req, res) => {
     const localPath =
       await `middlewares/photos/${req?.files?.image?.originalFilename}`;
     if (localPath) {
-      if (req.files.image.type === "video/quicktime") {
+      if (
+        req.files.image.type === "video/quicktime" ||
+        req.files.image.type === "video/mp4"
+      ) {
         const imgUploaded = await cloudinaryUploadPostImg(
           req.files.image.path,
           petID
