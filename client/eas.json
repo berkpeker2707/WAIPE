@@ -17,12 +17,16 @@
       }
     },
     "production": {
+      "android": {
+        "autoincrement": true
+      },
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m1-medium",
+        "autoincrement": true
       }
     }
   },
   "submit": {
-    "production": { "autoIncrement": true }
+    "production": {}
   }
 }
