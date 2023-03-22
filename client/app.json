@@ -34,7 +34,5 @@
     }
   },
   "sdkVersion": "45.0.0",
-  "platforms": ["ios", "android", "web"],
-  "currentFullName": "@waipe/client",
-  "originalFullName": "@waipe/client"
+  "platforms": ["ios", "android", "web"]
 }
