@@ -17,12 +17,9 @@
       }
     },
     "production": {
-      "android": {
-        "autoincrement": true
-      },
+      "android": {},
       "ios": {
-        "resourceClass": "m1-medium",
-        "autoincrement": true
+        "resourceClass": "m1-medium"
       }
     }
   },
