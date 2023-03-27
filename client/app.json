@@ -34,6 +34,6 @@
       "projectId": "953cb4da-4332-4a25-9f99-fae7c03c1ff8"
     }
   },
-  "sdkVersion": "47.0.0",
+  "sdkVersion": "45.0.0",
   "platforms": ["ios", "android", "web"]
 }
