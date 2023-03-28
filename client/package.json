@@ -1,13 +1,13 @@
 {
   "name": "client",
   "version": "1.1.1",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "client": "expo start -c --tunnel",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject",
-    "start": "expo start --dev-client"
+    "eject": "expo eject"
   },
   "dependencies": {
     "@react-aria/ssr": "^3.2.0",
@@ -43,8 +43,7 @@
     "react-native-web": "~0.18.9",
     "react-redux": "^8.0.2",
     "redux-persist": "^6.0.0",
-    "yarn": "^1.22.19",
-    "expo-splash-screen": "~0.17.5"
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
