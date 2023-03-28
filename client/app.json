@@ -1,39 +1,41 @@
 {
-  "name": "WAIPE",
-  "slug": "client",
-  "version": "1.1.1",
-  "orientation": "portrait",
-  "icon": "./assets/icon.png",
-  "userInterfaceStyle": "light",
-  "splash": {
-    "image": "./assets/splash.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#F8FFE3"
-  },
-  "updates": {
-    "fallbackToCacheTimeout": 0
-  },
-  "assetBundlePatterns": ["**/*"],
-  "ios": {
-    "supportsTablet": true,
-    "bundleIdentifier": "com.waipe.client"
-  },
-  "android": {
-    "versionCode": 5,
-    "adaptiveIcon": {
-      "foregroundImage": "./assets/adaptive-icon.png",
+  "expo": {
+    "name": "WAIPE",
+    "slug": "client",
+    "version": "1.1.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#F8FFE3"
     },
-    "package": "com.waipe.client"
-  },
-  "web": {
-    "favicon": "./assets/favicon.png"
-  },
-  "extra": {
-    "eas": {
-      "projectId": "953cb4da-4332-4a25-9f99-fae7c03c1ff8"
-    }
-  },
-  "sdkVersion": "47.0.0",
-  "platforms": ["ios", "android", "web"]
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.waipe.client"
+    },
+    "android": {
+      "versionCode": 5,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F8FFE3"
+      },
+      "package": "com.waipe.client"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "953cb4da-4332-4a25-9f99-fae7c03c1ff8"
+      }
+    },
+    "sdkVersion": "47.0.0",
+    "platforms": ["ios", "android", "web"]
+  }
 }
