@@ -47,9 +47,6 @@
     "redux-persist": "^6.0.0",
     "yarn": "^1.22.19"
   },
-  "resolutions": {
-    "@expo/cli": "6.3.2"
-  },
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
