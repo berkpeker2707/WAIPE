@@ -690,3 +690,19 @@ eas init --id <id of project which can be accesed from expo website>
 | :--------- | :------- | :------------ |
 | `id`       | `string` | Comment's id. |
 | `likeType` | `string` | Like's type.  |
+
+
+## Color Reference
+
+| Color                            | Hex                                                              |
+| -------------------------------- | ---------------------------------------------------------------- |
+| Primary Color                    | ![#3A6B35](https://via.placeholder.com/10/3A6B35?text=+) #3A6B35 |
+| Secondary Color                  | ![#E38E48](https://via.placeholder.com/10/E38E48?text=+) #E38E48 |
+| Tertiary Color                   | ![#CBD18F](https://via.placeholder.com/10/CBD18F?text=+) #CBD18F |
+| Quaternary Color                 | ![#F8FFE3](https://via.placeholder.com/10/F8FFE3?text=+) #F8FFE3 |
+| Quinary Color                    | ![#E3B448](https://via.placeholder.com/10/E3B448?text=+) #E3B448 |
+| Background Color Secondary Color | ![#6B7280](https://via.placeholder.com/10/6B7280?text=+) #6B7280 |
+| Background Color Color           | ![#CBD18F](https://via.placeholder.com/10/CBD18F?text=+) #CBD18F |
+| Accent                           | ![#DE5246](https://via.placeholder.com/10/DE5246?text=+) #DE5246 |
+
+## Screenshots
