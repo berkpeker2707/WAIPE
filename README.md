@@ -156,9 +156,6 @@ eas init --id <id of project which can be accesed from expo website>
 - Check google service account creation: [How to Create Google Service Account](https://github.com/expo/fyi/blob/main/creating-google-service-account.md "How to Create Google Service Account")
 - First andorid submission: [First Android Submission](https://github.com/expo/fyi/blob/main/first-android-submission.md "First Android Submission")
 
-## API Reference
-
-
 ## Database Collection
 #### User
 
@@ -240,6 +237,8 @@ eas init --id <id of project which can be accesed from expo website>
 | `comment[n].likedBy`             | `Object[]` |
 | `comment[n].likedBy[n].ownerID`  | `UserID`   |
 | `comment[n].likedBy[n].likeType` | `string`   |
+
+## API Reference
 
 #### Presignup
 
@@ -690,7 +689,6 @@ eas init --id <id of project which can be accesed from expo website>
 | :--------- | :------- | :------------ |
 | `id`       | `string` | Comment's id. |
 | `likeType` | `string` | Like's type.  |
-
 
 ## Color Reference
 
