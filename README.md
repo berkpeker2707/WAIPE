@@ -723,6 +723,71 @@ eas init --id <id of project which can be accesed from expo website>
 | :--------- | :------- | :------------ |
 | `likeType` | `string` | Like's type.  |
 
+#### Create Post Report
+
+```http
+  POST /api/report/post/create
+```
+| Headers         | Description                        |
+| :-------------- | :--------------------------------- |
+| `Authorization` | JWT to get user's all information. |
+
+| Body              | Type     | Description                   |
+| :---------        | :------- | :------------                 |
+| `reportSubject`   | `string` | Report's subject.             |
+| `postID`          | `string` | Reported post's id.           |
+| `petID`           | `string` | Reported post's pet's id.     |
+| `picture`         | `string` | Reported post's picture link. |
+| `postDescription` | `string` | Reported post's description.  |
+
+
+#### Create User Report
+
+```http
+  POST /api/report/user/create
+```
+| Headers         | Description                        |
+| :-------------- | :--------------------------------- |
+| `Authorization` | JWT to get user's all information. |
+
+| Body            | Type     | Description             |
+| :---------      | :------- | :------------           |
+| `reportSubject` | `string` | Report's subject.       |
+| `userID`        | `string` | Reported user's id.     |
+
+#### Create Comment Report
+
+```http
+  POST /api/report/comment/create
+```
+| Headers         | Description                        |
+| :-------------- | :--------------------------------- |
+| `Authorization` | JWT to get user's all information. |
+
+| Body            | Type     | Description                   |
+| :---------      | :------- | :------------                 |
+| `reportSubject` | `string` | Report's subject.             |
+| `postID`        | `string` | Reported comment's post id.   |
+| `ownerID`       | `string` | Reported comment's owner id.  |
+| `commentText`   | `string` | Reported comments's text.     |
+| `commentID`     | `string` | Comment's id.                 |
+
+
+#### Create Pet Report
+
+```http
+  POST /api/report/pet/create
+```
+| Headers         | Description                        |
+| :-------------- | :--------------------------------- |
+| `Authorization` | JWT to get user's all information. |
+
+| Body            | Type     | Description             |
+| :---------      | :------- | :------------           |
+| `reportSubject` | `string` | Report's subject.       |
+| `petID`         | `string` | Reported pet's id.      |
+| `ownerID`       | `string` | Reported pet's owner id.|
+
 ## Color Reference
 
 | Color                            | Hex                                                              |
