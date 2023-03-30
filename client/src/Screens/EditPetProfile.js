@@ -64,7 +64,7 @@ const EditPetProfile = ({ navigation, route }) => {
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
-              <VStack space={7}>
+              <VStack space={7} mt={7}>
                 <VStack>
                   <ProfileAvatar
                     image={pet.picture}

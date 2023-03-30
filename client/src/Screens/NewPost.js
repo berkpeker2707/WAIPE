@@ -33,7 +33,7 @@ const NewPostScreen = ({ navigation, route }) => {
     </ScrollView>
   ) : (
     <ScrollView bg={theme.colors.sage[400]}>
-      <Stack safeArea>
+      <Stack>
         <Text>Loading...</Text>
       </Stack>
     </ScrollView>

@@ -14,8 +14,8 @@ const fs = require("fs");
 const postPostController = expressHandler(async (req, res) => {
   try {
     const petID = req?.body?.petID;
-    const localPath =
-      await `middlewares/photos/${req?.files?.image?.originalFilename}`;
+    const newLocalPath = `middlewares/photos/${req?.files?.image?.originalFilename}`;
+    const localPath = req?.files?.image?.originalFilename;
     if (localPath) {
       if (
         req.files.image.type === "video/quicktime" ||
@@ -74,7 +74,7 @@ const postPostController = expressHandler(async (req, res) => {
           { new: true, upsert: true }
         ).exec();
 
-        fs.unlinkSync(localPath);
+        fs.unlinkSync(newLocalPath);
         res.status(200).json(post);
       }
     } else {

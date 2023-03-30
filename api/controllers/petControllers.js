@@ -78,7 +78,8 @@ const updatePetController = expressHandler(async (req, res) => {
 const uploadPetPhotoController = expressHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const localPath = req?.files?.image?.path;
     const imgUploaded = await cloudinaryUploadPetImg(localPath, id);
 
     const foundPetProfilePicture = await Pet.findById(id);
@@ -98,7 +99,7 @@ const uploadPetPhotoController = expressHandler(async (req, res) => {
         { new: true }
       );
 
-      fs.unlinkSync(localPath);
+      fs.unlinkSync(newLocalPath);
 
       res.status(200).json("Pet profile photo updated.");
     } else {

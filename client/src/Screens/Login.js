@@ -26,7 +26,6 @@ import {
   useTheme,
   Image,
   ScrollView,
-  useSafeArea,
 } from "native-base";
 
 const Login = ({ navigation }) => {
@@ -54,20 +53,15 @@ const Login = ({ navigation }) => {
     return navigation.navigate("Discover");
   }
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       onSubmit={(values) => dispatch(signinAction(values))}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
+        <ScrollView bg={theme.colors.sage[400]}>
           <SSRProvider>
-            <Center justifyContent="flex-start" flex={1} px="3">
+            <Center safeAreaTop justifyContent="flex-start" flex={1} px="3">
               <Image
                 source={require("../../assets/Colorfull-waipe-logo-(green).png")}
                 alt="Waipe"

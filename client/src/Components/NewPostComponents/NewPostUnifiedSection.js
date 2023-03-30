@@ -87,7 +87,7 @@ export default function NewPostUnifiedSection(props) {
   return !imageSourceChanged ? (
     <>
       {/* new post image section starts*/}
-      <Box safeAreaTop ml={7} mr={7}>
+      <Box safeAreaTop ml={7} mr={7} mt={7}>
         <Box style={theme.postShadow}>
           <Box
             maxW="100%"

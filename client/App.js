@@ -31,6 +31,7 @@ import Splash1 from "./src/Screens/Splash1";
 import Splash2 from "./src/Screens/Splash2";
 
 import { ViewPropTypes } from "deprecated-react-native-prop-types";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
@@ -393,12 +394,16 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <NativeBaseProvider theme={theme}>
-            <Navigator />
-          </NativeBaseProvider>
-        </NavigationContainer>
-        <StatusBar style="auto" />
+        <StatusBar hidden={true} />
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <NativeBaseProvider theme={theme}>
+              <SafeAreaView style={{ flex: 1 }}>
+                <Navigator />
+              </SafeAreaView>
+            </NativeBaseProvider>
+          </NavigationContainer>
+        </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );

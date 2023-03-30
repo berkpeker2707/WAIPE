@@ -70,7 +70,7 @@ const PostImageSection = memo(function PostImageSection(props) {
   }, []);
 
   return (
-    <Box safeAreaTop mt={3} ml={7} mr={7}>
+    <Box safeAreaTop mt={7} ml={7} mr={7}>
       <ReportActionsheet
         isOpen={isOpen}
         onClose={onClose}

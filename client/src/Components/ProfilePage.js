@@ -6,7 +6,6 @@ import {
   Box,
   ScrollView,
   Stack,
-  useSafeArea,
   useTheme,
   Heading,
   Button,
@@ -32,15 +31,9 @@ const ProfilePage = memo((props) => {
     leftTopElement,
   } = props;
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return loading ? (
     <ScrollView
       bg={theme.colors.sage[400]}
-      {...safeAreaProps}
       contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
     >
       <Spinner color={"mustard.400"} size="lg" />
