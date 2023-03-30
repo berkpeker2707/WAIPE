@@ -741,16 +741,16 @@ eas init --id <id of project which can be accesed from expo website>
 </details>
 
 <details>
-  <summary>Profile</summary>
+  <summary>Long Press Pet Post</summary>
 
-![Profile](https://user-images.githubusercontent.com/15816386/228759465-d4e0771e-10b2-4827-a235-94c4a3db339a.png)
+![Long Press Pet Post](https://user-images.githubusercontent.com/15816386/228759456-0a0c2d67-f04f-4b3c-b170-d3ad726d739f.png)
 
 </details>
 
 <details>
-  <summary>Pet Profile</summary>
+  <summary>Long Press Another Pet Post</summary>
 
-![Pet Profile](https://user-images.githubusercontent.com/15816386/228761141-063a0839-0b5b-40cc-afdf-d7a4100c2567.png)
+![Long Press Another Pet Post](https://user-images.githubusercontent.com/15816386/228759452-907862ca-0c92-4377-8b6c-dafb9de85904.png)
 
 </details>
 
@@ -762,16 +762,9 @@ eas init --id <id of project which can be accesed from expo website>
 </details>
 
 <details>
-  <summary>Loading</summary>
+  <summary>Profile</summary>
 
-![Loading](https://user-images.githubusercontent.com/15816386/228759448-3f71878f-20a2-4d1a-a2ab-4f585164f947.png)
-
-</details>
-
-<details>
-  <summary>Settings</summary>
-
-![Settings](https://user-images.githubusercontent.com/15816386/228759469-00c05821-e444-4f96-bbe9-5e152f92ae84.png)
+![Profile](https://user-images.githubusercontent.com/15816386/228759465-d4e0771e-10b2-4827-a235-94c4a3db339a.png)
 
 </details>
 
@@ -790,6 +783,13 @@ eas init --id <id of project which can be accesed from expo website>
 </details>
 
 <details>
+  <summary>Pet Profile</summary>
+
+![Pet Profile](https://user-images.githubusercontent.com/15816386/228761141-063a0839-0b5b-40cc-afdf-d7a4100c2567.png)
+
+</details>
+
+<details>
   <summary>Edit Pet Profile</summary>
 
 ![Edit Pet Profile](https://user-images.githubusercontent.com/15816386/228759439-5d1df80e-7613-45d1-920e-e5b682043a87.png)
@@ -804,16 +804,16 @@ eas init --id <id of project which can be accesed from expo website>
 </details>
 
 <details>
-  <summary>Long Press Pet Post</summary>
+  <summary>Loading</summary>
 
-![Long Press Pet Post](https://user-images.githubusercontent.com/15816386/228759456-0a0c2d67-f04f-4b3c-b170-d3ad726d739f.png)
+![Loading](https://user-images.githubusercontent.com/15816386/228759448-3f71878f-20a2-4d1a-a2ab-4f585164f947.png)
 
 </details>
 
 <details>
-  <summary>Long Press Another Pet Post</summary>
+  <summary>Settings</summary>
 
-![Long Press Another Pet Post](https://user-images.githubusercontent.com/15816386/228759452-907862ca-0c92-4377-8b6c-dafb9de85904.png)
+![Settings](https://user-images.githubusercontent.com/15816386/228759469-00c05821-e444-4f96-bbe9-5e152f92ae84.png)
 
 </details>
 
