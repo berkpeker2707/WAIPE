@@ -246,7 +246,7 @@ eas init --id <id of project which can be accesed from expo website>
   POST /api/auth/presignup
 ```
 
-| Parameter.      | Type      | Description                               |
+| Body            | Type      | Description                               |
 | :-------------- | :-------- | :---------------------------------------- |
 | `email`         | `string`  | **Required**. Registered email address    |
 | `firstname`     | `string`  | **Required**.                             |
@@ -258,13 +258,15 @@ eas init --id <id of project which can be accesed from expo website>
 | `password`      | `string`  | **Required**. Registered password address |
 | `expireAt`      | `Date`    | **Required**.                             |
 
-#### Get item
+#### Verify Signup
 
 ```http
   GET /api/auth/verify-signup/*
 ```
 
-?????????
+| Parameter | Description                      |
+| :-------- | :------------------------------- |
+| `token`| **Required**. Token of an employee. |
 
 #### Forgot Password
 
@@ -272,7 +274,7 @@ eas init --id <id of project which can be accesed from expo website>
   POST /api/auth/forgot-password
 ```
 
-| Parameter  | Type     | Description                            |
+| Body       | Type     | Description                            |
 | :--------- | :------- | :------------------------------------- |
 | `email`    | `string` | **Required**. Registered email address |
 
@@ -282,7 +284,7 @@ eas init --id <id of project which can be accesed from expo website>
   POST /api/auth/verify-password
 ```
 
-| Parameter     | Type     | Description   |
+| Body          | Type     | Description   |
 | :------------ | :------- | :------------ |
 | `newPassword` | `string` | **Required**. |
 | `token`       | `string` | **Required**. |
@@ -308,7 +310,7 @@ eas init --id <id of project which can be accesed from expo website>
 
 | Parameter | Type     | Description              |
 | :-------- | :------- | :----------------------- |
-| `id`      | `string` | **Required** User's id. |
+| `id`      | `string` | **Required** User's id.  |
 
 #### Fetch All Users
 
@@ -328,7 +330,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter           | Type      | Description                        |
+| Body                | Type      | Description                        |
 | :------------------ | :-------- | :--------------------------------- |
 | `firstname`         | `string`  | User's firstname.                  |
 | `lastname`          | `string`  | User's lastname.                   |
@@ -350,7 +352,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter      | Type      | Description            |
+| Body           | Type      | Description            |
 | :------------- | :-------- | :--------------------- |
 | `blockedUsers` | `string`  | ID of user is blocked. |
 
@@ -363,7 +365,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter      | Type      | Description            |
+| Body           | Type      | Description            |
 | :------------- | :-------- | :--------------------- |
 | `followedPets` | `string`  | ID of pet is followed. |
 
@@ -376,7 +378,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter     | Type     | Description           |
+| Body          | Type     | Description           |
 | :------------ | :------- | :-------------------- |
 | `blockedPets` | `string` | ID of pet is blocked. |
 
@@ -389,9 +391,9 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| File    | Type     | Description   |
+| Body    | Type     | Description   |
 | :------ | :------- | :------------ |
-| `image` | `string` | Image's path. |
+| `image` | `file  ` | Image's path. |
 
 #### Delete Profile Image
 
@@ -402,7 +404,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter | Type     | Description |
+| Body      | Type     | Description |
 | :-------- | :------- | :---------- |
 | `picture` | `string` | Image's id. |
 
@@ -437,7 +439,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter      | Type     | Description                   |
+| Body           | Type     | Description                   |
 | :------------- | :------- | :---------------------------- |
 | `name`         | `string` | **Required** Pet's name.      |
 | `picture`      | `string` | **Required** Pet's picture.   |
@@ -449,7 +451,7 @@ eas init --id <id of project which can be accesed from expo website>
 | `ownerID`      | `string` | **Required** Owners's id.     |
 | `petPost`      | `array`  | **Required** Pet's posts.     |
 
-#### Create New Pet
+#### Update Pet
 
 ```http
   PUT /api/pet/update/${id}
@@ -458,7 +460,11 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter      | Type     | Description      |
+| Parameter | Type     | Description              |
+| :-------- | :------- | :----------------------- |
+| `id`      | `string` | **Required** Pet's id.   |
+
+| Body           | Type     | Description      |
 | :------------- | :------- | :--------------- |
 | `name`         | `string` | Pet's name.      |
 | `picture`      | `string` | Pet's picture.   |
@@ -477,10 +483,13 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| File    | Type     | Description   |
+| Parameter | Type     | Description              |
+| :-------- | :------- | :----------------------- |
+| `id`      | `string` | **Required** Pet's id.   |
+
+| Body    | Type     | Description   |
 | :------ | :------- | :------------ |
-| `id`    | `string` | Pet's id.     |
-| `image` | `string` | Image's path. |
+| `file`  | `string` | Image's path. |
 
 #### Delete Pet's Profile Image
 
@@ -491,9 +500,12 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter | Type     | Description |
+| Parameter | Type     | Description              |
+| :-------- | :------- | :----------------------- |
+| `id`      | `string` | **Required** Pet's id.   |
+
+| Body      | Type     | Description |
 | :-------- | :------- | :---------- |
-| `id`      | `string` | Pets's id.  |
 | `picture` | `string` | Image's id. |
 
 #### Delete Pet
@@ -568,10 +580,6 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter | Type     | Description |
-| :-------- | :------- | :---------- |
-| `petID`   | `string` | Pet's id.   |
-
 #### Update Post
 
 ```http
@@ -581,9 +589,12 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter         | Type     | Description         |
+| Parameter | Type     | Description            |
+| :-------- | :------- | :----------            |
+| `postID`  | `string` | Post's id.             |
+
+| Body              | Type     | Description         |
 | :---------------- | :------- | :------------------ |
-| `postID`          | `string` | Post's id.          |
 | `postDescription` | `string` | Post's description. |
 
 #### Delete Post
@@ -608,7 +619,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-#### Delete Post
+#### Archive Post
 
 ```http
   PUT /api/post/archive
@@ -617,7 +628,7 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter | Type     | Description |
+| Body      | Type     | Description |
 | :-------- | :------- | :---------- |
 | `postID`  | `string` | Post's id.  |
 
@@ -633,6 +644,9 @@ eas init --id <id of project which can be accesed from expo website>
 | Parameter     | Type     | Description                  |
 | :------------ | :------- | :--------------------------- |
 | `id`          | `string` | **Required** Comment's id.   |
+
+| Body          | Type     | Description                  |
+| :------------ | :------- | :--------------------------- |
 | `commentText` | `string` | **Required** Comment's text. |
 
 #### Fetch Comment
@@ -657,10 +671,23 @@ eas init --id <id of project which can be accesed from expo website>
 | :-------------- | :--------------------------------- |
 | `Authorization` | JWT to get user's all information. |
 
-| Parameter         | Type     | Description        |
+| Body              | Type     | Description        |
 | :---------------- | :------- | :----------------- |
 | `parentCommentID` | `string` | Comment list's id. |
 | `childCommentID`  | `string` | Comment's id.      |
+
+#### Fetch Post Likes
+
+```http
+  GET /api/like/fetch/post/${id}
+```
+| Headers         | Description                        |
+| :-------------- | :--------------------------------- |
+| `Authorization` | JWT to get user's all information. |
+
+| Parameter  | Type     | Description  |
+| :--------- | :------- | :----------- |
+| `id`       | `string` | Post's id.   |
 
 #### Update Post's Like
 
@@ -674,6 +701,9 @@ eas init --id <id of project which can be accesed from expo website>
 | Parameter  | Type     | Description  |
 | :--------- | :------- | :----------- |
 | `id`       | `string` | Post's id.   |
+
+| Body       | Type     | Description  |
+| :--------- | :------- | :----------- |
 | `likeType` | `string` | Like's type. |
 
 #### Update Comment's Like
@@ -688,6 +718,9 @@ eas init --id <id of project which can be accesed from expo website>
 | Parameter  | Type     | Description   |
 | :--------- | :------- | :------------ |
 | `id`       | `string` | Comment's id. |
+
+| Body       | Type     | Description   |
+| :--------- | :------- | :------------ |
 | `likeType` | `string` | Like's type.  |
 
 ## Color Reference
