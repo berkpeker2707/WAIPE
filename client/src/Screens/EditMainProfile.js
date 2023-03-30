@@ -11,8 +11,6 @@ import {
   VStack,
   NativeBaseProvider,
   HStack,
-  ScrollView,
-  useSafeArea,
 } from "native-base";
 import {
   updateUserAction,
@@ -45,11 +43,6 @@ const EditMainProfileScreen = ({ navigation }) => {
       navigation.navigate("MainProfile");
     }
   };
-
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
 
   return (
     <View style={style.container}>

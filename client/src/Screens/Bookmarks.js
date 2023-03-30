@@ -7,7 +7,6 @@ import {
   Button,
   Image,
   Box,
-  useSafeArea,
   Pressable,
   VStack,
   Input,
@@ -34,11 +33,6 @@ const BookmarksScreen = ({ navigation, route }) => {
       //clean up function
     };
   }, [dispatch]);
-
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
 
   const renderItem = ({ item, i }) => {
     return (
@@ -67,7 +61,7 @@ const BookmarksScreen = ({ navigation, route }) => {
   };
 
   return archivedPosts ? (
-    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
+    <ScrollView bg={theme.colors.sage[400]}>
       <MasonryList
         style={{ alignSelf: "stretch" }}
         data={archivedPosts}

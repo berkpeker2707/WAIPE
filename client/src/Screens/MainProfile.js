@@ -1,14 +1,7 @@
 import React, { useEffect } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import PetCard from "../Components/PetCard";
-import {
-  Icon,
-  HStack,
-  IconButton,
-  useTheme,
-  useSafeArea,
-  ScrollView,
-} from "native-base";
+import { Icon, HStack, IconButton, useTheme, ScrollView } from "native-base";
 import {
   selectCurrentUser,
   selectUserLoading,
@@ -43,10 +36,6 @@ const MainProfileScreen = ({ navigation }) => {
     };
   }, [dispatch, currentUser?._id, isUpdate]);
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
   return (
     <ScrollView
       bg={theme.colors.sage[400]}

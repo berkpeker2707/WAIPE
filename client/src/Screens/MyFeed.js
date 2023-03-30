@@ -14,7 +14,6 @@ import {
   Circle,
   Divider,
   Spinner,
-  useSafeArea,
   useDisclose,
 } from "native-base";
 
@@ -81,23 +80,12 @@ const MyFeedScreen = ({ navigation, route }) => {
     };
   }, []);
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return !postLoading ? (
     followedPosts ? (
       <ScrollView bg={theme.colors.sage[400]}>
         {followedPosts.map((fP, followedPostsIndex) => {
           return (
-            <Box
-              key={uuid.v4()}
-              safeAreaTop
-              ml={7}
-              mr={7}
-              style={theme.postShadow}
-            >
+            <Box key={uuid.v4()} ml={7} mr={7} mt={7} style={theme.postShadow}>
               <ReportActionsheet
                 isOpen={isOpen}
                 onClose={onClose}
@@ -305,7 +293,6 @@ const MyFeedScreen = ({ navigation, route }) => {
   ) : (
     <ScrollView
       bg={theme.colors.sage[400]}
-      {...safeAreaProps}
       contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
     >
       <Spinner color={"mustard.400"} size="lg" />

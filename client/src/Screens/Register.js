@@ -21,7 +21,6 @@ import {
   AlertDialog,
   useTheme,
   ScrollView,
-  useSafeArea,
 } from "native-base";
 
 const RegisterScreen = ({ navigation }) => {
@@ -68,11 +67,6 @@ const RegisterScreen = ({ navigation }) => {
     );
   };
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return (
     <Formik
       initialValues={{
@@ -92,8 +86,8 @@ const RegisterScreen = ({ navigation }) => {
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => (
-        <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
-          <Center flex={1} px="3">
+        <ScrollView bg={theme.colors.sage[400]}>
+          <Center safeAreaTop flex={1} px="3">
             <VStack space={5} w="300">
               <VStack space={6} alignItems="center">
                 <Heading size="md" color={theme.colors.extraOrage[400]}>

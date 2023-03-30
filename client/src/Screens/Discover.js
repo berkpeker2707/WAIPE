@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Text,
-  useSafeArea,
-  VStack,
-  Input,
-  Icon,
-  useTheme,
-} from "native-base";
+import { ScrollView, Text, VStack, Input, Icon, useTheme } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectGetAllPosts,
@@ -121,14 +113,9 @@ const DiscoverScreen = ({ navigation, route }) => {
   // filter posts by search text ends
   //search section ends
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return allUsers && allPosts ? (
-    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
-      <VStack w="100%" space={5} alignSelf="center">
+    <ScrollView bg={theme.colors.sage[400]}>
+      <VStack mt={7} w="100%" space={5} alignSelf="center">
         <Input
           placeholder="Type pet name or type '@' to search user"
           variant="filled"
@@ -154,7 +141,9 @@ const DiscoverScreen = ({ navigation, route }) => {
       )}
     </ScrollView>
   ) : (
-    <Text>Loading...</Text>
+    <ScrollView bg={theme.colors.sage[400]}>
+      <Text>Loading...</Text>
+    </ScrollView>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Stack, useSafeArea, useTheme } from "native-base";
+import { Stack, useTheme } from "native-base";
 import { ViewPropTypes } from "deprecated-react-native-prop-types";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -26,13 +26,8 @@ const Splash1 = ({ navigation }) => {
     }
   }, [authLoaded, animationLoaded, navigation]);
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-  });
-
   return (
     <Stack
-      {...safeAreaProps}
       bg={theme.colors.sage[400]}
       style={{
         flex: 1,

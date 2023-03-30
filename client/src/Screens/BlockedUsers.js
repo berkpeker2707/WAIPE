@@ -45,7 +45,9 @@ const BlockedUsersScreen = () => {
   return (
     <View style={theme.settingsContainer}>
       {userLoading ? (
-        <Spinner color={"mustard.400"} size="lg" />
+        <ScrollView>
+          <Spinner color={"mustard.400"} size="lg" />
+        </ScrollView>
       ) : (
         <ScrollView w="70%">
           <Heading mt={50} mb={30} size="xl" alignSelf="center">

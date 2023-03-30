@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Box, Divider, useTheme, useSafeArea } from "native-base";
+import { ScrollView, Box, Divider, useTheme } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -95,14 +95,9 @@ const PostScreen = ({ navigation, route }) => {
     };
   }, [dispatch, route.params.post.comment._id, isCommentUpdated]);
 
-  const safeAreaProps = useSafeArea({
-    safeArea: true,
-    pt: 2,
-  });
-
   return (
     // && !postLoading
-    <ScrollView {...safeAreaProps} bg={theme.colors.sage[400]}>
+    <ScrollView bg={theme.colors.sage[400]}>
       {/* image section starts */}
       {getPostState && getPostState[0] ? (
         <PostImageSection
