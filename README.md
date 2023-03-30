@@ -708,112 +708,112 @@ eas init --id <id of project which can be accesed from expo website>
 <details>
   <summary>Login</summary>
   
-![Login](https://user-images.githubusercontent.com/15816386/228759449-4fb86a8e-6961-4a2a-87e9-3285bc2d6833.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759449-4fb86a8e-6961-4a2a-87e9-3285bc2d6833.png" width="400" title="Login">
   
-  </details>
+</details>
 
-  <details>
+<details>
   <summary>Register</summary>
   
-![Register](https://user-images.githubusercontent.com/15816386/228759466-f76fe894-cf65-48d1-9878-72192c2fbf25.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759466-f76fe894-cf65-48d1-9878-72192c2fbf25.png" width="400" title="Register">
   
-  </details>
+</details>
 
-  <details>
+<details>
   <summary>Discover</summary>
   
-![Discover](https://user-images.githubusercontent.com/15816386/228759438-48efb1ce-773d-4180-983d-28968796a21f.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759438-48efb1ce-773d-4180-983d-28968796a21f.png" width="400" title="Login">
 
-  </details>
+</details>
 
-  <details>
+<details>
   <summary>Feed</summary>
 
-![Feed](https://user-images.githubusercontent.com/15816386/228759445-653d60b2-72ea-40e5-9e3c-a5c0109bbb16.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759445-653d60b2-72ea-40e5-9e3c-a5c0109bbb16.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Post</summary>
 
-![Post](https://user-images.githubusercontent.com/15816386/228759463-eb2295b3-1f55-4727-b0f3-e202971c8081.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759463-eb2295b3-1f55-4727-b0f3-e202971c8081.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Long Press Pet Post</summary>
 
-![Long Press Pet Post](https://user-images.githubusercontent.com/15816386/228759456-0a0c2d67-f04f-4b3c-b170-d3ad726d739f.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759456-0a0c2d67-f04f-4b3c-b170-d3ad726d739f.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Long Press Another Pet Post</summary>
 
-![Long Press Another Pet Post](https://user-images.githubusercontent.com/15816386/228759452-907862ca-0c92-4377-8b6c-dafb9de85904.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759452-907862ca-0c92-4377-8b6c-dafb9de85904.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>New Post</summary>
-
-![New Post](https://user-images.githubusercontent.com/15816386/228759457-b038c9e0-fe21-408d-99b2-30310893a48f.png)
+  
+  <img src="https://user-images.githubusercontent.com/15816386/228759457-b038c9e0-fe21-408d-99b2-30310893a48f.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Profile</summary>
 
-![Profile](https://user-images.githubusercontent.com/15816386/228759465-d4e0771e-10b2-4827-a235-94c4a3db339a.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759465-d4e0771e-10b2-4827-a235-94c4a3db339a.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Edit Profile</summary>
 
-![Edit Profile](https://user-images.githubusercontent.com/15816386/228759441-c5439055-5318-4a7e-9c85-075f765bbd21.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759441-c5439055-5318-4a7e-9c85-075f765bbd21.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Another User Profile Settings</summary>
 
-![Another User Profile Settings](https://user-images.githubusercontent.com/15816386/228759435-4d5c84ac-7e08-42b6-af05-302d46e53b80.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759435-4d5c84ac-7e08-42b6-af05-302d46e53b80.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Pet Profile</summary>
 
-![Pet Profile](https://user-images.githubusercontent.com/15816386/228761141-063a0839-0b5b-40cc-afdf-d7a4100c2567.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228761141-063a0839-0b5b-40cc-afdf-d7a4100c2567.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Edit Pet Profile</summary>
 
-![Edit Pet Profile](https://user-images.githubusercontent.com/15816386/228759439-5d1df80e-7613-45d1-920e-e5b682043a87.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759439-5d1df80e-7613-45d1-920e-e5b682043a87.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Another Pet Profile Settings</summary>
 
-![Another Pet Profile Settings](https://user-images.githubusercontent.com/15816386/228759432-66fb747e-e4b9-4dee-bd73-a698d7c11870.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759432-66fb747e-e4b9-4dee-bd73-a698d7c11870.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Loading</summary>
 
-![Loading](https://user-images.githubusercontent.com/15816386/228759448-3f71878f-20a2-4d1a-a2ab-4f585164f947.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759448-3f71878f-20a2-4d1a-a2ab-4f585164f947.png" width="400" title="Login">
 
 </details>
 
 <details>
   <summary>Settings</summary>
 
-![Settings](https://user-images.githubusercontent.com/15816386/228759469-00c05821-e444-4f96-bbe9-5e152f92ae84.png)
+  <img src="https://user-images.githubusercontent.com/15816386/228759469-00c05821-e444-4f96-bbe9-5e152f92ae84.png" width="400" title="Login">
 
 </details>
 
