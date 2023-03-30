@@ -1,4 +1,5 @@
 const sharp = require("sharp");
+const fs = require("fs");
 const path = require("path");
 
 //Image Resizing
@@ -19,9 +20,13 @@ const photoResize = async (req, res, next) => {
         .toFormat("jpeg")
         .jpeg({ quality: 100 })
         .toFile(
-          path.resolve(
-            `./middlewares/photos/${req.files.image.originalFilename}`
+          path.join(
+            __dirname,
+            `middlewares/photos/${req.files.image.originalFilename}`
           )
+          // path.resolve(
+          //   `./middlewares/photos/${req.files.image.originalFilename}`
+          // )
         );
       next();
     } else if (

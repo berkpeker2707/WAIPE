@@ -7,6 +7,7 @@ const {
   cloudinaryDeleteUserImg,
 } = require("../middlewares/cloudinary");
 const fs = require("fs");
+const path = require("path");
 
 // get current user controller ***
 const getCurrentUserController = expressHandler(async (req, res) => {
@@ -161,7 +162,11 @@ const pictureUploadController = expressHandler(async (req, res) => {
   try {
     const id = req.user._id;
 
-    const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    // const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const newLocalPath = path.join(
+      __dirname,
+      `middlewares/photos/${req.files.image.originalFilename}`
+    );
     const localPath = req?.files?.image?.path;
 
     const imgUploaded = await cloudinaryUploadUserImg(localPath, id);

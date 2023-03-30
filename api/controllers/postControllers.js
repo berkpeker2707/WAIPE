@@ -1,6 +1,8 @@
 const Post = require("../models/post");
 const Like = require("../models/like");
 const Comment = require("../models/comment");
+const fs = require("fs");
+const path = require("path");
 
 const Pet = require("../models/pet");
 const expressHandler = require("express-async-handler");
@@ -14,7 +16,11 @@ const fs = require("fs");
 const postPostController = expressHandler(async (req, res) => {
   try {
     const petID = req?.body?.petID;
-    const newLocalPath = `middlewares/photos/${req?.files?.image?.originalFilename}`;
+    // const newLocalPath = `middlewares/photos/${req?.files?.image?.originalFilename}`;
+    const newLocalPath = path.join(
+      __dirname,
+      `middlewares/photos/${req.files.image.originalFilename}`
+    );
     const localPath = req?.files?.image?.originalFilename;
     if (localPath) {
       if (

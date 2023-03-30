@@ -1,10 +1,10 @@
 const User = require("../models/user");
 const Pet = require("../models/pet");
 const Post = require("../models/post");
-const Like = require("../models/like");
-const Comment = require("../models/comment");
 const expressHandler = require("express-async-handler");
 const fs = require("fs");
+const path = require("path");
+
 const {
   cloudinaryUploadPetImg,
   cloudinaryDeletePetImg,
@@ -78,7 +78,11 @@ const updatePetController = expressHandler(async (req, res) => {
 const uploadPetPhotoController = expressHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    // const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const newLocalPath = path.join(
+      __dirname,
+      `middlewares/photos/${req.files.image.originalFilename}`
+    );
     const localPath = req?.files?.image?.path;
     const imgUploaded = await cloudinaryUploadPetImg(localPath, id);
 
