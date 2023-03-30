@@ -161,7 +161,8 @@ const pictureUploadController = expressHandler(async (req, res) => {
   try {
     const id = req.user._id;
 
-    const localPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const newLocalPath = `middlewares/photos/${req.files.image.originalFilename}`;
+    const localPath = req?.files?.image?.path;
 
     const imgUploaded = await cloudinaryUploadUserImg(localPath, id);
 
@@ -182,7 +183,7 @@ const pictureUploadController = expressHandler(async (req, res) => {
         { new: true }
       );
 
-      fs.unlinkSync(localPath);
+      fs.unlinkSync(newLocalPath);
 
       res.status(200).json(user);
     } else {
