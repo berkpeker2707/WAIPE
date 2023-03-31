@@ -20,7 +20,7 @@ const postPostController = expressHandler(async (req, res) => {
       __dirname,
       `middlewares/photos/${req.files.image.originalFilename}`
     );
-    const localPath = req?.files?.image?.originalFilename;
+    const localPath = req?.files?.image?.path;
     if (localPath) {
       if (
         req.files.image.type === "video/quicktime" ||
