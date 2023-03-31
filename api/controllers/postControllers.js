@@ -10,7 +10,6 @@ const {
   cloudinaryUploadPostImg,
   cloudinaryDeletePostImg,
 } = require("../middlewares/cloudinary");
-const fs = require("fs");
 
 // post a post controller ***
 const postPostController = expressHandler(async (req, res) => {
